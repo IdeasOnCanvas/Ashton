@@ -14,8 +14,17 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    STFail(@"Unit tests are not implemented yet in OSXExampleTests");
+- (void)testTextEditTestDocument {
+    NSAttributedString *source = [self readAttributedStringFromRTFFile:@"TextEdit Test Document"];
+
+    STAssertNotNil(source, @"Couldn't read document");
+}
+
+- (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:name ofType:@"rtf"];
+    NSTextView *text = [[NSTextView alloc] init];
+    [text readRTFDFromFile:path];
+    return [text attributedString];
 }
 
 @end
