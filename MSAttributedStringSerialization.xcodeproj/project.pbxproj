@@ -11,6 +11,10 @@
 		C5AC356B163EB28100C233FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC3569163EB26E00C233FE /* UIKit.framework */; };
 		C5AC356D163EB28900C233FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC356C163EB28900C233FE /* Cocoa.framework */; };
 		C5AC356E163EB29100C233FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC356C163EB28900C233FE /* Cocoa.framework */; };
+		C5AC3572163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */; };
+		C5AC3573163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */; };
+		C5AC3574163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */; };
+		C5AC3575163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */; };
 		C5F71651163E97CF005B34D1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5F7164F163E97CF005B34D1 /* InfoPlist.strings */; };
 		C5F71653163E97CF005B34D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F71652163E97CF005B34D1 /* main.m */; };
 		C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F71656163E97CF005B34D1 /* iOSAppDelegate.m */; };
@@ -52,6 +56,8 @@
 /* Begin PBXFileReference section */
 		C5AC3569163EB26E00C233FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC356C163EB28900C233FE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		C5AC3570163EB6B900C233FE /* MSAttributedStringSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAttributedStringSerialization.h; sourceTree = "<group>"; };
+		C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAttributedStringSerialization.m; sourceTree = "<group>"; };
 		C5F71642163E97CF005B34D1 /* iOSExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F7164E163E97CF005B34D1 /* iOSExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOSExample-Info.plist"; sourceTree = "<group>"; };
 		C5F71650163E97CF005B34D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -125,9 +131,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C5AC356F163EB67E00C233FE /* MSAttributedStringSerialization */ = {
+			isa = PBXGroup;
+			children = (
+				C5AC3570163EB6B900C233FE /* MSAttributedStringSerialization.h */,
+				C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */,
+			);
+			path = MSAttributedStringSerialization;
+			sourceTree = "<group>";
+		};
 		C5F71632163E9776005B34D1 = {
 			isa = PBXGroup;
 			children = (
+				C5AC356F163EB67E00C233FE /* MSAttributedStringSerialization */,
 				C5F7164C163E97CF005B34D1 /* iOSExample */,
 				C5F71673163E97CF005B34D1 /* iOSExampleTests */,
 				C5F7168F163E97EA005B34D1 /* OSXExample */,
@@ -329,7 +345,7 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 			};
-			buildConfigurationList = C5F71637163E9776005B34D1 /* Build configuration list for PBXProject "MSPortableAttributedString" */;
+			buildConfigurationList = C5F71637163E9776005B34D1 /* Build configuration list for PBXProject "MSAttributedStringSerialization" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -427,6 +443,7 @@
 				C5F71653163E97CF005B34D1 /* main.m in Sources */,
 				C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */,
 				C5F71666163E97CF005B34D1 /* iOSViewController.m in Sources */,
+				C5AC3572163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F7167B163E97CF005B34D1 /* iOSExampleTests.m in Sources */,
+				C5AC3573163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +462,7 @@
 			files = (
 				C5F71696163E97EA005B34D1 /* main.m in Sources */,
 				C5F7169D163E97EA005B34D1 /* OSXAppDelegate.m in Sources */,
+				C5AC3574163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +471,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F716B3163E97EA005B34D1 /* OSXExampleTests.m in Sources */,
+				C5AC3575163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,7 +762,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C5F71637163E9776005B34D1 /* Build configuration list for PBXProject "MSPortableAttributedString" */ = {
+		C5F71637163E9776005B34D1 /* Build configuration list for PBXProject "MSAttributedStringSerialization" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C5F71639163E9776005B34D1 /* Debug */,
