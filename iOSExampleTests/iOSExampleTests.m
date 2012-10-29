@@ -16,7 +16,7 @@
 }
 
 - (void)testExample {
-    [MSAttributedStringSerialization attributedStringWithHTMLString:@""];
+    [MSAttributedStringSerialization HTMLStringWithAttributedString:[[NSAttributedString alloc] init]];
     STFail(@"Unit tests are not implemented yet in iOSExampleTests");
 }
 

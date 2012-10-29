@@ -1,4 +1,5 @@
 #import "MSASSHTMLWriter.h"
+#import "MSASSInternal.h"
 
 @implementation MSASSHTMLWriter {
     NSAttributedString *_input;
@@ -18,7 +19,6 @@
 }
 
 - (void)createHTMLString {
-
 }
 
 @end
