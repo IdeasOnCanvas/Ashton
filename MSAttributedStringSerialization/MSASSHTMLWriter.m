@@ -7,7 +7,7 @@
 }
 
 - (id)initWithAttributedString:(NSAttributedString *)attributedString {
-    if (self == [super init]) {
+    if (self = [super init]) {
         _input = [attributedString copy];
     }
     return self;
