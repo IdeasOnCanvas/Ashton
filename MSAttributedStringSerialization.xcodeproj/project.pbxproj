@@ -19,10 +19,12 @@
 		C5AC358D163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */; };
 		C5AC358E163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */; };
 		C5AC358F163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */; };
-		C5AC3591163EC0BA00C233FE /* MSASSInternal.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSInternal.h */; };
-		C5AC3592163EC0BA00C233FE /* MSASSInternal.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSInternal.h */; };
-		C5AC3593163EC0BA00C233FE /* MSASSInternal.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSInternal.h */; };
-		C5AC3594163EC0BA00C233FE /* MSASSInternal.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSInternal.h */; };
+		C5AC3591163EC0BA00C233FE /* MSASSUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSUtils.h */; };
+		C5AC3592163EC0BA00C233FE /* MSASSUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSUtils.h */; };
+		C5AC3593163EC0BA00C233FE /* MSASSUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSUtils.h */; };
+		C5AC3594163EC0BA00C233FE /* MSASSUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSUtils.h */; };
+		C5AC359C163EC42100C233FE /* MSASSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC359B163EC42100C233FE /* MSASSUtils.m */; };
+		C5AC359D163EC42100C233FE /* MSASSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC359B163EC42100C233FE /* MSASSUtils.m */; };
 		C5F71651163E97CF005B34D1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5F7164F163E97CF005B34D1 /* InfoPlist.strings */; };
 		C5F71653163E97CF005B34D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F71652163E97CF005B34D1 /* main.m */; };
 		C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F71656163E97CF005B34D1 /* iOSAppDelegate.m */; };
@@ -68,7 +70,8 @@
 		C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAttributedStringSerialization.m; sourceTree = "<group>"; };
 		C5AC358A163EBD1100C233FE /* MSASSHTMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSHTMLWriter.h; sourceTree = "<group>"; };
 		C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSASSHTMLWriter.m; sourceTree = "<group>"; };
-		C5AC3590163EC0BA00C233FE /* MSASSInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSInternal.h; sourceTree = "<group>"; };
+		C5AC3590163EC0BA00C233FE /* MSASSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSUtils.h; sourceTree = "<group>"; };
+		C5AC359B163EC42100C233FE /* MSASSUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSASSUtils.m; sourceTree = "<group>"; };
 		C5F71642163E97CF005B34D1 /* iOSExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F7164E163E97CF005B34D1 /* iOSExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOSExample-Info.plist"; sourceTree = "<group>"; };
 		C5F71650163E97CF005B34D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -149,7 +152,8 @@
 				C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */,
 				C5AC358A163EBD1100C233FE /* MSASSHTMLWriter.h */,
 				C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */,
-				C5AC3590163EC0BA00C233FE /* MSASSInternal.h */,
+				C5AC3590163EC0BA00C233FE /* MSASSUtils.h */,
+				C5AC359B163EC42100C233FE /* MSASSUtils.m */,
 			);
 			path = MSAttributedStringSerialization;
 			sourceTree = "<group>";
@@ -390,7 +394,7 @@
 				C5F7165D163E97CF005B34D1 /* Default-568h@2x.png in Resources */,
 				C5F71660163E97CF005B34D1 /* MainStoryboard_iPhone.storyboard in Resources */,
 				C5F71663163E97CF005B34D1 /* MainStoryboard_iPad.storyboard in Resources */,
-				C5AC3591163EC0BA00C233FE /* MSASSInternal.h in Resources */,
+				C5AC3591163EC0BA00C233FE /* MSASSUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,7 +403,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F71678163E97CF005B34D1 /* InfoPlist.strings in Resources */,
-				C5AC3592163EC0BA00C233FE /* MSASSInternal.h in Resources */,
+				C5AC3592163EC0BA00C233FE /* MSASSUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,7 +413,7 @@
 			files = (
 				C5F71694163E97EA005B34D1 /* InfoPlist.strings in Resources */,
 				C5F716A0163E97EA005B34D1 /* MainMenu.xib in Resources */,
-				C5AC3593163EC0BA00C233FE /* MSASSInternal.h in Resources */,
+				C5AC3593163EC0BA00C233FE /* MSASSUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,7 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F716B0163E97EA005B34D1 /* InfoPlist.strings in Resources */,
-				C5AC3594163EC0BA00C233FE /* MSASSInternal.h in Resources */,
+				C5AC3594163EC0BA00C233FE /* MSASSUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +467,7 @@
 				C5F71666163E97CF005B34D1 /* iOSViewController.m in Sources */,
 				C5AC3572163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
 				C5AC358C163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */,
+				C5AC359C163EC42100C233FE /* MSASSUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +489,7 @@
 				C5F7169D163E97EA005B34D1 /* OSXAppDelegate.m in Sources */,
 				C5AC3574163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
 				C5AC358E163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */,
+				C5AC359D163EC42100C233FE /* MSASSUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
