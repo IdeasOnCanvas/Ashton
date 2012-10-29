@@ -1,4 +1,5 @@
 #import "MSAttributedStringSerialization.h"
+#import "MSASSHTMLWriter.h"
 
 #if TARGET_OS_IPHONE
 // In iOS 6 the attributed of an NSAttributedString have changed a lot, so we need to special case iOS5
@@ -10,7 +11,7 @@ static BOOL NSASHasUIKitAdditions;
 @implementation MSAttributedStringSerialization
 
 + (NSString *)HTMLStringWithAttributedString:(NSAttributedString *)attributedString {
-    return nil;
+    return [[[MSASSHTMLWriter alloc] initWithAttributedString:attributedString] HTMLString];
 }
 
 + (NSAttributedString *)attributedStringWithHTMLString:(NSString *)htmlString {

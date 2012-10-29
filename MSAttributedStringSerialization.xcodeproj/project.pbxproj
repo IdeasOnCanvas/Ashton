@@ -15,6 +15,10 @@
 		C5AC3573163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */; };
 		C5AC3574163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */; };
 		C5AC3575163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */; };
+		C5AC358C163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */; };
+		C5AC358D163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */; };
+		C5AC358E163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */; };
+		C5AC358F163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */; };
 		C5F71651163E97CF005B34D1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5F7164F163E97CF005B34D1 /* InfoPlist.strings */; };
 		C5F71653163E97CF005B34D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F71652163E97CF005B34D1 /* main.m */; };
 		C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F71656163E97CF005B34D1 /* iOSAppDelegate.m */; };
@@ -58,6 +62,8 @@
 		C5AC356C163EB28900C233FE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC3570163EB6B900C233FE /* MSAttributedStringSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAttributedStringSerialization.h; sourceTree = "<group>"; };
 		C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAttributedStringSerialization.m; sourceTree = "<group>"; };
+		C5AC358A163EBD1100C233FE /* MSASSHTMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSHTMLWriter.h; sourceTree = "<group>"; };
+		C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSASSHTMLWriter.m; sourceTree = "<group>"; };
 		C5F71642163E97CF005B34D1 /* iOSExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F7164E163E97CF005B34D1 /* iOSExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOSExample-Info.plist"; sourceTree = "<group>"; };
 		C5F71650163E97CF005B34D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -136,6 +142,8 @@
 			children = (
 				C5AC3570163EB6B900C233FE /* MSAttributedStringSerialization.h */,
 				C5AC3571163EB6B900C233FE /* MSAttributedStringSerialization.m */,
+				C5AC358A163EBD1100C233FE /* MSASSHTMLWriter.h */,
+				C5AC358B163EBD1100C233FE /* MSASSHTMLWriter.m */,
 			);
 			path = MSAttributedStringSerialization;
 			sourceTree = "<group>";
@@ -444,6 +452,7 @@
 				C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */,
 				C5F71666163E97CF005B34D1 /* iOSViewController.m in Sources */,
 				C5AC3572163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
+				C5AC358C163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,6 +462,7 @@
 			files = (
 				C5F7167B163E97CF005B34D1 /* iOSExampleTests.m in Sources */,
 				C5AC3573163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
+				C5AC358D163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +473,7 @@
 				C5F71696163E97EA005B34D1 /* main.m in Sources */,
 				C5F7169D163E97EA005B34D1 /* OSXAppDelegate.m in Sources */,
 				C5AC3574163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
+				C5AC358E163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +483,7 @@
 			files = (
 				C5F716B3163E97EA005B34D1 /* OSXExampleTests.m in Sources */,
 				C5AC3575163EB6B900C233FE /* MSAttributedStringSerialization.m in Sources */,
+				C5AC358F163EBD1100C233FE /* MSASSHTMLWriter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
