@@ -1,4 +1,5 @@
 #import "iOSExampleTests.h"
+#import "MSAttributedStringSerialization.h"
 
 @implementation iOSExampleTests
 
@@ -15,6 +16,7 @@
 }
 
 - (void)testExample {
+    [MSAttributedStringSerialization attributedStringWithHTMLString:@""];
     STFail(@"Unit tests are not implemented yet in iOSExampleTests");
 }
 
