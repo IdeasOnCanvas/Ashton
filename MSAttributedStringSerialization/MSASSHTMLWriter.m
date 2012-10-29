@@ -1,21 +1,23 @@
 #import "MSASSHTMLWriter.h"
 #import "MSASSUtils.h"
 
-@implementation MSASSHTMLWriter {
-    NSAttributedString *_input;
-    NSString *_output;
-}
+@interface MSASSHTMLWriter ()
+@property (nonatomic, strong) NSAttributedString *input;
+@property (nonatomic, strong) NSString *output;
+@end
+
+@implementation MSASSHTMLWriter
 
 - (id)initWithAttributedString:(NSAttributedString *)attributedString {
     if (self = [super init]) {
-        _input = [attributedString copy];
+        self.input = [attributedString copy];
     }
     return self;
 }
 
 - (NSString *)HTMLString {
-    if (!_output) [self createHTMLString];
-    return _output;
+    if (!self.output) [self createHTMLString];
+    return self.output;
 }
 
 - (void)createHTMLString {
