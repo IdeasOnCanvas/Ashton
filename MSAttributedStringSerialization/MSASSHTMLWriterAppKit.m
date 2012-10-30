@@ -32,12 +32,16 @@
     }
     if ([attrName isEqual:NSFontAttributeName]) {
         NSFont *font = (NSFont *)attr;
-        styles[@"font-family"] = font.familyName;
-        styles[@"font-size"] = @(font.pointSize);
+        // see https://developer.mozilla.org/en-US/docs/CSS/font
+        NSMutableArray *fontStyle = [NSMutableArray array];
 
         NSFontSymbolicTraits symbolicTraits = [[font fontDescriptor] symbolicTraits];
-        if ((symbolicTraits & NSFontBoldTrait) == NSFontBoldTrait) styles[@"font-style"] = @"italic";
-        if ((symbolicTraits & NSFontItalicTrait) == NSFontItalicTrait) styles[@"font-weight"] = @"bold";
+        if ((symbolicTraits & NSFontBoldTrait) == NSFontBoldTrait) [fontStyle addObject:@"bold"];
+        if ((symbolicTraits & NSFontItalicTrait) == NSFontItalicTrait) [fontStyle addObject:@"italic"];
+
+        [fontStyle addObject:[NSString stringWithFormat:@"%gpt", font.pointSize]];
+        [fontStyle addObject:[NSString stringWithFormat:@"\"%@\"", font.familyName]];
+        styles[@"font"] = [fontStyle componentsJoinedByString:@" "];
     }
     if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
         styles[@"text-decoration"] = @"underline";

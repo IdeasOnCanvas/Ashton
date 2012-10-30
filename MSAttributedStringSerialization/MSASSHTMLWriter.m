@@ -51,7 +51,7 @@
 
     NSDictionary *styles = [self stylesForAttribute:attr withName:attrName];
     if ([styles count] > 0) {
-        [tag appendString:@" style=\""];
+        [tag appendString:@" style='"];
         [styles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             [tag appendString:key];
             [tag appendString:@": "];
@@ -59,14 +59,14 @@
             [tag appendString:obj];
             [tag appendString:@"; "];
         }];
-        [tag appendString:@"\""];
+        [tag appendString:@"'"];
     }
 
     NSString *href = [self hrefForAttribute:attr withName:attrName];
     if (href) {
-        [tag appendString:@" href=\""];
-        [tag appendString:href]; // TODO: Escape "
-        [tag appendString:@"\""];
+        [tag appendString:@" href='"];
+        [tag appendString:href]; // TODO: Escape '
+        [tag appendString:@"'"];
     }
 
     [tag appendString:@">"];
