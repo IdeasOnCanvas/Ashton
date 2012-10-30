@@ -22,4 +22,8 @@
     *removed = _removed;
 }
 
++ (void)notImplementedYet {
+    @throw [NSException exceptionWithName:@"MSAttributedStringSerialization" reason:@"Not implemented yet" userInfo:nil];
+}
+
 @end

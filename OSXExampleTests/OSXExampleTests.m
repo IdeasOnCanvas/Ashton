@@ -18,7 +18,7 @@
 - (void)testTextEditTestDocument {
     NSAttributedString *source = [self readAttributedStringFromRTFFile:@"TextEdit Test Document"];
 
-    [MSAttributedStringSerialization HTMLStringWithAttributedString:source options:NULL];
+    [MSAttributedStringSerialization HTMLStringWithAttributedString:source options:MSHTMLWritingCocoaAttributes];
 
     STAssertNotNil(source, @"Couldn't read document");
 }

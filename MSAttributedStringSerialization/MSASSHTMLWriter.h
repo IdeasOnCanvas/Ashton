@@ -4,7 +4,13 @@
 
 - (id)initWithAttributedString:(NSAttributedString *)attributedString options:(MSHTMLWritingOptions)options;
 
-@property (nonatomic, readonly) MSHTMLWritingOptions options;
-@property (nonatomic, readonly) NSString *HTMLString;
+- (NSString *)createHTMLString;
+
+@property (nonatomic, readonly, assign) MSHTMLWritingOptions options;
+@property (nonatomic, readonly, strong) NSAttributedString *input;
+
+// Overwrite in subclasses
+- (NSString *)tagNameForAttribute:(id)attr withName:(NSString *)attrName;
+- (NSDictionary *)stylesForAttribute:(id)attr withName:(NSString *)attrName;
 
 @end
