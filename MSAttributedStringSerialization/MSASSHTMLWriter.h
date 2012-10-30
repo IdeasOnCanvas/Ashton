@@ -11,6 +11,7 @@
 
 // Overwrite in subclasses
 - (NSString *)tagNameForAttribute:(id)attr withName:(NSString *)attrName;
+- (NSString *)hrefForAttribute:(id)attr withName:(NSString *)attrName;
 - (NSDictionary *)stylesForAttribute:(id)attr withName:(NSString *)attrName;
 
 @end

@@ -32,13 +32,11 @@
             [output appendString:[self closingTagWithName:tagName]];
         }
         for (id key in created) {
-            NSString *tagName = [self tagNameForAttribute:created[key] withName:key];
-            NSDictionary *styles = [self stylesForAttribute:created[key] withName:key];
-            [output appendString:[self openingTagWithName:tagName styles:styles]];
+            [output appendString:[self openingTagForAttribute:created[key] withName:key]];
         }
         NSString *subString = [inputString substringWithRange:range];
         // TODO: HTML escaping
-        subString = [subString stringByReplacingOccurrencesOfString:@"\n" withString:@"<br />"];
+        subString = [subString stringByReplacingOccurrencesOfString:@"\n" withString:@"<br />\n"];
         [output appendString:subString];
         previousAttrs = attrs;
     }];
@@ -46,18 +44,33 @@
     return output;
 }
 
-- (NSString *)openingTagWithName:(NSString *)tagName styles:(NSDictionary *)styles {
+- (NSString *)openingTagForAttribute:(id)attr withName:(NSString *)attrName {
     NSMutableString *tag = [NSMutableString string];
     [tag appendString:@"<"];
-    [tag appendString:tagName];
-    [tag appendString:@" style=\""];
+    [tag appendString:[self tagNameForAttribute:attr withName:attrName]];
 
-    [styles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        [tag appendString:key];
-        [tag appendString:@": "];
-        [tag appendString:obj];
-    }];
-    [tag appendString:@"\""];
+    NSDictionary *styles = [self stylesForAttribute:attr withName:attrName];
+    if ([styles count] > 0) {
+        [tag appendString:@" style=\""];
+        [styles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            [tag appendString:key];
+            [tag appendString:@": "];
+            if ([obj respondsToSelector:@selector(stringValue)]) obj = [obj stringValue];
+            [tag appendString:obj];
+            [tag appendString:@"; "];
+        }];
+        [tag appendString:@"\""];
+    }
+
+    NSString *href = [self hrefForAttribute:attr withName:attrName];
+    if (href) {
+        [tag appendString:@" href=\""];
+        [tag appendString:href]; // TODO: Escape "
+        [tag appendString:@"\""];
+    }
+
+    [tag appendString:@">"];
+
     return tag;
 }
 
@@ -65,6 +78,11 @@
     return [NSString stringWithFormat:@"</%@>", tagName];
 }
 
+
+- (NSString *)hrefForAttribute:(id)attr withName:(NSString *)attrName {
+    // ABSTRACT
+    return nil;
+}
 
 - (NSString *)tagNameForAttribute:(id)attr withName:(NSString *)attrName {
     // ABSTRACT
