@@ -27,6 +27,12 @@
     [self writeAttributedString:transformed toFile:@"transformed"];
     [self writeAttributedString:roundtripped toFile:@"roundtripped"];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from AppKit representation");
+
+    transformed = [NSAttributedString attributedStringWithCoreTextAttributes:sourceWithIntermediateAttrs];
+    roundtripped = [transformed intermediateAttributedStringWithCoreTextAttributes];
+    [self writeAttributedString:transformed toFile:@"transformed"];
+    [self writeAttributedString:roundtripped toFile:@"roundtripped"];
+    STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from CoreText representation");
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {
