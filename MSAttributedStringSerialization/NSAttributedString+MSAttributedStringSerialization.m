@@ -26,7 +26,7 @@
 - (NSAttributedString *)intermediateAttributedStringWithCoreTextAttributes {
     return [[MSASSCoreText shared] intermediateRepresentationWithTargetRepresentation:self];
 }
-+ (NSAttributedString *)attributedStringWithUIAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
++ (NSAttributedString *)attributedStringWithCoreTextAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
     return [[MSASSCoreText shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
 }
 

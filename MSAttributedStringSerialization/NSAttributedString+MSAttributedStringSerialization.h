@@ -9,6 +9,6 @@
 #endif
 
 - (NSAttributedString *)intermediateAttributedStringWithCoreTextAttributes;
-+ (NSAttributedString *)attributedStringWithUIAttributes:(NSAttributedString *)inputWithIntermediateAttributes;
++ (NSAttributedString *)attributedStringWithCoreTextAttributes:(NSAttributedString *)inputWithIntermediateAttributes;
 
 @end

@@ -17,10 +17,16 @@
 
 - (void)testTextEditTestDocument {
     // read a source RTF and transform it once so we remove all non-supported styles. Then transform it again and compare.
-    NSAttributedString *source = [NSAttributedString attributedStringWithAppKitAttributes:[[self readAttributedStringFromRTFFile:@"TextEdit Test Document"] intermediateAttributedStringWithAppKitAttributes]];
-    NSAttributedString *output = [NSAttributedString attributedStringWithAppKitAttributes:[source intermediateAttributedStringWithAppKitAttributes]];
+    NSAttributedString *sourceWithIntermediateAttrs = [[self readAttributedStringFromRTFFile:@"TextEdit Test Document"] intermediateAttributedStringWithAppKitAttributes];
+    [self writeAttributedString:sourceWithIntermediateAttrs toFile:@"source"];
 
-    STAssertEqualObjects(source, output, @"Converting to/from intermediate representation failed");
+    NSAttributedString *transformed, *roundtripped;
+
+    transformed = [NSAttributedString attributedStringWithAppKitAttributes:sourceWithIntermediateAttrs];
+    roundtripped = [transformed intermediateAttributedStringWithAppKitAttributes];
+    [self writeAttributedString:transformed toFile:@"transformed"];
+    [self writeAttributedString:roundtripped toFile:@"roundtripped"];
+    STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from AppKit representation");
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {
@@ -28,6 +34,14 @@
     NSTextView *text = [[NSTextView alloc] init];
     [text readRTFDFromFile:path];
     return [text attributedString];
+}
+
+- (void)writeAttributedString:(NSAttributedString *)input toFile:(NSString *)path {
+#ifdef DEBUGDIR
+    NSString *output = [NSString stringWithFormat:@"%@", input];
+    path = [NSString stringWithFormat:@"%@%@", DEBUGDIR, path];
+    [output writeToFile:path atomically:YES encoding:NSUnicodeStringEncoding error:nil];
+#endif
 }
 
 - (void)writeAttributedString:(NSAttributedString *)input toRTFD:(NSString *)path {

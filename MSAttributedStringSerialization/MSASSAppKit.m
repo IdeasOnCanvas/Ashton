@@ -92,8 +92,9 @@
 
                 NSFontDescriptor *fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:@{ NSFontFamilyAttribute: attrs[@"fontFamilyName"] }];
                 NSFontSymbolicTraits symbolicTraits = [fontDescriptor symbolicTraits];
-                if ([newAttrs[@"fontTraitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits & NSFontBoldTrait;
-                if ([newAttrs[@"fontTraitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits & NSFontItalicTrait;
+                if ([attrs[@"fontTraitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontBoldTrait;
+                if ([attrs[@"fontTraitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontItalicTrait;
+                fontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits];
 
                 newAttrs[NSFontAttributeName] = [NSFont fontWithDescriptor:fontDescriptor size:[attrs[@"fontPointSize"] doubleValue]];
             }
