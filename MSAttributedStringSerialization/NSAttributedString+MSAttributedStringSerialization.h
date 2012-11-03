@@ -4,6 +4,7 @@
 - (NSAttributedString *)intermediateAttributedStringWithUIKitAttributes;
 #else
 - (NSAttributedString *)intermediateAttributedStringWithAppKitAttributes;
++ (NSAttributedString *)attributedStringWithAppKitAttributes:(NSAttributedString *)inputWithIntermediateAttributes;
 #endif
 
 - (NSAttributedString *)intermediateAttributedStringWithCoreTextAttributes;

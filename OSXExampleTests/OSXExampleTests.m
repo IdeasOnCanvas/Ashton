@@ -16,12 +16,10 @@
 }
 
 - (void)testTextEditTestDocument {
-    NSAttributedString *source = [self readAttributedStringFromRTFFile:@"TextEdit Test Document"];
+    NSAttributedString *source = [NSAttributedString attributedStringWithAppKitAttributes:[[self readAttributedStringFromRTFFile:@"TextEdit Test Document"] intermediateAttributedStringWithAppKitAttributes]];
+    NSAttributedString *output = [NSAttributedString attributedStringWithAppKitAttributes:[source intermediateAttributedStringWithAppKitAttributes]];
 
-    NSAttributedString *output = [source intermediateAttributedStringWithAppKitAttributes];
-    NSLog(@"%@", output);
-
-    STAssertNotNil(source, @"Couldn't read document");
+    STAssertEqualObjects(source, output, @"Converting to/from intermediate representation failed");
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {
