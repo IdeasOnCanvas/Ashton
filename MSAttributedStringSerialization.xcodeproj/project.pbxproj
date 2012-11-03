@@ -12,6 +12,7 @@
 		C51B5D8216454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */; };
 		C51B5D8D164557C900D2062B /* MSASSCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* MSASSCoreText.m */; };
 		C51B5D8E164557C900D2062B /* MSASSCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* MSASSCoreText.m */; };
+		C51B5D91164567A000D2062B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C51B5D8F1645679700D2062B /* CoreText.framework */; };
 		C5AC356A163EB26E00C233FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC3569163EB26E00C233FE /* UIKit.framework */; };
 		C5AC356B163EB28100C233FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC3569163EB26E00C233FE /* UIKit.framework */; };
 		C5AC356D163EB28900C233FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC356C163EB28900C233FE /* Cocoa.framework */; };
@@ -69,6 +70,7 @@
 		C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+MSAttributedStringSerialization.m"; sourceTree = "<group>"; };
 		C51B5D8B164557C900D2062B /* MSASSCoreText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSCoreText.h; sourceTree = "<group>"; };
 		C51B5D8C164557C900D2062B /* MSASSCoreText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSASSCoreText.m; sourceTree = "<group>"; };
+		C51B5D8F1645679700D2062B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC3569163EB26E00C233FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC356C163EB28900C233FE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC3590163EC0BA00C233FE /* MSASSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSUtils.h; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C51B5D91164567A000D2062B /* CoreText.framework in Frameworks */,
 				C5AC356A163EB26E00C233FE /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,6 +201,7 @@
 		C5F71645163E97CF005B34D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C51B5D8F1645679700D2062B /* CoreText.framework */,
 				C5AC356C163EB28900C233FE /* Cocoa.framework */,
 				C5F7166D163E97CF005B34D1 /* SenTestingKit.framework */,
 				C5AC3569163EB26E00C233FE /* UIKit.framework */,
