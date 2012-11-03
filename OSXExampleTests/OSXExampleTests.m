@@ -1,5 +1,5 @@
 #import "OSXExampleTests.h"
-#import "MSAttributedStringSerialization.h"
+#import "NSAttributedString+MSAttributedStringSerialization.h"
 
 @implementation OSXExampleTests
 
@@ -18,8 +18,7 @@
 - (void)testTextEditTestDocument {
     NSAttributedString *source = [self readAttributedStringFromRTFFile:@"TextEdit Test Document"];
 
-    NSString *output = [MSAttributedStringSerialization HTMLStringWithAttributedString:source options:MSHTMLWritingCocoaAttributes];
-
+    NSAttributedString *output = [source intermediateAttributedStringWithAppKitAttributes];
     NSLog(@"%@", output);
 
     STAssertNotNil(source, @"Couldn't read document");
