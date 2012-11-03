@@ -11,6 +11,9 @@
 - (NSAttributedString *)intermediateAttributedStringWithUIKitAttributes {
     return nil;
 }
++ (NSAttributedString *)attributedStringWithUIKitAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
+    return nil;
+}
 #else
 - (NSAttributedString *)intermediateAttributedStringWithAppKitAttributes {
     return [[MSASSAppKit shared] intermediateRepresentationWithTargetRepresentation:self];
