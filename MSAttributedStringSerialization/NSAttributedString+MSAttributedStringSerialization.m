@@ -1,5 +1,5 @@
 #import "NSAttributedString+MSAttributedStringSerialization.h"
-
+#import "MSASSCoreText.h"
 #if TARGET_OS_IPHONE
 #else
 #import "MSASSAppKit.h"
@@ -21,7 +21,11 @@
 #endif
 
 - (NSAttributedString *)intermediateAttributedStringWithCoreTextAttributes {
-    return nil;
+    return [[MSASSCoreText shared] intermediateRepresentationWithTargetRepresentation:self];
 }
++ (NSAttributedString *)attributedStringWithUIAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
+    return [[MSASSCoreText shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
+}
+
 
 @end

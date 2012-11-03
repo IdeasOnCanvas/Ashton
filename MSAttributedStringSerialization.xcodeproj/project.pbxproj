@@ -10,6 +10,8 @@
 		C51B5D7916454AD300D2062B /* MSASSAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D7816454AD300D2062B /* MSASSAppKit.m */; };
 		C51B5D8116454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */; };
 		C51B5D8216454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */; };
+		C51B5D8D164557C900D2062B /* MSASSCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* MSASSCoreText.m */; };
+		C51B5D8E164557C900D2062B /* MSASSCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* MSASSCoreText.m */; };
 		C5AC356A163EB26E00C233FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC3569163EB26E00C233FE /* UIKit.framework */; };
 		C5AC356B163EB28100C233FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC3569163EB26E00C233FE /* UIKit.framework */; };
 		C5AC356D163EB28900C233FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC356C163EB28900C233FE /* Cocoa.framework */; };
@@ -65,6 +67,8 @@
 		C51B5D7B16454BB800D2062B /* MSASSTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSTransformer.h; sourceTree = "<group>"; };
 		C51B5D7F16454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+MSAttributedStringSerialization.h"; sourceTree = "<group>"; };
 		C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+MSAttributedStringSerialization.m"; sourceTree = "<group>"; };
+		C51B5D8B164557C900D2062B /* MSASSCoreText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSCoreText.h; sourceTree = "<group>"; };
+		C51B5D8C164557C900D2062B /* MSASSCoreText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSASSCoreText.m; sourceTree = "<group>"; };
 		C5AC3569163EB26E00C233FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC356C163EB28900C233FE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC3590163EC0BA00C233FE /* MSASSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSUtils.h; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 				C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */,
 				C51B5D7716454AD300D2062B /* MSASSAppKit.h */,
 				C51B5D7816454AD300D2062B /* MSASSAppKit.m */,
+				C51B5D8B164557C900D2062B /* MSASSCoreText.h */,
+				C51B5D8C164557C900D2062B /* MSASSCoreText.m */,
 				C51B5D7B16454BB800D2062B /* MSASSTransformer.h */,
 				C5AC3590163EC0BA00C233FE /* MSASSUtils.h */,
 				C5AC359B163EC42100C233FE /* MSASSUtils.m */,
@@ -476,6 +482,7 @@
 				C5F71666163E97CF005B34D1 /* iOSViewController.m in Sources */,
 				C5AC359C163EC42100C233FE /* MSASSUtils.m in Sources */,
 				C51B5D8116454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m in Sources */,
+				C51B5D8D164557C900D2062B /* MSASSCoreText.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,6 +503,7 @@
 				C5AC359D163EC42100C233FE /* MSASSUtils.m in Sources */,
 				C51B5D7916454AD300D2062B /* MSASSAppKit.m in Sources */,
 				C51B5D8216454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m in Sources */,
+				C51B5D8E164557C900D2062B /* MSASSCoreText.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
