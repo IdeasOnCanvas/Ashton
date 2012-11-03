@@ -30,4 +30,10 @@
     return [text attributedString];
 }
 
+- (void)writeAttributedString:(NSAttributedString *)input toRTFD:(NSString *)path {
+    NSTextView *text = [[NSTextView alloc] init];
+    [[text textStorage] setAttributedString:input];
+    [text writeRTFDToFile:path atomically:YES];
+}
+
 @end
