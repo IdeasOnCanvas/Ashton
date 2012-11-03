@@ -19,6 +19,7 @@
         for (NSString *attrName in attrs) {
             id attr = attrs[attrName];
             if ([attrName isEqual:NSParagraphStyleAttributeName]) {
+                // produces: kind, textAlignment
                 NSParagraphStyle *paragraphStyle = (NSParagraphStyle *)attr;
 
                 newAttrs[@"kind"] = @"paragraph";
@@ -28,6 +29,7 @@
                 if ([paragraphStyle alignment] == NSCenterTextAlignment) newAttrs[@"textAlignment"] = @"center";
             }
             if ([attrName isEqual:NSFontAttributeName]) {
+                // produces: fontFamilyName, fontTraitBold, fontTraitItalic, fontPointSize
                 NSFont *font = (NSFont *)attr;
                 NSFontSymbolicTraits symbolicTraits = [[font fontDescriptor] symbolicTraits];
                 if ((symbolicTraits & NSFontBoldTrait) == NSFontBoldTrait) newAttrs[@"fontTraitBold"] = @(YES);
@@ -37,23 +39,28 @@
                 newAttrs[@"fontFamilyName"] = font.familyName;
             }
             if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
+                // produces: underline
                 if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[@"underline"] = @"single";
                 if ([attr isEqual:@(NSUnderlineStyleThick)]) newAttrs[@"underline"] = @"thick";
                 if ([attr isEqual:@(NSUnderlineStyleDouble)]) newAttrs[@"underline"] = @"double";
             }
             if ([attrName isEqual:NSUnderlineColorAttributeName]) {
+                // produces: underlineColor
                 newAttrs[@"underlineColor"] = [self hexColor:attr];
             }
             if ([attrName isEqual:NSForegroundColorAttributeName] || [attrName isEqual:NSStrokeColorAttributeName]) {
+                // produces: color
                 newAttrs[@"color"] = [self hexColor:attr];
             }
 
             if ([attrName isEqual:NSStrikethroughStyleAttributeName]) {
+                // produces: strikethrough
                 if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[@"strikethrough"] = @"single";
                 if ([attr isEqual:@(NSUnderlineStyleThick)]) newAttrs[@"strikethrough"] = @"thick";
                 if ([attr isEqual:@(NSUnderlineStyleDouble)]) newAttrs[@"strikethrough"] = @"double";
             }
             if ([attrName isEqual:NSStrikethroughColorAttributeName]) {
+                // produces: strikethroughColor
                 newAttrs[@"strikethroughColor"] = [self hexColor:attr];
             }
         }
@@ -91,23 +98,28 @@
                 newAttrs[NSFontAttributeName] = [NSFont fontWithDescriptor:fontDescriptor size:[attrs[@"fontPointSize"] doubleValue]];
             }
             if ([attrName isEqual:@"underline"]) {
+                // consumes: underline
                 if ([attr isEqual:@"single"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
                 if ([attr isEqual:@"thick"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleThick);
                 if ([attr isEqual:@"double"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleDouble);
             }
             if ([attrName isEqual:@"underlineColor"]) {
+                // consumes: underlineColor
                 newAttrs[NSUnderlineColorAttributeName] = [self colorFromHexRGB:attr];
             }
             if ([attrName isEqual:@"color"]) {
+                // consumes: color
                 newAttrs[NSForegroundColorAttributeName] = [self colorFromHexRGB:attr];
             }
 
             if ([attrName isEqual:@"strikethrough"]) {
+                // consumes: strikethrough
                 if ([attr isEqual:@"single"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
                 if ([attr isEqual:@"thick"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleThick);
                 if ([attr isEqual:@"double"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleDouble);
             }
             if ([attrName isEqual:@"strikethroughColor"]) {
+                // consumes strikethroughColor
                 newAttrs[NSStrikethroughColorAttributeName] = [self colorFromHexRGB:attr];
             }
         }

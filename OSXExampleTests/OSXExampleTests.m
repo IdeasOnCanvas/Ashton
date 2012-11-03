@@ -16,6 +16,7 @@
 }
 
 - (void)testTextEditTestDocument {
+    // read a source RTF and transform it once so we remove all non-supported styles. Then transform it again and compare.
     NSAttributedString *source = [NSAttributedString attributedStringWithAppKitAttributes:[[self readAttributedStringFromRTFFile:@"TextEdit Test Document"] intermediateAttributedStringWithAppKitAttributes]];
     NSAttributedString *output = [NSAttributedString attributedStringWithAppKitAttributes:[source intermediateAttributedStringWithAppKitAttributes]];
 
