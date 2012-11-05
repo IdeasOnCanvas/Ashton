@@ -38,6 +38,10 @@
                 newAttrs[@"fontPointSize"] = @(font.pointSize);
                 newAttrs[@"fontFamilyName"] = font.familyName;
             }
+            if ([attrName isEqual:NSSuperscriptAttributeName]) {
+                if ([attr intValue] == 1) newAttrs[@"verticalAlign"] = @"super";
+                if ([attr intValue] == -1) newAttrs[@"verticalAlign"] = @"sub";
+            }
             if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
                 // produces: underline
                 if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[@"underline"] = @"single";
@@ -98,6 +102,10 @@
 
                 newAttrs[NSFontAttributeName] = [NSFont fontWithDescriptor:fontDescriptor size:[attrs[@"fontPointSize"] doubleValue]];
             }
+            if ([attrName isEqual:@"verticalAlign"]) {
+                if ([attr isEqual:@"super"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
+                if ([attr isEqual:@"sub"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(-1);
+            }
             if ([attrName isEqual:@"underline"]) {
                 // consumes: underline
                 if ([attr isEqual:@"single"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
@@ -112,7 +120,6 @@
                 // consumes: color
                 newAttrs[NSForegroundColorAttributeName] = [self colorFromHexRGB:attr];
             }
-
             if ([attrName isEqual:@"strikethrough"]) {
                 // consumes: strikethrough
                 if ([attr isEqual:@"single"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);

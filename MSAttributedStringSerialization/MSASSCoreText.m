@@ -65,6 +65,10 @@
 
                 newAttrs[(id)kCTFontAttributeName] = CFBridgingRelease(font);
             }
+            if ([attrName isEqual:@"verticalAlign"]) {
+                if ([attr isEqual:@"super"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
+                if ([attr isEqual:@"sub"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(-1);
+            }
             if ([attrName isEqual:@"underline"]) {
                 // consumes: underline
                 if ([attr isEqual:@"single"]) newAttrs[(id)kCTUnderlineStyleAttributeName] = @(kCTUnderlineStyleSingle);
@@ -73,7 +77,6 @@
             }
             if ([attrName isEqual:@"underlineColor"]) {
                 // consumes: underlineColor
-
                 newAttrs[(id)kCTUnderlineColorAttributeName] = [self colorFromHexRGB:attr];
             }
             if ([attrName isEqual:@"color"]) {
