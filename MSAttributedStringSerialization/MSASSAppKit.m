@@ -50,11 +50,11 @@
             }
             if ([attrName isEqual:NSUnderlineColorAttributeName]) {
                 // produces: underlineColor
-                newAttrs[@"underlineColor"] = [self hexColor:attr];
+                newAttrs[@"underlineColor"] = [self CSSForColor:attr];
             }
             if ([attrName isEqual:NSForegroundColorAttributeName] || [attrName isEqual:NSStrokeColorAttributeName]) {
                 // produces: color
-                newAttrs[@"color"] = [self hexColor:attr];
+                newAttrs[@"color"] = [self CSSForColor:attr];
             }
 
             if ([attrName isEqual:NSStrikethroughStyleAttributeName]) {
@@ -65,7 +65,7 @@
             }
             if ([attrName isEqual:NSStrikethroughColorAttributeName]) {
                 // produces: strikethroughColor
-                newAttrs[@"strikethroughColor"] = [self hexColor:attr];
+                newAttrs[@"strikethroughColor"] = [self CSSForColor:attr];
             }
         }
         [output setAttributes:newAttrs range:range];
@@ -114,11 +114,11 @@
             }
             if ([attrName isEqual:@"underlineColor"]) {
                 // consumes: underlineColor
-                newAttrs[NSUnderlineColorAttributeName] = [self colorFromHexRGB:attr];
+                newAttrs[NSUnderlineColorAttributeName] = [self colorForCSS:attr];
             }
             if ([attrName isEqual:@"color"]) {
                 // consumes: color
-                newAttrs[NSForegroundColorAttributeName] = [self colorFromHexRGB:attr];
+                newAttrs[NSForegroundColorAttributeName] = [self colorForCSS:attr];
             }
             if ([attrName isEqual:@"strikethrough"]) {
                 // consumes: strikethrough
@@ -128,7 +128,7 @@
             }
             if ([attrName isEqual:@"strikethroughColor"]) {
                 // consumes strikethroughColor
-                newAttrs[NSStrikethroughColorAttributeName] = [self colorFromHexRGB:attr];
+                newAttrs[NSStrikethroughColorAttributeName] = [self colorForCSS:attr];
             }
         }
         [output setAttributes:newAttrs range:range];
@@ -138,55 +138,34 @@
 }
 
 
-// From https://github.com/Cocoanetics/DTCoreText/blob/master/Core/Source/DTColor%2BHTML.m
-- (NSString *)hexColor:(NSColor *)nscolor
-{
-	CGColorRef color = nscolor.CGColor;
-	size_t count = CGColorGetNumberOfComponents(color);
-	const CGFloat *components = CGColorGetComponents(color);
-
-	static NSString *stringFormat = @"%02x%02x%02x";
-
-	// Grayscale
-	if (count == 2)
-	{
-		NSUInteger white = (NSUInteger)(components[0] * (CGFloat)255);
-		return [NSString stringWithFormat:stringFormat, white, white, white];
-	}
-
-	// RGB
-	else if (count == 4)
-	{
-		return [NSString stringWithFormat:stringFormat, (NSUInteger)(components[0] * (CGFloat)255),
-				(NSUInteger)(components[1] * (CGFloat)255), (NSUInteger)(components[2] * (CGFloat)255)];
-	}
-
-	// Unsupported color space
-	return nil;
+- (NSString *)CSSForColor:(NSColor *)color {
+    int red, green, blue;
+    float alpha = color.alphaComponent;
+    if ([color.colorSpaceName isEqual:NSCalibratedWhiteColorSpace]) {
+        red = green = blue = color.whiteComponent * 255;
+    } else if ([color.colorSpaceName isEqual:NSCalibratedRGBColorSpace] ||
+               [color.colorSpaceName isEqual:NSDeviceRGBColorSpace]) {
+        red = color.redComponent * 255;
+        green = color.greenComponent * 255;
+        blue = color.blueComponent * 255;
+    } else {
+        red = green = blue = 0;
+    }
+    return [NSString stringWithFormat:@"rgba(%i, %i, %i, %f)", red, green, blue, alpha];
 }
 
+- (NSColor *)colorForCSS:(NSString *)css {
+    NSScanner *scanner = [NSScanner scannerWithString:css];
+    [scanner scanString:@"rgba(" intoString:NULL];
+    int red; [scanner scanInt:&red];
+    [scanner scanString:@", " intoString:NULL];
+    int green; [scanner scanInt:&green];
+    [scanner scanString:@", " intoString:NULL];
+    int blue; [scanner scanInt:&blue];
+    [scanner scanString:@", " intoString:NULL];
+    float alpha; [scanner scanFloat:&alpha];
 
-// From http://cocoa.karelia.com/Foundation_Categories/NSColor__Instantiat.m
-- (NSColor *)colorFromHexRGB:(NSString *) inColorString
-{
-	NSColor *result = nil;
-	unsigned int colorCode = 0;
-	unsigned char redByte, greenByte, blueByte;
-
-	if (nil != inColorString)
-	{
-		NSScanner *scanner = [NSScanner scannerWithString:inColorString];
-		(void) [scanner scanHexInt:&colorCode];	// ignore error
-	}
-	redByte		= (unsigned char) (colorCode >> 16);
-	greenByte	= (unsigned char) (colorCode >> 8);
-	blueByte	= (unsigned char) (colorCode);	// masks off high bits
-	result = [NSColor
-              colorWithCalibratedRed:		(float)redByte	/ 0xff
-              green:	(float)greenByte/ 0xff
-              blue:	(float)blueByte	/ 0xff
-              alpha:1.0];
-	return result;
+	return [NSColor colorWithCalibratedRed:red/255 green:green/255 blue:blue/255 alpha:alpha];
 }
 
 @end

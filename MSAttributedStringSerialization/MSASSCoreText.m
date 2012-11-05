@@ -77,11 +77,11 @@
             }
             if ([attrName isEqual:@"underlineColor"]) {
                 // consumes: underlineColor
-                newAttrs[(id)kCTUnderlineColorAttributeName] = [self colorFromHexRGB:attr];
+                newAttrs[(id)kCTUnderlineColorAttributeName] = [self colorForCSS:attr];
             }
             if ([attrName isEqual:@"color"]) {
                 // consumes: color
-                newAttrs[(id)kCTForegroundColorAttributeName] = [self colorFromHexRGB:attr];
+                newAttrs[(id)kCTForegroundColorAttributeName] = [self colorForCSS:attr];
             }
             if ([attrName isEqual:@"strikethrough"]) {
                 // consumes: strikethrough
@@ -96,18 +96,34 @@
     return output;
 }
 
-// From http://cocoa.karelia.com/Foundation_Categories/NSColor__Instantiat.m
-- (id)colorFromHexRGB:(NSString *)colorString {
-    NSScanner *scanner = [NSScanner scannerWithString:colorString];
-    unsigned int colorCode = 0;
-    [scanner scanHexInt:&colorCode];
+- (NSString *)CSSForColor:(CGColorRef)color {
+    int red, green, blue;
+    float alpha = CGColorGetAlpha(color);
+    const CGFloat *components = CGColorGetComponents(color);
+    if (CGColorGetNumberOfComponents(color) == 2) {
+        red = green = blue = components[0] * 255;
+    } else if (CGColorGetNumberOfComponents(color) == 4) {
+        red = components[0] * 255;
+        green = components[1] * 255;
+        blue = components[2] * 255;
+    } else {
+        red = green = blue = 0;
+    }
+    return [NSString stringWithFormat:@"rgba(%i, %i, %i, %f)", red, green, blue, alpha];
+}
 
-    unsigned char redByte, greenByte, blueByte;
-	redByte   = (unsigned char) (colorCode >> 16);
-	greenByte = (unsigned char) (colorCode >> 8);
-	blueByte  = (unsigned char) (colorCode);	// masks off high bits
+- (id)colorForCSS:(NSString *)css {
+    NSScanner *scanner = [NSScanner scannerWithString:css];
+    [scanner scanString:@"rgba(" intoString:NULL];
+    int red; [scanner scanInt:&red];
+    [scanner scanString:@", " intoString:NULL];
+    int green; [scanner scanInt:&green];
+    [scanner scanString:@", " intoString:NULL];
+    int blue; [scanner scanInt:&blue];
+    [scanner scanString:@", " intoString:NULL];
+    float alpha; [scanner scanFloat:&alpha];
 
-    const CGFloat components[] = { (float)redByte / 0xff, (float)greenByte / 0xff, (float)blueByte / 0xff, 1.0 };
+    const CGFloat components[] = { (float)red / 255, (float)green / 255, (float)blue / 255, alpha };
     return CFBridgingRelease(CGColorCreate(CGColorSpaceCreateDeviceRGB(), components));
 }
 
