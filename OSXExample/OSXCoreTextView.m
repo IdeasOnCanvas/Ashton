@@ -12,16 +12,20 @@
     if (self.attributedString == nil) return;
     
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
-
 	CGContextSetTextMatrix(context, CGAffineTransformIdentity);
 
-	// draw
-	CTLineRef line = CTLineCreateWithAttributedString(CFBridgingRetain(self.attributedString));
-	CGContextSetTextPosition(context, 10.0, 10.0);
-	CTLineDraw(line, context);
+    // Initialize a rectangular path.
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, self.bounds);
 
-	// clean up
-	CFRelease(line);
+    // Create the framesetter with the attributed string.
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(CFBridgingRetain(self.attributedString));
+
+    // Create the frame and draw it into the graphics context
+    CTFrameRef frame = CTFramesetterCreateFrame(framesetter,
+                                                CFRangeMake(0, 0), path, NULL);
+    CFRelease(framesetter);
+    CTFrameDraw(frame, context);
 }
 
 @end
