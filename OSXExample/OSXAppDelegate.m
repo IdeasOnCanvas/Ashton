@@ -4,11 +4,12 @@
 @implementation OSXAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    NSAttributedString *source = [[self readAttributedStringFromRTFFile:@"TextEdit Test Document"] intermediateAttributedStringWithAppKitAttributes];
+    NSAttributedString *source = [self readAttributedStringFromRTFFile:@"TextEdit Test Document"];
+    NSAttributedString *intermediate = [source intermediateAttributedStringWithAppKitAttributes];
 
-    self.coreTextView.attributedString = [NSAttributedString attributedStringWithCoreTextAttributes:source];;
-    self.appKitTextView.textStorage.attributedString = [NSAttributedString attributedStringWithAppKitAttributes:source];;
-    NSLog(@"%@", self.coreTextView);
+    self.sourceTextView.textStorage.attributedString = source;
+    self.appKitTextView.textStorage.attributedString = [NSAttributedString attributedStringWithAppKitAttributes:intermediate];
+    self.coreTextView.attributedString = [NSAttributedString attributedStringWithCoreTextAttributes:intermediate];;
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {
