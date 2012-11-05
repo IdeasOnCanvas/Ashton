@@ -1,0 +1,3 @@
+@interface iOSCoreTextView : UIView
+
+@end
