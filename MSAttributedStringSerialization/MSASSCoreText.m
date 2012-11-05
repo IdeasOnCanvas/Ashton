@@ -48,6 +48,10 @@
             }
             if ([attrName isEqual:@"fontFamilyName"]) {
                 // consumes: fontFamilyName, fontTraitBold, fontTraitItalic, fontPointSize
+
+                // TODO: fontTraitBold, fontTraitItalic
+                CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes(CFBridgingRetain(@{ (id)kCTFontNameAttribute: attrs[@"fontFamilyName"] }));
+                newAttrs[(id)kCTFontAttributeName] = CFBridgingRelease(CTFontCreateWithFontDescriptor(descriptor, [attrs[@"fontPointSize"] doubleValue], NULL));
             }
             if ([attrName isEqual:@"underline"]) {
                 // consumes: underline
@@ -57,9 +61,12 @@
             }
             if ([attrName isEqual:@"underlineColor"]) {
                 // consumes: underlineColor
+
+                newAttrs[(id)kCTUnderlineColorAttributeName] = [self colorFromHexRGB:attr];
             }
             if ([attrName isEqual:@"color"]) {
                 // consumes: color
+                newAttrs[(id)kCTForegroundColorAttributeName] = [self colorFromHexRGB:attr];
             }
             if ([attrName isEqual:@"strikethrough"]) {
                 // consumes: strikethrough
