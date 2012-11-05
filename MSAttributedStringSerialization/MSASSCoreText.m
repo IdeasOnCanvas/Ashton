@@ -49,9 +49,21 @@
             if ([attrName isEqual:@"fontFamilyName"]) {
                 // consumes: fontFamilyName, fontTraitBold, fontTraitItalic, fontPointSize
 
-                // TODO: fontTraitBold, fontTraitItalic
-                CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes(CFBridgingRetain(@{ (id)kCTFontNameAttribute: attrs[@"fontFamilyName"] }));
-                newAttrs[(id)kCTFontAttributeName] = CFBridgingRelease(CTFontCreateWithFontDescriptor(descriptor, [attrs[@"fontPointSize"] doubleValue], NULL));
+                CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes(CFBridgingRetain(@{
+                                                                                                       (id)kCTFontNameAttribute: attrs[@"fontFamilyName"],
+                                                                                                       }));
+                CTFontRef font = CTFontCreateWithFontDescriptor(descriptor, [attrs[@"fontPointSize"] doubleValue], NULL);
+
+                CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail
+                if ([attrs[@"fontTraitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitBold;
+                if ([attrs[@"fontTraitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
+                if (symbolicTraits != 0) {
+                    // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
+                    // Is there a better way to detect "no" symbolic traits?
+                    font = CTFontCreateCopyWithSymbolicTraits(font, 0.0, NULL, symbolicTraits, symbolicTraits);
+                }
+
+                newAttrs[(id)kCTFontAttributeName] = CFBridgingRelease(font);
             }
             if ([attrName isEqual:@"underline"]) {
                 // consumes: underline
