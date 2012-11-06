@@ -17,7 +17,49 @@
     NSRange totalRange = NSMakeRange (0, input.length);
     [input enumerateAttributesInRange:totalRange options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         NSMutableDictionary *newAttrs = [NSMutableDictionary dictionaryWithCapacity:[attrs count]];
-        for (NSString *attrName in attrs) {
+        for (id attrName in attrs) {
+            id attr = attrs[attrName];
+            if ([attrName isEqual:(id)kCTParagraphStyleAttributeName]) {
+                // produces: kind, textAlignment
+                CTParagraphStyleRef paragraphStyle = (__bridge CTParagraphStyleRef)attr;
+                newAttrs[@"kind"] = @"paragraph";
+
+                CTTextAlignment alignment;
+                CTParagraphStyleGetValueForSpecifier(paragraphStyle, kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment);
+
+                if (alignment == kCTTextAlignmentLeft) newAttrs[@"textAlignment"] = @"left";
+                if (alignment == kCTTextAlignmentRight) newAttrs[@"textAlignment"] = @"right";
+                if (alignment == kCTTextAlignmentCenter) newAttrs[@"textAlignment"] = @"center";
+            }
+            if ([attrName isEqual:(id)kCTFontAttributeName]) {
+                // produces: fontFamilyName, fontTraitBold, fontTraitItalic, fontPointSize
+                CTFontRef font = (__bridge CTFontRef)attr;
+
+                CTFontSymbolicTraits symbolicTraits = CTFontGetSymbolicTraits(font);
+                if ((symbolicTraits & kCTFontTraitBold) == kCTFontTraitBold) newAttrs[@"fontTraitBold"] = @(YES);
+                if ((symbolicTraits & kCTFontTraitItalic) == kCTFontTraitItalic) newAttrs[@"fontTraitItalic"] = @(YES);
+
+                newAttrs[@"fontPointSize"] = @(CTFontGetSize(font));
+                newAttrs[@"fontFamilyName"] = CFBridgingRelease(CTFontCopyName(font, kCTFontFamilyNameKey));
+            }
+            if ([attrName isEqual:(id)kCTSuperscriptAttributeName]) {
+                if ([attr intValue] == 1) newAttrs[@"verticalAlign"] = @"super";
+                if ([attr intValue] == -1) newAttrs[@"verticalAlign"] = @"sub";
+            }
+            if ([attrName isEqual:(id)kCTUnderlineStyleAttributeName]) {
+                // produces: underline
+                if ([attr isEqual:@(kCTUnderlineStyleSingle)]) newAttrs[@"underline"] = @"single";
+                if ([attr isEqual:@(kCTUnderlineStyleThick)]) newAttrs[@"underline"] = @"thick";
+                if ([attr isEqual:@(kCTUnderlineStyleDouble)]) newAttrs[@"underline"] = @"double";
+            }
+            if ([attrName isEqual:(id)kCTUnderlineColorAttributeName]) {
+                // produces: underlineColor
+                newAttrs[@"underlineColor"] = [self CSSForColor:(__bridge CGColorRef)(attr)];
+            }
+            if ([attrName isEqual:(id)kCTForegroundColorAttributeName] || [attrName isEqual:(id)kCTStrokeColorAttributeName]) {
+                // produces: color
+                newAttrs[@"color"] = [self CSSForColor:(__bridge CGColorRef)(attr)];
+            }
         }
         [output setAttributes:newAttrs range:range];
     }];

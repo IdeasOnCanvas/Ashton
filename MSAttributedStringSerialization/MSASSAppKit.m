@@ -21,7 +21,6 @@
             if ([attrName isEqual:NSParagraphStyleAttributeName]) {
                 // produces: kind, textAlignment
                 NSParagraphStyle *paragraphStyle = (NSParagraphStyle *)attr;
-
                 newAttrs[@"kind"] = @"paragraph";
 
                 if ([paragraphStyle alignment] == NSLeftTextAlignment) newAttrs[@"textAlignment"] = @"left";
