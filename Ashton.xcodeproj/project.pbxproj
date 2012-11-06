@@ -7,22 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C51B5D7916454AD300D2062B /* MSASSAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D7816454AD300D2062B /* MSASSAppKit.m */; };
-		C51B5D8116454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */; };
-		C51B5D8216454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */; };
-		C51B5D8D164557C900D2062B /* MSASSCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* MSASSCoreText.m */; };
-		C51B5D8E164557C900D2062B /* MSASSCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* MSASSCoreText.m */; };
+		C51B5D7916454AD300D2062B /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D7816454AD300D2062B /* AshtonAppKit.m */; };
+		C51B5D8116454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8016454F8C00D2062B /* NSAttributedString+Ashton.m */; };
+		C51B5D8216454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8016454F8C00D2062B /* NSAttributedString+Ashton.m */; };
+		C51B5D8D164557C900D2062B /* AshtonCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* AshtonCoreText.m */; };
+		C51B5D8E164557C900D2062B /* AshtonCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* AshtonCoreText.m */; };
 		C51B5D91164567A000D2062B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C51B5D8F1645679700D2062B /* CoreText.framework */; };
 		C5AC356A163EB26E00C233FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC3569163EB26E00C233FE /* UIKit.framework */; };
 		C5AC356B163EB28100C233FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC3569163EB26E00C233FE /* UIKit.framework */; };
 		C5AC356D163EB28900C233FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC356C163EB28900C233FE /* Cocoa.framework */; };
 		C5AC356E163EB29100C233FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC356C163EB28900C233FE /* Cocoa.framework */; };
-		C5AC3591163EC0BA00C233FE /* MSASSUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSUtils.h */; };
-		C5AC3592163EC0BA00C233FE /* MSASSUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSUtils.h */; };
-		C5AC3593163EC0BA00C233FE /* MSASSUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSUtils.h */; };
-		C5AC3594163EC0BA00C233FE /* MSASSUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* MSASSUtils.h */; };
-		C5AC359C163EC42100C233FE /* MSASSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC359B163EC42100C233FE /* MSASSUtils.m */; };
-		C5AC359D163EC42100C233FE /* MSASSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC359B163EC42100C233FE /* MSASSUtils.m */; };
+		C5AC3591163EC0BA00C233FE /* AshtonUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* AshtonUtils.h */; };
+		C5AC3592163EC0BA00C233FE /* AshtonUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* AshtonUtils.h */; };
+		C5AC3593163EC0BA00C233FE /* AshtonUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* AshtonUtils.h */; };
+		C5AC3594163EC0BA00C233FE /* AshtonUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* AshtonUtils.h */; };
+		C5AC359C163EC42100C233FE /* AshtonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC359B163EC42100C233FE /* AshtonUtils.m */; };
+		C5AC359D163EC42100C233FE /* AshtonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC359B163EC42100C233FE /* AshtonUtils.m */; };
 		C5AC35A3163ED13700C233FE /* TextEdit Test Document.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C5AC35A2163ED13700C233FE /* TextEdit Test Document.rtf */; };
 		C5DC488F1647F090009FEA27 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5DC488D1647F085009FEA27 /* CoreGraphics.framework */; };
 		C5DC48921647F0D7009FEA27 /* iOSCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5DC48911647F0D7009FEA27 /* iOSCoreTextView.m */; };
@@ -66,18 +66,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C51B5D7716454AD300D2062B /* MSASSAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSAppKit.h; sourceTree = "<group>"; };
-		C51B5D7816454AD300D2062B /* MSASSAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSASSAppKit.m; sourceTree = "<group>"; };
-		C51B5D7B16454BB800D2062B /* MSASSTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSTransformer.h; sourceTree = "<group>"; };
-		C51B5D7F16454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+MSAttributedStringSerialization.h"; sourceTree = "<group>"; };
-		C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+MSAttributedStringSerialization.m"; sourceTree = "<group>"; };
-		C51B5D8B164557C900D2062B /* MSASSCoreText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSCoreText.h; sourceTree = "<group>"; };
-		C51B5D8C164557C900D2062B /* MSASSCoreText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSASSCoreText.m; sourceTree = "<group>"; };
+		C51B5D7716454AD300D2062B /* AshtonAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKit.h; sourceTree = "<group>"; };
+		C51B5D7816454AD300D2062B /* AshtonAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonAppKit.m; sourceTree = "<group>"; };
+		C51B5D7B16454BB800D2062B /* AshtonTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonTransformer.h; sourceTree = "<group>"; };
+		C51B5D7F16454F8C00D2062B /* NSAttributedString+Ashton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Ashton.h"; sourceTree = "<group>"; };
+		C51B5D8016454F8C00D2062B /* NSAttributedString+Ashton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Ashton.m"; sourceTree = "<group>"; };
+		C51B5D8B164557C900D2062B /* AshtonCoreText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonCoreText.h; sourceTree = "<group>"; };
+		C51B5D8C164557C900D2062B /* AshtonCoreText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonCoreText.m; sourceTree = "<group>"; };
 		C51B5D8F1645679700D2062B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC3569163EB26E00C233FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC356C163EB28900C233FE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		C5AC3590163EC0BA00C233FE /* MSASSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSASSUtils.h; sourceTree = "<group>"; };
-		C5AC359B163EC42100C233FE /* MSASSUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSASSUtils.m; sourceTree = "<group>"; };
+		C5AC3590163EC0BA00C233FE /* AshtonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonUtils.h; sourceTree = "<group>"; };
+		C5AC359B163EC42100C233FE /* AshtonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonUtils.m; sourceTree = "<group>"; };
 		C5AC35A2163ED13700C233FE /* TextEdit Test Document.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "TextEdit Test Document.rtf"; sourceTree = "<group>"; };
 		C5DC488D1647F085009FEA27 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		C5DC48901647F0D7009FEA27 /* iOSCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSCoreTextView.h; sourceTree = "<group>"; };
@@ -158,20 +158,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C5AC356F163EB67E00C233FE /* MSAttributedStringSerialization */ = {
+		C5AC356F163EB67E00C233FE /* Ashton */ = {
 			isa = PBXGroup;
 			children = (
-				C51B5D7F16454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.h */,
-				C51B5D8016454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m */,
-				C51B5D7716454AD300D2062B /* MSASSAppKit.h */,
-				C51B5D7816454AD300D2062B /* MSASSAppKit.m */,
-				C51B5D8B164557C900D2062B /* MSASSCoreText.h */,
-				C51B5D8C164557C900D2062B /* MSASSCoreText.m */,
-				C51B5D7B16454BB800D2062B /* MSASSTransformer.h */,
-				C5AC3590163EC0BA00C233FE /* MSASSUtils.h */,
-				C5AC359B163EC42100C233FE /* MSASSUtils.m */,
+				C51B5D7F16454F8C00D2062B /* NSAttributedString+Ashton.h */,
+				C51B5D8016454F8C00D2062B /* NSAttributedString+Ashton.m */,
+				C51B5D7716454AD300D2062B /* AshtonAppKit.h */,
+				C51B5D7816454AD300D2062B /* AshtonAppKit.m */,
+				C51B5D8B164557C900D2062B /* AshtonCoreText.h */,
+				C51B5D8C164557C900D2062B /* AshtonCoreText.m */,
+				C51B5D7B16454BB800D2062B /* AshtonTransformer.h */,
+				C5AC3590163EC0BA00C233FE /* AshtonUtils.h */,
+				C5AC359B163EC42100C233FE /* AshtonUtils.m */,
 			);
-			path = MSAttributedStringSerialization;
+			path = Ashton;
 			sourceTree = "<group>";
 		};
 		C5AC35A4163ED13E00C233FE /* Test Cases */ = {
@@ -185,7 +185,7 @@
 		C5F71632163E9776005B34D1 = {
 			isa = PBXGroup;
 			children = (
-				C5AC356F163EB67E00C233FE /* MSAttributedStringSerialization */,
+				C5AC356F163EB67E00C233FE /* Ashton */,
 				C5F7164C163E97CF005B34D1 /* iOSExample */,
 				C5F71673163E97CF005B34D1 /* iOSExampleTests */,
 				C5F7168F163E97EA005B34D1 /* OSXExample */,
@@ -393,7 +393,7 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 			};
-			buildConfigurationList = C5F71637163E9776005B34D1 /* Build configuration list for PBXProject "MSAttributedStringSerialization" */;
+			buildConfigurationList = C5F71637163E9776005B34D1 /* Build configuration list for PBXProject "Ashton" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -423,7 +423,7 @@
 				C5F7165B163E97CF005B34D1 /* Default@2x.png in Resources */,
 				C5F7165D163E97CF005B34D1 /* Default-568h@2x.png in Resources */,
 				C5F71660163E97CF005B34D1 /* MainStoryboard.storyboard in Resources */,
-				C5AC3591163EC0BA00C233FE /* MSASSUtils.h in Resources */,
+				C5AC3591163EC0BA00C233FE /* AshtonUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,7 +432,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F71678163E97CF005B34D1 /* InfoPlist.strings in Resources */,
-				C5AC3592163EC0BA00C233FE /* MSASSUtils.h in Resources */,
+				C5AC3592163EC0BA00C233FE /* AshtonUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,7 +443,7 @@
 				C5DC48961647F50C009FEA27 /* TextEdit Test Document.rtf in Resources */,
 				C5F71694163E97EA005B34D1 /* InfoPlist.strings in Resources */,
 				C5F716A0163E97EA005B34D1 /* MainMenu.xib in Resources */,
-				C5AC3593163EC0BA00C233FE /* MSASSUtils.h in Resources */,
+				C5AC3593163EC0BA00C233FE /* AshtonUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F716B0163E97EA005B34D1 /* InfoPlist.strings in Resources */,
-				C5AC3594163EC0BA00C233FE /* MSASSUtils.h in Resources */,
+				C5AC3594163EC0BA00C233FE /* AshtonUtils.h in Resources */,
 				C5AC35A3163ED13700C233FE /* TextEdit Test Document.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -496,9 +496,9 @@
 				C5F71653163E97CF005B34D1 /* main.m in Sources */,
 				C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */,
 				C5F71666163E97CF005B34D1 /* iOSViewController.m in Sources */,
-				C5AC359C163EC42100C233FE /* MSASSUtils.m in Sources */,
-				C51B5D8116454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m in Sources */,
-				C51B5D8D164557C900D2062B /* MSASSCoreText.m in Sources */,
+				C5AC359C163EC42100C233FE /* AshtonUtils.m in Sources */,
+				C51B5D8116454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */,
+				C51B5D8D164557C900D2062B /* AshtonCoreText.m in Sources */,
 				C5DC48921647F0D7009FEA27 /* iOSCoreTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -517,10 +517,10 @@
 			files = (
 				C5F71696163E97EA005B34D1 /* main.m in Sources */,
 				C5F7169D163E97EA005B34D1 /* OSXAppDelegate.m in Sources */,
-				C5AC359D163EC42100C233FE /* MSASSUtils.m in Sources */,
-				C51B5D7916454AD300D2062B /* MSASSAppKit.m in Sources */,
-				C51B5D8216454F8C00D2062B /* NSAttributedString+MSAttributedStringSerialization.m in Sources */,
-				C51B5D8E164557C900D2062B /* MSASSCoreText.m in Sources */,
+				C5AC359D163EC42100C233FE /* AshtonUtils.m in Sources */,
+				C51B5D7916454AD300D2062B /* AshtonAppKit.m in Sources */,
+				C51B5D8216454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */,
+				C51B5D8E164557C900D2062B /* AshtonCoreText.m in Sources */,
 				C5DC48951647F288009FEA27 /* OSXCoreTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -804,7 +804,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C5F71637163E9776005B34D1 /* Build configuration list for PBXProject "MSAttributedStringSerialization" */ = {
+		C5F71637163E9776005B34D1 /* Build configuration list for PBXProject "Ashton" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C5F71639163E9776005B34D1 /* Debug */,

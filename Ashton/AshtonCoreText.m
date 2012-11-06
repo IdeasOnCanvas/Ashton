@@ -1,13 +1,13 @@
-#import "MSASSCoreText.h"
+#import "AshtonCoreText.h"
 #import <CoreText/CoreText.h>
 
-@implementation MSASSCoreText
+@implementation AshtonCoreText
 
 + (instancetype)shared {
     static dispatch_once_t onceToken;
-    static MSASSCoreText *sharedInstance;
+    static AshtonCoreText *sharedInstance;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[MSASSCoreText alloc] init];
+        sharedInstance = [[AshtonCoreText alloc] init];
     });
     return sharedInstance;
 }

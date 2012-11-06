@@ -1,5 +1,5 @@
 #import "OSXAppDelegate.h"
-#import "NSAttributedString+MSAttributedStringSerialization.h"
+#import "NSAttributedString+Ashton.h"
 
 @implementation OSXAppDelegate
 

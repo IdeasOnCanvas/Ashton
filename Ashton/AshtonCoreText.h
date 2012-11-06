@@ -1,6 +1,6 @@
-#import "MSASSTransformer.h"
+#import "AshtonTransformer.h"
 
-@interface MSASSCoreText : NSObject < MSASSTransformer >
+@interface AshtonCoreText : NSObject < AshtonTransformer >
 
 + (instancetype)shared;
 

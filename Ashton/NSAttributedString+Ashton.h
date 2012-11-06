@@ -1,4 +1,4 @@
-@interface NSAttributedString (MSAttributedStringSerialization)
+@interface NSAttributedString (Ashton)
 
 #if TARGET_OS_IPHONE
 - (NSAttributedString *)intermediateAttributedStringWithUIKitAttributes;

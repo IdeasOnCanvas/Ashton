@@ -1,12 +1,12 @@
-#import "MSASSAppKit.h"
+#import "AshtonAppKit.h"
 
-@implementation MSASSAppKit
+@implementation AshtonAppKit
 
 + (instancetype)shared {
     static dispatch_once_t onceToken;
-    static MSASSAppKit *sharedInstance;
+    static AshtonAppKit *sharedInstance;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[MSASSAppKit alloc] init];
+        sharedInstance = [[AshtonAppKit alloc] init];
     });
     return sharedInstance;
 }

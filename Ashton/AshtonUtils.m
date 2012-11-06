@@ -1,6 +1,6 @@
-#import "MSASSUtils.h"
+#import "AshtonUtils.h"
 
-@implementation MSASSUtils
+@implementation AshtonUtils
 
 + (void)diffDictionary:(NSDictionary *)prev to:(NSDictionary *)current created:(NSDictionary **)created removed:(NSDictionary **)removed {
     NSMutableDictionary *_removed = [NSMutableDictionary dictionary];

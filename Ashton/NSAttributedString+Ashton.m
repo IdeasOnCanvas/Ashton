@@ -1,11 +1,11 @@
-#import "NSAttributedString+MSAttributedStringSerialization.h"
-#import "MSASSCoreText.h"
+#import "NSAttributedString+Ashton.h"
+#import "AshtonCoreText.h"
 #if TARGET_OS_IPHONE
 #else
-#import "MSASSAppKit.h"
+#import "AshtonAppKit.h"
 #endif
 
-@implementation NSAttributedString (MSAttributedStringSerialization)
+@implementation NSAttributedString (Ashton)
 
 #if TARGET_OS_IPHONE
 - (NSAttributedString *)intermediateAttributedStringWithUIKitAttributes {
@@ -16,18 +16,18 @@
 }
 #else
 - (NSAttributedString *)intermediateAttributedStringWithAppKitAttributes {
-    return [[MSASSAppKit shared] intermediateRepresentationWithTargetRepresentation:self];
+    return [[AshtonAppKit shared] intermediateRepresentationWithTargetRepresentation:self];
 }
 + (NSAttributedString *)attributedStringWithAppKitAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
-    return [[MSASSAppKit shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
+    return [[AshtonAppKit shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
 }
 #endif
 
 - (NSAttributedString *)intermediateAttributedStringWithCoreTextAttributes {
-    return [[MSASSCoreText shared] intermediateRepresentationWithTargetRepresentation:self];
+    return [[AshtonCoreText shared] intermediateRepresentationWithTargetRepresentation:self];
 }
 + (NSAttributedString *)attributedStringWithCoreTextAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
-    return [[MSASSCoreText shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
+    return [[AshtonCoreText shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
 }
 
 
