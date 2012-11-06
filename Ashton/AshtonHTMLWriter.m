@@ -25,7 +25,9 @@
             NSString *content = [self HTMLEscapeString:[paragraph.string substringWithRange:range]];
             if (NSEqualRanges(range, paragraphRange)) {
                 [paragraphAttrs addEntriesFromDictionary:attrs];
+                if (attrs[@"link"]) [paragraphOutput appendFormat:@"<a href='%@'>", attrs[@"link"]];
                 [paragraphOutput appendString:content];
+                if (attrs[@"link"]) [paragraphOutput appendString:@"</a>"];
             } else {
                 [paragraphOutput appendString:[self openingTagForAttributes:attrs skipParagraphStyles:YES]];
                 [paragraphOutput appendString:content];
@@ -90,6 +92,9 @@
         }];
         [styleString appendString:@"'"];
     }
+
+    if(skipParagraphStyles && attrs[@"link"]) [styleString appendFormat:@" href='%@'", attrs[@"link"]];
+
     return styleString;
 }
 

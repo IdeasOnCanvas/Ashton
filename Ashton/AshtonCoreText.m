@@ -20,7 +20,7 @@
         for (id attrName in attrs) {
             id attr = attrs[attrName];
             if ([attrName isEqual:(id)kCTParagraphStyleAttributeName]) {
-                // produces: kind, textAlignment
+                // produces: paragraph
                 CTParagraphStyleRef paragraphStyle = (__bridge CTParagraphStyleRef)attr;
                 NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
@@ -33,7 +33,7 @@
                 newAttrs[@"paragraph"] = attrDict;
             }
             if ([attrName isEqual:(id)kCTFontAttributeName]) {
-                // produces: fontFamilyName, fontTraitBold, fontTraitItalic, fontPointSize
+                // produces: font
                 CTFontRef font = (__bridge CTFontRef)attr;
                 NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
