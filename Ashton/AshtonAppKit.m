@@ -19,23 +19,26 @@
         for (NSString *attrName in attrs) {
             id attr = attrs[attrName];
             if ([attrName isEqual:NSParagraphStyleAttributeName]) {
-                // produces: kind, textAlignment
+                // produces: paragraph
                 NSParagraphStyle *paragraphStyle = (NSParagraphStyle *)attr;
-                newAttrs[@"kind"] = @"paragraph";
+                NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
-                if ([paragraphStyle alignment] == NSLeftTextAlignment) newAttrs[@"textAlignment"] = @"left";
-                if ([paragraphStyle alignment] == NSRightTextAlignment) newAttrs[@"textAlignment"] = @"right";
-                if ([paragraphStyle alignment] == NSCenterTextAlignment) newAttrs[@"textAlignment"] = @"center";
+                if ([paragraphStyle alignment] == NSLeftTextAlignment) attrDict[@"textAlignment"] = @"left";
+                if ([paragraphStyle alignment] == NSRightTextAlignment) attrDict[@"textAlignment"] = @"right";
+                if ([paragraphStyle alignment] == NSCenterTextAlignment) attrDict[@"textAlignment"] = @"center";
+                newAttrs[@"paragraph"] = attrDict;
             }
             if ([attrName isEqual:NSFontAttributeName]) {
-                // produces: fontFamilyName, fontTraitBold, fontTraitItalic, fontPointSize
+                // produces: font
                 NSFont *font = (NSFont *)attr;
+                NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
                 NSFontSymbolicTraits symbolicTraits = [[font fontDescriptor] symbolicTraits];
-                if ((symbolicTraits & NSFontBoldTrait) == NSFontBoldTrait) newAttrs[@"fontTraitBold"] = @(YES);
-                if ((symbolicTraits & NSFontItalicTrait) == NSFontItalicTrait) newAttrs[@"fontTraitItalic"] = @(YES);
+                if ((symbolicTraits & NSFontBoldTrait) == NSFontBoldTrait) attrDict[@"traitBold"] = @(YES);
+                if ((symbolicTraits & NSFontItalicTrait) == NSFontItalicTrait) attrDict[@"traitItalic"] = @(YES);
 
-                newAttrs[@"fontPointSize"] = @(font.pointSize);
-                newAttrs[@"fontFamilyName"] = font.familyName;
+                attrDict[@"pointSize"] = @(font.pointSize);
+                attrDict[@"familyName"] = font.familyName;
+                newAttrs[@"font"] = attrDict;
             }
             if ([attrName isEqual:NSSuperscriptAttributeName]) {
                 if ([attr intValue] == 1) newAttrs[@"verticalAlign"] = @"super";
@@ -66,6 +69,9 @@
                 // produces: strikethroughColor
                 newAttrs[@"strikethroughColor"] = [self arrayForColor:attr];
             }
+            if ([attrName isEqual:NSLinkAttributeName]) {
+                newAttrs[@"link"] = [attr absoluteString];
+            }
         }
         [output setAttributes:newAttrs range:range];
     }];
@@ -80,26 +86,27 @@
         NSMutableDictionary *newAttrs = [NSMutableDictionary dictionaryWithCapacity:[attrs count]];
         for (NSString *attrName in attrs) {
             id attr = attrs[attrName];
-            if ([attrName isEqual:@"kind"] && [attr isEqual:@"paragraph"]) {
-                // consumes: kind, textAlignment
+            if ([attrName isEqual:@"paragraph"]) {
+                // consumes: paragraph
+                NSDictionary *attrDict = attr;
                 NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
 
-                if ([attrs[@"textAlignment"] isEqual:@"left"]) paragraphStyle.alignment = NSLeftTextAlignment;
-                if ([attrs[@"textAlignment"] isEqual:@"right"]) paragraphStyle.alignment = NSRightTextAlignment;
-                if ([attrs[@"textAlignment"] isEqual:@"center"]) paragraphStyle.alignment = NSCenterTextAlignment;
+                if ([attrDict[@"textAlignment"] isEqual:@"left"]) paragraphStyle.alignment = NSLeftTextAlignment;
+                if ([attrDict[@"textAlignment"] isEqual:@"right"]) paragraphStyle.alignment = NSRightTextAlignment;
+                if ([attrDict[@"textAlignment"] isEqual:@"center"]) paragraphStyle.alignment = NSCenterTextAlignment;
 
                 newAttrs[NSParagraphStyleAttributeName] = [paragraphStyle copy];
             }
-            if ([attrName isEqual:@"fontFamilyName"]) {
-                // consumes: fontFamilyName, fontTraitBold, fontTraitItalic, fontPointSize
-
-                NSFontDescriptor *fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:@{ NSFontFamilyAttribute: attrs[@"fontFamilyName"] }];
+            if ([attrName isEqual:@"font"]) {
+                // consumes: font
+                NSDictionary *attrDict = attr;
+                NSFontDescriptor *fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:@{ NSFontFamilyAttribute: attrDict[@"familyName"] }];
                 NSFontSymbolicTraits symbolicTraits = [fontDescriptor symbolicTraits];
-                if ([attrs[@"fontTraitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontBoldTrait;
-                if ([attrs[@"fontTraitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontItalicTrait;
+                if ([attrDict[@"traitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontBoldTrait;
+                if ([attrDict[@"traitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontItalicTrait;
                 fontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits];
 
-                newAttrs[NSFontAttributeName] = [NSFont fontWithDescriptor:fontDescriptor size:[attrs[@"fontPointSize"] doubleValue]];
+                newAttrs[NSFontAttributeName] = [NSFont fontWithDescriptor:fontDescriptor size:[attrDict[@"pointSize"] doubleValue]];
             }
             if ([attrName isEqual:@"verticalAlign"]) {
                 if ([attr isEqual:@"super"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
@@ -128,6 +135,9 @@
             if ([attrName isEqual:@"strikethroughColor"]) {
                 // consumes strikethroughColor
                 newAttrs[NSStrikethroughColorAttributeName] = [self colorForArray:attr];
+            }
+            if ([attrName isEqual:@"link"]) {
+                newAttrs[NSLinkAttributeName] = attr;
             }
         }
         [output setAttributes:newAttrs range:range];

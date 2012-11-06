@@ -22,25 +22,28 @@
             if ([attrName isEqual:(id)kCTParagraphStyleAttributeName]) {
                 // produces: kind, textAlignment
                 CTParagraphStyleRef paragraphStyle = (__bridge CTParagraphStyleRef)attr;
-                newAttrs[@"kind"] = @"paragraph";
+                NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
                 CTTextAlignment alignment;
                 CTParagraphStyleGetValueForSpecifier(paragraphStyle, kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment);
 
-                if (alignment == kCTTextAlignmentLeft) newAttrs[@"textAlignment"] = @"left";
-                if (alignment == kCTTextAlignmentRight) newAttrs[@"textAlignment"] = @"right";
-                if (alignment == kCTTextAlignmentCenter) newAttrs[@"textAlignment"] = @"center";
+                if (alignment == kCTTextAlignmentLeft) attrDict[@"textAlignment"] = @"left";
+                if (alignment == kCTTextAlignmentRight) attrDict[@"textAlignment"] = @"right";
+                if (alignment == kCTTextAlignmentCenter) attrDict[@"textAlignment"] = @"center";
+                newAttrs[@"paragraph"] = attrDict;
             }
             if ([attrName isEqual:(id)kCTFontAttributeName]) {
                 // produces: fontFamilyName, fontTraitBold, fontTraitItalic, fontPointSize
                 CTFontRef font = (__bridge CTFontRef)attr;
+                NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
                 CTFontSymbolicTraits symbolicTraits = CTFontGetSymbolicTraits(font);
-                if ((symbolicTraits & kCTFontTraitBold) == kCTFontTraitBold) newAttrs[@"fontTraitBold"] = @(YES);
-                if ((symbolicTraits & kCTFontTraitItalic) == kCTFontTraitItalic) newAttrs[@"fontTraitItalic"] = @(YES);
+                if ((symbolicTraits & kCTFontTraitBold) == kCTFontTraitBold) attrDict[@"traitBold"] = @(YES);
+                if ((symbolicTraits & kCTFontTraitItalic) == kCTFontTraitItalic) attrDict[@"traitItalic"] = @(YES);
 
-                newAttrs[@"fontPointSize"] = @(CTFontGetSize(font));
-                newAttrs[@"fontFamilyName"] = CFBridgingRelease(CTFontCopyName(font, kCTFontFamilyNameKey));
+                attrDict[@"pointSize"] = @(CTFontGetSize(font));
+                attrDict[@"familyName"] = CFBridgingRelease(CTFontCopyName(font, kCTFontFamilyNameKey));
+                newAttrs[@"font"] = attrDict;
             }
             if ([attrName isEqual:(id)kCTSuperscriptAttributeName]) {
                 if ([attr intValue] == 1) newAttrs[@"verticalAlign"] = @"super";
@@ -75,13 +78,13 @@
         NSMutableDictionary *newAttrs = [NSMutableDictionary dictionaryWithCapacity:[attrs count]];
         for (NSString *attrName in attrs) {
             id attr = attrs[attrName];
-            if ([attrName isEqual:@"kind"] && [attr isEqual:@"paragraph"]) {
-                // consumes: kind, textAlignment
-
+            if ([attrName isEqual:@"paragraph"]) {
+                // consumes: paragraph
+                NSDictionary *attrDict = attr;
                 CTTextAlignment alignment = kCTTextAlignmentNatural;
-                if ([attrs[@"textAlignment"] isEqual:@"left"]) alignment = kCTTextAlignmentLeft;
-                if ([attrs[@"textAlignment"] isEqual:@"right"]) alignment = kCTTextAlignmentRight;
-                if ([attrs[@"textAlignment"] isEqual:@"center"]) alignment = kCTTextAlignmentCenter;
+                if ([attrDict[@"textAlignment"] isEqual:@"left"]) alignment = kCTTextAlignmentLeft;
+                if ([attrDict[@"textAlignment"] isEqual:@"right"]) alignment = kCTTextAlignmentRight;
+                if ([attrDict[@"textAlignment"] isEqual:@"center"]) alignment = kCTTextAlignmentCenter;
 
                 CTParagraphStyleSetting settings[] = {
                     { kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment },
@@ -89,17 +92,17 @@
 
                 newAttrs[(id)kCTParagraphStyleAttributeName] = CFBridgingRelease(CTParagraphStyleCreate(settings, sizeof(settings) / sizeof(CTParagraphStyleSetting)));
             }
-            if ([attrName isEqual:@"fontFamilyName"]) {
-                // consumes: fontFamilyName, fontTraitBold, fontTraitItalic, fontPointSize
-
+            if ([attrName isEqual:@"font"]) {
+                // consumes: font
+                NSDictionary *attrDict = attr;
                 CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes(CFBridgingRetain(@{
-                                                                                                       (id)kCTFontNameAttribute: attrs[@"fontFamilyName"],
+                                                                                                       (id)kCTFontNameAttribute: attrDict[@"familyName"],
                                                                                                        }));
-                CTFontRef font = CTFontCreateWithFontDescriptor(descriptor, [attrs[@"fontPointSize"] doubleValue], NULL);
+                CTFontRef font = CTFontCreateWithFontDescriptor(descriptor, [attrDict[@"pointSize"] doubleValue], NULL);
 
                 CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail
-                if ([attrs[@"fontTraitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitBold;
-                if ([attrs[@"fontTraitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
+                if ([attrDict[@"traitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitBold;
+                if ([attrDict[@"traitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
                 if (symbolicTraits != 0) {
                     // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
                     // Is there a better way to detect "no" symbolic traits?

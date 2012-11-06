@@ -1,5 +1,5 @@
 #import "OSXExampleTests.h"
-#import "NSAttributedString+MSAttributedStringSerialization.h"
+#import "NSAttributedString+Ashton.h"
 
 @implementation OSXExampleTests
 

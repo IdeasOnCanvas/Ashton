@@ -13,6 +13,10 @@
 
     NSAttributedString *coreTextAndBackToIntermediate = [[NSAttributedString attributedStringWithCoreTextAttributes:intermediate] intermediateAttributedStringWithCoreTextAttributes];
     self.appKitAgainTextView.textStorage.attributedString = [NSAttributedString attributedStringWithAppKitAttributes:coreTextAndBackToIntermediate];
+
+
+    NSString *output = [intermediate HTMLRepresentation];
+    [output writeToFile:@"/Users/msch/Desktop/test.html" atomically:YES encoding:NSUnicodeStringEncoding error:nil];
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {

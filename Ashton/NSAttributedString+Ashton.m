@@ -1,5 +1,6 @@
 #import "NSAttributedString+Ashton.h"
 #import "AshtonCoreText.h"
+#import "AshtonHTMLWriter.h"
 #if TARGET_OS_IPHONE
 #import "AshtonUIKit.h"
 #else
@@ -31,5 +32,8 @@
     return [[AshtonCoreText shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
 }
 
+- (NSString *)HTMLRepresentation {
+    return [[AshtonHTMLWriter shared] HTMLStringFromAttributedString:self];
+}
 
 @end

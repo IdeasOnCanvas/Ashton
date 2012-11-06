@@ -11,4 +11,6 @@
 - (NSAttributedString *)intermediateAttributedStringWithCoreTextAttributes;
 + (NSAttributedString *)attributedStringWithCoreTextAttributes:(NSAttributedString *)inputWithIntermediateAttributes;
 
+- (NSString *)HTMLRepresentation;
+
 @end
