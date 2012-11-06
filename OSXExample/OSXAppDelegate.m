@@ -4,7 +4,7 @@
 @implementation OSXAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    NSAttributedString *source = [self readAttributedStringFromRTFFile:@"TextEdit Test Document"];
+    NSAttributedString *source = [self readAttributedStringFromRTFFile:@"Test1"];
     NSAttributedString *intermediate = [source intermediateAttributedStringWithAppKitAttributes];
 
     self.sourceTextView.textStorage.attributedString = source;
@@ -14,9 +14,8 @@
     NSAttributedString *coreTextAndBackToIntermediate = [[NSAttributedString attributedStringWithCoreTextAttributes:intermediate] intermediateAttributedStringWithCoreTextAttributes];
     self.appKitAgainTextView.textStorage.attributedString = [NSAttributedString attributedStringWithAppKitAttributes:coreTextAndBackToIntermediate];
 
-
-    NSString *output = [intermediate HTMLRepresentation];
-    [output writeToFile:@"/Users/msch/Desktop/test.html" atomically:YES encoding:NSUnicodeStringEncoding error:nil];
+    NSString *desktopPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    [[intermediate HTMLRepresentation] writeToFile:[desktopPath stringByAppendingPathComponent:@"test.html"] atomically:YES encoding:NSUnicodeStringEncoding error:nil];
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {

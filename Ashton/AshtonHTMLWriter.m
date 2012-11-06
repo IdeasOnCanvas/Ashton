@@ -12,23 +12,42 @@
     return sharedInstance;
 }
 
-
 - (NSString *)HTMLStringFromAttributedString:(NSAttributedString *)input {
     NSMutableString *output = [NSMutableString string];
 
     for (NSAttributedString *paragraph in [self paragraphsForAttributedString:input]) {
-        [paragraph enumerateAttributesInRange:NSMakeRange(0, paragraph.length) options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
-            [output appendString:[self openingTagForAttributes:attrs]];
-            NSString *subString = [paragraph.string substringWithRange:range];
-            subString = [subString stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
-            subString = [subString stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
-            subString = [subString stringByReplacingOccurrencesOfString:@"\n" withString:@"<br />"];
-            [output appendString:subString];
-            [output appendString:[self closingTagWithAttributes:attrs]];
+        NSRange paragraphRange = NSMakeRange(0, paragraph.length);
+        NSMutableString *paragraphOutput = [NSMutableString string];
+        NSMutableDictionary *paragraphAttrs = [NSMutableDictionary dictionary];
+        paragraphAttrs[@"paragraph"] = [paragraph attribute:@"paragraph" atIndex:0 effectiveRange:NULL];
+
+        [paragraph enumerateAttributesInRange:paragraphRange options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+            NSString *content = [self HTMLEscapeString:[paragraph.string substringWithRange:range]];
+            if (NSEqualRanges(range, paragraphRange)) {
+                [paragraphAttrs addEntriesFromDictionary:attrs];
+                [paragraphOutput appendString:content];
+            } else {
+                [paragraphOutput appendString:[self openingTagForAttributes:attrs skipParagraphStyles:YES]];
+                [paragraphOutput appendString:content];
+                [paragraphOutput appendString:[self closingTagWithAttributes:attrs]];
+            }
         }];
+
+        [output appendString:@"<p"];
+        [output appendString:[self styleStringForAttributes:paragraphAttrs skipParagraphStyles:NO]];
+        [output appendString:@">"];
+        [output appendString:paragraphOutput];
+        [output appendString:@"</p>"];
     };
 
     return output;
+}
+
+- (NSString *)HTMLEscapeString:(NSString *)input {
+    input = [input stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+    input = [input stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+    input = [input stringByReplacingOccurrencesOfString:@"\n" withString:@"<br />"];
+    return input;
 }
 
 - (NSArray *)paragraphsForAttributedString:(NSAttributedString *)input {
@@ -48,60 +67,51 @@
     return paragraphs;
 }
 
-- (NSString *)openingTagForAttributes:(NSDictionary *)attrs {
+- (NSString *)openingTagForAttributes:(NSDictionary *)attrs skipParagraphStyles:(BOOL)skipParagraphStyles {
     NSMutableString *tag = [NSMutableString string];
     [tag appendString:@"<"];
     [tag appendString:[self tagNameForAttributes:attrs]];
-
-    NSDictionary *styles = [self stylesForAttributes:attrs];
-    if ([styles count] > 0) {
-        [tag appendString:@" style='"];
-        [styles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            [tag appendString:key];
-            [tag appendString:@": "];
-            if ([obj respondsToSelector:@selector(stringValue)]) obj = [obj stringValue];
-            [tag appendString:obj];
-            [tag appendString:@"; "];
-        }];
-        [tag appendString:@"'"];
-    }
-
+    [tag appendString:[self styleStringForAttributes:attrs skipParagraphStyles:skipParagraphStyles]];
     [tag appendString:@">"];
-
-    NSString *href = attrs[@"link"];
-    if (href) {
-        [tag appendString:@"<a href='"];
-        [tag appendString:href]; // TODO: Escape '
-        [tag appendString:@"'>"];
-    }
-
     return tag;
+}
+
+- (NSString *)styleStringForAttributes:(NSDictionary *)attrs skipParagraphStyles:(BOOL)skipParagraphStyles {
+    NSDictionary *styles = [self stylesForAttributes:attrs skipParagraphStyles:skipParagraphStyles];
+    NSMutableString *styleString = [NSMutableString string];
+    if ([styles count] > 0) {
+        [styleString appendString:@" style='"];
+        [styles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            [styleString appendString:key];
+            [styleString appendString:@": "];
+            if ([obj respondsToSelector:@selector(stringValue)]) obj = [obj stringValue];
+            [styleString appendString:obj];
+            [styleString appendString:@"; "];
+        }];
+        [styleString appendString:@"'"];
+    }
+    return styleString;
 }
 
 - (NSString *)closingTagWithAttributes:(NSDictionary *)attrs {
     NSMutableString *tag = [NSMutableString string];
-
-    if (attrs[@"link"]) {
-        [tag appendString:@"</a>"];
-    }
-
     [tag appendString:@"</"];
     [tag appendString:[self tagNameForAttributes:attrs]];
     [tag appendString:@">"];
-
     return tag;
 }
 
 - (NSString *)tagNameForAttributes:(NSDictionary *)attrs {
-    if (attrs[@"paragraph"]) {
-        return @"p";
+    if (attrs[@"link"]) {
+        return @"a";
     }
     return @"span";
 }
 
-- (NSDictionary *)stylesForAttributes:(NSDictionary *)attrs {
+- (NSDictionary *)stylesForAttributes:(NSDictionary *)attrs skipParagraphStyles:(BOOL)skipParagraphStyles {
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
     for (id key in attrs) {
+        if(skipParagraphStyles && [key isEqual:@"paragraph"]) continue;
         [styles addEntriesFromDictionary:[self stylesForAttribute:attrs[key] withName:key]];
     }
     return styles;
