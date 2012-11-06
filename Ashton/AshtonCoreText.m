@@ -1,6 +1,10 @@
 #import "AshtonCoreText.h"
 #import <CoreText/CoreText.h>
 
+@interface AshtonCoreText ()
+@property (nonatomic, readonly) NSArray *attributesToPreserve;
+@end
+
 @implementation AshtonCoreText
 
 + (instancetype)shared {
@@ -10,6 +14,13 @@
         sharedInstance = [[AshtonCoreText alloc] init];
     });
     return sharedInstance;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        _attributesToPreserve = @[ @"strikethrough", @"strikethroughColor", @"link" ];
+    }
+    return self;
 }
 
 - (NSAttributedString *)intermediateRepresentationWithTargetRepresentation:(NSAttributedString *)input {
@@ -63,7 +74,9 @@
                 // produces: color
                 newAttrs[@"color"] = [self arrayForColor:(__bridge CGColorRef)(attr)];
             }
-            // TODO: strikethrough, strikethroughColor
+            if ([self.attributesToPreserve containsObject:attrName]) {
+                newAttrs[attrName] = attr;
+            }
         }
         [output setAttributes:newAttrs range:range];
     }];
@@ -129,7 +142,9 @@
                 // consumes: color
                 newAttrs[(id)kCTForegroundColorAttributeName] = [self colorForArray:attr];
             }
-            // TODO: strikethrough, strikethroughColor
+            if ([self.attributesToPreserve containsObject:attrName]) {
+                newAttrs[attrName] = attr;
+            }
         }
         [output setAttributes:newAttrs range:range];
     }];
