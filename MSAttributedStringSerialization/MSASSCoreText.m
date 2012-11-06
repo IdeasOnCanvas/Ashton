@@ -54,12 +54,13 @@
             }
             if ([attrName isEqual:(id)kCTUnderlineColorAttributeName]) {
                 // produces: underlineColor
-                newAttrs[@"underlineColor"] = [self CSSForColor:(__bridge CGColorRef)(attr)];
+                newAttrs[@"underlineColor"] = [self arrayForColor:(__bridge CGColorRef)(attr)];
             }
             if ([attrName isEqual:(id)kCTForegroundColorAttributeName] || [attrName isEqual:(id)kCTStrokeColorAttributeName]) {
                 // produces: color
-                newAttrs[@"color"] = [self CSSForColor:(__bridge CGColorRef)(attr)];
+                newAttrs[@"color"] = [self arrayForColor:(__bridge CGColorRef)(attr)];
             }
+            // TODO: strikethrough, strikethroughColor
         }
         [output setAttributes:newAttrs range:range];
     }];
@@ -119,18 +120,13 @@
             }
             if ([attrName isEqual:@"underlineColor"]) {
                 // consumes: underlineColor
-                newAttrs[(id)kCTUnderlineColorAttributeName] = [self colorForCSS:attr];
+                newAttrs[(id)kCTUnderlineColorAttributeName] = [self colorForArray:attr];
             }
             if ([attrName isEqual:@"color"]) {
                 // consumes: color
-                newAttrs[(id)kCTForegroundColorAttributeName] = [self colorForCSS:attr];
+                newAttrs[(id)kCTForegroundColorAttributeName] = [self colorForArray:attr];
             }
-            if ([attrName isEqual:@"strikethrough"]) {
-                // consumes: strikethrough
-            }
-            if ([attrName isEqual:@"strikethroughColor"]) {
-                // consumes strikethroughColor
-            }
+            // TODO: strikethrough, strikethroughColor
         }
         [output setAttributes:newAttrs range:range];
     }];
@@ -138,34 +134,24 @@
     return output;
 }
 
-- (NSString *)CSSForColor:(CGColorRef)color {
-    int red, green, blue;
-    float alpha = CGColorGetAlpha(color);
+- (NSArray *)arrayForColor:(CGColorRef)color {
+    CGFloat red, green, blue;
+    CGFloat alpha = CGColorGetAlpha(color);
     const CGFloat *components = CGColorGetComponents(color);
     if (CGColorGetNumberOfComponents(color) == 2) {
-        red = green = blue = components[0] * 255;
+        red = green = blue = components[0];
     } else if (CGColorGetNumberOfComponents(color) == 4) {
-        red = components[0] * 255;
-        green = components[1] * 255;
-        blue = components[2] * 255;
+        red = components[0];
+        green = components[1];
+        blue = components[2];
     } else {
         red = green = blue = 0;
     }
-    return [NSString stringWithFormat:@"rgba(%i, %i, %i, %f)", red, green, blue, alpha];
+    return @[ @(red), @(green), @(blue), @(alpha) ];
 }
 
-- (id)colorForCSS:(NSString *)css {
-    NSScanner *scanner = [NSScanner scannerWithString:css];
-    [scanner scanString:@"rgba(" intoString:NULL];
-    int red; [scanner scanInt:&red];
-    [scanner scanString:@", " intoString:NULL];
-    int green; [scanner scanInt:&green];
-    [scanner scanString:@", " intoString:NULL];
-    int blue; [scanner scanInt:&blue];
-    [scanner scanString:@", " intoString:NULL];
-    float alpha; [scanner scanFloat:&alpha];
-
-    const CGFloat components[] = { (float)red / 255, (float)green / 255, (float)blue / 255, alpha };
+- (id)colorForArray:(NSArray *)input {
+    const CGFloat components[] = { [input[0] doubleValue], [input[1] doubleValue], [input[2] doubleValue], [input[3] doubleValue] };
     return CFBridgingRelease(CGColorCreate(CGColorSpaceCreateDeviceRGB(), components));
 }
 
