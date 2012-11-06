@@ -6,4 +6,6 @@
 @property (nonatomic, assign) IBOutlet OSXCoreTextView *coreTextView;
 @property (nonatomic, assign) IBOutlet NSTextView *appKitTextView;
 @property (nonatomic, assign) IBOutlet NSTextView *sourceTextView;
+@property (nonatomic, assign) IBOutlet NSTextView *appKitAgainTextView;
+
 @end

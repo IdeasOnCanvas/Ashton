@@ -9,7 +9,10 @@
 
     self.sourceTextView.textStorage.attributedString = source;
     self.appKitTextView.textStorage.attributedString = [NSAttributedString attributedStringWithAppKitAttributes:intermediate];
-    self.coreTextView.attributedString = [NSAttributedString attributedStringWithCoreTextAttributes:intermediate];;
+    self.coreTextView.attributedString = [NSAttributedString attributedStringWithCoreTextAttributes:intermediate];
+
+    NSAttributedString *coreTextAndBackToIntermediate = [[NSAttributedString attributedStringWithCoreTextAttributes:intermediate] intermediateAttributedStringWithCoreTextAttributes];
+    self.appKitAgainTextView.textStorage.attributedString = [NSAttributedString attributedStringWithAppKitAttributes:coreTextAndBackToIntermediate];
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {
