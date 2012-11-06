@@ -1,6 +1,7 @@
 #import "NSAttributedString+Ashton.h"
 #import "AshtonCoreText.h"
 #if TARGET_OS_IPHONE
+#import "AshtonUIKit.h"
 #else
 #import "AshtonAppKit.h"
 #endif
@@ -9,10 +10,10 @@
 
 #if TARGET_OS_IPHONE
 - (NSAttributedString *)intermediateAttributedStringWithUIKitAttributes {
-    return nil;
+    return [[AshtonUIKit shared] intermediateRepresentationWithTargetRepresentation:self];
 }
 + (NSAttributedString *)attributedStringWithUIKitAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
-    return nil;
+    return [[AshtonUIKit shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
 }
 #else
 - (NSAttributedString *)intermediateAttributedStringWithAppKitAttributes {
