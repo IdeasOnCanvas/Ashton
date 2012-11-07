@@ -18,21 +18,39 @@
 - (void)testTextEditTestDocument {
     // read a source RTF and transform it once so we remove all non-supported styles. Then transform it again and compare.
     NSAttributedString *sourceWithIntermediateAttrs = [[self readAttributedStringFromRTFFile:@"TextEdit Test Document"] intermediateAttributedStringWithAppKitAttributes];
-    [self writeAttributedString:sourceWithIntermediateAttrs toFile:@"source"];
 
     NSAttributedString *transformed, *roundtripped;
 
     transformed = [NSAttributedString attributedStringWithAppKitAttributes:sourceWithIntermediateAttrs];
     roundtripped = [transformed intermediateAttributedStringWithAppKitAttributes];
-    [self writeAttributedString:transformed toFile:@"transformed"];
-    [self writeAttributedString:roundtripped toFile:@"roundtripped"];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from AppKit representation");
 
     transformed = [NSAttributedString attributedStringWithCoreTextAttributes:sourceWithIntermediateAttrs];
     roundtripped = [transformed intermediateAttributedStringWithCoreTextAttributes];
-    [self writeAttributedString:transformed toFile:@"transformed"];
-    [self writeAttributedString:roundtripped toFile:@"roundtripped"];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from CoreText representation");
+}
+
+- (void)testTest1 {
+    // read a source RTF and transform it once so we remove all non-supported styles. Then transform it again and compare.
+    NSAttributedString *sourceWithIntermediateAttrs = [[self readAttributedStringFromRTFFile:@"Test1"] intermediateAttributedStringWithAppKitAttributes];
+
+    NSAttributedString *transformed, *roundtripped;
+
+    transformed = [NSAttributedString attributedStringWithAppKitAttributes:sourceWithIntermediateAttrs];
+    roundtripped = [transformed intermediateAttributedStringWithAppKitAttributes];
+    STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from AppKit representation");
+
+    transformed = [NSAttributedString attributedStringWithCoreTextAttributes:sourceWithIntermediateAttrs];
+    roundtripped = [transformed intermediateAttributedStringWithCoreTextAttributes];
+    STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from CoreText representation");
+}
+
+
+- (void)testHTML {
+    NSAttributedString *source = [[self readAttributedStringFromRTFFile:@"Test1"] intermediateAttributedStringWithAppKitAttributes];
+
+    NSString *htmlString = [source HTMLRepresentation];
+    NSAttributedString *intermediate = [NSAttributedString intermediateAttributedStringFromHTML:htmlString];
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {

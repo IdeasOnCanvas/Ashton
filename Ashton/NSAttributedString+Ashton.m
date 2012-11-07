@@ -37,8 +37,8 @@
     return [[AshtonHTMLWriter shared] HTMLStringFromAttributedString:self];
 }
 
-- (NSAttributedString *)intermediateAttributedStringFromHTML:(NSString *)htmlString {
-    return [[AshtonHTMLReader shared] attributedStringFromHTMLString:htmlString];
++ (NSAttributedString *)intermediateAttributedStringFromHTML:(NSString *)htmlString {
+    return [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
 }
 
 @end
