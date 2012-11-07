@@ -137,7 +137,7 @@
                 newAttrs[NSStrikethroughColorAttributeName] = [self colorForArray:attr];
             }
             if ([attrName isEqual:@"link"]) {
-                newAttrs[NSLinkAttributeName] = attr;
+                newAttrs[NSLinkAttributeName] = [NSURL URLWithString:attr];
             }
         }
         [output setAttributes:newAttrs range:range];

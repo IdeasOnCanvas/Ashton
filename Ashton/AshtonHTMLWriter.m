@@ -46,6 +46,7 @@
 }
 
 - (NSString *)HTMLEscapeString:(NSString *)input {
+    input = [input stringByReplacingOccurrencesOfString:@"&" withString:@"&amp"];
     input = [input stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
     input = [input stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
     input = [input stringByReplacingOccurrencesOfString:@"\n" withString:@"<br />"];

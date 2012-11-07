@@ -1,4 +1,4 @@
-@interface AshtonHTMLReader : NSObject
+@interface AshtonHTMLReader : NSObject < NSXMLParserDelegate >
 
 + (instancetype)shared;
 
