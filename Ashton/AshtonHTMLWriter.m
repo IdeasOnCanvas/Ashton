@@ -148,13 +148,9 @@
 
         if ([attr isEqual:@"single"]) styles[@"-cocoa-underline"] = @"underline";
         if ([attr isEqual:@"thick"]) styles[@"-cocoa-underline"] = @"thick";
-        if ([attr isEqual:@"double"]) {
-            styles[@"-cocoa-underline"] = @"double";
-            styles[@"text-decoration-style"] = @"double"; // CSS 3 attribute, not yet recognized
-        }
+        if ([attr isEqual:@"double"]) styles[@"-cocoa-underline"] = @"double";
     }
     if ([attrName isEqual:@"underlineColor"]) {
-        styles[@"text-decoration-color"] = [self CSSColor:attr];
         styles[@"-cocoa-underline-color"] = [self CSSColor:attr];
     }
     if ([attrName isEqual:@"color"]) {
