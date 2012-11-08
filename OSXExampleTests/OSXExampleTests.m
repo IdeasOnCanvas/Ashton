@@ -51,6 +51,9 @@
 
     NSString *htmlString = [source HTMLRepresentation];
     NSAttributedString *intermediate = [NSAttributedString intermediateAttributedStringFromHTML:htmlString];
+    htmlString = [intermediate HTMLRepresentation];
+    NSAttributedString *back = [NSAttributedString intermediateAttributedStringFromHTML:htmlString];
+    STAssertEqualObjects(back, intermediate, @"Converting to/from HTML");
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {
