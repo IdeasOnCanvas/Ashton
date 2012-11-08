@@ -5,7 +5,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     NSAttributedString *source = [self readAttributedStringFromRTFFile:@"Test1"];
-    NSAttributedString *intermediate = [source intermediateAttributedStringWithAppKitAttributes];
+    NSAttributedString *intermediate = [NSAttributedString intermediateAttributedStringFromHTML:[[source intermediateAttributedStringWithAppKitAttributes] HTMLRepresentation]];
 
     self.sourceTextView.textStorage.attributedString = source;
     self.appKitTextView.textStorage.attributedString = [NSAttributedString attributedStringWithAppKitAttributes:intermediate];

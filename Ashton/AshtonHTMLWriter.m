@@ -19,7 +19,8 @@
         NSRange paragraphRange = NSMakeRange(0, paragraph.length);
         NSMutableString *paragraphOutput = [NSMutableString string];
         NSMutableDictionary *paragraphAttrs = [NSMutableDictionary dictionary];
-        paragraphAttrs[@"paragraph"] = [paragraph attribute:@"paragraph" atIndex:0 effectiveRange:NULL];
+        id paragraphStyle = [paragraph attribute:@"paragraph" atIndex:0 effectiveRange:NULL];
+        if (paragraphStyle) paragraphAttrs[@"paragraph"] = paragraphStyle;
 
         [paragraph enumerateAttributesInRange:paragraphRange options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
             NSString *content = [self HTMLEscapeString:[paragraph.string substringWithRange:range]];
