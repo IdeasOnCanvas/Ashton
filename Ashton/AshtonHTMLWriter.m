@@ -1,5 +1,4 @@
 #import "AshtonHTMLWriter.h"
-#import "AshtonUtils.h"
 
 @implementation AshtonHTMLWriter
 
@@ -141,7 +140,7 @@
         if ([attrDict[@"traitBold"] isEqual:@(YES)]) [fontStyle addObject:@"bold"];
         if ([attrDict[@"traitItalic"] isEqual:@(YES)]) [fontStyle addObject:@"italic"];
 
-        [fontStyle addObject:[NSString stringWithFormat:@"%gpt", [attrDict[@"pointSize"] floatValue]]];
+        [fontStyle addObject:[NSString stringWithFormat:@"%gpx", [attrDict[@"pointSize"] floatValue]]];
         [fontStyle addObject:[NSString stringWithFormat:@"\"%@\"", attrDict[@"familyName"]]];
         styles[@"font"] = [fontStyle componentsJoinedByString:@" "];
     }

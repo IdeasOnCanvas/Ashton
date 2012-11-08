@@ -24,12 +24,6 @@
 		C5AC356B163EB28100C233FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC3569163EB26E00C233FE /* UIKit.framework */; };
 		C5AC356D163EB28900C233FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC356C163EB28900C233FE /* Cocoa.framework */; };
 		C5AC356E163EB29100C233FE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5AC356C163EB28900C233FE /* Cocoa.framework */; };
-		C5AC3591163EC0BA00C233FE /* AshtonUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* AshtonUtils.h */; };
-		C5AC3592163EC0BA00C233FE /* AshtonUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* AshtonUtils.h */; };
-		C5AC3593163EC0BA00C233FE /* AshtonUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* AshtonUtils.h */; };
-		C5AC3594163EC0BA00C233FE /* AshtonUtils.h in Resources */ = {isa = PBXBuildFile; fileRef = C5AC3590163EC0BA00C233FE /* AshtonUtils.h */; };
-		C5AC359C163EC42100C233FE /* AshtonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC359B163EC42100C233FE /* AshtonUtils.m */; };
-		C5AC359D163EC42100C233FE /* AshtonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C5AC359B163EC42100C233FE /* AshtonUtils.m */; };
 		C5AC35A3163ED13700C233FE /* TextEdit Test Document.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C5AC35A2163ED13700C233FE /* TextEdit Test Document.rtf */; };
 		C5DC488F1647F090009FEA27 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5DC488D1647F085009FEA27 /* CoreGraphics.framework */; };
 		C5DC48921647F0D7009FEA27 /* iOSCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5DC48911647F0D7009FEA27 /* iOSCoreTextView.m */; };
@@ -90,8 +84,6 @@
 		C57D6B16164AA5300089E70A /* AshtonHTMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonHTMLReader.m; sourceTree = "<group>"; };
 		C5AC3569163EB26E00C233FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		C5AC356C163EB28900C233FE /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		C5AC3590163EC0BA00C233FE /* AshtonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonUtils.h; sourceTree = "<group>"; };
-		C5AC359B163EC42100C233FE /* AshtonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonUtils.m; sourceTree = "<group>"; };
 		C5AC35A2163ED13700C233FE /* TextEdit Test Document.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "TextEdit Test Document.rtf"; sourceTree = "<group>"; };
 		C5DC488D1647F085009FEA27 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		C5DC48901647F0D7009FEA27 /* iOSCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSCoreTextView.h; sourceTree = "<group>"; };
@@ -188,8 +180,6 @@
 				C51B5D7B16454BB800D2062B /* AshtonTransformer.h */,
 				C57D6ACE164968F00089E70A /* AshtonUIKit.h */,
 				C57D6ACF164968F00089E70A /* AshtonUIKit.m */,
-				C5AC3590163EC0BA00C233FE /* AshtonUtils.h */,
-				C5AC359B163EC42100C233FE /* AshtonUtils.m */,
 			);
 			path = Ashton;
 			sourceTree = "<group>";
@@ -444,7 +434,6 @@
 				C5F7165B163E97CF005B34D1 /* Default@2x.png in Resources */,
 				C5F7165D163E97CF005B34D1 /* Default-568h@2x.png in Resources */,
 				C5F71660163E97CF005B34D1 /* MainStoryboard.storyboard in Resources */,
-				C5AC3591163EC0BA00C233FE /* AshtonUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,7 +442,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F71678163E97CF005B34D1 /* InfoPlist.strings in Resources */,
-				C5AC3592163EC0BA00C233FE /* AshtonUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +453,6 @@
 				C57D6ADC16499E8A0089E70A /* Test1.rtf in Resources */,
 				C5F71694163E97EA005B34D1 /* InfoPlist.strings in Resources */,
 				C5F716A0163E97EA005B34D1 /* MainMenu.xib in Resources */,
-				C5AC3593163EC0BA00C233FE /* AshtonUtils.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,7 +461,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F716B0163E97EA005B34D1 /* InfoPlist.strings in Resources */,
-				C5AC3594163EC0BA00C233FE /* AshtonUtils.h in Resources */,
 				C5AC35A3163ED13700C233FE /* TextEdit Test Document.rtf in Resources */,
 				C57D6ADB16499E810089E70A /* Test1.rtf in Resources */,
 			);
@@ -519,7 +505,6 @@
 				C5F71653163E97CF005B34D1 /* main.m in Sources */,
 				C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */,
 				C5F71666163E97CF005B34D1 /* iOSViewController.m in Sources */,
-				C5AC359C163EC42100C233FE /* AshtonUtils.m in Sources */,
 				C51B5D8116454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */,
 				C51B5D8D164557C900D2062B /* AshtonCoreText.m in Sources */,
 				C5DC48921647F0D7009FEA27 /* iOSCoreTextView.m in Sources */,
@@ -543,7 +528,6 @@
 			files = (
 				C5F71696163E97EA005B34D1 /* main.m in Sources */,
 				C5F7169D163E97EA005B34D1 /* OSXAppDelegate.m in Sources */,
-				C5AC359D163EC42100C233FE /* AshtonUtils.m in Sources */,
 				C51B5D7916454AD300D2062B /* AshtonAppKit.m in Sources */,
 				C51B5D8216454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */,
 				C51B5D8E164557C900D2062B /* AshtonCoreText.m in Sources */,

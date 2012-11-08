@@ -59,7 +59,7 @@
                 BOOL traitBold = [scanner scanString:@"bold " intoString:NULL];
                 BOOL traitItalic = [scanner scanString:@"italic " intoString:NULL];
                 NSInteger pointSize; [scanner scanInteger:&pointSize];
-                [scanner scanString:@"pt " intoString:NULL];
+                [scanner scanString:@"px " intoString:NULL];
                 [scanner scanString:@"\"" intoString:NULL];
                 NSString *familyName; [scanner scanUpToString:@"\"" intoString:&familyName];
                 attrs[@"font"] = @{ @"traitBold": @(traitBold), @"traitItalic": @(traitItalic), @"familyName": familyName, @"pointSize": @(pointSize) };
