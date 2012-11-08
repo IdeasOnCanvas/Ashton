@@ -115,13 +115,15 @@
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
     if ([elementName isEqual:@"html"]) return;
+    if (self.output.length > 0) {
+        if ([elementName isEqual:@"p"]) [self.output appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+    }
     [self.styleStack addObject:[self attributesForStyleString:attributeDict[@"style"] href:attributeDict[@"href"]]];
     NSLog(@"<%@ %@>", elementName, attributeDict[@"style"]);
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
     if ([elementName isEqual:@"html"]) return;
-    if ([elementName isEqual:@"p"]) [self.output appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
     [self.styleStack removeLastObject];
     NSLog(@"</%@>", elementName);
 }
