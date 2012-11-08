@@ -148,7 +148,7 @@
     if ([attrName isEqual:@"underline"]) {
         styles[@"text-decoration"] = @"underline";
 
-        if ([attr isEqual:@"single"]) styles[@"-cocoa-underline"] = @"underline";
+        if ([attr isEqual:@"single"]) styles[@"-cocoa-underline"] = @"single";
         if ([attr isEqual:@"thick"]) styles[@"-cocoa-underline"] = @"thick";
         if ([attr isEqual:@"double"]) styles[@"-cocoa-underline"] = @"double";
     }
@@ -162,7 +162,7 @@
     if ([attrName isEqual:@"strikethrough"]) {
         styles[@"text-decoration"] = @"line-through";
 
-        if ([attr isEqual:@"single"]) styles[@"-cocoa-strikethrough"] = @"underline";
+        if ([attr isEqual:@"single"]) styles[@"-cocoa-strikethrough"] = @"single";
         if ([attr isEqual:@"thick"]) styles[@"-cocoa-strikethrough"] = @"thick";
         if ([attr isEqual:@"double"]) styles[@"-cocoa-strikethrough"] = @"double";
     }
