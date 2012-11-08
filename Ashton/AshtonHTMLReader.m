@@ -34,7 +34,7 @@
     }
 
     if (styleString) {
-    NSScanner *scanner = [NSScanner scannerWithString:styleString];
+        NSScanner *scanner = [NSScanner scannerWithString:styleString];
         while (![scanner isAtEnd]) {
             NSString *key;
             NSString *value;
@@ -45,6 +45,26 @@
             [scanner scanUpToString:@";" intoString:&value];
             [scanner scanString:@";" intoString:NULL];
             [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
+            if ([key isEqual:@"text-align"]) {
+                // produces: paragraph.text-align
+                NSMutableDictionary *paragraphAttrs = attrs[@"paragraph"];
+                if (!paragraphAttrs) paragraphAttrs = attrs[@"paragraph"] = [NSMutableDictionary dictionary];
+
+                if ([value isEqual:@"left"]) paragraphAttrs[@"textAlignment"] = @"left";
+                if ([value isEqual:@"right"]) paragraphAttrs[@"textAlignment"] = @"right";
+                if ([value isEqual:@"center"]) paragraphAttrs[@"textAlignment"] = @"center";
+            }
+            if ([key isEqual:@"font"]) {
+                // produces: font
+                NSScanner *scanner = [NSScanner scannerWithString:value];
+                BOOL traitBold = [scanner scanString:@"bold " intoString:NULL];
+                BOOL traitItalic = [scanner scanString:@"italic " intoString:NULL];
+                NSInteger pointSize; [scanner scanInteger:&pointSize];
+                [scanner scanString:@"pt " intoString:NULL];
+                [scanner scanString:@"\"" intoString:NULL];
+                NSString *familyName; [scanner scanUpToString:@"\"" intoString:&familyName];
+                attrs[@"font"] = @{ @"traitBold": @(traitBold), @"traitItalic": @(traitItalic), @"familyName": familyName, @"pointSize": @(pointSize) };
+            }
 
             if ([key isEqual:@"-cocoa-underline"]) {
                 // produces: underline
