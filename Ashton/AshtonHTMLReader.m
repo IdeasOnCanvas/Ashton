@@ -19,7 +19,6 @@
     [stringToParse appendString:@"<html>"];
     [stringToParse appendString:htmlString];
     [stringToParse appendString:@"</html>"];
-    NSLog(@"%@", stringToParse);
     self.parser = [[NSXMLParser alloc] initWithData:[stringToParse dataUsingEncoding:NSUTF8StringEncoding]];
     self.parser.delegate = self;
     [self.parser parse];
@@ -90,7 +89,6 @@
                 // produces: strikethroughColor
                 attrs[@"strikethroughColor"] = [self colorForCSS:value];
             }
-            NSLog(@"%@: %@", key, value);
         }
     }
 
@@ -119,13 +117,11 @@
         if ([elementName isEqual:@"p"]) [self.output appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
     }
     [self.styleStack addObject:[self attributesForStyleString:attributeDict[@"style"] href:attributeDict[@"href"]]];
-    NSLog(@"<%@ %@>", elementName, attributeDict[@"style"]);
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
     if ([elementName isEqual:@"html"]) return;
     [self.styleStack removeLastObject];
-    NSLog(@"</%@>", elementName);
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
