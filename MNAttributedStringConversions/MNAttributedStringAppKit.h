@@ -1,4 +1,8 @@
-@protocol AshtonTransformer
+#import "MNAttributedStringConverter.h"
+
+@interface MNAttributedStringAppKit : NSObject < MNAttributedStringConverter >
+
++ (instancetype)shared;
 
 - (NSAttributedString *)intermediateRepresentationWithTargetRepresentation:(NSAttributedString *)input;
 - (NSAttributedString *)targetRepresentationWithIntermediateRepresentation:(NSAttributedString *)input;

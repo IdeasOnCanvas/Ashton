@@ -1,12 +1,12 @@
-#import "AshtonAppKit.h"
+#import "MNAttributedStringAppKit.h"
 
-@implementation AshtonAppKit
+@implementation MNAttributedStringAppKit
 
 + (instancetype)shared {
     static dispatch_once_t onceToken;
-    static AshtonAppKit *sharedInstance;
+    static MNAttributedStringAppKit *sharedInstance;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[AshtonAppKit alloc] init];
+        sharedInstance = [[MNAttributedStringAppKit alloc] init];
     });
     return sharedInstance;
 }

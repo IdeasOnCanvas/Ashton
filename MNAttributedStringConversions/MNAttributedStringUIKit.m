@@ -1,12 +1,12 @@
-#import "AshtonUIKit.h"
+#import "MNAttributedStringUIKit.h"
 
-@implementation AshtonUIKit
+@implementation MNAttributedStringUIKit
 
 + (instancetype)shared {
     static dispatch_once_t onceToken;
-    static AshtonUIKit *sharedInstance;
+    static MNAttributedStringUIKit *sharedInstance;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[AshtonUIKit alloc] init];
+        sharedInstance = [[MNAttributedStringUIKit alloc] init];
     });
     return sharedInstance;
 }

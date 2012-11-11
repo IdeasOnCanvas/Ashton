@@ -1,4 +1,4 @@
-@interface NSAttributedString (Ashton)
+@interface NSAttributedString (MNAttributedStringConversions)
 
 #if TARGET_OS_IPHONE
 - (NSAttributedString *)intermediateAttributedStringWithUIKitAttributes;

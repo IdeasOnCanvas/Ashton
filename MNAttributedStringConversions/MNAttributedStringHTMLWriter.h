@@ -1,4 +1,4 @@
-@interface AshtonHTMLWriter : NSObject
+@interface MNAttributedStringHTMLWriter : NSObject
 
 + (instancetype)shared;
 

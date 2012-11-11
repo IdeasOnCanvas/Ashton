@@ -1,8 +1,4 @@
-#import "AshtonTransformer.h"
-
-@interface AshtonCoreText : NSObject < AshtonTransformer >
-
-+ (instancetype)shared;
+@protocol MNAttributedStringConverter
 
 - (NSAttributedString *)intermediateRepresentationWithTargetRepresentation:(NSAttributedString *)input;
 - (NSAttributedString *)targetRepresentationWithIntermediateRepresentation:(NSAttributedString *)input;

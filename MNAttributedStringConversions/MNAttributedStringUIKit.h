@@ -1,6 +1,6 @@
-#import "AshtonTransformer.h"
+#import "MNAttributedStringConverter.h"
 
-@interface AshtonUIKit : NSObject < AshtonTransformer >
+@interface MNAttributedStringUIKit : NSObject < MNAttributedStringConverter >
 
 + (instancetype)shared;
 

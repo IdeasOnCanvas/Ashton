@@ -1,4 +1,4 @@
-Attributed String HTML Transformation
+MNAttributedStringConversions
 ==========================
 
-(De)serializes NSAttributedStrings on OS X, iOS 5 and iOS 6 as HTML.
+Convertes NSAttributedStrings between AppKit, CoreText, UIKit and HTML.

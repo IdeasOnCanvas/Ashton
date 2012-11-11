@@ -1,17 +1,17 @@
-#import "AshtonCoreText.h"
+#import "MNAttributedStringCoreText.h"
 #import <CoreText/CoreText.h>
 
-@interface AshtonCoreText ()
+@interface MNAttributedStringCoreText ()
 @property (nonatomic, readonly) NSArray *attributesToPreserve;
 @end
 
-@implementation AshtonCoreText
+@implementation MNAttributedStringCoreText
 
 + (instancetype)shared {
     static dispatch_once_t onceToken;
-    static AshtonCoreText *sharedInstance;
+    static MNAttributedStringCoreText *sharedInstance;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[AshtonCoreText alloc] init];
+        sharedInstance = [[MNAttributedStringCoreText alloc] init];
     });
     return sharedInstance;
 }
