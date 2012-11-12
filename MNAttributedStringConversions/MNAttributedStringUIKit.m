@@ -24,7 +24,57 @@
 }
 
 - (NSAttributedString *)intermediateRepresentationWithTargetRepresentation:(NSAttributedString *)input {
-    return [[NSAttributedString alloc] init];
+    NSMutableAttributedString *output = [input mutableCopy];
+    NSRange totalRange = NSMakeRange (0, input.length);
+    [input enumerateAttributesInRange:totalRange options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+        NSMutableDictionary *newAttrs = [NSMutableDictionary dictionaryWithCapacity:[attrs count]];
+        for (id attrName in attrs) {
+            id attr = attrs[attrName];
+            if ([attrName isEqual:NSParagraphStyleAttributeName]) {
+                // produces: paragraph
+                NSParagraphStyle *paragraphStyle = attr;
+                NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
+
+                if (paragraphStyle.alignment == NSTextAlignmentLeft) attrDict[@"textAlignment"] = @"left";
+                if (paragraphStyle.alignment == NSTextAlignmentRight) attrDict[@"textAlignment"] = @"right";
+                if (paragraphStyle.alignment == NSTextAlignmentCenter) attrDict[@"textAlignment"] = @"center";
+                newAttrs[@"paragraph"] = attrDict;
+            }
+            if ([attrName isEqual:NSFontAttributeName]) {
+                // produces: font
+                UIFont *font = attr;
+                NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
+
+                CTFontRef ctFont = CTFontCreateWithName((__bridge CFStringRef)font.fontName, font.pointSize, NULL);
+                CTFontSymbolicTraits symbolicTraits = CTFontGetSymbolicTraits(ctFont);
+                if ((symbolicTraits & kCTFontTraitBold) == kCTFontTraitBold) attrDict[@"traitBold"] = @(YES);
+                if ((symbolicTraits & kCTFontTraitItalic) == kCTFontTraitItalic) attrDict[@"traitItalic"] = @(YES);
+
+                attrDict[@"pointSize"] = @(font.pointSize);
+                attrDict[@"familyName"] = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontFamilyNameKey));
+                newAttrs[@"font"] = attrDict;
+            }
+            if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
+                // produces: underline
+                if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[@"underline"] = @"single";
+            }
+            if ([attrName isEqual:NSForegroundColorAttributeName]) {
+                // produces: color
+                newAttrs[@"color"] = [self arrayForColor:attr];
+            }
+        }
+        // after going through all UIKit attributes copy back the preserved attributes, but only if they don't exist already
+        // we don't want to overwrite settings that were assigned by UIKit with our preserved attributes
+        for (id attrName in attrs) {
+            id attr = attrs[attrName];
+            if ([self.attributesToPreserve containsObject:attrName]) {
+                if(!newAttrs[attrName]) newAttrs[attrName] = attr;
+            }
+        }
+        [output setAttributes:newAttrs range:range];
+    }];
+
+    return output;
 }
 
 - (NSAttributedString *)targetRepresentationWithIntermediateRepresentation:(NSAttributedString *)input {

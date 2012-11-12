@@ -5,8 +5,6 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
     self.intermediateAS = [self readAttributedStringFromHTMLFile:@"Test1"];
-    self.coreTextAS = [NSAttributedString attributedStringWithCoreTextAttributes:self.intermediateAS];
-    self.UIKitAS = [NSAttributedString attributedStringWithUIKitAttributes:self.intermediateAS];
 }
 
 - (NSAttributedString *)readAttributedStringFromHTMLFile:(NSString *)name {
