@@ -13,6 +13,8 @@
 		C51B5D8D164557C900D2062B /* MNAttributedStringCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* MNAttributedStringCoreText.m */; };
 		C51B5D8E164557C900D2062B /* MNAttributedStringCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* MNAttributedStringCoreText.m */; };
 		C51B5D91164567A000D2062B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C51B5D8F1645679700D2062B /* CoreText.framework */; };
+		C54BA90C1651613200D057E7 /* Test1.html in Resources */ = {isa = PBXBuildFile; fileRef = C54BA90A1651613200D057E7 /* Test1.html */; };
+		C54BA90D1651613200D057E7 /* TextEdit Test Document.html in Resources */ = {isa = PBXBuildFile; fileRef = C54BA90B1651613200D057E7 /* TextEdit Test Document.html */; };
 		C57D6AD0164968F00089E70A /* MNAttributedStringUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C57D6ACF164968F00089E70A /* MNAttributedStringUIKit.m */; };
 		C57D6AD416496D280089E70A /* MNAttributedStringHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C57D6AD316496D280089E70A /* MNAttributedStringHTMLWriter.m */; };
 		C57D6AD516496D280089E70A /* MNAttributedStringHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C57D6AD316496D280089E70A /* MNAttributedStringHTMLWriter.m */; };
@@ -75,6 +77,8 @@
 		C51B5D8B164557C900D2062B /* MNAttributedStringCoreText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNAttributedStringCoreText.h; sourceTree = "<group>"; };
 		C51B5D8C164557C900D2062B /* MNAttributedStringCoreText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNAttributedStringCoreText.m; sourceTree = "<group>"; };
 		C51B5D8F1645679700D2062B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		C54BA90A1651613200D057E7 /* Test1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Test1.html; sourceTree = "<group>"; };
+		C54BA90B1651613200D057E7 /* TextEdit Test Document.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "TextEdit Test Document.html"; sourceTree = "<group>"; };
 		C57D6ACE164968F00089E70A /* MNAttributedStringUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNAttributedStringUIKit.h; sourceTree = "<group>"; };
 		C57D6ACF164968F00089E70A /* MNAttributedStringUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNAttributedStringUIKit.m; sourceTree = "<group>"; };
 		C57D6AD216496D280089E70A /* MNAttributedStringHTMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNAttributedStringHTMLWriter.h; sourceTree = "<group>"; };
@@ -247,6 +251,8 @@
 		C5F7164D163E97CF005B34D1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C54BA90A1651613200D057E7 /* Test1.html */,
+				C54BA90B1651613200D057E7 /* TextEdit Test Document.html */,
 				C5F7164E163E97CF005B34D1 /* iOSExample-Info.plist */,
 				C5F7164F163E97CF005B34D1 /* InfoPlist.strings */,
 				C5F71652163E97CF005B34D1 /* main.m */,
@@ -434,6 +440,8 @@
 				C5F7165B163E97CF005B34D1 /* Default@2x.png in Resources */,
 				C5F7165D163E97CF005B34D1 /* Default-568h@2x.png in Resources */,
 				C5F71660163E97CF005B34D1 /* MainStoryboard.storyboard in Resources */,
+				C54BA90C1651613200D057E7 /* Test1.html in Resources */,
+				C54BA90D1651613200D057E7 /* TextEdit Test Document.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

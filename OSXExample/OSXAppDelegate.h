@@ -7,5 +7,6 @@
 @property (nonatomic, assign) IBOutlet NSTextView *appKitTextView;
 @property (nonatomic, assign) IBOutlet NSTextView *sourceTextView;
 @property (nonatomic, assign) IBOutlet NSTextView *appKitAgainTextView;
+- (IBAction)convertAppKitRTFIntoHTML:(id)sender;
 
 @end

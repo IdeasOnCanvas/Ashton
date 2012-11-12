@@ -20,9 +20,24 @@
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:name ofType:@"rtf"];
+    return [self readAttributedStringFromRTFPath:path];
+}
+
+- (NSAttributedString *)readAttributedStringFromRTFPath:(NSString *)path {
     NSTextView *text = [[NSTextView alloc] init];
     [text readRTFDFromFile:path];
     return [text attributedString];
+}
+
+- (IBAction)convertAppKitRTFIntoHTML:(id)sender {
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    if ([openPanel runModal] != NSFileHandlingPanelOKButton) return;
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    if ([savePanel runModal] != NSFileHandlingPanelOKButton) return;
+
+    NSAttributedString *appKitString = [self readAttributedStringFromRTFPath:[openPanel.URL path]];
+    NSString *html = [[appKitString intermediateAttributedStringWithAppKitAttributes] HTMLRepresentation];
+    [html writeToURL:savePanel.URL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 }
 
 @end
