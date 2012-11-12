@@ -58,6 +58,10 @@
                 // produces: underline
                 if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[@"underline"] = @"single";
             }
+            if ([attrName isEqual:NSStrikethroughStyleAttributeName]) {
+                // produces: strikthrough
+                if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[@"strikethrough"] = @"single";
+            }
             if ([attrName isEqual:NSForegroundColorAttributeName]) {
                 // produces: color
                 newAttrs[@"color"] = [self arrayForColor:attr];
