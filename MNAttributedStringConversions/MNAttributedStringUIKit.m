@@ -12,11 +12,11 @@
 }
 
 - (NSAttributedString *)intermediateRepresentationWithTargetRepresentation:(NSAttributedString *)input {
-    return nil;
+    return [[NSAttributedString alloc] init];
 }
 
 - (NSAttributedString *)targetRepresentationWithIntermediateRepresentation:(NSAttributedString *)input {
-    return nil;
+    return [[NSAttributedString alloc] init];
 }
 
 @end
