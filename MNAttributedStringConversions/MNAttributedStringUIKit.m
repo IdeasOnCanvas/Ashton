@@ -18,7 +18,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        _attributesToPreserve = @[ @"link", @"strikethrough", @"strikthroughColor", @"underline", @"underlineColor", @"verticalAlign" ];
+        _attributesToPreserve = @[ @"link", @"strikthroughColor", @"underlineColor", @"verticalAlign" ];
     }
     return self;
 }
@@ -71,9 +71,13 @@
             if ([attrName isEqual:@"underline"]) {
                 // consumes: underline
                 if ([attr isEqual:@"single"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqual:@"double"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqual:@"thick"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
             }
             if ([attrName isEqual:@"strikethrough"]) {
                 if ([attr isEqual:@"single"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqual:@"double"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqual:@"thick"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
             }
             if ([attrName isEqual:@"color"]) {
                 // consumes: color
