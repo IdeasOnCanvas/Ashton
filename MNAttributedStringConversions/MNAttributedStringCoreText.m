@@ -109,8 +109,16 @@
                 // consumes: font
                 NSDictionary *attrDict = attr;
                 CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes(CFBridgingRetain(@{
-                                                                                                       (id)kCTFontNameAttribute: attrDict[@"familyName"],
+                                                                                                       (id)kCTFontNameAttribute:attrDict[@"familyName"],
                                                                                                        }));
+                if (attrDict[@"features"]) {
+                    NSMutableArray *fontFeatures = [NSMutableArray array];
+                    for (NSArray *feature in attrDict[@"features"]) {
+                        [fontFeatures addObject:@{(id)kCTFontFeatureTypeIdentifierKey:feature[0], (id)kCTFontFeatureSelectorIdentifierKey:feature[1]}];
+                    }
+                    descriptor = CTFontDescriptorCreateCopyWithAttributes(descriptor, CFBridgingRetain(@{(id)kCTFontFeaturesAttribute:fontFeatures}));
+                }
+
                 CTFontRef font = CTFontCreateWithFontDescriptor(descriptor, [attrDict[@"pointSize"] doubleValue], NULL);
 
                 CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail

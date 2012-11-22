@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C5164BBA165E782A0079F4A9 /* Typography.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C5164BB9165E782A0079F4A9 /* Typography.rtf */; };
+		C5164BBD165E86DB0079F4A9 /* isolated.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C5164BBC165E86DB0079F4A9 /* isolated.rtf */; };
 		C51B5D7916454AD300D2062B /* MNAttributedStringAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D7816454AD300D2062B /* MNAttributedStringAppKit.m */; };
 		C51B5D8116454F8C00D2062B /* NSAttributedString+MNAttributedStringConversions.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8016454F8C00D2062B /* NSAttributedString+MNAttributedStringConversions.m */; };
 		C51B5D8216454F8C00D2062B /* NSAttributedString+MNAttributedStringConversions.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8016454F8C00D2062B /* NSAttributedString+MNAttributedStringConversions.m */; };
@@ -70,6 +72,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C5164BB9165E782A0079F4A9 /* Typography.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Typography.rtf; sourceTree = "<group>"; };
+		C5164BBC165E86DB0079F4A9 /* isolated.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = isolated.rtf; sourceTree = "<group>"; };
 		C51B5D7716454AD300D2062B /* MNAttributedStringAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNAttributedStringAppKit.h; sourceTree = "<group>"; };
 		C51B5D7816454AD300D2062B /* MNAttributedStringAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MNAttributedStringAppKit.m; sourceTree = "<group>"; };
 		C51B5D7B16454BB800D2062B /* MNAttributedStringConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MNAttributedStringConverter.h; sourceTree = "<group>"; };
@@ -194,6 +198,8 @@
 		C5AC35A4163ED13E00C233FE /* Test Cases */ = {
 			isa = PBXGroup;
 			children = (
+				C5164BBC165E86DB0079F4A9 /* isolated.rtf */,
+				C5164BB9165E782A0079F4A9 /* Typography.rtf */,
 				C57D6ADA16499E810089E70A /* Test1.rtf */,
 				C5AC35A2163ED13700C233FE /* TextEdit Test Document.rtf */,
 			);
@@ -476,6 +482,8 @@
 				C5F716B0163E97EA005B34D1 /* InfoPlist.strings in Resources */,
 				C5AC35A3163ED13700C233FE /* TextEdit Test Document.rtf in Resources */,
 				C57D6ADB16499E810089E70A /* Test1.rtf in Resources */,
+				C5164BBA165E782A0079F4A9 /* Typography.rtf in Resources */,
+				C5164BBD165E86DB0079F4A9 /* isolated.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

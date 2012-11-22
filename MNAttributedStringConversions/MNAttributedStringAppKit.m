@@ -32,9 +32,20 @@
                 // produces: font
                 NSFont *font = (NSFont *)attr;
                 NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
-                NSFontSymbolicTraits symbolicTraits = [[font fontDescriptor] symbolicTraits];
+                NSFontDescriptor *fontDescriptor = [font fontDescriptor];
+                NSFontSymbolicTraits symbolicTraits = [fontDescriptor symbolicTraits];
                 if ((symbolicTraits & NSFontBoldTrait) == NSFontBoldTrait) attrDict[@"traitBold"] = @(YES);
                 if ((symbolicTraits & NSFontItalicTrait) == NSFontItalicTrait) attrDict[@"traitItalic"] = @(YES);
+
+                // non-default font feature settings
+                NSArray *fontFeatures = [fontDescriptor objectForKey:NSFontFeatureSettingsAttribute];
+                if (fontFeatures) {
+                    NSMutableSet *featureList = [NSMutableSet set];
+                    for (NSDictionary *feature in fontFeatures) {
+                        [featureList addObject:@[feature[NSFontFeatureTypeIdentifierKey], feature[NSFontFeatureSelectorIdentifierKey]]];
+                    }
+                    attrDict[@"features"] = featureList;
+                }
 
                 attrDict[@"pointSize"] = @(font.pointSize);
                 attrDict[@"familyName"] = font.familyName;
@@ -105,6 +116,14 @@
                 if ([attrDict[@"traitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontBoldTrait;
                 if ([attrDict[@"traitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontItalicTrait;
                 fontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits];
+
+                if (attrDict[@"features"]) {
+                    NSMutableArray *fontFeatures = [NSMutableArray array];
+                    for (NSArray *feature in attrDict[@"features"]) {
+                        [fontFeatures addObject:@{NSFontFeatureTypeIdentifierKey: feature[0], NSFontFeatureSelectorIdentifierKey: feature[1]}];
+                    }
+                    fontDescriptor = [fontDescriptor fontDescriptorByAddingAttributes:@{ NSFontFeatureSettingsAttribute: fontFeatures }];
+                }
 
                 newAttrs[NSFontAttributeName] = [NSFont fontWithDescriptor:fontDescriptor size:[attrDict[@"pointSize"] doubleValue]];
             }
