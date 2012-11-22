@@ -1,17 +1,11 @@
 @interface NSAttributedString (MNAttributedStringConversions)
 
-#if TARGET_OS_IPHONE
-- (NSAttributedString *)intermediateAttributedStringWithUIKitAttributes;
-+ (NSAttributedString *)attributedStringWithUIKitAttributes:(NSAttributedString *)inputWithIntermediateAttributes;
-#else
-- (NSAttributedString *)intermediateAttributedStringWithAppKitAttributes;
-+ (NSAttributedString *)attributedStringWithAppKitAttributes:(NSAttributedString *)inputWithIntermediateAttributes;
-#endif
+// Attributed String with UIKit or AppKit Attributes
+- (NSString *)mn_HTMLRepresentation;
+- (id)mn_initWithHTMLString:(NSString *)htmlString;
 
-- (NSAttributedString *)intermediateAttributedStringWithCoreTextAttributes;
-+ (NSAttributedString *)attributedStringWithCoreTextAttributes:(NSAttributedString *)inputWithIntermediateAttributes;
-
-- (NSString *)HTMLRepresentation;
-+ (NSAttributedString *)intermediateAttributedStringFromHTML:(NSString *)htmlString;
+// Attributed String with CT Attributes
+- (NSString *)mn_HTMLRepresentationFromCoreTextAttributes;
+- (id)mn_initWithCoreTextAttributesFromHTMLString:(NSString *)htmlString;
 
 @end

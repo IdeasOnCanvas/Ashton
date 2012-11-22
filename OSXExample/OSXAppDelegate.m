@@ -1,42 +1,49 @@
 #import "OSXAppDelegate.h"
 #import "NSAttributedString+MNAttributedStringConversions.h"
+#import "MNAttributedStringHTMLReader.h"
+#import "MNAttributedStringAppKit.h"
+#import "MNAttributedStringCoreText.h"
 
 @implementation OSXAppDelegate
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
     NSAttributedString *source = [self readAttributedStringFromRTFFile:@"Test1"];
-    NSAttributedString *intermediate = [NSAttributedString intermediateAttributedStringFromHTML:[[source intermediateAttributedStringWithAppKitAttributes] HTMLRepresentation]];
+    NSAttributedString *intermediate = [[MNAttributedStringHTMLReader HTMLReader] attributedStringFromHTMLString:[source mn_HTMLRepresentation]];
 
     self.sourceTextView.textStorage.attributedString = source;
-    self.appKitTextView.textStorage.attributedString = [NSAttributedString attributedStringWithAppKitAttributes:intermediate];
-    self.coreTextView.attributedString = [NSAttributedString attributedStringWithCoreTextAttributes:intermediate];
+    self.appKitTextView.textStorage.attributedString = [[MNAttributedStringAppKit shared] targetRepresentationWithIntermediateRepresentation:intermediate];
+    self.coreTextView.attributedString = [[MNAttributedStringCoreText shared] targetRepresentationWithIntermediateRepresentation:intermediate];
 
-    NSAttributedString *coreTextAndBackToIntermediate = [[NSAttributedString attributedStringWithCoreTextAttributes:intermediate] intermediateAttributedStringWithCoreTextAttributes];
-    self.appKitAgainTextView.textStorage.attributedString = [NSAttributedString attributedStringWithAppKitAttributes:coreTextAndBackToIntermediate];
+    NSAttributedString *coreTextAndBackToIntermediate = [[MNAttributedStringCoreText shared] intermediateRepresentationWithTargetRepresentation:self.coreTextView.attributedString];
+    self.appKitAgainTextView.textStorage.attributedString = [[MNAttributedStringAppKit shared] targetRepresentationWithIntermediateRepresentation:coreTextAndBackToIntermediate];
 
     NSString *desktopPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    [[intermediate HTMLRepresentation] writeToFile:[desktopPath stringByAppendingPathComponent:@"test.html"] atomically:YES encoding:NSUnicodeStringEncoding error:nil];
+    [[intermediate mn_HTMLRepresentation] writeToFile:[desktopPath stringByAppendingPathComponent:@"test.html"] atomically:YES encoding:NSUnicodeStringEncoding error:nil];
 }
 
-- (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name {
+- (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name
+{
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:name ofType:@"rtf"];
     return [self readAttributedStringFromRTFPath:path];
 }
 
-- (NSAttributedString *)readAttributedStringFromRTFPath:(NSString *)path {
+- (NSAttributedString *)readAttributedStringFromRTFPath:(NSString *)path
+{
     NSTextView *text = [[NSTextView alloc] init];
     [text readRTFDFromFile:path];
     return [text attributedString];
 }
 
-- (IBAction)convertAppKitRTFIntoHTML:(id)sender {
+- (IBAction)convertAppKitRTFIntoHTML:(id)sender
+{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     if ([openPanel runModal] != NSFileHandlingPanelOKButton) return;
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     if ([savePanel runModal] != NSFileHandlingPanelOKButton) return;
 
     NSAttributedString *appKitString = [self readAttributedStringFromRTFPath:[openPanel.URL path]];
-    NSString *html = [[appKitString intermediateAttributedStringWithAppKitAttributes] HTMLRepresentation];
+    NSString *html = [appKitString mn_HTMLRepresentation];
     [html writeToURL:savePanel.URL atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 }
 

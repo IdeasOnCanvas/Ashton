@@ -1,5 +1,5 @@
 #import "iOSUIKitTextViewController.h"
-#import "NSAttributedString+MNAttributedStringConversions.h"
+#import "MNAttributedStringUIKit.h"
 #import "iOSAppDelegate.h"
 
 @interface iOSUIKitTextViewController ()
@@ -10,12 +10,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     NSAttributedString *intermediate = ((iOSAppDelegate *)[[UIApplication sharedApplication] delegate]).intermediateAS;
-    self.textView.attributedText = [NSAttributedString attributedStringWithUIKitAttributes:intermediate];
+    self.textView.attributedText = [[MNAttributedStringUIKit shared] targetRepresentationWithIntermediateRepresentation:intermediate];
     [super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    NSAttributedString *intermediate = [self.textView.attributedText intermediateAttributedStringWithUIKitAttributes];
+    NSAttributedString *intermediate = [[MNAttributedStringUIKit shared] intermediateRepresentationWithTargetRepresentation:self.textView.attributedText];
     ((iOSAppDelegate *)[[UIApplication sharedApplication] delegate]).intermediateAS = intermediate;
     [super viewWillDisappear:animated];
 }

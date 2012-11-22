@@ -10,35 +10,39 @@
 
 @implementation NSAttributedString (MNAttributedStringConversions)
 
+- (NSString *)mn_HTMLRepresentation
+{
 #if TARGET_OS_IPHONE
-- (NSAttributedString *)intermediateAttributedStringWithUIKitAttributes {
-    return [[MNAttributedStringUIKit shared] intermediateRepresentationWithTargetRepresentation:self];
-}
-+ (NSAttributedString *)attributedStringWithUIKitAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
-    return [[MNAttributedStringUIKit shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
-}
+	NSAttributedString *attString = [[MNAttributedStringUIKit shared] intermediateRepresentationWithTargetRepresentation:self];
 #else
-- (NSAttributedString *)intermediateAttributedStringWithAppKitAttributes {
-    return [[MNAttributedStringAppKit shared] intermediateRepresentationWithTargetRepresentation:self];
-}
-+ (NSAttributedString *)attributedStringWithAppKitAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
-    return [[MNAttributedStringAppKit shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
-}
+	NSAttributedString *attString = [[MNAttributedStringAppKit shared] intermediateRepresentationWithTargetRepresentation:self];
 #endif
-
-- (NSAttributedString *)intermediateAttributedStringWithCoreTextAttributes {
-    return [[MNAttributedStringCoreText shared] intermediateRepresentationWithTargetRepresentation:self];
-}
-+ (NSAttributedString *)attributedStringWithCoreTextAttributes:(NSAttributedString *)inputWithIntermediateAttributes {
-    return [[MNAttributedStringCoreText shared] targetRepresentationWithIntermediateRepresentation:inputWithIntermediateAttributes];
+	return [[MNAttributedStringHTMLWriter shared] HTMLStringFromAttributedString:attString];
 }
 
-- (NSString *)HTMLRepresentation {
-    return [[MNAttributedStringHTMLWriter shared] HTMLStringFromAttributedString:self];
+- (id)mn_initWithHTMLString:(NSString *)htmlString
+{
+	NSAttributedString *attString = [[MNAttributedStringHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
+#if TARGET_OS_IPHONE
+	attString = [[MNAttributedStringUIKit shared] targetRepresentationWithIntermediateRepresentation:attString];
+#else
+	attString = [[MNAttributedStringAppKit shared] targetRepresentationWithIntermediateRepresentation:attString];
+#endif
+    return [[self class] initWithAttributedString:attString];
 }
 
-+ (NSAttributedString *)intermediateAttributedStringFromHTML:(NSString *)htmlString {
-    return [[MNAttributedStringHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
+
+- (NSString *)mn_HTMLRepresentationFromCoreTextAttributes
+{
+	NSAttributedString *attString = [[MNAttributedStringCoreText shared] intermediateRepresentationWithTargetRepresentation:self];
+	return [[MNAttributedStringHTMLWriter shared] HTMLStringFromAttributedString:attString];
+}
+
+- (id)mn_initWithCoreTextAttributesFromHTMLString:(NSString *)htmlString
+{
+	NSAttributedString *attString = [[MNAttributedStringHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
+	attString = [[MNAttributedStringCoreText shared] targetRepresentationWithIntermediateRepresentation:attString];
+    return [[self class] initWithAttributedString:attString];
 }
 
 @end
