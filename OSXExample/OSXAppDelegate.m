@@ -9,14 +9,14 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     NSAttributedString *source = [self readAttributedStringFromRTFFile:@"Test1"];
-    NSAttributedString *intermediate = [[MNAttributedStringHTMLReader HTMLReader] attributedStringFromHTMLString:[source mn_HTMLRepresentation]];
+    NSAttributedString *intermediate = [[MNAttributedStringHTMLReader sharedInstance] attributedStringFromHTMLString:[source mn_HTMLRepresentation]];
 
     self.sourceTextView.textStorage.attributedString = source;
-    self.appKitTextView.textStorage.attributedString = [[MNAttributedStringAppKit shared] targetRepresentationWithIntermediateRepresentation:intermediate];
-    self.coreTextView.attributedString = [[MNAttributedStringCoreText shared] targetRepresentationWithIntermediateRepresentation:intermediate];
+    self.appKitTextView.textStorage.attributedString = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:intermediate];
+    self.coreTextView.attributedString = [[MNAttributedStringCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:intermediate];
 
-    NSAttributedString *coreTextAndBackToIntermediate = [[MNAttributedStringCoreText shared] intermediateRepresentationWithTargetRepresentation:self.coreTextView.attributedString];
-    self.appKitAgainTextView.textStorage.attributedString = [[MNAttributedStringAppKit shared] targetRepresentationWithIntermediateRepresentation:coreTextAndBackToIntermediate];
+    NSAttributedString *coreTextAndBackToIntermediate = [[MNAttributedStringCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:self.coreTextView.attributedString];
+    self.appKitAgainTextView.textStorage.attributedString = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:coreTextAndBackToIntermediate];
 
     NSString *desktopPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     [[intermediate mn_HTMLRepresentation] writeToFile:[desktopPath stringByAppendingPathComponent:@"test.html"] atomically:YES encoding:NSUnicodeStringEncoding error:nil];

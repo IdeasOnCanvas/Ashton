@@ -7,7 +7,7 @@
 
 @implementation MNAttributedStringUIKit
 
-+ (instancetype)shared {
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static MNAttributedStringUIKit *sharedInstance;
     dispatch_once(&onceToken, ^{

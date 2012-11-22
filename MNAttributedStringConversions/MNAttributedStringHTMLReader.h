@@ -1,6 +1,6 @@
 @interface MNAttributedStringHTMLReader : NSObject < NSXMLParserDelegate >
 
-+ (instancetype)HTMLReader;
++ (instancetype)sharedInstance;
 
 - (NSAttributedString *)attributedStringFromHTMLString:(NSString *)htmlString;
 

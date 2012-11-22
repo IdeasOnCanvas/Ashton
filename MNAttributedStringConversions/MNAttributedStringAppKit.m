@@ -2,7 +2,7 @@
 
 @implementation MNAttributedStringAppKit
 
-+ (instancetype)shared {
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static MNAttributedStringAppKit *sharedInstance;
     dispatch_once(&onceToken, ^{

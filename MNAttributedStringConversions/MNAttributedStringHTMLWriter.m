@@ -2,7 +2,7 @@
 
 @implementation MNAttributedStringHTMLWriter
 
-+ (instancetype)shared {
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static MNAttributedStringHTMLWriter *sharedInstance;
     dispatch_once(&onceToken, ^{

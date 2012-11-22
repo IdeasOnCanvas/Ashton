@@ -8,7 +8,7 @@
 
 @implementation MNAttributedStringHTMLReader
 
-+ (instancetype)HTMLReader {
++ (instancetype)sharedInstance {
     return [[MNAttributedStringHTMLReader alloc] init];
 }
 

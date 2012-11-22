@@ -7,7 +7,7 @@
 
 @implementation MNAttributedStringCoreText
 
-+ (instancetype)shared {
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static MNAttributedStringCoreText *sharedInstance;
     dispatch_once(&onceToken, ^{

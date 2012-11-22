@@ -13,20 +13,20 @@
 - (NSString *)mn_HTMLRepresentation
 {
 #if TARGET_OS_IPHONE
-	NSAttributedString *attString = [[MNAttributedStringUIKit shared] intermediateRepresentationWithTargetRepresentation:self];
+	NSAttributedString *attString = [[MNAttributedStringUIKit sharedInstance] intermediateRepresentationWithTargetRepresentation:self];
 #else
-	NSAttributedString *attString = [[MNAttributedStringAppKit shared] intermediateRepresentationWithTargetRepresentation:self];
+	NSAttributedString *attString = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:self];
 #endif
-	return [[MNAttributedStringHTMLWriter shared] HTMLStringFromAttributedString:attString];
+	return [[MNAttributedStringHTMLWriter sharedInstance] HTMLStringFromAttributedString:attString];
 }
 
 - (id)mn_initWithHTMLString:(NSString *)htmlString
 {
-	NSAttributedString *attString = [[MNAttributedStringHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
+	NSAttributedString *attString = [[MNAttributedStringHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
 #if TARGET_OS_IPHONE
-	attString = [[MNAttributedStringUIKit shared] targetRepresentationWithIntermediateRepresentation:attString];
+	attString = [[MNAttributedStringUIKit sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
 #else
-	attString = [[MNAttributedStringAppKit shared] targetRepresentationWithIntermediateRepresentation:attString];
+	attString = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
 #endif
     return [[self class] initWithAttributedString:attString];
 }
@@ -34,14 +34,14 @@
 
 - (NSString *)mn_HTMLRepresentationFromCoreTextAttributes
 {
-	NSAttributedString *attString = [[MNAttributedStringCoreText shared] intermediateRepresentationWithTargetRepresentation:self];
-	return [[MNAttributedStringHTMLWriter shared] HTMLStringFromAttributedString:attString];
+	NSAttributedString *attString = [[MNAttributedStringCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:self];
+	return [[MNAttributedStringHTMLWriter sharedInstance] HTMLStringFromAttributedString:attString];
 }
 
 - (id)mn_initWithCoreTextAttributesFromHTMLString:(NSString *)htmlString
 {
-	NSAttributedString *attString = [[MNAttributedStringHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
-	attString = [[MNAttributedStringCoreText shared] targetRepresentationWithIntermediateRepresentation:attString];
+	NSAttributedString *attString = [[MNAttributedStringHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
+	attString = [[MNAttributedStringCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
     return [[self class] initWithAttributedString:attString];
 }
 

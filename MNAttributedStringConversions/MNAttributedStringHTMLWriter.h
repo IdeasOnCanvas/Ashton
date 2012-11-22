@@ -1,6 +1,6 @@
 @interface MNAttributedStringHTMLWriter : NSObject
 
-+ (instancetype)shared;
++ (instancetype)sharedInstance;
 
 - (NSString *)HTMLStringFromAttributedString:(NSAttributedString *)input;
 

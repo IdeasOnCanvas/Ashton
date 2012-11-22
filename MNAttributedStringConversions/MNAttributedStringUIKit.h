@@ -2,7 +2,7 @@
 
 @interface MNAttributedStringUIKit : NSObject < MNAttributedStringConverter >
 
-+ (instancetype)shared;
++ (instancetype)sharedInstance;
 
 - (NSAttributedString *)intermediateRepresentationWithTargetRepresentation:(NSAttributedString *)input;
 - (NSAttributedString *)targetRepresentationWithIntermediateRepresentation:(NSAttributedString *)input;
