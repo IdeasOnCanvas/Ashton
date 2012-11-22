@@ -62,7 +62,21 @@
                 [scanner scanString:@"px " intoString:NULL];
                 [scanner scanString:@"\"" intoString:NULL];
                 NSString *familyName; [scanner scanUpToString:@"\"" intoString:&familyName];
-                attrs[@"font"] = @{ @"traitBold": @(traitBold), @"traitItalic": @(traitItalic), @"familyName": familyName, @"pointSize": @(pointSize) };
+
+                attrs[@"font"] = @{ @"traitBold": @(traitBold), @"traitItalic": @(traitItalic), @"familyName": familyName, @"pointSize": @(pointSize), @"features": @[] };
+            }
+            if ([key isEqual:@"-cocoa-font-features"]) {
+                // We expect -cocoa-font-features to only happen after font
+                NSMutableArray *features = [NSMutableArray array];
+
+                NSMutableDictionary *font = [attrs[@"font"] mutableCopy];
+                for (NSString *feature in [value componentsSeparatedByString:@" "]) {
+                    NSArray *values = [feature componentsSeparatedByString:@"/"];
+                    [features addObject:@[@([values[0] intValue]), @([values[1] intValue])]];
+                }
+
+                font[@"features"] = features;
+                attrs[@"font"] = font;
             }
 
             if ([key isEqual:@"-cocoa-underline"]) {

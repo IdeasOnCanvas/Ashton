@@ -143,6 +143,15 @@
         [fontStyle addObject:[NSString stringWithFormat:@"%gpx", [attrDict[@"pointSize"] floatValue]]];
         [fontStyle addObject:[NSString stringWithFormat:@"\"%@\"", attrDict[@"familyName"]]];
         styles[@"font"] = [fontStyle componentsJoinedByString:@" "];
+
+        NSMutableArray *fontFeatures = attrDict[@"features"];
+        if ([fontFeatures count] > 0) {
+            NSMutableArray *features = [NSMutableArray array];
+            for (NSArray *feature in fontFeatures) {
+                [features addObject:[NSString stringWithFormat:@"%@/%@", feature[0], feature[1]]];
+            }
+            styles[@"-cocoa-font-features"] = [features componentsJoinedByString:@" "];
+        }
     }
     if ([attrName isEqual:@"underline"]) {
         styles[@"text-decoration"] = @"underline";

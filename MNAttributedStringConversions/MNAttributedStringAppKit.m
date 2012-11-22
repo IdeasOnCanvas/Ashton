@@ -117,9 +117,10 @@
                 if ([attrDict[@"traitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontItalicTrait;
                 fontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits];
 
-                if (attrDict[@"features"]) {
+                NSSet *features = attrDict[@"features"];
+                if (features) {
                     NSMutableArray *fontFeatures = [NSMutableArray array];
-                    for (NSArray *feature in attrDict[@"features"]) {
+                    for (NSArray *feature in features) {
                         [fontFeatures addObject:@{NSFontFeatureTypeIdentifierKey: feature[0], NSFontFeatureSelectorIdentifierKey: feature[1]}];
                     }
                     fontDescriptor = [fontDescriptor fontDescriptorByAddingAttributes:@{ NSFontFeatureSettingsAttribute: fontFeatures }];
