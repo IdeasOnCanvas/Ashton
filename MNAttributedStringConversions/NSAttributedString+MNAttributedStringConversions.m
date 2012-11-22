@@ -28,7 +28,7 @@
 #else
 	attString = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
 #endif
-    return [[self class] initWithAttributedString:attString];
+    return [self initWithAttributedString:attString];
 }
 
 

@@ -52,6 +52,13 @@
                 if ((symbolicTraits & kCTFontTraitBold) == kCTFontTraitBold) attrDict[@"traitBold"] = @(YES);
                 if ((symbolicTraits & kCTFontTraitItalic) == kCTFontTraitItalic) attrDict[@"traitItalic"] = @(YES);
 
+                NSArray *fontFeatures = CFBridgingRelease(CTFontCopyFeatureSettings(font));
+                NSMutableSet *features = [NSMutableSet set];
+                for (NSDictionary *feature in fontFeatures) {
+                    [features addObject:@[feature[(id)kCTFontFeatureTypeIdentifierKey], feature[(id)kCTFontFeatureSelectorIdentifierKey]]];
+                }
+
+                attrDict[@"features"] = features;
                 attrDict[@"pointSize"] = @(CTFontGetSize(font));
                 attrDict[@"familyName"] = CFBridgingRelease(CTFontCopyName(font, kCTFontFamilyNameKey));
                 newAttrs[@"font"] = attrDict;
@@ -116,7 +123,7 @@
                     for (NSArray *feature in attrDict[@"features"]) {
                         [fontFeatures addObject:@{(id)kCTFontFeatureTypeIdentifierKey:feature[0], (id)kCTFontFeatureSelectorIdentifierKey:feature[1]}];
                     }
-                    descriptor = CTFontDescriptorCreateCopyWithAttributes(descriptor, CFBridgingRetain(@{(id)kCTFontFeaturesAttribute:fontFeatures}));
+                    descriptor = CTFontDescriptorCreateCopyWithAttributes(descriptor, CFBridgingRetain(@{(id)kCTFontFeatureSettingsAttribute:fontFeatures}));
                 }
 
                 CTFontRef font = CTFontCreateWithFontDescriptor(descriptor, [attrDict[@"pointSize"] doubleValue], NULL);

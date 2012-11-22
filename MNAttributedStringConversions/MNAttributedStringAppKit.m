@@ -39,14 +39,14 @@
 
                 // non-default font feature settings
                 NSArray *fontFeatures = [fontDescriptor objectForKey:NSFontFeatureSettingsAttribute];
+                NSMutableSet *features = [NSMutableSet set];
                 if (fontFeatures) {
-                    NSMutableSet *featureList = [NSMutableSet set];
                     for (NSDictionary *feature in fontFeatures) {
-                        [featureList addObject:@[feature[NSFontFeatureTypeIdentifierKey], feature[NSFontFeatureSelectorIdentifierKey]]];
+                        [features addObject:@[feature[NSFontFeatureTypeIdentifierKey], feature[NSFontFeatureSelectorIdentifierKey]]];
                     }
-                    attrDict[@"features"] = featureList;
                 }
 
+                attrDict[@"features"] = features;
                 attrDict[@"pointSize"] = @(font.pointSize);
                 attrDict[@"familyName"] = font.familyName;
                 newAttrs[@"font"] = attrDict;
