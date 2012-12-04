@@ -1,6 +1,6 @@
-#import "MNAttributedStringConverter.h"
+#import "AshtonConverter.h"
 
-@interface MNAttributedStringAppKit : NSObject < MNAttributedStringConverter >
+@interface AshtonCoreText : NSObject < AshtonConverter >
 
 + (instancetype)sharedInstance;
 

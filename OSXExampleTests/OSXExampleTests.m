@@ -1,9 +1,9 @@
 #import "OSXExampleTests.h"
-#import "NSAttributedString+MNAttributedStringConversions.h"
-#import "MNAttributedStringAppKit.h"
-#import "MNAttributedStringCoreText.h"
-#import "MNAttributedStringHTMLWriter.h"
-#import "MNAttributedStringHTMLReader.h"
+#import "NSAttributedString+Ashton.h"
+#import "AshtonAppKit.h"
+#import "AshtonCoreText.h"
+#import "AshtonHTMLWriter.h"
+#import "AshtonHTMLReader.h"
 
 @implementation OSXExampleTests
 
@@ -20,68 +20,68 @@
 }
 
 - (void)testTextEditTestDocument {
-    NSAttributedString *sourceWithIntermediateAttrs = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"TextEdit Test Document"]];
+    NSAttributedString *sourceWithIntermediateAttrs = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"TextEdit Test Document"]];
 
     NSAttributedString *transformed, *roundtripped;
 
-    transformed = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
-    roundtripped = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
+    transformed = [[AshtonAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
+    roundtripped = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from AppKit representation");
 
-    transformed = [[MNAttributedStringCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
-    roundtripped = [[MNAttributedStringCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
+    transformed = [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
+    roundtripped = [[AshtonCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from CoreText representation");
 }
 
 - (void)testTest1 {
-    NSAttributedString *sourceWithIntermediateAttrs = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"Test1"]];
+    NSAttributedString *sourceWithIntermediateAttrs = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"Test1"]];
 
     NSAttributedString *transformed, *roundtripped;
 
-    transformed = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
-    roundtripped = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
+    transformed = [[AshtonAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
+    roundtripped = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from AppKit representation");
 
-    transformed = [[MNAttributedStringCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
-    roundtripped = [[MNAttributedStringCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
+    transformed = [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
+    roundtripped = [[AshtonCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from CoreText representation");
 }
 
 - (void)testTypography {
-    NSAttributedString *sourceWithIntermediateAttrs = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"Typography"]];
+    NSAttributedString *sourceWithIntermediateAttrs = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"Typography"]];
 
     NSAttributedString *transformed, *roundtripped;
 
-    transformed = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
-    roundtripped = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
+    transformed = [[AshtonAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
+    roundtripped = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from AppKit representation");
 
-    transformed = [[MNAttributedStringCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
-    roundtripped = [[MNAttributedStringCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
+    transformed = [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
+    roundtripped = [[AshtonCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from CoreText representation");
 }
 
 - (void)testIsolated {
-    NSAttributedString *sourceWithIntermediateAttrs = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"isolated"]];
+    NSAttributedString *sourceWithIntermediateAttrs = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"isolated"]];
 
     NSAttributedString *transformed, *roundtripped;
 
-    transformed = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
-    roundtripped = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
+    transformed = [[AshtonAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
+    roundtripped = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from AppKit representation");
 
-    transformed = [[MNAttributedStringCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
-    roundtripped = [[MNAttributedStringCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
+    transformed = [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:sourceWithIntermediateAttrs];
+    roundtripped = [[AshtonCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:transformed];
     STAssertEqualObjects(sourceWithIntermediateAttrs, roundtripped, @"Converting to/from CoreText representation");
 }
 
 - (void)testHTML {
-    NSAttributedString *source = [[MNAttributedStringAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"Test1"]];
+    NSAttributedString *source = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"Test1"]];
 
-    NSString *htmlString = [[MNAttributedStringHTMLWriter sharedInstance] HTMLStringFromAttributedString:source];
-    NSAttributedString *intermediate = [[MNAttributedStringHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
-    htmlString = [[MNAttributedStringHTMLWriter sharedInstance] HTMLStringFromAttributedString:intermediate];
-    NSAttributedString *back = [[MNAttributedStringHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
+    NSString *htmlString = [[AshtonHTMLWriter sharedInstance] HTMLStringFromAttributedString:source];
+    NSAttributedString *intermediate = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
+    htmlString = [[AshtonHTMLWriter sharedInstance] HTMLStringFromAttributedString:intermediate];
+    NSAttributedString *back = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
 
     STAssertEqualObjects(back, intermediate, @"Converting to/from HTML");
 }

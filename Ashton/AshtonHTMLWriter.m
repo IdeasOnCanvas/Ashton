@@ -1,12 +1,12 @@
-#import "MNAttributedStringHTMLWriter.h"
+#import "AshtonHTMLWriter.h"
 
-@implementation MNAttributedStringHTMLWriter
+@implementation AshtonHTMLWriter
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
-    static MNAttributedStringHTMLWriter *sharedInstance;
+    static AshtonHTMLWriter *sharedInstance;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[MNAttributedStringHTMLWriter alloc] init];
+        sharedInstance = [[AshtonHTMLWriter alloc] init];
     });
     return sharedInstance;
 }

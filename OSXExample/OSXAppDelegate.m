@@ -1,22 +1,22 @@
 #import "OSXAppDelegate.h"
-#import "NSAttributedString+MNAttributedStringConversions.h"
-#import "MNAttributedStringHTMLReader.h"
-#import "MNAttributedStringAppKit.h"
-#import "MNAttributedStringCoreText.h"
+#import "NSAttributedString+Ashton.h"
+#import "AshtonHTMLReader.h"
+#import "AshtonAppKit.h"
+#import "AshtonCoreText.h"
 
 @implementation OSXAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     NSAttributedString *source = [self readAttributedStringFromRTFFile:@"Test1"];
-    NSAttributedString *intermediate = [[MNAttributedStringHTMLReader sharedInstance] attributedStringFromHTMLString:[source mn_HTMLRepresentation]];
+    NSAttributedString *intermediate = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:[source mn_HTMLRepresentation]];
 
     self.sourceTextView.textStorage.attributedString = source;
-    self.appKitTextView.textStorage.attributedString = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:intermediate];
-    self.coreTextView.attributedString = [[MNAttributedStringCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:intermediate];
+    self.appKitTextView.textStorage.attributedString = [[AshtonAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:intermediate];
+    self.coreTextView.attributedString = [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:intermediate];
 
-    NSAttributedString *coreTextAndBackToIntermediate = [[MNAttributedStringCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:self.coreTextView.attributedString];
-    self.appKitAgainTextView.textStorage.attributedString = [[MNAttributedStringAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:coreTextAndBackToIntermediate];
+    NSAttributedString *coreTextAndBackToIntermediate = [[AshtonCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:self.coreTextView.attributedString];
+    self.appKitAgainTextView.textStorage.attributedString = [[AshtonAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:coreTextAndBackToIntermediate];
 
     NSString *desktopPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     [[intermediate mn_HTMLRepresentation] writeToFile:[desktopPath stringByAppendingPathComponent:@"test.html"] atomically:YES encoding:NSUnicodeStringEncoding error:nil];

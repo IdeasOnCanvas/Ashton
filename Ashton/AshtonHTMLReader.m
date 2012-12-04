@@ -1,15 +1,15 @@
-#import "MNAttributedStringHTMLReader.h"
+#import "AshtonHTMLReader.h"
 
-@interface MNAttributedStringHTMLReader ()
+@interface AshtonHTMLReader ()
 @property (nonatomic, strong) NSXMLParser *parser;
 @property (nonatomic, strong) NSMutableAttributedString *output;
 @property (nonatomic, strong) NSMutableArray *styleStack;
 @end
 
-@implementation MNAttributedStringHTMLReader
+@implementation AshtonHTMLReader
 
 + (instancetype)sharedInstance {
-    return [[MNAttributedStringHTMLReader alloc] init];
+    return [[AshtonHTMLReader alloc] init];
 }
 
 - (NSAttributedString *)attributedStringFromHTMLString:(NSString *)htmlString {

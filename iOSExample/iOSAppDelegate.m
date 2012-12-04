@@ -1,5 +1,5 @@
 #import "iOSAppDelegate.h"
-#import "MNAttributedStringHTMLReader.h"
+#import "AshtonHTMLReader.h"
 
 @implementation iOSAppDelegate
 
@@ -10,7 +10,7 @@
 - (NSAttributedString *)readAttributedStringFromHTMLFile:(NSString *)name {
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:name ofType:@"html"];
     NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
-    return [[MNAttributedStringHTMLReader sharedInstance] attributedStringFromHTMLString:html];
+    return [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:html];
 }
 
 @end

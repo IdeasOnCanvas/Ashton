@@ -1,4 +1,4 @@
-@interface NSAttributedString (MNAttributedStringConversions)
+@interface NSAttributedString (Ashton)
 
 // Attributed String with UIKit or AppKit Attributes
 - (NSString *)mn_HTMLRepresentation;

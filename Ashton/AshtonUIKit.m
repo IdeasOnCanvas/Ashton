@@ -1,17 +1,17 @@
-#import "MNAttributedStringUIKit.h"
+#import "AshtonUIKit.h"
 #import <CoreText/CoreText.h>
 
-@interface MNAttributedStringUIKit ()
+@interface AshtonUIKit ()
 @property (nonatomic, readonly) NSArray *attributesToPreserve;
 @end
 
-@implementation MNAttributedStringUIKit
+@implementation AshtonUIKit
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
-    static MNAttributedStringUIKit *sharedInstance;
+    static AshtonUIKit *sharedInstance;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[MNAttributedStringUIKit alloc] init];
+        sharedInstance = [[AshtonUIKit alloc] init];
     });
     return sharedInstance;
 }
