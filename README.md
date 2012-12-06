@@ -11,9 +11,9 @@ What does it actually do?
 -------------------------
 Ashton has two parts
 
-a) It can convert the attributes of a AppKit, CoreText or UIKit NSAttributedString to and from an intermediate cross-platform Ashton-specific representation. This allows us to convert e.g. AppKit -> Ashton intermediate -> UIKit.
+a) It can convert the attributes of a AppKit, CoreText or UIKit NSAttributedString to and from an intermediate cross-platform Ashton-specific representation. This allows us to convert e.g. AppKit -> Ashton intermediate -> CoreText.
 
-b) It can convert between a NSAttributedString with intermediate attributes and HTML. This allows us to store and load rich text.
+b) It can convert between a NSAttributedString with intermediate attributes and HTML. This allows us to transfer a NSAttributedString between Mac and iOS.
 
 <table>
   <tr>
