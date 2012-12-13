@@ -65,6 +65,8 @@
         currentRange = NSMakeRange(paraStart, contentsEnd - paraStart);
         if (currentRange.length > 0)
             [paragraphs addObject:[input attributedSubstringFromRange:currentRange]];
+        else
+            [paragraphs addObject:[[NSAttributedString alloc] init]];
     }
 
     return paragraphs;
