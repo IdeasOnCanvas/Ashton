@@ -19,7 +19,6 @@
     self.appKitAgainTextView.textStorage.attributedString = [[AshtonAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:coreTextAndBackToIntermediate];
 
     NSString *desktopPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    [[intermediate mn_HTMLRepresentation] writeToFile:[desktopPath stringByAppendingPathComponent:@"test.html"] atomically:YES encoding:NSUnicodeStringEncoding error:nil];
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name
