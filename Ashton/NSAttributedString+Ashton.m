@@ -41,8 +41,7 @@
 - (id)mn_initWithCoreTextAttributesFromHTMLString:(NSString *)htmlString
 {
 	NSAttributedString *attString = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
-	attString = [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
-    return [[self class] initWithAttributedString:attString];
+	return [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
 }
 
 @end
