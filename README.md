@@ -1,7 +1,7 @@
 Ashton
 ==========================
 
-Convertes NSAttributedStrings between AppKit, CoreText, UIKit and HTML.
+Converts NSAttributedStrings between AppKit, CoreText, UIKit and HTML.
 
 What crazy name is that?
 ------------------------
