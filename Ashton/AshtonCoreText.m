@@ -191,7 +191,10 @@
 
 - (id)colorForArray:(NSArray *)input {
     const CGFloat components[] = { [input[0] doubleValue], [input[1] doubleValue], [input[2] doubleValue], [input[3] doubleValue] };
-    return CFBridgingRelease(CGColorCreate(CGColorSpaceCreateDeviceRGB(), components));
+    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+    id color = CFBridgingRelease(CGColorCreate(colorspace, components));
+    CFRelease(colorspace);
+    return color;
 }
 
 @end
