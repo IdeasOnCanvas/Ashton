@@ -35,13 +35,15 @@
     CGPathAddRect(path, NULL, self.bounds);
 
     // Create the framesetter with the attributed string.
-    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(CFBridgingRetain(self.attributedString));
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)(self.attributedString));
 
     // Create the frame and draw it into the graphics context
     CTFrameRef frame = CTFramesetterCreateFrame(framesetter,
                                                 CFRangeMake(0, 0), path, NULL);
-    CFRelease(framesetter);
     CTFrameDraw(frame, context);
+    CFRelease(framesetter);
+    CFRelease(path);
+    CFRelease(frame);
 }
 
 @end

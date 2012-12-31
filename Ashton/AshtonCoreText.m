@@ -115,18 +115,22 @@
             if ([attrName isEqual:@"font"]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
-                CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes(CFBridgingRetain(@{
-                                                                                                       (id)kCTFontNameAttribute:attrDict[@"familyName"],
-                                                                                                       }));
+                NSDictionary *descriptorAttributes = @{ (id)kCTFontNameAttribute:attrDict[@"familyName"] };
+                CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
+
                 if (attrDict[@"features"]) {
                     NSMutableArray *fontFeatures = [NSMutableArray array];
                     for (NSArray *feature in attrDict[@"features"]) {
                         [fontFeatures addObject:@{(id)kCTFontFeatureTypeIdentifierKey:feature[0], (id)kCTFontFeatureSelectorIdentifierKey:feature[1]}];
                     }
-                    descriptor = CTFontDescriptorCreateCopyWithAttributes(descriptor, CFBridgingRetain(@{(id)kCTFontFeatureSettingsAttribute:fontFeatures}));
+                    descriptorAttributes = @{(id)kCTFontFeatureSettingsAttribute:fontFeatures};
+                    CTFontDescriptorRef newDescriptor = CTFontDescriptorCreateCopyWithAttributes(descriptor, (__bridge CFDictionaryRef)(descriptorAttributes));
+                    CFRelease(descriptor);
+                    descriptor = newDescriptor;
                 }
 
                 CTFontRef font = CTFontCreateWithFontDescriptor(descriptor, [attrDict[@"pointSize"] doubleValue], NULL);
+                CFRelease(descriptor);
 
                 CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail
                 if ([attrDict[@"traitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitBold;
@@ -134,7 +138,9 @@
                 if (symbolicTraits != 0) {
                     // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
                     // Is there a better way to detect "no" symbolic traits?
-                    font = CTFontCreateCopyWithSymbolicTraits(font, 0.0, NULL, symbolicTraits, symbolicTraits);
+                    CTFontRef newFont = CTFontCreateCopyWithSymbolicTraits(font, 0.0, NULL, symbolicTraits, symbolicTraits);
+                    CFRelease(font);
+                    font = newFont;
                 }
 
                 newAttrs[(id)kCTFontAttributeName] = CFBridgingRelease(font);

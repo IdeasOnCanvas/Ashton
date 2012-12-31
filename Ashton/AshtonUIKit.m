@@ -52,6 +52,7 @@
 
                 attrDict[@"pointSize"] = @(font.pointSize);
                 attrDict[@"familyName"] = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontFamilyNameKey));
+                CFRelease(ctFont);
                 newAttrs[@"font"] = attrDict;
             }
             if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
@@ -102,10 +103,11 @@
             if ([attrName isEqual:@"font"]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
-                CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes(CFBridgingRetain(@{
-                                                                                                       (id)kCTFontNameAttribute: attrDict[@"familyName"],
-                                                                                                       }));
+
+                NSDictionary *descriptorAttributes = @{ (id)kCTFontNameAttribute: attrDict[@"familyName"] };
+                CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
                 CTFontRef ctFont = CTFontCreateWithFontDescriptor(descriptor, [attrDict[@"pointSize"] doubleValue], NULL);
+                CFRelease(descriptor);
 
                 CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail
                 if ([attrDict[@"traitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitBold;
@@ -113,12 +115,15 @@
                 if (symbolicTraits != 0) {
                     // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
                     // Is there a better way to detect "no" symbolic traits?
-                    ctFont = CTFontCreateCopyWithSymbolicTraits(ctFont, 0.0, NULL, symbolicTraits, symbolicTraits);
+                    CTFontRef newCTFont = CTFontCreateCopyWithSymbolicTraits(ctFont, 0.0, NULL, symbolicTraits, symbolicTraits);
+                    CFRelease(ctFont);
+                    ctFont = newCTFont;
                 }
 
                 // We need to construct a kCTFontPostScriptNameKey for the font with the given attributes
                 NSString *fontName = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontPostScriptNameKey));
                 UIFont *font = [UIFont fontWithName:fontName size:[attrDict[@"pointSize"] doubleValue]];
+                CFRelease(ctFont);
 
                 newAttrs[NSFontAttributeName] = font;
             }
