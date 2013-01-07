@@ -1,4 +1,5 @@
 #import "AshtonUIKit.h"
+#import "AshtonIntermediate.h"
 #import <CoreText/CoreText.h>
 
 @interface AshtonUIKit ()
@@ -18,7 +19,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        _attributesToPreserve = @[ @"link", @"strikthroughColor", @"underlineColor", @"verticalAlign" ];
+        _attributesToPreserve = @[ AshtonAttrLink, @"strikthroughColor", AshtonAttrUnderlineColor, AshtonAttrVerticalAlign ];
     }
     return self;
 }
@@ -35,10 +36,10 @@
                 NSParagraphStyle *paragraphStyle = attr;
                 NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
-                if (paragraphStyle.alignment == NSTextAlignmentLeft) attrDict[@"textAlignment"] = @"left";
-                if (paragraphStyle.alignment == NSTextAlignmentRight) attrDict[@"textAlignment"] = @"right";
-                if (paragraphStyle.alignment == NSTextAlignmentCenter) attrDict[@"textAlignment"] = @"center";
-                newAttrs[@"paragraph"] = attrDict;
+                if (paragraphStyle.alignment == NSTextAlignmentLeft) attrDict[AshtonParagraphAttrTextAlignment] = @"left";
+                if (paragraphStyle.alignment == NSTextAlignmentRight) attrDict[AshtonParagraphAttrTextAlignment] = @"right";
+                if (paragraphStyle.alignment == NSTextAlignmentCenter) attrDict[AshtonParagraphAttrTextAlignment] = @"center";
+                newAttrs[AshtonAttrParagraph] = attrDict;
             }
             if ([attrName isEqual:NSFontAttributeName]) {
                 // produces: font
@@ -47,25 +48,25 @@
 
                 CTFontRef ctFont = CTFontCreateWithName((__bridge CFStringRef)font.fontName, font.pointSize, NULL);
                 CTFontSymbolicTraits symbolicTraits = CTFontGetSymbolicTraits(ctFont);
-                if ((symbolicTraits & kCTFontTraitBold) == kCTFontTraitBold) attrDict[@"traitBold"] = @(YES);
-                if ((symbolicTraits & kCTFontTraitItalic) == kCTFontTraitItalic) attrDict[@"traitItalic"] = @(YES);
+                if ((symbolicTraits & kCTFontTraitBold) == kCTFontTraitBold) attrDict[AshtonFontAttrTraitBold] = @(YES);
+                if ((symbolicTraits & kCTFontTraitItalic) == kCTFontTraitItalic) attrDict[AshtonFontAttrTraitItalic] = @(YES);
 
-                attrDict[@"pointSize"] = @(font.pointSize);
-                attrDict[@"familyName"] = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontFamilyNameKey));
+                attrDict[AshtonFontAttrPointSize] = @(font.pointSize);
+                attrDict[AshtonFontAttrFamilyName] = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontFamilyNameKey));
                 CFRelease(ctFont);
-                newAttrs[@"font"] = attrDict;
+                newAttrs[AshtonAttrFont] = attrDict;
             }
             if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
                 // produces: underline
-                if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[@"underline"] = @"single";
+                if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[AshtonAttrUnderline] = AshtonUnderlineStyleSingle;
             }
             if ([attrName isEqual:NSStrikethroughStyleAttributeName]) {
                 // produces: strikthrough
-                if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[@"strikethrough"] = @"single";
+                if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[AshtonAttrStrikethrough] = AshtonStrikethroughStyleSingle;
             }
             if ([attrName isEqual:NSForegroundColorAttributeName]) {
                 // produces: color
-                newAttrs[@"color"] = [self arrayForColor:attr];
+                newAttrs[AshtonAttrColor] = [self arrayForColor:attr];
             }
         }
         // after going through all UIKit attributes copy back the preserved attributes, but only if they don't exist already
@@ -89,29 +90,29 @@
         NSMutableDictionary *newAttrs = [NSMutableDictionary dictionaryWithCapacity:[attrs count]];
         for (NSString *attrName in attrs) {
             id attr = attrs[attrName];
-            if ([attrName isEqualToString:@"paragraph"]) {
+            if ([attrName isEqualToString:AshtonAttrParagraph]) {
                 // consumes: paragraph
                 NSDictionary *attrDict = attr;
                 NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 
-                if ([attrDict[@"textAlignment"] isEqualToString:@"left"])  paragraphStyle.alignment = NSTextAlignmentLeft;
-                if ([attrDict[@"textAlignment"] isEqualToString:@"right"]) paragraphStyle.alignment = NSTextAlignmentRight;
-                if ([attrDict[@"textAlignment"] isEqualToString:@"center"]) paragraphStyle.alignment = NSTextAlignmentCenter;
+                if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"left"])  paragraphStyle.alignment = NSTextAlignmentLeft;
+                if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"right"]) paragraphStyle.alignment = NSTextAlignmentRight;
+                if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"center"]) paragraphStyle.alignment = NSTextAlignmentCenter;
 
                 newAttrs[NSParagraphStyleAttributeName] = paragraphStyle;
             }
-            if ([attrName isEqualToString:@"font"]) {
+            if ([attrName isEqualToString:AshtonAttrFont]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
 
-                NSDictionary *descriptorAttributes = @{ (id)kCTFontNameAttribute: attrDict[@"familyName"] };
+                NSDictionary *descriptorAttributes = @{ (id)kCTFontNameAttribute: attrDict[AshtonFontAttrFamilyName] };
                 CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
-                CTFontRef ctFont = CTFontCreateWithFontDescriptor(descriptor, [attrDict[@"pointSize"] doubleValue], NULL);
+                CTFontRef ctFont = CTFontCreateWithFontDescriptor(descriptor, [attrDict[AshtonFontAttrPointSize] doubleValue], NULL);
                 CFRelease(descriptor);
 
                 CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail
-                if ([attrDict[@"traitBold"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitBold;
-                if ([attrDict[@"traitItalic"] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
+                if ([attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitBold;
+                if ([attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
                 if (symbolicTraits != 0) {
                     // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
                     // Is there a better way to detect "no" symbolic traits?
@@ -122,23 +123,23 @@
 
                 // We need to construct a kCTFontPostScriptNameKey for the font with the given attributes
                 NSString *fontName = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontPostScriptNameKey));
-                UIFont *font = [UIFont fontWithName:fontName size:[attrDict[@"pointSize"] doubleValue]];
+                UIFont *font = [UIFont fontWithName:fontName size:[attrDict[AshtonFontAttrPointSize] doubleValue]];
                 CFRelease(ctFont);
 
                 newAttrs[NSFontAttributeName] = font;
             }
-            if ([attrName isEqualToString:@"underline"]) {
+            if ([attrName isEqualToString:AshtonAttrUnderline]) {
                 // consumes: underline
-                if ([attr isEqualToString:@"single"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
-                if ([attr isEqualToString:@"double"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
-                if ([attr isEqualToString:@"thick"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqualToString:AshtonUnderlineStyleSingle]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqualToString:AshtonUnderlineStyleDouble]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqualToString:AshtonUnderlineStyleThick]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
             }
-            if ([attrName isEqualToString:@"strikethrough"]) {
-                if ([attr isEqualToString:@"single"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
-                if ([attr isEqualToString:@"double"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
-                if ([attr isEqualToString:@"thick"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
+            if ([attrName isEqualToString:AshtonAttrStrikethrough]) {
+                if ([attr isEqualToString:AshtonStrikethroughStyleSingle]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqualToString:AshtonStrikethroughStyleDouble]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqualToString:AshtonStrikethroughStyleThick]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
             }
-            if ([attrName isEqualToString:@"color"]) {
+            if ([attrName isEqualToString:AshtonAttrColor]) {
                 // consumes: color
                 newAttrs[NSForegroundColorAttributeName] = [self colorForArray:attr];
             }

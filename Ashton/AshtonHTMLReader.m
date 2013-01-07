@@ -1,4 +1,5 @@
 #import "AshtonHTMLReader.h"
+#import "AshtonIntermediate.h"
 
 @interface AshtonHTMLReader ()
 @property (nonatomic, strong) NSXMLParser *parser;
@@ -29,7 +30,7 @@
     NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 
     if (href) {
-        attrs[@"link"] = href;
+        attrs[AshtonAttrLink] = href;
     }
 
     if (styleString) {
@@ -46,14 +47,14 @@
             [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
             if ([key isEqualToString:@"text-align"]) {
                 // produces: paragraph.text-align
-                NSMutableDictionary *paragraphAttrs = attrs[@"paragraph"];
-                if (!paragraphAttrs) paragraphAttrs = attrs[@"paragraph"] = [NSMutableDictionary dictionary];
+                NSMutableDictionary *paragraphAttrs = attrs[AshtonAttrParagraph];
+                if (!paragraphAttrs) paragraphAttrs = attrs[AshtonAttrParagraph] = [NSMutableDictionary dictionary];
 
-                if ([value isEqualToString:@"left"]) paragraphAttrs[@"textAlignment"] = @"left";
-                if ([value isEqualToString:@"right"]) paragraphAttrs[@"textAlignment"] = @"right";
-                if ([value isEqualToString:@"center"]) paragraphAttrs[@"textAlignment"] = @"center";
+                if ([value isEqualToString:@"left"]) paragraphAttrs[AshtonParagraphAttrTextAlignment] = AshtonParagraphAttrTextAlignmentStyleLeft;
+                if ([value isEqualToString:@"right"]) paragraphAttrs[AshtonParagraphAttrTextAlignment] = AshtonParagraphAttrTextAlignmentStyleRight;
+                if ([value isEqualToString:@"center"]) paragraphAttrs[AshtonParagraphAttrTextAlignment] = AshtonParagraphAttrTextAlignmentStyleCenter;
             }
-            if ([key isEqualToString:@"font"]) {
+            if ([key isEqualToString:AshtonAttrFont]) {
                 // produces: font
                 NSScanner *scanner = [NSScanner scannerWithString:value];
                 BOOL traitBold = [scanner scanString:@"bold " intoString:NULL];
@@ -63,45 +64,45 @@
                 [scanner scanString:@"\"" intoString:NULL];
                 NSString *familyName; [scanner scanUpToString:@"\"" intoString:&familyName];
 
-                attrs[@"font"] = @{ @"traitBold": @(traitBold), @"traitItalic": @(traitItalic), @"familyName": familyName, @"pointSize": @(pointSize), @"features": @[] };
+                attrs[AshtonAttrFont] = @{ AshtonFontAttrTraitBold: @(traitBold), AshtonFontAttrTraitItalic: @(traitItalic), AshtonFontAttrFamilyName: familyName, AshtonFontAttrPointSize: @(pointSize), AshtonFontAttrFeatures: @[] };
             }
             if ([key isEqualToString:@"-cocoa-font-features"]) {
                 // We expect -cocoa-font-features to only happen after font
                 NSMutableArray *features = [NSMutableArray array];
 
-                NSMutableDictionary *font = [attrs[@"font"] mutableCopy];
+                NSMutableDictionary *font = [attrs[AshtonAttrFont] mutableCopy];
                 for (NSString *feature in [value componentsSeparatedByString:@" "]) {
                     NSArray *values = [feature componentsSeparatedByString:@"/"];
                     [features addObject:@[@([values[0] intValue]), @([values[1] intValue])]];
                 }
 
-                font[@"features"] = features;
-                attrs[@"font"] = font;
+                font[AshtonFontAttrFeatures] = features;
+                attrs[AshtonAttrFont] = font;
             }
 
             if ([key isEqualToString:@"-cocoa-underline"]) {
                 // produces: underline
-                if ([value isEqualToString:@"single"]) attrs[@"underline"] = @"single";
-                if ([value isEqualToString:@"thick"]) attrs[@"underline"] = @"thick";
-                if ([value isEqualToString:@"double"]) attrs[@"underline"] = @"double";
+                if ([value isEqualToString:@"single"]) attrs[AshtonAttrUnderline] = AshtonUnderlineStyleSingle;
+                if ([value isEqualToString:@"thick"]) attrs[AshtonAttrUnderline] = AshtonUnderlineStyleThick;
+                if ([value isEqualToString:@"double"]) attrs[AshtonAttrUnderline] = AshtonUnderlineStyleDouble;
             }
             if ([key isEqualToString:@"-cocoa-underline-color"]) {
                 // produces: underlineColor
-                attrs[@"underlineColor"] = [self colorForCSS:value];
+                attrs[AshtonAttrUnderlineColor] = [self colorForCSS:value];
             }
-            if ([key isEqualToString:@"color"]) {
+            if ([key isEqualToString:AshtonAttrColor]) {
                 // produces: color
-                attrs[@"color"] = [self colorForCSS:value];
+                attrs[AshtonAttrColor] = [self colorForCSS:value];
             }
             if ([key isEqualToString:@"-cocoa-strikethrough"]) {
                 // produces: strikethrough
-                if ([value isEqualToString:@"single"]) attrs[@"strikethrough"] = @"single";
-                if ([value isEqualToString:@"thick"]) attrs[@"strikethrough"] = @"thick";
-                if ([value isEqualToString:@"double"]) attrs[@"strikethrough"] = @"double";
+                if ([value isEqualToString:@"single"]) attrs[AshtonAttrStrikethrough] = AshtonStrikethroughStyleSingle;
+                if ([value isEqualToString:@"thick"]) attrs[AshtonAttrStrikethrough] = AshtonStrikethroughStyleThick;
+                if ([value isEqualToString:@"double"]) attrs[AshtonAttrStrikethrough] = AshtonStrikethroughStyleDouble;
             }
             if ([key isEqualToString:@"-cocoa-strikethrough-color"]) {
                 // produces: strikethroughColor
-                attrs[@"strikethroughColor"] = [self colorForCSS:value];
+                attrs[AshtonAttrStrikethroughColor] = [self colorForCSS:value];
             }
         }
     }

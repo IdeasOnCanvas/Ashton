@@ -1,4 +1,5 @@
 #import "AshtonHTMLWriter.h"
+#import "AshtonIntermediate.h"
 
 @implementation AshtonHTMLWriter
 
@@ -18,16 +19,16 @@
         NSRange paragraphRange = NSMakeRange(0, paragraph.length);
         NSMutableString *paragraphOutput = [NSMutableString string];
         NSMutableDictionary *paragraphAttrs = [NSMutableDictionary dictionary];
-        id paragraphStyle = [paragraph attribute:@"paragraph" atIndex:0 effectiveRange:NULL];
-        if (paragraphStyle) paragraphAttrs[@"paragraph"] = paragraphStyle;
+        id paragraphStyle = [paragraph attribute:AshtonAttrParagraph atIndex:0 effectiveRange:NULL];
+        if (paragraphStyle) paragraphAttrs[AshtonAttrParagraph] = paragraphStyle;
 
         [paragraph enumerateAttributesInRange:paragraphRange options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
             NSString *content = [self HTMLEscapeString:[paragraph.string substringWithRange:range]];
             if (NSEqualRanges(range, paragraphRange)) {
                 [paragraphAttrs addEntriesFromDictionary:attrs];
-                if (attrs[@"link"]) [paragraphOutput appendFormat:@"<a href='%@'>", attrs[@"link"]];
+                if (attrs[AshtonAttrLink]) [paragraphOutput appendFormat:@"<a href='%@'>", attrs[AshtonAttrLink]];
                 [paragraphOutput appendString:content];
-                if (attrs[@"link"]) [paragraphOutput appendString:@"</a>"];
+                if (attrs[AshtonAttrLink]) [paragraphOutput appendString:@"</a>"];
             } else {
                 [paragraphOutput appendString:[self openingTagForAttributes:attrs skipParagraphStyles:YES]];
                 [paragraphOutput appendString:content];
@@ -96,7 +97,7 @@
         [styleString appendString:@"'"];
     }
 
-    if(skipParagraphStyles && attrs[@"link"]) [styleString appendFormat:@" href='%@'", attrs[@"link"]];
+    if(skipParagraphStyles && attrs[AshtonAttrLink]) [styleString appendFormat:@" href='%@'", attrs[AshtonAttrLink]];
 
     return styleString;
 }
@@ -110,7 +111,7 @@
 }
 
 - (NSString *)tagNameForAttributes:(NSDictionary *)attrs {
-    if (attrs[@"link"]) {
+    if (attrs[AshtonAttrLink]) {
         return @"a";
     }
     return @"span";
@@ -119,7 +120,7 @@
 - (NSDictionary *)stylesForAttributes:(NSDictionary *)attrs skipParagraphStyles:(BOOL)skipParagraphStyles {
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
     for (id key in attrs) {
-        if(skipParagraphStyles && [key isEqualToString:@"paragraph"]) continue;
+        if(skipParagraphStyles && [key isEqualToString:AshtonAttrParagraph]) continue;
         [styles addEntriesFromDictionary:[self stylesForAttribute:attrs[key] withName:key]];
     }
     return styles;
@@ -128,25 +129,25 @@
 - (NSDictionary *)stylesForAttribute:(id)attr withName:(NSString *)attrName {
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
 
-    if ([attrName isEqualToString:@"paragraph"]) {
+    if ([attrName isEqualToString:AshtonAttrParagraph]) {
         NSDictionary *attrDict = attr;
-        if ([attrDict[@"textAlignment"] isEqualToString:@"left"]) styles[@"text-align"] = @"left";
-        if ([attrDict[@"textAlignment"] isEqualToString:@"right"]) styles[@"text-align"] = @"right";
-        if ([attrDict[@"textAlignment"] isEqualToString:@"center"]) styles[@"text-align"] = @"center";
+        if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:AshtonParagraphAttrTextAlignmentStyleLeft]) styles[@"text-align"] = @"left";
+        if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:AshtonParagraphAttrTextAlignmentStyleRight]) styles[@"text-align"] = @"right";
+        if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:AshtonParagraphAttrTextAlignmentStyleCenter]) styles[@"text-align"] = @"center";
     }
-    if ([attrName isEqualToString:@"font"]) {
+    if ([attrName isEqualToString:AshtonAttrFont]) {
         NSDictionary *attrDict = attr;
         // see https://developer.mozilla.org/en-US/docs/CSS/font
         NSMutableArray *fontStyle = [NSMutableArray array];
 
-        if ([attrDict[@"traitBold"] isEqual:@(YES)]) [fontStyle addObject:@"bold"];
-        if ([attrDict[@"traitItalic"] isEqual:@(YES)]) [fontStyle addObject:@"italic"];
+        if ([attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]) [fontStyle addObject:@"bold"];
+        if ([attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]) [fontStyle addObject:@"italic"];
 
-        [fontStyle addObject:[NSString stringWithFormat:@"%gpx", [attrDict[@"pointSize"] floatValue]]];
-        [fontStyle addObject:[NSString stringWithFormat:@"\"%@\"", attrDict[@"familyName"]]];
-        styles[@"font"] = [fontStyle componentsJoinedByString:@" "];
+        [fontStyle addObject:[NSString stringWithFormat:@"%gpx", [attrDict[AshtonFontAttrPointSize] floatValue]]];
+        [fontStyle addObject:[NSString stringWithFormat:@"\"%@\"", attrDict[AshtonFontAttrFamilyName]]];
+        styles[AshtonAttrFont] = [fontStyle componentsJoinedByString:@" "];
 
-        NSMutableArray *fontFeatures = attrDict[@"features"];
+        NSMutableArray *fontFeatures = attrDict[AshtonFontAttrFeatures];
         if ([fontFeatures count] > 0) {
             NSMutableArray *features = [NSMutableArray array];
             for (NSArray *feature in fontFeatures) {
@@ -155,28 +156,28 @@
             styles[@"-cocoa-font-features"] = [features componentsJoinedByString:@" "];
         }
     }
-    if ([attrName isEqualToString:@"underline"]) {
+    if ([attrName isEqualToString:AshtonAttrUnderline]) {
         styles[@"text-decoration"] = @"underline";
 
-        if ([attr isEqualToString:@"single"]) styles[@"-cocoa-underline"] = @"single";
-        if ([attr isEqualToString:@"thick"]) styles[@"-cocoa-underline"] = @"thick";
-        if ([attr isEqualToString:@"double"]) styles[@"-cocoa-underline"] = @"double";
+        if ([attr isEqualToString:AshtonUnderlineStyleSingle]) styles[@"-cocoa-underline"] = @"single";
+        if ([attr isEqualToString:AshtonUnderlineStyleThick]) styles[@"-cocoa-underline"] = @"thick";
+        if ([attr isEqualToString:AshtonUnderlineStyleDouble]) styles[@"-cocoa-underline"] = @"double";
     }
-    if ([attrName isEqualToString:@"underlineColor"]) {
+    if ([attrName isEqualToString:AshtonAttrUnderlineColor]) {
         styles[@"-cocoa-underline-color"] = [self CSSColor:attr];
     }
-    if ([attrName isEqualToString:@"color"]) {
-        styles[@"color"] = [self CSSColor:attr];
+    if ([attrName isEqualToString:AshtonAttrColor]) {
+        styles[AshtonAttrColor] = [self CSSColor:attr];
     }
 
-    if ([attrName isEqualToString:@"strikethrough"]) {
+    if ([attrName isEqualToString:AshtonAttrStrikethrough]) {
         styles[@"text-decoration"] = @"line-through";
 
-        if ([attr isEqualToString:@"single"]) styles[@"-cocoa-strikethrough"] = @"single";
-        if ([attr isEqualToString:@"thick"]) styles[@"-cocoa-strikethrough"] = @"thick";
-        if ([attr isEqualToString:@"double"]) styles[@"-cocoa-strikethrough"] = @"double";
+        if ([attr isEqualToString:AshtonStrikethroughStyleSingle]) styles[@"-cocoa-strikethrough"] = @"single";
+        if ([attr isEqualToString:AshtonStrikethroughStyleThick]) styles[@"-cocoa-strikethrough"] = @"thick";
+        if ([attr isEqualToString:AshtonStrikethroughStyleDouble]) styles[@"-cocoa-strikethrough"] = @"double";
     }
-    if ([attrName isEqualToString:@"strikethroughColor"]) {
+    if ([attrName isEqualToString:AshtonAttrStrikethroughColor]) {
         styles[@"-cocoa-strikethrough-color"] = [self CSSColor:attr];
     }
     
