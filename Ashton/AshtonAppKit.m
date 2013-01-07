@@ -97,18 +97,18 @@
         NSMutableDictionary *newAttrs = [NSMutableDictionary dictionaryWithCapacity:[attrs count]];
         for (NSString *attrName in attrs) {
             id attr = attrs[attrName];
-            if ([attrName isEqual:@"paragraph"]) {
+            if ([attrName isEqualToString:@"paragraph"]) {
                 // consumes: paragraph
                 NSDictionary *attrDict = attr;
                 NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
 
-                if ([attrDict[@"textAlignment"] isEqual:@"left"]) paragraphStyle.alignment = NSLeftTextAlignment;
-                if ([attrDict[@"textAlignment"] isEqual:@"right"]) paragraphStyle.alignment = NSRightTextAlignment;
-                if ([attrDict[@"textAlignment"] isEqual:@"center"]) paragraphStyle.alignment = NSCenterTextAlignment;
+                if ([attrDict[@"textAlignment"] isEqualToString:@"left"]) paragraphStyle.alignment = NSLeftTextAlignment;
+                if ([attrDict[@"textAlignment"] isEqualToString:@"right"]) paragraphStyle.alignment = NSRightTextAlignment;
+                if ([attrDict[@"textAlignment"] isEqualToString:@"center"]) paragraphStyle.alignment = NSCenterTextAlignment;
 
                 newAttrs[NSParagraphStyleAttributeName] = [paragraphStyle copy];
             }
-            if ([attrName isEqual:@"font"]) {
+            if ([attrName isEqualToString:@"font"]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
                 NSFontDescriptor *fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:@{ NSFontFamilyAttribute: attrDict[@"familyName"] }];
@@ -128,35 +128,35 @@
 
                 newAttrs[NSFontAttributeName] = [NSFont fontWithDescriptor:fontDescriptor size:[attrDict[@"pointSize"] doubleValue]];
             }
-            if ([attrName isEqual:@"verticalAlign"]) {
-                if ([attr isEqual:@"super"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
-                if ([attr isEqual:@"sub"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(-1);
+            if ([attrName isEqualToString:@"verticalAlign"]) {
+                if ([attr isEqualToString:@"super"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
+                if ([attr isEqualToString:@"sub"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(-1);
             }
-            if ([attrName isEqual:@"underline"]) {
+            if ([attrName isEqualToString:@"underline"]) {
                 // consumes: underline
-                if ([attr isEqual:@"single"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
-                if ([attr isEqual:@"thick"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleThick);
-                if ([attr isEqual:@"double"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleDouble);
+                if ([attr isEqualToString:@"single"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqualToString:@"thick"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleThick);
+                if ([attr isEqualToString:@"double"]) newAttrs[NSUnderlineStyleAttributeName] = @(NSUnderlineStyleDouble);
             }
-            if ([attrName isEqual:@"underlineColor"]) {
+            if ([attrName isEqualToString:@"underlineColor"]) {
                 // consumes: underlineColor
                 newAttrs[NSUnderlineColorAttributeName] = [self colorForArray:attr];
             }
-            if ([attrName isEqual:@"color"]) {
+            if ([attrName isEqualToString:@"color"]) {
                 // consumes: color
                 newAttrs[NSForegroundColorAttributeName] = [self colorForArray:attr];
             }
-            if ([attrName isEqual:@"strikethrough"]) {
+            if ([attrName isEqualToString:@"strikethrough"]) {
                 // consumes: strikethrough
-                if ([attr isEqual:@"single"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
-                if ([attr isEqual:@"thick"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleThick);
-                if ([attr isEqual:@"double"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleDouble);
+                if ([attr isEqualToString:@"single"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
+                if ([attr isEqualToString:@"thick"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleThick);
+                if ([attr isEqualToString:@"double"]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleDouble);
             }
-            if ([attrName isEqual:@"strikethroughColor"]) {
+            if ([attrName isEqualToString:@"strikethroughColor"]) {
                 // consumes strikethroughColor
                 newAttrs[NSStrikethroughColorAttributeName] = [self colorForArray:attr];
             }
-            if ([attrName isEqual:@"link"]) {
+            if ([attrName isEqualToString:@"link"]) {
                 newAttrs[NSLinkAttributeName] = [NSURL URLWithString:attr];
             }
         }

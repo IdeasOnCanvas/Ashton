@@ -98,13 +98,13 @@
         NSMutableDictionary *newAttrs = [NSMutableDictionary dictionaryWithCapacity:[attrs count]];
         for (NSString *attrName in attrs) {
             id attr = attrs[attrName];
-            if ([attrName isEqual:@"paragraph"]) {
+            if ([attrName isEqualToString:@"paragraph"]) {
                 // consumes: paragraph
                 NSDictionary *attrDict = attr;
                 CTTextAlignment alignment = kCTTextAlignmentNatural;
-                if ([attrDict[@"textAlignment"] isEqual:@"left"]) alignment = kCTTextAlignmentLeft;
-                if ([attrDict[@"textAlignment"] isEqual:@"right"]) alignment = kCTTextAlignmentRight;
-                if ([attrDict[@"textAlignment"] isEqual:@"center"]) alignment = kCTTextAlignmentCenter;
+                if ([attrDict[@"textAlignment"] isEqualToString:@"left"]) alignment = kCTTextAlignmentLeft;
+                if ([attrDict[@"textAlignment"] isEqualToString:@"right"]) alignment = kCTTextAlignmentRight;
+                if ([attrDict[@"textAlignment"] isEqualToString:@"center"]) alignment = kCTTextAlignmentCenter;
 
                 CTParagraphStyleSetting settings[] = {
                     { kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment },
@@ -112,7 +112,7 @@
 
                 newAttrs[(id)kCTParagraphStyleAttributeName] = CFBridgingRelease(CTParagraphStyleCreate(settings, sizeof(settings) / sizeof(CTParagraphStyleSetting)));
             }
-            if ([attrName isEqual:@"font"]) {
+            if ([attrName isEqualToString:@"font"]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
                 NSDictionary *descriptorAttributes = @{ (id)kCTFontNameAttribute:attrDict[@"familyName"] };
@@ -145,21 +145,21 @@
 
                 newAttrs[(id)kCTFontAttributeName] = CFBridgingRelease(font);
             }
-            if ([attrName isEqual:@"verticalAlign"]) {
-                if ([attr isEqual:@"super"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
-                if ([attr isEqual:@"sub"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(-1);
+            if ([attrName isEqualToString:@"verticalAlign"]) {
+                if ([attr isEqualToString:@"super"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
+                if ([attr isEqualToString:@"sub"]) newAttrs[(id)kCTSuperscriptAttributeName] = @(-1);
             }
-            if ([attrName isEqual:@"underline"]) {
+            if ([attrName isEqualToString:@"underline"]) {
                 // consumes: underline
-                if ([attr isEqual:@"single"]) newAttrs[(id)kCTUnderlineStyleAttributeName] = @(kCTUnderlineStyleSingle);
-                if ([attr isEqual:@"thick"]) newAttrs[(id)kCTUnderlineStyleAttributeName] = @(kCTUnderlineStyleThick);
-                if ([attr isEqual:@"double"]) newAttrs[(id)kCTUnderlineStyleAttributeName] = @(kCTUnderlineStyleDouble);
+                if ([attr isEqualToString:@"single"]) newAttrs[(id)kCTUnderlineStyleAttributeName] = @(kCTUnderlineStyleSingle);
+                if ([attr isEqualToString:@"thick"]) newAttrs[(id)kCTUnderlineStyleAttributeName] = @(kCTUnderlineStyleThick);
+                if ([attr isEqualToString:@"double"]) newAttrs[(id)kCTUnderlineStyleAttributeName] = @(kCTUnderlineStyleDouble);
             }
-            if ([attrName isEqual:@"underlineColor"]) {
+            if ([attrName isEqualToString:@"underlineColor"]) {
                 // consumes: underlineColor
                 newAttrs[(id)kCTUnderlineColorAttributeName] = [self colorForArray:attr];
             }
-            if ([attrName isEqual:@"color"]) {
+            if ([attrName isEqualToString:@"color"]) {
                 // consumes: color
                 newAttrs[(id)kCTForegroundColorAttributeName] = [self colorForArray:attr];
             }

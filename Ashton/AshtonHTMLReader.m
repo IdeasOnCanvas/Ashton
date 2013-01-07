@@ -44,16 +44,16 @@
             [scanner scanUpToString:@";" intoString:&value];
             [scanner scanString:@";" intoString:NULL];
             [scanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL];
-            if ([key isEqual:@"text-align"]) {
+            if ([key isEqualToString:@"text-align"]) {
                 // produces: paragraph.text-align
                 NSMutableDictionary *paragraphAttrs = attrs[@"paragraph"];
                 if (!paragraphAttrs) paragraphAttrs = attrs[@"paragraph"] = [NSMutableDictionary dictionary];
 
-                if ([value isEqual:@"left"]) paragraphAttrs[@"textAlignment"] = @"left";
-                if ([value isEqual:@"right"]) paragraphAttrs[@"textAlignment"] = @"right";
-                if ([value isEqual:@"center"]) paragraphAttrs[@"textAlignment"] = @"center";
+                if ([value isEqualToString:@"left"]) paragraphAttrs[@"textAlignment"] = @"left";
+                if ([value isEqualToString:@"right"]) paragraphAttrs[@"textAlignment"] = @"right";
+                if ([value isEqualToString:@"center"]) paragraphAttrs[@"textAlignment"] = @"center";
             }
-            if ([key isEqual:@"font"]) {
+            if ([key isEqualToString:@"font"]) {
                 // produces: font
                 NSScanner *scanner = [NSScanner scannerWithString:value];
                 BOOL traitBold = [scanner scanString:@"bold " intoString:NULL];
@@ -65,7 +65,7 @@
 
                 attrs[@"font"] = @{ @"traitBold": @(traitBold), @"traitItalic": @(traitItalic), @"familyName": familyName, @"pointSize": @(pointSize), @"features": @[] };
             }
-            if ([key isEqual:@"-cocoa-font-features"]) {
+            if ([key isEqualToString:@"-cocoa-font-features"]) {
                 // We expect -cocoa-font-features to only happen after font
                 NSMutableArray *features = [NSMutableArray array];
 
@@ -79,27 +79,27 @@
                 attrs[@"font"] = font;
             }
 
-            if ([key isEqual:@"-cocoa-underline"]) {
+            if ([key isEqualToString:@"-cocoa-underline"]) {
                 // produces: underline
-                if ([value isEqual:@"single"]) attrs[@"underline"] = @"single";
-                if ([value isEqual:@"thick"]) attrs[@"underline"] = @"thick";
-                if ([value isEqual:@"double"]) attrs[@"underline"] = @"double";
+                if ([value isEqualToString:@"single"]) attrs[@"underline"] = @"single";
+                if ([value isEqualToString:@"thick"]) attrs[@"underline"] = @"thick";
+                if ([value isEqualToString:@"double"]) attrs[@"underline"] = @"double";
             }
-            if ([key isEqual:@"-cocoa-underline-color"]) {
+            if ([key isEqualToString:@"-cocoa-underline-color"]) {
                 // produces: underlineColor
                 attrs[@"underlineColor"] = [self colorForCSS:value];
             }
-            if ([key isEqual:@"color"]) {
+            if ([key isEqualToString:@"color"]) {
                 // produces: color
                 attrs[@"color"] = [self colorForCSS:value];
             }
-            if ([key isEqual:@"-cocoa-strikethrough"]) {
+            if ([key isEqualToString:@"-cocoa-strikethrough"]) {
                 // produces: strikethrough
-                if ([value isEqual:@"single"]) attrs[@"strikethrough"] = @"single";
-                if ([value isEqual:@"thick"]) attrs[@"strikethrough"] = @"thick";
-                if ([value isEqual:@"double"]) attrs[@"strikethrough"] = @"double";
+                if ([value isEqualToString:@"single"]) attrs[@"strikethrough"] = @"single";
+                if ([value isEqualToString:@"thick"]) attrs[@"strikethrough"] = @"thick";
+                if ([value isEqualToString:@"double"]) attrs[@"strikethrough"] = @"double";
             }
-            if ([key isEqual:@"-cocoa-strikethrough-color"]) {
+            if ([key isEqualToString:@"-cocoa-strikethrough-color"]) {
                 // produces: strikethroughColor
                 attrs[@"strikethroughColor"] = [self colorForCSS:value];
             }
@@ -126,15 +126,15 @@
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
-    if ([elementName isEqual:@"html"]) return;
+    if ([elementName isEqualToString:@"html"]) return;
     if (self.output.length > 0) {
-        if ([elementName isEqual:@"p"]) [self.output appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+        if ([elementName isEqualToString:@"p"]) [self.output appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
     }
     [self.styleStack addObject:[self attributesForStyleString:attributeDict[@"style"] href:attributeDict[@"href"]]];
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    if ([elementName isEqual:@"html"]) return;
+    if ([elementName isEqualToString:@"html"]) return;
     [self.styleStack removeLastObject];
 }
 

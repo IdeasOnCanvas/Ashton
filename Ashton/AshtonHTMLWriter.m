@@ -119,7 +119,7 @@
 - (NSDictionary *)stylesForAttributes:(NSDictionary *)attrs skipParagraphStyles:(BOOL)skipParagraphStyles {
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
     for (id key in attrs) {
-        if(skipParagraphStyles && [key isEqual:@"paragraph"]) continue;
+        if(skipParagraphStyles && [key isEqualToString:@"paragraph"]) continue;
         [styles addEntriesFromDictionary:[self stylesForAttribute:attrs[key] withName:key]];
     }
     return styles;
@@ -128,13 +128,13 @@
 - (NSDictionary *)stylesForAttribute:(id)attr withName:(NSString *)attrName {
     NSMutableDictionary *styles = [NSMutableDictionary dictionary];
 
-    if ([attrName isEqual:@"paragraph"]) {
+    if ([attrName isEqualToString:@"paragraph"]) {
         NSDictionary *attrDict = attr;
-        if ([attrDict[@"textAlignment"] isEqual:@"left"]) styles[@"text-align"] = @"left";
-        if ([attrDict[@"textAlignment"] isEqual:@"right"]) styles[@"text-align"] = @"right";
-        if ([attrDict[@"textAlignment"] isEqual:@"center"]) styles[@"text-align"] = @"center";
+        if ([attrDict[@"textAlignment"] isEqualToString:@"left"]) styles[@"text-align"] = @"left";
+        if ([attrDict[@"textAlignment"] isEqualToString:@"right"]) styles[@"text-align"] = @"right";
+        if ([attrDict[@"textAlignment"] isEqualToString:@"center"]) styles[@"text-align"] = @"center";
     }
-    if ([attrName isEqual:@"font"]) {
+    if ([attrName isEqualToString:@"font"]) {
         NSDictionary *attrDict = attr;
         // see https://developer.mozilla.org/en-US/docs/CSS/font
         NSMutableArray *fontStyle = [NSMutableArray array];
@@ -155,28 +155,28 @@
             styles[@"-cocoa-font-features"] = [features componentsJoinedByString:@" "];
         }
     }
-    if ([attrName isEqual:@"underline"]) {
+    if ([attrName isEqualToString:@"underline"]) {
         styles[@"text-decoration"] = @"underline";
 
-        if ([attr isEqual:@"single"]) styles[@"-cocoa-underline"] = @"single";
-        if ([attr isEqual:@"thick"]) styles[@"-cocoa-underline"] = @"thick";
-        if ([attr isEqual:@"double"]) styles[@"-cocoa-underline"] = @"double";
+        if ([attr isEqualToString:@"single"]) styles[@"-cocoa-underline"] = @"single";
+        if ([attr isEqualToString:@"thick"]) styles[@"-cocoa-underline"] = @"thick";
+        if ([attr isEqualToString:@"double"]) styles[@"-cocoa-underline"] = @"double";
     }
-    if ([attrName isEqual:@"underlineColor"]) {
+    if ([attrName isEqualToString:@"underlineColor"]) {
         styles[@"-cocoa-underline-color"] = [self CSSColor:attr];
     }
-    if ([attrName isEqual:@"color"]) {
+    if ([attrName isEqualToString:@"color"]) {
         styles[@"color"] = [self CSSColor:attr];
     }
 
-    if ([attrName isEqual:@"strikethrough"]) {
+    if ([attrName isEqualToString:@"strikethrough"]) {
         styles[@"text-decoration"] = @"line-through";
 
-        if ([attr isEqual:@"single"]) styles[@"-cocoa-strikethrough"] = @"single";
-        if ([attr isEqual:@"thick"]) styles[@"-cocoa-strikethrough"] = @"thick";
-        if ([attr isEqual:@"double"]) styles[@"-cocoa-strikethrough"] = @"double";
+        if ([attr isEqualToString:@"single"]) styles[@"-cocoa-strikethrough"] = @"single";
+        if ([attr isEqualToString:@"thick"]) styles[@"-cocoa-strikethrough"] = @"thick";
+        if ([attr isEqualToString:@"double"]) styles[@"-cocoa-strikethrough"] = @"double";
     }
-    if ([attrName isEqual:@"strikethroughColor"]) {
+    if ([attrName isEqualToString:@"strikethroughColor"]) {
         styles[@"-cocoa-strikethrough-color"] = [self CSSColor:attr];
     }
     
