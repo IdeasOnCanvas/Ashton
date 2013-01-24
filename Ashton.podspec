@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Ashton"
-  s.version      = "0.1.1"
+  s.version      = "0.1.2"
   s.summary      = "Converts NSAttributedStrings between AppKit, CoreText, UIKit and HTML."
   s.homepage     = "https://github.com/IdeasOnCanvas/Ashton"
 
