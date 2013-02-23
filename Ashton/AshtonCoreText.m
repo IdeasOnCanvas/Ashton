@@ -140,8 +140,12 @@
                     // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
                     // Is there a better way to detect "no" symbolic traits?
                     CTFontRef newFont = CTFontCreateCopyWithSymbolicTraits(font, 0.0, NULL, symbolicTraits, symbolicTraits);
-                    CFRelease(font);
-                    font = newFont;
+                    // And even worse, if a font is defined to be "only" bold (like Arial Rounded MT Bold is) then
+                    // CTFontCreateCopyWithSymbolicTraits also returns NULL
+                    if (newFont != NULL) {
+                        CFRelease(font);
+                        font = newFont;
+                    }
                 }
 
                 newAttrs[(id)kCTFontAttributeName] = CFBridgingRelease(font);

@@ -117,8 +117,12 @@
                     // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
                     // Is there a better way to detect "no" symbolic traits?
                     CTFontRef newCTFont = CTFontCreateCopyWithSymbolicTraits(ctFont, 0.0, NULL, symbolicTraits, symbolicTraits);
-                    CFRelease(ctFont);
-                    ctFont = newCTFont;
+                    // And even worse, if a font is defined to be "only" bold (like Arial Rounded MT Bold is) then
+                    // CTFontCreateCopyWithSymbolicTraits also returns NULL
+                    if (newCTFont != NULL) {
+                        CFRelease(ctFont);
+                        ctFont = newCTFont;
+                    }
                 }
 
                 // We need to construct a kCTFontPostScriptNameKey for the font with the given attributes
