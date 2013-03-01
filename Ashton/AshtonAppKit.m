@@ -127,7 +127,9 @@
                     fontDescriptor = [fontDescriptor fontDescriptorByAddingAttributes:@{ NSFontFeatureSettingsAttribute: fontFeatures }];
                 }
 
-                newAttrs[NSFontAttributeName] = [NSFont fontWithDescriptor:fontDescriptor size:[attrDict[AshtonFontAttrPointSize] doubleValue]];
+                NSFont *font = [NSFont fontWithDescriptor:fontDescriptor size:[attrDict[AshtonFontAttrPointSize] doubleValue]];
+                if (font)
+                    newAttrs[NSFontAttributeName] = font;
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
                 if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
