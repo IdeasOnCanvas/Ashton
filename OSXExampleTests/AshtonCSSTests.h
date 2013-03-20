@@ -1,5 +1,5 @@
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface AshtonHTMLWriterTests : SenTestCase
+@interface AshtonCSSTests : SenTestCase
 
 @end
