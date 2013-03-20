@@ -1,5 +1,6 @@
 #import "AshtonCoreText.h"
 #import "AshtonIntermediate.h"
+#import "AshtonUtils.h"
 #import <CoreText/CoreText.h>
 
 @interface AshtonCoreText ()
@@ -116,39 +117,11 @@
             if ([attrName isEqualToString:AshtonAttrFont]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
-                NSDictionary *descriptorAttributes = @{ (id)kCTFontNameAttribute:attrDict[AshtonFontAttrFamilyName] };
-                CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
-
-                if (attrDict[AshtonFontAttrFeatures]) {
-                    NSMutableArray *fontFeatures = [NSMutableArray array];
-                    for (NSArray *feature in attrDict[AshtonFontAttrFeatures]) {
-                        [fontFeatures addObject:@{(id)kCTFontFeatureTypeIdentifierKey:feature[0], (id)kCTFontFeatureSelectorIdentifierKey:feature[1]}];
-                    }
-                    descriptorAttributes = @{(id)kCTFontFeatureSettingsAttribute:fontFeatures};
-                    CTFontDescriptorRef newDescriptor = CTFontDescriptorCreateCopyWithAttributes(descriptor, (__bridge CFDictionaryRef)(descriptorAttributes));
-                    CFRelease(descriptor);
-                    descriptor = newDescriptor;
-                }
-
-                CTFontRef font = CTFontCreateWithFontDescriptor(descriptor, [attrDict[AshtonFontAttrPointSize] doubleValue], NULL);
-                CFRelease(descriptor);
-
-                CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail
-                if ([attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitBold;
-                if ([attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
-                if (symbolicTraits != 0) {
-                    // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
-                    // Is there a better way to detect "no" symbolic traits?
-                    CTFontRef newFont = CTFontCreateCopyWithSymbolicTraits(font, 0.0, NULL, symbolicTraits, symbolicTraits);
-                    // And even worse, if a font is defined to be "only" bold (like Arial Rounded MT Bold is) then
-                    // CTFontCreateCopyWithSymbolicTraits also returns NULL
-                    if (newFont != NULL) {
-                        CFRelease(font);
-                        font = newFont;
-                    }
-                }
-
-                newAttrs[(id)kCTFontAttributeName] = CFBridgingRelease(font);
+                newAttrs[(id)kCTFontAttributeName] = [AshtonUtils CTFontRefWithName:attrDict[AshtonFontAttrFamilyName]
+                                                                               size:[attrDict[AshtonFontAttrPointSize] doubleValue]
+                                                                          boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
+                                                                        italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
+                                                                           features:attrDict[AshtonFontAttrFeatures]];
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
                 if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);

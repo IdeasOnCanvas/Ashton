@@ -1,5 +1,6 @@
 #import "AshtonUIKit.h"
 #import "AshtonIntermediate.h"
+#import "AshtonUtils.h"
 #import <CoreText/CoreText.h>
 
 @interface AshtonUIKit ()
@@ -105,30 +106,15 @@
                 // consumes: font
                 NSDictionary *attrDict = attr;
 
-                NSDictionary *descriptorAttributes = @{ (id)kCTFontNameAttribute: attrDict[AshtonFontAttrFamilyName] };
-                CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
-                CTFontRef ctFont = CTFontCreateWithFontDescriptor(descriptor, [attrDict[AshtonFontAttrPointSize] doubleValue], NULL);
-                CFRelease(descriptor);
-
-                CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail
-                if ([attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitBold;
-                if ([attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
-                if (symbolicTraits != 0) {
-                    // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
-                    // Is there a better way to detect "no" symbolic traits?
-                    CTFontRef newCTFont = CTFontCreateCopyWithSymbolicTraits(ctFont, 0.0, NULL, symbolicTraits, symbolicTraits);
-                    // And even worse, if a font is defined to be "only" bold (like Arial Rounded MT Bold is) then
-                    // CTFontCreateCopyWithSymbolicTraits also returns NULL
-                    if (newCTFont != NULL) {
-                        CFRelease(ctFont);
-                        ctFont = newCTFont;
-                    }
-                }
+                CTFontRef ctFont = (__bridge CTFontRef)([AshtonUtils CTFontRefWithName:attrDict[AshtonFontAttrFamilyName]
+                                                             size:[attrDict[AshtonFontAttrPointSize] doubleValue]
+                                                        boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
+                                                      italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
+                                                         features:attrDict[AshtonFontAttrFeatures]]);
 
                 // We need to construct a kCTFontPostScriptNameKey for the font with the given attributes
                 NSString *fontName = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontPostScriptNameKey));
                 UIFont *font = [UIFont fontWithName:fontName size:[attrDict[AshtonFontAttrPointSize] doubleValue]];
-                CFRelease(ctFont);
 
                 newAttrs[NSFontAttributeName] = font;
             }
