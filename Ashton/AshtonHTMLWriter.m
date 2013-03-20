@@ -87,19 +87,36 @@
     NSMutableString *styleString = [NSMutableString string];
     if ([styles count] > 0) {
         [styleString appendString:@" style='"];
-        [styles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSArray *sortedKeys = [self sortedStyleKeyArray:[styles allKeys]];
+        for (NSString *key in sortedKeys) {
+            id obj = styles[key];
             [styleString appendString:key];
             [styleString appendString:@": "];
             if ([obj respondsToSelector:@selector(stringValue)]) obj = [obj stringValue];
             [styleString appendString:obj];
             [styleString appendString:@"; "];
-        }];
+        }
         [styleString appendString:@"'"];
     }
 
     if(skipParagraphStyles && attrs[AshtonAttrLink]) [styleString appendFormat:@" href='%@'", attrs[AshtonAttrLink]];
 
     return styleString;
+}
+
+// Order style keys so that -cocoa styles come after standard styles
+- (NSArray *)sortedStyleKeyArray:(NSArray *)keys {
+    return [keys sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+        if (obj1.length > 0 && obj2.length > 0) {
+            unichar char1 = [obj1 characterAtIndex:0];
+            unichar char2 = [obj2 characterAtIndex:0];
+            if (char1 == '-' && char2 != '-')
+                return NSOrderedDescending;
+            if (char1 != '-' && char2 == '-')
+                return NSOrderedAscending;
+        }
+        return [obj1 caseInsensitiveCompare: obj2];
+    }];
 }
 
 - (NSString *)closingTagWithAttributes:(NSDictionary *)attrs {

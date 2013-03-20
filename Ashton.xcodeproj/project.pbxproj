@@ -15,6 +15,7 @@
 		C51B5D8D164557C900D2062B /* AshtonCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* AshtonCoreText.m */; };
 		C51B5D8E164557C900D2062B /* AshtonCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D8C164557C900D2062B /* AshtonCoreText.m */; };
 		C51B5D91164567A000D2062B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C51B5D8F1645679700D2062B /* CoreText.framework */; };
+		C53879A816F9F01900908630 /* AshtonHTMLWriterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C53879A716F9F01900908630 /* AshtonHTMLWriterTests.m */; };
 		C54BA90C1651613200D057E7 /* Test1.html in Resources */ = {isa = PBXBuildFile; fileRef = C54BA90A1651613200D057E7 /* Test1.html */; };
 		C54BA90D1651613200D057E7 /* TextEdit Test Document.html in Resources */ = {isa = PBXBuildFile; fileRef = C54BA90B1651613200D057E7 /* TextEdit Test Document.html */; };
 		C54BA9111651699F00D057E7 /* iOSUIKitTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54BA9101651699F00D057E7 /* iOSUIKitTextViewController.m */; };
@@ -84,6 +85,8 @@
 		C51B5D8B164557C900D2062B /* AshtonCoreText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonCoreText.h; sourceTree = "<group>"; };
 		C51B5D8C164557C900D2062B /* AshtonCoreText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonCoreText.m; sourceTree = "<group>"; };
 		C51B5D8F1645679700D2062B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		C53879A616F9F01900908630 /* AshtonHTMLWriterTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonHTMLWriterTests.h; sourceTree = "<group>"; };
+		C53879A716F9F01900908630 /* AshtonHTMLWriterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonHTMLWriterTests.m; sourceTree = "<group>"; };
 		C54BA90A1651613200D057E7 /* Test1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Test1.html; sourceTree = "<group>"; };
 		C54BA90B1651613200D057E7 /* TextEdit Test Document.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "TextEdit Test Document.html"; sourceTree = "<group>"; };
 		C54BA90F1651699F00D057E7 /* iOSUIKitTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSUIKitTextViewController.h; sourceTree = "<group>"; };
@@ -327,6 +330,8 @@
 		C5F716AB163E97EA005B34D1 /* OSXExampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				C53879A616F9F01900908630 /* AshtonHTMLWriterTests.h */,
+				C53879A716F9F01900908630 /* AshtonHTMLWriterTests.m */,
 				C5F716B1163E97EA005B34D1 /* OSXExampleTests.h */,
 				C5F716B2163E97EA005B34D1 /* OSXExampleTests.m */,
 				C5AC35A4163ED13E00C233FE /* Test Cases */,
@@ -572,6 +577,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F716B3163E97EA005B34D1 /* OSXExampleTests.m in Sources */,
+				C53879A816F9F01900908630 /* AshtonHTMLWriterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
