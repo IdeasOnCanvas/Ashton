@@ -112,11 +112,16 @@
                                                       italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
                                                          features:attrDict[AshtonFontAttrFeatures]]);
 
-                // We need to construct a kCTFontPostScriptNameKey for the font with the given attributes
-                NSString *fontName = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontPostScriptNameKey));
-                UIFont *font = [UIFont fontWithName:fontName size:[attrDict[AshtonFontAttrPointSize] doubleValue]];
+                if (ctFont) {
+                    // We need to construct a kCTFontPostScriptNameKey for the font with the given attributes
+                    NSString *fontName = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontPostScriptNameKey));
+                    UIFont *font = [UIFont fontWithName:fontName size:[attrDict[AshtonFontAttrPointSize] doubleValue]];
 
-                if (font) newAttrs[NSFontAttributeName] = font;
+                    if (font) newAttrs[NSFontAttributeName] = font;
+                } else {
+                    // assign system font with requested size
+                    newAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:[attrDict[AshtonFontAttrPointSize] doubleValue]];
+                }
             }
             if ([attrName isEqualToString:AshtonAttrUnderline]) {
                 // consumes: underline
