@@ -65,15 +65,7 @@
                 NSString *familyName; [scanner scanUpToString:@"\"" intoString:&familyName];
 
                 NSDictionary *fontAttrs = @{ AshtonFontAttrTraitBold: @(traitBold), AshtonFontAttrTraitItalic: @(traitItalic), AshtonFontAttrFamilyName: familyName, AshtonFontAttrPointSize: @(pointSize), AshtonFontAttrFeatures: @[] };
-
-                // Merge AshtonAttrFont if it already exists (if -cocoa-font-features: happened before font:)
-                if (attrs[AshtonAttrFont]) {
-                    NSMutableDictionary *existingFontAttrs = [attrs[AshtonAttrFont] mutableCopy];
-                    [existingFontAttrs addEntriesFromDictionary:fontAttrs];
-                    attrs[AshtonAttrFont] = existingFontAttrs;
-                } else {
-                    attrs[AshtonAttrFont] = fontAttrs;
-                }
+                attrs[AshtonAttrFont] = [self mergeFontAttributes:fontAttrs into:attrs[AshtonAttrFont]];
             }
             if ([key isEqualToString:@"-cocoa-font-features"]) {
                 NSMutableArray *features = [NSMutableArray array];
@@ -83,15 +75,7 @@
                 }
 
                 NSDictionary *fontAttrs = @{ AshtonFontAttrFeatures: features };
-
-                // Merge AshtonAttrFont if it already exists (if -cocoa-font-features: happened before font:)
-                if (attrs[AshtonAttrFont]) {
-                    NSMutableDictionary *existingFontAttrs = [attrs[AshtonAttrFont] mutableCopy];
-                    [existingFontAttrs addEntriesFromDictionary:fontAttrs];
-                    attrs[AshtonAttrFont] = existingFontAttrs;
-                } else {
-                    attrs[AshtonAttrFont] = fontAttrs;
-                }
+                attrs[AshtonAttrFont] = [self mergeFontAttributes:fontAttrs into:attrs[AshtonAttrFont]];
             }
 
             if ([key isEqualToString:@"-cocoa-underline"]) {
@@ -122,6 +106,20 @@
     }
 
     return attrs;
+}
+
+// Merge AshtonAttrFont if it already exists (e.g. if -cocoa-font-features: happened before font:)
+- (NSDictionary *)mergeFontAttributes:(NSDictionary *)new into:(NSDictionary *)existing {
+    if (existing) {
+        NSMutableDictionary *merged = [existing mutableCopy];
+        NSArray *mergedFeatures;
+        if (existing[AshtonFontAttrFeatures] && new[AshtonFontAttrFeatures]) mergedFeatures = [existing[AshtonFontAttrFeatures] arrayByAddingObjectsFromArray:new[AshtonFontAttrFeatures]];
+        [merged addEntriesFromDictionary:new];
+        if (mergedFeatures) merged[AshtonFontAttrFeatures] = mergedFeatures;
+        return merged;
+    } else {
+        return new;
+    }
 }
 
 - (NSDictionary *)currentAttributes {
