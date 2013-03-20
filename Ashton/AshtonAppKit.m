@@ -1,5 +1,6 @@
 #import "AshtonAppKit.h"
 #import "AshtonIntermediate.h"
+#import "AshtonUtils.h"
 
 @implementation AshtonAppKit
 
@@ -112,24 +113,12 @@
             if ([attrName isEqualToString:AshtonAttrFont]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
-                NSFontDescriptor *fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:@{ NSFontFamilyAttribute: attrDict[AshtonFontAttrFamilyName] }];
-                NSFontSymbolicTraits symbolicTraits = [fontDescriptor symbolicTraits];
-                if ([attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontBoldTrait;
-                if ([attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]) symbolicTraits = symbolicTraits | NSFontItalicTrait;
-                fontDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:symbolicTraits];
-
-                NSSet *features = attrDict[AshtonFontAttrFeatures];
-                if (features) {
-                    NSMutableArray *fontFeatures = [NSMutableArray array];
-                    for (NSArray *feature in features) {
-                        [fontFeatures addObject:@{NSFontFeatureTypeIdentifierKey: feature[0], NSFontFeatureSelectorIdentifierKey: feature[1]}];
-                    }
-                    fontDescriptor = [fontDescriptor fontDescriptorByAddingAttributes:@{ NSFontFeatureSettingsAttribute: fontFeatures }];
-                }
-
-                NSFont *font = [NSFont fontWithDescriptor:fontDescriptor size:[attrDict[AshtonFontAttrPointSize] doubleValue]];
-                if (font)
-                    newAttrs[NSFontAttributeName] = font;
+                NSFont *font = [AshtonUtils CTFontRefWithName:attrDict[AshtonFontAttrFamilyName]
+                                                                               size:[attrDict[AshtonFontAttrPointSize] doubleValue]
+                                                                          boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
+                                                                        italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
+                                                                           features:attrDict[AshtonFontAttrFeatures]];
+                if (font) newAttrs[NSFontAttributeName] = font;
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
                 if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);

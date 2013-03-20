@@ -116,7 +116,7 @@
                 NSString *fontName = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontPostScriptNameKey));
                 UIFont *font = [UIFont fontWithName:fontName size:[attrDict[AshtonFontAttrPointSize] doubleValue]];
 
-                newAttrs[NSFontAttributeName] = font;
+                if (font) newAttrs[NSFontAttributeName] = font;
             }
             if ([attrName isEqualToString:AshtonAttrUnderline]) {
                 // consumes: underline

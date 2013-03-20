@@ -117,11 +117,12 @@
             if ([attrName isEqualToString:AshtonAttrFont]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
-                newAttrs[(id)kCTFontAttributeName] = [AshtonUtils CTFontRefWithName:attrDict[AshtonFontAttrFamilyName]
-                                                                               size:[attrDict[AshtonFontAttrPointSize] doubleValue]
-                                                                          boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
-                                                                        italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
-                                                                           features:attrDict[AshtonFontAttrFeatures]];
+                id font = [AshtonUtils CTFontRefWithName:attrDict[AshtonFontAttrFamilyName]
+                                                    size:[attrDict[AshtonFontAttrPointSize] doubleValue]
+                                               boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
+                                             italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
+                                                features:attrDict[AshtonFontAttrFeatures]];
+                if (font) newAttrs[(id)kCTFontAttributeName] = font;
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
                 if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
