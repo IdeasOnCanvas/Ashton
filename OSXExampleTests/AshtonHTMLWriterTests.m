@@ -1,34 +1,37 @@
 #import "AshtonHTMLWriterTests.h"
 #import "AshtonHTMLWriter.h"
 
-@implementation AshtonHTMLWriterTests
+@interface AshtonHTMLWriter (Private)
+- (NSArray *)sortedStyleKeyArray:(NSArray *)keys;
+@end
+
+@implementation AshtonHTMLWriterTests {
+    AshtonHTMLWriter *writer;
+}
+
 - (void)setUp {
     [super setUp];
-
-    // Set-up code here.
+    writer = [[AshtonHTMLWriter alloc] init];
 }
 
 - (void)tearDown {
-    // Tear-down code here.
-
+    writer = nil;
     [super tearDown];
 }
 
 - (void)testCustomStyleSort1 {
-    AshtonHTMLWriter *writer = [[AshtonHTMLWriter alloc] init];
     NSArray *keys         = @[ @"-a", @"-b", @"a", @"b", @"c" ];
     NSArray *expectedKeys = @[ @"a", @"b", @"c", @"-a", @"-b" ];
 
-    NSArray *sortedKeys = [writer performSelector:@selector(sortedStyleKeyArray:) withObject:keys];
+    NSArray *sortedKeys = [writer sortedStyleKeyArray:keys];
     STAssertEqualObjects(sortedKeys, expectedKeys, @"Sort keys starting with - to the end");
 }
 
 - (void)testCustomStyleSort2 {
-    AshtonHTMLWriter *writer = [[AshtonHTMLWriter alloc] init];
     NSArray *keys         = @[ @"-cocoa-font-features", @"font", @"text-align" ];
     NSArray *expectedKeys = @[ @"font", @"text-align", @"-cocoa-font-features" ];
 
-    NSArray *sortedKeys = [writer performSelector:@selector(sortedStyleKeyArray:) withObject:keys];
+    NSArray *sortedKeys = [writer sortedStyleKeyArray:keys];
     STAssertEqualObjects(sortedKeys, expectedKeys, @"Sort keys starting with - to the end");
 }
 
