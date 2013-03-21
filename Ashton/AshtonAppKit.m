@@ -83,7 +83,11 @@
                 newAttrs[AshtonAttrStrikethroughColor] = [self arrayForColor:attr];
             }
             if ([attrName isEqual:NSLinkAttributeName]) {
-                newAttrs[AshtonAttrLink] = [attr absoluteString];
+				if ([attr isKindOfClass:[NSURL class]]) {
+					newAttrs[AshtonAttrLink] = [attr absoluteString];
+				} else if ([attr isKindOfClass:[NSString class]]) {
+					newAttrs[AshtonAttrLink] = attr;
+				}
             }
         }
         [output setAttributes:newAttrs range:range];
