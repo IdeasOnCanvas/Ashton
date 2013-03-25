@@ -164,19 +164,8 @@
 
 
 - (NSArray *)arrayForColor:(NSColor *)color {
-    CGFloat red, green, blue;
-    CGFloat alpha = color.alphaComponent;
-    if ([color.colorSpaceName isEqual:NSCalibratedWhiteColorSpace]) {
-        red = green = blue = color.whiteComponent;
-    } else if ([color.colorSpaceName isEqual:NSCalibratedRGBColorSpace] ||
-               [color.colorSpaceName isEqual:NSDeviceRGBColorSpace]) {
-        red = color.redComponent;
-        green = color.greenComponent;
-        blue = color.blueComponent;
-    } else {
-        red = green = blue = 0;
-    }
-    return @[ @(red), @(green), @(blue), @(alpha) ];
+    NSColor *canonicalColor = [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+    return @[ @(canonicalColor.redComponent), @(canonicalColor.greenComponent), @(canonicalColor.blueComponent), @(canonicalColor.alphaComponent) ];
 }
 
 - (NSColor *)colorForArray:(NSArray *)input {

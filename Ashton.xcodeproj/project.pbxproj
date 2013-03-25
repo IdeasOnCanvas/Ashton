@@ -39,6 +39,7 @@
 		C5DC48921647F0D7009FEA27 /* iOSCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5DC48911647F0D7009FEA27 /* iOSCoreTextView.m */; };
 		C5DC48951647F288009FEA27 /* OSXCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5DC48941647F288009FEA27 /* OSXCoreTextView.m */; };
 		C5DC48961647F50C009FEA27 /* TextEdit Test Document.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C5AC35A2163ED13700C233FE /* TextEdit Test Document.rtf */; };
+		C5E35C5A1700541E00A386A7 /* AshtonAppKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C5E35C591700541E00A386A7 /* AshtonAppKitTests.m */; };
 		C5F71651163E97CF005B34D1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5F7164F163E97CF005B34D1 /* InfoPlist.strings */; };
 		C5F71653163E97CF005B34D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F71652163E97CF005B34D1 /* main.m */; };
 		C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F71656163E97CF005B34D1 /* iOSAppDelegate.m */; };
@@ -112,6 +113,8 @@
 		C5DC48911647F0D7009FEA27 /* iOSCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSCoreTextView.m; sourceTree = "<group>"; };
 		C5DC48931647F288009FEA27 /* OSXCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSXCoreTextView.h; sourceTree = "<group>"; };
 		C5DC48941647F288009FEA27 /* OSXCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSXCoreTextView.m; sourceTree = "<group>"; };
+		C5E35C581700541E00A386A7 /* AshtonAppKitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKitTests.h; sourceTree = "<group>"; };
+		C5E35C591700541E00A386A7 /* AshtonAppKitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonAppKitTests.m; sourceTree = "<group>"; };
 		C5F71642163E97CF005B34D1 /* iOSExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F7164E163E97CF005B34D1 /* iOSExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOSExample-Info.plist"; sourceTree = "<group>"; };
 		C5F71650163E97CF005B34D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -336,6 +339,8 @@
 		C5F716AB163E97EA005B34D1 /* OSXExampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				C5E35C581700541E00A386A7 /* AshtonAppKitTests.h */,
+				C5E35C591700541E00A386A7 /* AshtonAppKitTests.m */,
 				C53879A616F9F01900908630 /* AshtonCSSTests.h */,
 				C53879A716F9F01900908630 /* AshtonCSSTests.m */,
 				C5F716B1163E97EA005B34D1 /* OSXExampleTests.h */,
@@ -586,6 +591,7 @@
 			files = (
 				C5F716B3163E97EA005B34D1 /* OSXExampleTests.m in Sources */,
 				C53879A816F9F01900908630 /* AshtonCSSTests.m in Sources */,
+				C5E35C5A1700541E00A386A7 /* AshtonAppKitTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
