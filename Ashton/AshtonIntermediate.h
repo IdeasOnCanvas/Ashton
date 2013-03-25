@@ -18,6 +18,7 @@ extern NSString * const AshtonParagraphAttrTextAlignment;
 extern NSString * const AshtonParagraphAttrTextAlignmentStyleLeft;
 extern NSString * const AshtonParagraphAttrTextAlignmentStyleRight;
 extern NSString * const AshtonParagraphAttrTextAlignmentStyleCenter;
+extern NSString * const AshtonParagraphAttrTextAlignmentStyleJustified;
 
 extern NSString * const AshtonStrikethroughStyleSingle;
 extern NSString * const AshtonStrikethroughStyleThick;

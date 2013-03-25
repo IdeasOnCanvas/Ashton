@@ -151,6 +151,7 @@
         if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:AshtonParagraphAttrTextAlignmentStyleLeft]) styles[@"text-align"] = @"left";
         if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:AshtonParagraphAttrTextAlignmentStyleRight]) styles[@"text-align"] = @"right";
         if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:AshtonParagraphAttrTextAlignmentStyleCenter]) styles[@"text-align"] = @"center";
+        if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:AshtonParagraphAttrTextAlignmentStyleCenter]) styles[@"text-align"] = @"justify";
     }
     if ([attrName isEqualToString:AshtonAttrFont]) {
         NSDictionary *attrDict = attr;

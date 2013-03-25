@@ -43,6 +43,7 @@
                 if (alignment == kCTTextAlignmentLeft) attrDict[AshtonParagraphAttrTextAlignment] = @"left";
                 if (alignment == kCTTextAlignmentRight) attrDict[AshtonParagraphAttrTextAlignment] = @"right";
                 if (alignment == kCTTextAlignmentCenter) attrDict[AshtonParagraphAttrTextAlignment] = @"center";
+                if (alignment == kCTTextAlignmentJustified) attrDict[AshtonParagraphAttrTextAlignment] = @"justified";
                 newAttrs[AshtonAttrParagraph] = attrDict;
             }
             if ([attrName isEqual:(id)kCTFontAttributeName]) {
@@ -107,6 +108,7 @@
                 if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"left"]) alignment = kCTTextAlignmentLeft;
                 if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"right"]) alignment = kCTTextAlignmentRight;
                 if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"center"]) alignment = kCTTextAlignmentCenter;
+                if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"justified"]) alignment = kCTTextAlignmentJustified;
 
                 CTParagraphStyleSetting settings[] = {
                     { kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment },

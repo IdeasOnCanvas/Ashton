@@ -20,6 +20,7 @@ NSString * const AshtonParagraphAttrTextAlignment = @"textAlignment";
 NSString * const AshtonParagraphAttrTextAlignmentStyleLeft = @"left";
 NSString * const AshtonParagraphAttrTextAlignmentStyleRight = @"right";
 NSString * const AshtonParagraphAttrTextAlignmentStyleCenter = @"center";
+NSString * const AshtonParagraphAttrTextAlignmentStyleJustified = @"justified";
 
 NSString * const AshtonStrikethroughStyleSingle = @"single";
 NSString * const AshtonStrikethroughStyleThick = @"thick";

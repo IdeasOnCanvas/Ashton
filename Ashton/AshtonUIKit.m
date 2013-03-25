@@ -40,6 +40,7 @@
                 if (paragraphStyle.alignment == NSTextAlignmentLeft) attrDict[AshtonParagraphAttrTextAlignment] = @"left";
                 if (paragraphStyle.alignment == NSTextAlignmentRight) attrDict[AshtonParagraphAttrTextAlignment] = @"right";
                 if (paragraphStyle.alignment == NSTextAlignmentCenter) attrDict[AshtonParagraphAttrTextAlignment] = @"center";
+                if (paragraphStyle.alignment == NSTextAlignmentJustified) attrDict[AshtonParagraphAttrTextAlignment] = @"justified";
                 newAttrs[AshtonAttrParagraph] = attrDict;
             }
             if ([attrName isEqual:NSFontAttributeName]) {
@@ -99,6 +100,7 @@
                 if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"left"])  paragraphStyle.alignment = NSTextAlignmentLeft;
                 if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"right"]) paragraphStyle.alignment = NSTextAlignmentRight;
                 if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"center"]) paragraphStyle.alignment = NSTextAlignmentCenter;
+                if ([attrDict[AshtonParagraphAttrTextAlignment] isEqualToString:@"justified"]) paragraphStyle.alignment = NSTextAlignmentJustified;
 
                 newAttrs[NSParagraphStyleAttributeName] = paragraphStyle;
             }
