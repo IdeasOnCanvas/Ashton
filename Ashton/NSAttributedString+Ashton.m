@@ -20,7 +20,7 @@
 	return [[AshtonHTMLWriter sharedInstance] HTMLStringFromAttributedString:attString];
 }
 
-- (id)mn_initWithHTMLString:(NSString *)htmlString
+- (instancetype)mn_initWithHTMLString:(NSString *)htmlString
 {
 	NSAttributedString *attString = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
 #if TARGET_OS_IPHONE
@@ -38,10 +38,11 @@
 	return [[AshtonHTMLWriter sharedInstance] HTMLStringFromAttributedString:attString];
 }
 
-- (id)mn_initWithCoreTextAttributesFromHTMLString:(NSString *)htmlString
+- (instancetype)mn_initWithCoreTextAttributesFromHTMLString:(NSString *)htmlString
 {
 	NSAttributedString *attString = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
-	return [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
+	attString = [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
+    return [self initWithAttributedString:attString];
 }
 
 @end
