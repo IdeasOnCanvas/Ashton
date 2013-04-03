@@ -22,7 +22,7 @@
 
 - (instancetype)mn_initWithHTMLString:(NSString *)htmlString
 {
-	NSAttributedString *attString = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
+	NSAttributedString *attString = [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
 #if TARGET_OS_IPHONE
 	attString = [[AshtonUIKit sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
 #else
@@ -40,7 +40,7 @@
 
 - (instancetype)mn_initWithCoreTextAttributesFromHTMLString:(NSString *)htmlString
 {
-	NSAttributedString *attString = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
+	NSAttributedString *attString = [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
 	attString = [[AshtonCoreText sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
     return [self initWithAttributedString:attString];
 }
