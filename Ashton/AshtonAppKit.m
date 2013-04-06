@@ -20,6 +20,7 @@
         NSMutableDictionary *newAttrs = [NSMutableDictionary dictionaryWithCapacity:[attrs count]];
         for (NSString *attrName in attrs) {
             id attr = attrs[attrName];
+			if (!attr) continue;
             if ([attrName isEqual:NSParagraphStyleAttributeName]) {
                 // produces: paragraph
                 NSParagraphStyle *paragraphStyle = (NSParagraphStyle *)attr;
@@ -153,7 +154,10 @@
                 newAttrs[NSStrikethroughColorAttributeName] = [self colorForArray:attr];
             }
             if ([attrName isEqualToString:AshtonAttrLink]) {
-                newAttrs[NSLinkAttributeName] = [NSURL URLWithString:attr];
+				NSURL *URL = [NSURL URLWithString:attr];
+				if (URL) {
+					newAttrs[NSLinkAttributeName] = URL;
+				}
             }
         }
         [output setAttributes:newAttrs range:range];
