@@ -9,7 +9,7 @@
 
 @implementation AshtonHTMLReader
 
-+ (instancetype)sharedInstance {
++ (instancetype)HTMLReader {
     return [[AshtonHTMLReader alloc] init];
 }
 

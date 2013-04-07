@@ -5,10 +5,10 @@
 
 // Attributed String with UIKit or AppKit Attributes
 - (NSString *)mn_HTMLRepresentation;
-- (id)mn_initWithHTMLString:(NSString *)htmlString NS_RETURNS_RETAINED __attribute__((ns_consumes_self));
+- (instancetype)mn_initWithHTMLString:(NSString *)htmlString NS_RETURNS_RETAINED __attribute__((ns_consumes_self));
 
 // Attributed String with CT Attributes
 - (NSString *)mn_HTMLRepresentationFromCoreTextAttributes;
-- (id)mn_initWithCoreTextAttributesFromHTMLString:(NSString *)htmlString NS_RETURNS_RETAINED __attribute__((ns_consumes_self));
+- (instancetype)mn_initWithCoreTextAttributesFromHTMLString:(NSString *)htmlString NS_RETURNS_RETAINED __attribute__((ns_consumes_self));
 
 @end

@@ -1,6 +1,6 @@
 @interface AshtonHTMLReader : NSObject < NSXMLParserDelegate >
 
-+ (instancetype)sharedInstance;
++ (instancetype)HTMLReader;
 
 - (NSAttributedString *)attributedStringFromHTMLString:(NSString *)htmlString;
 
