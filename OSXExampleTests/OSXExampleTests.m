@@ -79,9 +79,9 @@
     NSAttributedString *source = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:[self readAttributedStringFromRTFFile:@"Test1"]];
 
     NSString *htmlString = [[AshtonHTMLWriter sharedInstance] HTMLStringFromAttributedString:source];
-    NSAttributedString *intermediate = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
+    NSAttributedString *intermediate = [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
     htmlString = [[AshtonHTMLWriter sharedInstance] HTMLStringFromAttributedString:intermediate];
-    NSAttributedString *back = [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:htmlString];
+    NSAttributedString *back = [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
 
     STAssertEqualObjects(back, intermediate, @"Converting to/from HTML");
 }
