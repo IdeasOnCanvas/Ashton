@@ -44,6 +44,13 @@
     array = [ashton arrayForColor:color];
     expectedArray = @[ @(0.1), @(0.2), @(0.3), @(0.4) ];
     [self assertArray:array equals:expectedArray or:@"calibrated rgb failed"];
+
+    color = [NSColor windowBackgroundColor];
+    // make sure this color can't be converted to RGB using the naive approach
+    STAssertNil([color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]], @"converting windowBackgroundColor was too easy.");
+    array = [ashton arrayForColor:color];
+    expectedArray = @[ @(0.909803926945), @(0.909803926945), @(0.909803926945), @(1) ];
+    [self assertArray:array equals:expectedArray or:@"windowBackgroundColor has changed"];
 }
 
 @end

@@ -171,6 +171,23 @@
 
 - (NSArray *)arrayForColor:(NSColor *)color {
     NSColor *canonicalColor = [color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]];
+
+	if (!canonicalColor) {
+        // We got a color with an image pattern (e.g. windowBackgroundColor) that can't be converted to RGB.
+        // So we convert it to image and extract the first px.
+        // The result won't be 100% correct, but better than a completely undefined color.
+        NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL pixelsWide:1 pixelsHigh:1 bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSCalibratedRGBColorSpace bytesPerRow:4 bitsPerPixel:32];
+        NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithBitmapImageRep:bitmapRep];
+
+        [NSGraphicsContext saveGraphicsState];
+        [NSGraphicsContext setCurrentContext:context];
+        [color setFill];
+        NSRectFill(CGRectMake(0, 0, 1, 1));
+        [context flushGraphics];
+        [NSGraphicsContext restoreGraphicsState];
+        canonicalColor = [bitmapRep colorAtX:0 y:0];
+    }
+
     return @[ @(canonicalColor.redComponent), @(canonicalColor.greenComponent), @(canonicalColor.blueComponent), @(canonicalColor.alphaComponent) ];
 }
 
