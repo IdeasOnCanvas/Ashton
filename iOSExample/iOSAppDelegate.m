@@ -10,7 +10,7 @@
 - (NSAttributedString *)readAttributedStringFromHTMLFile:(NSString *)name {
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:name ofType:@"html"];
     NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
-    return [[AshtonHTMLReader sharedInstance] attributedStringFromHTMLString:html];
+    return [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:html];
 }
 
 @end
