@@ -34,7 +34,7 @@
             id attr = attrs[attrName];
             if ([attrName isEqual:NSParagraphStyleAttributeName]) {
                 // produces: paragraph
-                if (![attr isKindOfClass:[NSParagraphStyle class]]) return;
+                if (![attr isKindOfClass:[NSParagraphStyle class]]) continue;
                 NSParagraphStyle *paragraphStyle = attr;
                 NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
@@ -46,7 +46,7 @@
             }
             if ([attrName isEqual:NSFontAttributeName]) {
                 // produces: font
-                if (![attr isKindOfClass:[UIFont class]]) return;
+                if (![attr isKindOfClass:[UIFont class]]) continue;
                 UIFont *font = attr;
                 NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
@@ -62,17 +62,17 @@
             }
             if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
                 // produces: underline
-                if (![attr isKindOfClass:[NSNumber class]]) return;
+                if (![attr isKindOfClass:[NSNumber class]]) continue;
                 if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[AshtonAttrUnderline] = AshtonUnderlineStyleSingle;
             }
             if ([attrName isEqual:NSStrikethroughStyleAttributeName]) {
                 // produces: strikthrough
-                if (![attr isKindOfClass:[NSNumber class]]) return;
+                if (![attr isKindOfClass:[NSNumber class]]) continue;
                 if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[AshtonAttrStrikethrough] = AshtonStrikethroughStyleSingle;
             }
             if ([attrName isEqual:NSForegroundColorAttributeName]) {
                 // produces: color
-                if (![attr isKindOfClass:[UIColor class]]) return;
+                if (![attr isKindOfClass:[UIColor class]]) continue;
                 newAttrs[AshtonAttrColor] = [self arrayForColor:attr];
             }
         }
