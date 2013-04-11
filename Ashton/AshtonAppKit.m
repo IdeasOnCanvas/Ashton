@@ -22,6 +22,7 @@
             id attr = attrs[attrName];
             if ([attrName isEqual:NSParagraphStyleAttributeName]) {
                 // produces: paragraph
+                if (![attr isKindOfClass:[NSParagraphStyle class]]) return;
                 NSParagraphStyle *paragraphStyle = (NSParagraphStyle *)attr;
                 NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
@@ -34,6 +35,7 @@
             }
             if ([attrName isEqual:NSFontAttributeName]) {
                 // produces: font
+                if (![attr isKindOfClass:[NSFont class]]) return;
                 NSFont *font = (NSFont *)attr;
                 NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
                 NSFontDescriptor *fontDescriptor = [font fontDescriptor];
@@ -56,32 +58,38 @@
                 newAttrs[AshtonAttrFont] = attrDict;
             }
             if ([attrName isEqual:NSSuperscriptAttributeName]) {
+                if (![attr isKindOfClass:[NSNumber class]]) return;
                 if ([attr intValue] == 1) newAttrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSuper;
                 if ([attr intValue] == -1) newAttrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSub;
             }
             if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
                 // produces: underline
+                if (![attr isKindOfClass:[NSNumber class]]) return;
                 if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[AshtonAttrUnderline] = AshtonUnderlineStyleSingle;
                 if ([attr isEqual:@(NSUnderlineStyleThick)]) newAttrs[AshtonAttrUnderline] = AshtonUnderlineStyleThick;
                 if ([attr isEqual:@(NSUnderlineStyleDouble)]) newAttrs[AshtonAttrUnderline] = AshtonUnderlineStyleDouble;
             }
             if ([attrName isEqual:NSUnderlineColorAttributeName]) {
                 // produces: underlineColor
+                if (![attr isKindOfClass:[NSColor class]]) return;
                 newAttrs[AshtonAttrUnderlineColor] = [self arrayForColor:attr];
             }
             if ([attrName isEqual:NSForegroundColorAttributeName] || [attrName isEqual:NSStrokeColorAttributeName]) {
                 // produces: color
+                if (![attr isKindOfClass:[NSColor class]]) return;
                 newAttrs[AshtonAttrColor] = [self arrayForColor:attr];
             }
 
             if ([attrName isEqual:NSStrikethroughStyleAttributeName]) {
                 // produces: strikethrough
+                if (![attr isKindOfClass:[NSNumber class]]) return;
                 if ([attr isEqual:@(NSUnderlineStyleSingle)]) newAttrs[AshtonAttrStrikethrough] = AshtonStrikethroughStyleSingle;
                 if ([attr isEqual:@(NSUnderlineStyleThick)]) newAttrs[AshtonAttrStrikethrough] = AshtonStrikethroughStyleThick;
                 if ([attr isEqual:@(NSUnderlineStyleDouble)]) newAttrs[AshtonAttrStrikethrough] = AshtonStrikethroughStyleDouble;
             }
             if ([attrName isEqual:NSStrikethroughColorAttributeName]) {
                 // produces: strikethroughColor
+                if (![attr isKindOfClass:[NSColor class]]) return;
                 newAttrs[AshtonAttrStrikethroughColor] = [self arrayForColor:attr];
             }
             if ([attrName isEqual:NSLinkAttributeName]) {
