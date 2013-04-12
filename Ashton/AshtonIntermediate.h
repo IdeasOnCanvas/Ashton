@@ -13,6 +13,7 @@ extern NSString * const AshtonFontAttrTraitItalic;
 extern NSString * const AshtonFontAttrFeatures;
 extern NSString * const AshtonFontAttrPointSize;
 extern NSString * const AshtonFontAttrFamilyName;
+extern NSString * const AshtonFontAttrPostScriptName;
 
 extern NSString * const AshtonParagraphAttrTextAlignment;
 extern NSString * const AshtonParagraphAttrTextAlignmentStyleLeft;

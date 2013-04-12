@@ -15,6 +15,7 @@ NSString * const AshtonFontAttrTraitItalic = @"traitItalic";
 NSString * const AshtonFontAttrFeatures = @"features";
 NSString * const AshtonFontAttrPointSize = @"pointSize";
 NSString * const AshtonFontAttrFamilyName = @"familyName";
+NSString * const AshtonFontAttrPostScriptName = @"postScriptName";
 
 NSString * const AshtonParagraphAttrTextAlignment = @"textAlignment";
 NSString * const AshtonParagraphAttrTextAlignmentStyleLeft = @"left";

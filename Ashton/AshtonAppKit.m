@@ -55,6 +55,7 @@
                 attrDict[AshtonFontAttrFeatures] = features;
                 attrDict[AshtonFontAttrPointSize] = @(font.pointSize);
                 attrDict[AshtonFontAttrFamilyName] = font.familyName;
+                attrDict[AshtonFontAttrPostScriptName] = font.fontName;
                 newAttrs[AshtonAttrFont] = attrDict;
             }
             if ([attrName isEqual:NSSuperscriptAttributeName]) {
@@ -128,11 +129,12 @@
             if ([attrName isEqualToString:AshtonAttrFont]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
-                NSFont *font = [AshtonUtils CTFontRefWithName:attrDict[AshtonFontAttrFamilyName]
-                                                                               size:[attrDict[AshtonFontAttrPointSize] doubleValue]
-                                                                          boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
-                                                                        italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
-                                                                           features:attrDict[AshtonFontAttrFeatures]];
+                NSFont *font = [AshtonUtils CTFontRefWithFamilyName:attrDict[AshtonFontAttrFamilyName]
+                                                     postScriptName:attrDict[AshtonFontAttrPostScriptName]
+                                                               size:[attrDict[AshtonFontAttrPointSize] doubleValue]
+                                                          boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
+                                                        italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
+                                                           features:attrDict[AshtonFontAttrFeatures]];
                 if (font) newAttrs[NSFontAttributeName] = font;
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {

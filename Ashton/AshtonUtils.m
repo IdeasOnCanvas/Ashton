@@ -3,8 +3,11 @@
 
 @implementation AshtonUtils
 
-+ (id)CTFontRefWithName:(NSString *)familyName size:(CGFloat)pointSize boldTrait:(BOOL)isBold italicTrait:(BOOL)isItalic features:(NSArray *)features {
-    NSDictionary *descriptorAttributes = @{ (id)kCTFontNameAttribute:familyName };
++ (id)CTFontRefWithFamilyName:(NSString *)familyName postScriptName:(NSString *)postScriptName size:(CGFloat)pointSize boldTrait:(BOOL)isBold italicTrait:(BOOL)isItalic features:(NSArray *)features {
+
+    NSMutableDictionary *descriptorAttributes = [NSMutableDictionary dictionaryWithCapacity:2];
+    if (familyName) descriptorAttributes[(id)kCTFontNameAttribute] = familyName;
+    if (postScriptName) descriptorAttributes[(id)kCTFontNameAttribute] = postScriptName;
     CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
 
     if (features) {
@@ -12,8 +15,8 @@
         for (NSArray *feature in features) {
             [fontFeatures addObject:@{(id)kCTFontFeatureTypeIdentifierKey:feature[0], (id)kCTFontFeatureSelectorIdentifierKey:feature[1]}];
         }
-        descriptorAttributes = @{(id)kCTFontFeatureSettingsAttribute:fontFeatures};
-        CTFontDescriptorRef newDescriptor = CTFontDescriptorCreateCopyWithAttributes(descriptor, (__bridge CFDictionaryRef)(descriptorAttributes));
+        descriptorAttributes[(id)kCTFontFeatureSettingsAttribute] = fontFeatures;
+        CTFontDescriptorRef newDescriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
         CFRelease(descriptor);
         descriptor = newDescriptor;
     }
@@ -22,8 +25,8 @@
     CFRelease(descriptor);
 
     CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail
-    if (isBold) symbolicTraits = symbolicTraits | kCTFontTraitBold;
-    if (isItalic) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
+    if (!postScriptName && isBold) symbolicTraits = symbolicTraits | kCTFontTraitBold;
+    if (!postScriptName && isItalic) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
     if (symbolicTraits != 0) {
         // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
         // Is there a better way to detect "no" symbolic traits?

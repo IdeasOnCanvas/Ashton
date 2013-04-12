@@ -64,6 +64,7 @@
                 attrDict[AshtonFontAttrFeatures] = features;
                 attrDict[AshtonFontAttrPointSize] = @(CTFontGetSize(font));
                 attrDict[AshtonFontAttrFamilyName] = CFBridgingRelease(CTFontCopyName(font, kCTFontFamilyNameKey));
+                attrDict[AshtonFontAttrPostScriptName] = CFBridgingRelease(CTFontCopyName(font, kCTFontPostScriptNameKey));
                 newAttrs[AshtonAttrFont] = attrDict;
             }
             if ([attrName isEqual:(id)kCTSuperscriptAttributeName]) {
@@ -119,11 +120,12 @@
             if ([attrName isEqualToString:AshtonAttrFont]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
-                id font = [AshtonUtils CTFontRefWithName:attrDict[AshtonFontAttrFamilyName]
-                                                    size:[attrDict[AshtonFontAttrPointSize] doubleValue]
-                                               boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
-                                             italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
-                                                features:attrDict[AshtonFontAttrFeatures]];
+                id font = [AshtonUtils CTFontRefWithFamilyName:attrDict[AshtonFontAttrFamilyName]
+                                                postScriptName:attrDict[AshtonFontAttrPostScriptName]
+                                                          size:[attrDict[AshtonFontAttrPointSize] doubleValue]
+                                                     boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
+                                                   italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
+                                                      features:attrDict[AshtonFontAttrFeatures]];
                 if (font) newAttrs[(id)kCTFontAttributeName] = font;
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {

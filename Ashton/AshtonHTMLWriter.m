@@ -173,6 +173,9 @@
             }
             styles[@"-cocoa-font-features"] = [features componentsJoinedByString:@" "];
         }
+        if (attrDict[AshtonFontAttrPostScriptName]) {
+            styles[@"-cocoa-font-postscriptname"] = [NSString stringWithFormat:@"\"%@\"", attrDict[AshtonFontAttrPostScriptName]];
+        }
     }
     if ([attrName isEqualToString:AshtonAttrUnderline]) {
         styles[@"text-decoration"] = @"underline";

@@ -2,6 +2,6 @@
 
 @interface AshtonUtils : NSObject
 
-+ (id)CTFontRefWithName:(NSString *)familyName size:(CGFloat)pointSize boldTrait:(BOOL)isBold italicTrait:(BOOL)isItalic features:(NSArray *)features;
++ (id)CTFontRefWithFamilyName:(NSString *)familyName postScriptName:(NSString *)postScriptName size:(CGFloat)pointSize boldTrait:(BOOL)isBold italicTrait:(BOOL)isItalic features:(NSArray *)features;
 
 @end

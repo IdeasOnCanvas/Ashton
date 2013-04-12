@@ -57,6 +57,7 @@
 
                 attrDict[AshtonFontAttrPointSize] = @(font.pointSize);
                 attrDict[AshtonFontAttrFamilyName] = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontFamilyNameKey));
+                attrDict[AshtonFontAttrPostScriptName] = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontPostScriptNameKey));
                 CFRelease(ctFont);
                 newAttrs[AshtonAttrFont] = attrDict;
             }
@@ -113,11 +114,12 @@
                 // consumes: font
                 NSDictionary *attrDict = attr;
 
-                CTFontRef ctFont = (__bridge CTFontRef)([AshtonUtils CTFontRefWithName:attrDict[AshtonFontAttrFamilyName]
-                                                             size:[attrDict[AshtonFontAttrPointSize] doubleValue]
-                                                        boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
-                                                      italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
-                                                         features:attrDict[AshtonFontAttrFeatures]]);
+                CTFontRef ctFont = (__bridge CTFontRef)([AshtonUtils CTFontRefWithFamilyName:attrDict[AshtonFontAttrFamilyName]
+                                                                              postScriptName:attrDict[AshtonFontAttrPostScriptName]
+                                                                                        size:[attrDict[AshtonFontAttrPointSize] doubleValue]
+                                                                                   boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
+                                                                                 italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
+                                                                                    features:attrDict[AshtonFontAttrFeatures]]);
 
                 if (ctFont) {
                     // We need to construct a kCTFontPostScriptNameKey for the font with the given attributes
