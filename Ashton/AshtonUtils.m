@@ -24,6 +24,8 @@
     CTFontRef font = CTFontCreateWithFontDescriptor(descriptor, pointSize, NULL);
     CFRelease(descriptor);
 
+    // We ignore symbolic traits when a postScriptName is given, because the postScriptName already encodes bold/italic and if we
+    // specify it again as a trait we get different fonts (e.g. Helvetica-Oblique becomes Helvetica-LightOblique)
     CTFontSymbolicTraits symbolicTraits = 0; // using CTFontGetSymbolicTraits also makes CTFontCreateCopyWithSymbolicTraits fail
     if (!postScriptName && isBold) symbolicTraits = symbolicTraits | kCTFontTraitBold;
     if (!postScriptName && isItalic) symbolicTraits = symbolicTraits | kCTFontTraitItalic;
