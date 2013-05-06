@@ -26,9 +26,17 @@
             NSString *content = [self HTMLEscapeString:[paragraph.string substringWithRange:range]];
             if (NSEqualRanges(range, paragraphRange)) {
                 [paragraphAttrs addEntriesFromDictionary:attrs];
-                if (attrs[AshtonAttrLink]) [paragraphOutput appendFormat:@"<a href='%@'>", attrs[AshtonAttrLink]];
+				id link = attrs[AshtonAttrLink];
+				NSString *linkStringValue = nil;
+				if ([link isKindOfClass:[NSString class]]) {
+					linkStringValue = link;
+				} else if ([link isKindOfClass:[NSURL class]]) {
+					linkStringValue = [link absoluteString];
+				}
+				linkStringValue = [self HTMLEscapeString:linkStringValue];
+                if (linkStringValue) [paragraphOutput appendFormat:@"<a href='%@'>", linkStringValue];
                 [paragraphOutput appendString:content];
-                if (attrs[AshtonAttrLink]) [paragraphOutput appendString:@"</a>"];
+                if (linkStringValue) [paragraphOutput appendString:@"</a>"];
             } else {
                 [paragraphOutput appendString:[self openingTagForAttributes:attrs skipParagraphStyles:YES]];
                 [paragraphOutput appendString:content];
