@@ -109,7 +109,17 @@
         [styleString appendString:@"'"];
     }
 
-    if(skipParagraphStyles && attrs[AshtonAttrLink]) [styleString appendFormat:@" href='%@'", attrs[AshtonAttrLink]];
+    if(skipParagraphStyles && attrs[AshtonAttrLink]) {
+        id link = attrs[AshtonAttrLink];
+        NSString *linkStringValue = nil;
+        if ([link isKindOfClass:[NSString class]]) {
+            linkStringValue = link;
+        } else if ([link isKindOfClass:[NSURL class]]) {
+            linkStringValue = [link absoluteString];
+        }
+        linkStringValue = [self HTMLEscapeString:linkStringValue];
+        [styleString appendFormat:@" href='%@'", linkStringValue];
+    }
 
     return styleString;
 }
