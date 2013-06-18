@@ -55,6 +55,11 @@
                 if ([value isEqualToString:@"center"]) paragraphAttrs[AshtonParagraphAttrTextAlignment] = AshtonParagraphAttrTextAlignmentStyleCenter;
                 if ([value isEqualToString:@"justify"]) paragraphAttrs[AshtonParagraphAttrTextAlignment] = AshtonParagraphAttrTextAlignmentStyleJustified;
             }
+            if ([key isEqualToString:@"vertical-align"]) {
+                // produces verticalAlign
+                if ([value isEqualToString:@"sub"]) attrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSub;
+                if ([value isEqualToString:@"super"]) attrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSuper;
+            }
             if ([key isEqualToString:AshtonAttrFont]) {
                 // produces: font
                 NSScanner *scanner = [NSScanner scannerWithString:value];

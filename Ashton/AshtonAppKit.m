@@ -138,8 +138,8 @@
                 if (font) newAttrs[NSFontAttributeName] = font;
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
-                if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
-                if ([attr isEqualToString:AshtonVerticalAlignStyleSub]) newAttrs[(id)kCTSuperscriptAttributeName] = @(-1);
+                if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) newAttrs[NSSuperscriptAttributeName] = @(1);
+                if ([attr isEqualToString:AshtonVerticalAlignStyleSub]) newAttrs[NSSuperscriptAttributeName] = @(-1);
             }
             if ([attrName isEqualToString:AshtonAttrUnderline]) {
                 // consumes: underline

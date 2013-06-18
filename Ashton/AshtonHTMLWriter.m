@@ -197,6 +197,10 @@
             styles[@"-cocoa-font-postscriptname"] = [NSString stringWithFormat:@"\"%@\"", attrDict[AshtonFontAttrPostScriptName]];
         }
     }
+    if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
+        if ([attr isEqualToString:AshtonVerticalAlignStyleSub]) styles[@"vertical-align"] = @"sub";
+        if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) styles[@"vertical-align"] = @"super";
+    }
     if ([attrName isEqualToString:AshtonAttrUnderline]) {
         styles[@"text-decoration"] = @"underline";
 
