@@ -17,8 +17,6 @@
 
     NSAttributedString *coreTextAndBackToIntermediate = [[AshtonCoreText sharedInstance] intermediateRepresentationWithTargetRepresentation:self.coreTextView.attributedString];
     self.appKitAgainTextView.textStorage.attributedString = [[AshtonAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:coreTextAndBackToIntermediate];
-
-    NSString *desktopPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
 - (NSAttributedString *)readAttributedStringFromRTFFile:(NSString *)name
