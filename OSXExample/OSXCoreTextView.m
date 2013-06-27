@@ -18,14 +18,19 @@
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathAddRect(path, NULL, self.bounds);
 
+    CFAttributedStringRef cfString = CFBridgingRetain(self.attributedString);
     // Create the framesetter with the attributed string.
-    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(CFBridgingRetain(self.attributedString));
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(cfString);
 
     // Create the frame and draw it into the graphics context
     CTFrameRef frame = CTFramesetterCreateFrame(framesetter,
                                                 CFRangeMake(0, 0), path, NULL);
-    CFRelease(framesetter);
+
     CTFrameDraw(frame, context);
+    CFRelease(frame);
+    CFRelease(cfString);
+    CFRelease(framesetter);
+    CFRelease(path);
 }
 
 @end
