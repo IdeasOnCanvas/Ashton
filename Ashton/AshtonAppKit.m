@@ -63,6 +63,9 @@
                 if ([attr intValue] == 1) newAttrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSuper;
                 if ([attr intValue] == -1) newAttrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSub;
             }
+            if ([attrName isEqual:NSBaselineOffsetAttributeName]) {
+                newAttrs[AshtonAttrBaselineOffset] = attr;
+            }
             if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
                 // produces: underline
                 if (![attr isKindOfClass:[NSNumber class]]) continue;
@@ -140,6 +143,9 @@
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
                 if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) newAttrs[NSSuperscriptAttributeName] = @(1);
                 if ([attr isEqualToString:AshtonVerticalAlignStyleSub]) newAttrs[NSSuperscriptAttributeName] = @(-1);
+            }
+            if ([attrName isEqualToString:AshtonAttrBaselineOffset]) {
+                newAttrs[NSBaselineOffsetAttributeName] = attr;
             }
             if ([attrName isEqualToString:AshtonAttrUnderline]) {
                 // consumes: underline

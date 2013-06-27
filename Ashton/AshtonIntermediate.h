@@ -7,6 +7,7 @@ extern NSString * const AshtonAttrStrikethroughColor;
 extern NSString * const AshtonAttrUnderline;
 extern NSString * const AshtonAttrUnderlineColor;
 extern NSString * const AshtonAttrVerticalAlign;
+extern NSString * const AshtonAttrBaselineOffset;
 
 extern NSString * const AshtonFontAttrTraitBold;
 extern NSString * const AshtonFontAttrTraitItalic;

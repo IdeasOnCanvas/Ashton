@@ -9,6 +9,7 @@ NSString * const AshtonAttrStrikethroughColor = @"strikethroughColor";
 NSString * const AshtonAttrUnderline = @"underline";
 NSString * const AshtonAttrUnderlineColor = @"underlineColor";
 NSString * const AshtonAttrVerticalAlign = @"verticalAlign";
+NSString * const AshtonAttrBaselineOffset = @"baselineOffset";
 
 NSString * const AshtonFontAttrTraitBold = @"traitBold";
 NSString * const AshtonFontAttrTraitItalic = @"traitItalic";

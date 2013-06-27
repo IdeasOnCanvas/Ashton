@@ -9,6 +9,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     NSAttributedString *source = [self readAttributedStringFromRTFFile:@"Test1"];
+    NSLog(@"%@", source);
     NSAttributedString *intermediate = [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:[source mn_HTMLRepresentation]];
 
     self.sourceTextView.textStorage.attributedString = source;

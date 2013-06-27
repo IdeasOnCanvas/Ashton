@@ -201,6 +201,9 @@
         if ([attr isEqualToString:AshtonVerticalAlignStyleSub]) styles[@"vertical-align"] = @"sub";
         if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) styles[@"vertical-align"] = @"super";
     }
+    if ([attrName isEqualToString:AshtonAttrBaselineOffset]) {
+        styles[@"-cocoa-baseline-offset"] = attr;
+    }
     if ([attrName isEqualToString:AshtonAttrUnderline]) {
         styles[@"text-decoration"] = @"underline";
 

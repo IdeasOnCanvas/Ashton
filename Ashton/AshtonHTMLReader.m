@@ -60,6 +60,9 @@
                 if ([value isEqualToString:@"sub"]) attrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSub;
                 if ([value isEqualToString:@"super"]) attrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSuper;
             }
+            if ([key isEqualToString:@"-cocoa-baseline-offset"]) {
+                attrs[AshtonAttrBaselineOffset] = @([value intValue]);
+            }
             if ([key isEqualToString:AshtonAttrFont]) {
                 // produces: font
                 NSScanner *scanner = [NSScanner scannerWithString:value];
