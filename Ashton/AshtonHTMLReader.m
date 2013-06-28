@@ -57,8 +57,14 @@
             }
             if ([key isEqualToString:@"vertical-align"]) {
                 // produces verticalAlign
-                if ([value isEqualToString:@"sub"]) attrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSub;
-                if ([value isEqualToString:@"super"]) attrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSuper;
+                // skip if vertical-align was already assigned by -cocoa-vertical-align
+                if (!attrs[AshtonAttrVerticalAlign]) {
+                    if ([value isEqualToString:@"sub"]) attrs[AshtonAttrVerticalAlign] = @(-1);
+                    if ([value isEqualToString:@"super"]) attrs[AshtonAttrVerticalAlign] = @(+1);
+                }
+            }
+            if ([key isEqualToString:@"-cocoa-vertical-align"]) {
+                attrs[AshtonAttrVerticalAlign] = @([value intValue]);
             }
             if ([key isEqualToString:@"-cocoa-baseline-offset"]) {
                 attrs[AshtonAttrBaselineOffset] = @([value intValue]);

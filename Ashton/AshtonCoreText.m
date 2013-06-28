@@ -68,8 +68,7 @@
                 newAttrs[AshtonAttrFont] = attrDict;
             }
             if ([attrName isEqual:(id)kCTSuperscriptAttributeName]) {
-                if ([attr intValue] == 1) newAttrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSuper;
-                if ([attr intValue] == -1) newAttrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSub;
+                newAttrs[AshtonAttrVerticalAlign] = @([attr intValue]);
             }
             if ([attrName isEqual:(id)kCTUnderlineStyleAttributeName]) {
                 // produces: underline
@@ -129,8 +128,7 @@
                 if (font) newAttrs[(id)kCTFontAttributeName] = font;
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
-                if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) newAttrs[(id)kCTSuperscriptAttributeName] = @(1);
-                if ([attr isEqualToString:AshtonVerticalAlignStyleSub]) newAttrs[(id)kCTSuperscriptAttributeName] = @(-1);
+                newAttrs[(id)kCTSuperscriptAttributeName] = @([attr intValue]);
             }
             if ([attrName isEqualToString:AshtonAttrUnderline]) {
                 // consumes: underline

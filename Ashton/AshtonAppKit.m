@@ -60,11 +60,10 @@
             }
             if ([attrName isEqual:NSSuperscriptAttributeName]) {
                 if (![attr isKindOfClass:[NSNumber class]]) continue;
-                if ([attr intValue] == 1) newAttrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSuper;
-                if ([attr intValue] == -1) newAttrs[AshtonAttrVerticalAlign] = AshtonVerticalAlignStyleSub;
+                newAttrs[AshtonAttrVerticalAlign] = @([attr intValue]);
             }
             if ([attrName isEqual:NSBaselineOffsetAttributeName]) {
-                newAttrs[AshtonAttrBaselineOffset] = attr;
+                newAttrs[AshtonAttrBaselineOffset] = @([attr floatValue]);
             }
             if ([attrName isEqual:NSUnderlineStyleAttributeName]) {
                 // produces: underline
@@ -141,8 +140,7 @@
                 if (font) newAttrs[NSFontAttributeName] = font;
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
-                if ([attr isEqualToString:AshtonVerticalAlignStyleSuper]) newAttrs[NSSuperscriptAttributeName] = @(1);
-                if ([attr isEqualToString:AshtonVerticalAlignStyleSub]) newAttrs[NSSuperscriptAttributeName] = @(-1);
+                newAttrs[NSSuperscriptAttributeName] = attr;
             }
             if ([attrName isEqualToString:AshtonAttrBaselineOffset]) {
                 newAttrs[NSBaselineOffsetAttributeName] = attr;

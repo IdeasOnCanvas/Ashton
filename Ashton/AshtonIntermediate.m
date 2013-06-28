@@ -31,6 +31,3 @@ NSString * const AshtonStrikethroughStyleDouble = @"double";
 NSString * const AshtonUnderlineStyleSingle = @"single";
 NSString * const AshtonUnderlineStyleThick = @"thick";
 NSString * const AshtonUnderlineStyleDouble = @"double";
-
-NSString * const AshtonVerticalAlignStyleSuper = @"super";
-NSString * const AshtonVerticalAlignStyleSub = @"sub";

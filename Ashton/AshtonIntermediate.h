@@ -29,6 +29,3 @@ extern NSString * const AshtonStrikethroughStyleDouble;
 extern NSString * const AshtonUnderlineStyleSingle;
 extern NSString * const AshtonUnderlineStyleThick;
 extern NSString * const AshtonUnderlineStyleDouble;
-
-extern NSString * const AshtonVerticalAlignStyleSuper;
-extern NSString * const AshtonVerticalAlignStyleSub;
