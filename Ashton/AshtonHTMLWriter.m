@@ -198,13 +198,13 @@
         }
     }
     if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
-        NSInteger intValue = [attr intValue];
-        if (intValue < 0) styles[@"vertical-align"] = @"sub";
-        if (intValue > 0) styles[@"vertical-align"] = @"super";
-        if (intValue != 0) styles[@"-cocoa-vertical-align"] = @(intValue);
+        NSInteger integerValue = [attr integerValue];
+        if (integerValue < 0) styles[@"vertical-align"] = @"sub";
+        if (integerValue > 0) styles[@"vertical-align"] = @"super";
+        if (integerValue != 0) styles[@"-cocoa-vertical-align"] = @(integerValue);
     }
     if ([attrName isEqualToString:AshtonAttrBaselineOffset]) {
-        styles[@"-cocoa-baseline-offset"] = attr;
+        styles[@"-cocoa-baseline-offset"] = @([attr floatValue]);
     }
     if ([attrName isEqualToString:AshtonAttrUnderline]) {
         styles[@"text-decoration"] = @"underline";

@@ -60,7 +60,7 @@
             }
             if ([attrName isEqual:NSSuperscriptAttributeName]) {
                 if (![attr isKindOfClass:[NSNumber class]]) continue;
-                newAttrs[AshtonAttrVerticalAlign] = @([attr intValue]);
+                newAttrs[AshtonAttrVerticalAlign] = @([attr integerValue]);
             }
             if ([attrName isEqual:NSBaselineOffsetAttributeName]) {
                 newAttrs[AshtonAttrBaselineOffset] = @([attr floatValue]);

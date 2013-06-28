@@ -64,10 +64,10 @@
                 }
             }
             if ([key isEqualToString:@"-cocoa-vertical-align"]) {
-                attrs[AshtonAttrVerticalAlign] = @([value intValue]);
+                attrs[AshtonAttrVerticalAlign] = @([value integerValue]);
             }
             if ([key isEqualToString:@"-cocoa-baseline-offset"]) {
-                attrs[AshtonAttrBaselineOffset] = @([value intValue]);
+                attrs[AshtonAttrBaselineOffset] = @([value floatValue]);
             }
             if ([key isEqualToString:AshtonAttrFont]) {
                 // produces: font
@@ -93,7 +93,7 @@
                 NSMutableArray *features = [NSMutableArray array];
                 for (NSString *feature in [value componentsSeparatedByString:@" "]) {
                     NSArray *values = [feature componentsSeparatedByString:@"/"];
-                    [features addObject:@[@([values[0] intValue]), @([values[1] intValue])]];
+                    [features addObject:@[@([values[0] integerValue]), @([values[1] integerValue])]];
                 }
 
                 NSDictionary *fontAttrs = @{ AshtonFontAttrFeatures: features };
