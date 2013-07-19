@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/IdeasOnCanvas/Ashton.git", :tag => "v#{s.version}" }
 
-  s.ios.deployment_target = '5.0'
+  s.ios.deployment_target = '6.1'
   s.ios.frameworks = 'CoreText'
   s.ios.source_files = 'Ashton/*.{h,m}'
   s.ios.exclude_files = 'Ashton/AshtonAppKit.{h,m}'
