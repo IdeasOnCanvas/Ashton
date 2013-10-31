@@ -43,4 +43,20 @@
     return CFBridgingRelease(font);
 }
 
++ (NSArray *)arrayForCGColor:(CGColorRef)color {
+    CGFloat red, green, blue;
+    CGFloat alpha = CGColorGetAlpha(color);
+    const CGFloat *components = CGColorGetComponents(color);
+    if (CGColorGetNumberOfComponents(color) == 2) {
+        red = green = blue = components[0];
+    } else if (CGColorGetNumberOfComponents(color) == 4) {
+        red = components[0];
+        green = components[1];
+        blue = components[2];
+    } else {
+        red = green = blue = 0;
+    }
+    return @[ @(red), @(green), @(blue), @(alpha) ];
+}
+
 @end

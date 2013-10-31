@@ -1,6 +1,7 @@
 #import "AshtonUIKit.h"
 #import "AshtonIntermediate.h"
 #import "AshtonUtils.h"
+#import "AshtonCoreText.h"
 #import <CoreText/CoreText.h>
 
 @interface AshtonUIKit ()
@@ -158,9 +159,7 @@
 }
 
 - (NSArray *)arrayForColor:(UIColor *)color {
-    CGFloat red, green, blue, alpha;
-    [color getRed:&red green:&green blue:&blue alpha:&alpha];
-    return @[ @(red), @(green), @(blue), @(alpha) ];
+    return [AshtonUtils arrayForCGColor:color.CGColor];
 }
 
 - (UIColor *)colorForArray:(NSArray *)input {
