@@ -27,7 +27,7 @@
     for(NSUInteger i = 0; i < count; i++) {
         double expectedValue = [expected[i] floatValue];
         double actualValue = [actual[i] floatValue];
-        STAssertEqualsWithAccuracy(expectedValue, actualValue, accuracy, message);
+        XCTAssertEqualWithAccuracy(expectedValue, actualValue, accuracy, "assertArray");
     }
 }
 
@@ -47,7 +47,7 @@
 
     color = [NSColor windowBackgroundColor];
     // make sure this color can't be converted to RGB using the naive approach
-    STAssertNil([color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]], @"converting windowBackgroundColor was too easy.");
+    XCTAssertNil([color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]], @"converting windowBackgroundColor was too easy.");
     array = [ashton arrayForColor:color];
     expectedArray = @[ @(0.909803926945), @(0.909803926945), @(0.909803926945), @(1) ];
     [self assertArray:array equals:expectedArray or:@"windowBackgroundColor has changed"];

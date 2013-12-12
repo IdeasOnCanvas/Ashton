@@ -36,7 +36,7 @@
     expectedStyleString = [NSString stringWithFormat:@" style='%@'", expectedStyleString];
     NSDictionary *attrs = [reader attributesForStyleString:styleString href:nil];
     styleString = [writer styleStringForAttributes:attrs skipParagraphStyles:NO];
-    STAssertEqualObjects(styleString, expectedStyleString, @"style strings not equal");
+    XCTAssertEqualObjects(styleString, expectedStyleString, @"style strings not equal");
 }
 
 - (void)testMisorderedFontFeaturesAttribute {
@@ -68,7 +68,7 @@
     NSArray *expectedKeys = @[ @"a", @"b", @"c", @"-a", @"-b" ];
 
     NSArray *sortedKeys = [writer sortedStyleKeyArray:keys];
-    STAssertEqualObjects(sortedKeys, expectedKeys, @"Sort keys starting with - to the end");
+    XCTAssertEqualObjects(sortedKeys, expectedKeys, @"Sort keys starting with - to the end");
 }
 
 - (void)testCustomStyleSort2 {
@@ -76,7 +76,7 @@
     NSArray *expectedKeys = @[ @"font", @"text-align", @"-cocoa-font-features" ];
 
     NSArray *sortedKeys = [writer sortedStyleKeyArray:keys];
-    STAssertEqualObjects(sortedKeys, expectedKeys, @"Sort keys starting with - to the end");
+    XCTAssertEqualObjects(sortedKeys, expectedKeys, @"Sort keys starting with - to the end");
 }
 
 @end

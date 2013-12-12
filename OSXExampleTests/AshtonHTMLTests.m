@@ -25,14 +25,14 @@
     [string setAttributes:@{ AshtonAttrLink: @"http://google.com/?a='b\"&c=<>" } range:NSMakeRange(6, 13)];
     NSString *htmlString = [writer HTMLStringFromAttributedString:string];
     NSAttributedString *roundtripped = [reader attributedStringFromHTMLString:htmlString];
-    STAssertEqualObjects(string, roundtripped, @"HTML escaping of inline link failed");
+    XCTAssertEqualObjects(string, roundtripped, @"HTML escaping of inline link failed");
 }
 
 - (void)testHTMLEscapingInAhrefParagraph {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: Link to test. That's it" attributes:@{ AshtonAttrLink: @"http://google.com/?a='b\"&c=<>" }];
     NSString *htmlString = [writer HTMLStringFromAttributedString:string];
     NSAttributedString *roundtripped = [reader attributedStringFromHTMLString:htmlString];
-    STAssertEqualObjects(string, roundtripped, @"HTML escaping of linked paragraph failed");
+    XCTAssertEqualObjects(string, roundtripped, @"HTML escaping of linked paragraph failed");
 }
 
 

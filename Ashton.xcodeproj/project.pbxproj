@@ -27,6 +27,7 @@
 		C54BA90C1651613200D057E7 /* Test1.html in Resources */ = {isa = PBXBuildFile; fileRef = C54BA90A1651613200D057E7 /* Test1.html */; };
 		C54BA90D1651613200D057E7 /* TextEdit Test Document.html in Resources */ = {isa = PBXBuildFile; fileRef = C54BA90B1651613200D057E7 /* TextEdit Test Document.html */; };
 		C54BA9111651699F00D057E7 /* iOSUIKitTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54BA9101651699F00D057E7 /* iOSUIKitTextViewController.m */; };
+		C55FCAAE185A26FC004E64EA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C51BA10F18228CD100F9309F /* XCTest.framework */; };
 		C566DF9D169ABCD100579E94 /* AshtonIntermediate.m in Sources */ = {isa = PBXBuildFile; fileRef = C566DF9C169ABCD100579E94 /* AshtonIntermediate.m */; };
 		C566DF9E169ABCD100579E94 /* AshtonIntermediate.m in Sources */ = {isa = PBXBuildFile; fileRef = C566DF9C169ABCD100579E94 /* AshtonIntermediate.m */; };
 		C56B7B6C17378DD000C5D751 /* AshtonHTMLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B7B6B17378DD000C5D751 /* AshtonHTMLTests.m */; };
@@ -148,7 +149,7 @@
 		C5F7169B163E97EA005B34D1 /* OSXAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSXAppDelegate.h; sourceTree = "<group>"; };
 		C5F7169C163E97EA005B34D1 /* OSXAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OSXAppDelegate.m; sourceTree = "<group>"; };
 		C5F7169F163E97EA005B34D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		C5F716A6163E97EA005B34D1 /* OSXExampleTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OSXExampleTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5F716A6163E97EA005B34D1 /* OSXExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OSXExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5F716AD163E97EA005B34D1 /* OSXExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OSXExampleTests-Info.plist"; sourceTree = "<group>"; };
 		C5F716AF163E97EA005B34D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5F716B1163E97EA005B34D1 /* OSXExampleTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OSXExampleTests.h; sourceTree = "<group>"; };
@@ -190,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5AC356E163EB29100C233FE /* Cocoa.framework in Frameworks */,
+				C55FCAAE185A26FC004E64EA /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +270,7 @@
 			children = (
 				C5F71642163E97CF005B34D1 /* iOSExample.app */,
 				C5F71687163E97EA005B34D1 /* OSXExample.app */,
-				C5F716A6163E97EA005B34D1 /* OSXExampleTests.octest */,
+				C5F716A6163E97EA005B34D1 /* OSXExampleTests.xctest */,
 				C51BA10E18228CD100F9309F /* iOSTests.xctest */,
 			);
 			name = Products;
@@ -442,8 +444,8 @@
 			);
 			name = OSXExampleTests;
 			productName = OSXExampleTests;
-			productReference = C5F716A6163E97EA005B34D1 /* OSXExampleTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = C5F716A6163E97EA005B34D1 /* OSXExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -872,7 +874,10 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OSXExample.app/Contents/MacOS/OSXExample";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OSXExample/OSXExample-Prefix.pch";
 				INFOPLIST_FILE = "OSXExampleTests/OSXExampleTests-Info.plist";
@@ -881,7 +886,6 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -894,7 +898,10 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OSXExample/OSXExample-Prefix.pch";
 				INFOPLIST_FILE = "OSXExampleTests/OSXExampleTests-Info.plist";
@@ -903,7 +910,6 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
@@ -917,6 +923,7 @@
 				C51BA12118228CD100F9309F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C5F71637163E9776005B34D1 /* Build configuration list for PBXProject "Ashton" */ = {
 			isa = XCConfigurationList;
