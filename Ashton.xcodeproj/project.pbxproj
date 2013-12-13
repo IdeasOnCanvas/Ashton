@@ -32,6 +32,7 @@
 		C55FCAB2185A284D004E64EA /* AshtonMarkdownReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FCAB0185A284D004E64EA /* AshtonMarkdownReader.m */; };
 		C55FCAB7185A2867004E64EA /* AshtonMarkdownWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FCAB6185A2867004E64EA /* AshtonMarkdownWriter.m */; };
 		C55FCAB8185A2867004E64EA /* AshtonMarkdownWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FCAB6185A2867004E64EA /* AshtonMarkdownWriter.m */; };
+		C55FCABA185B4437004E64EA /* AshtonMarkdownWriterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FCAB9185B4437004E64EA /* AshtonMarkdownWriterTest.m */; };
 		C566DF9D169ABCD100579E94 /* AshtonIntermediate.m in Sources */ = {isa = PBXBuildFile; fileRef = C566DF9C169ABCD100579E94 /* AshtonIntermediate.m */; };
 		C566DF9E169ABCD100579E94 /* AshtonIntermediate.m in Sources */ = {isa = PBXBuildFile; fileRef = C566DF9C169ABCD100579E94 /* AshtonIntermediate.m */; };
 		C56B7B6C17378DD000C5D751 /* AshtonHTMLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B7B6B17378DD000C5D751 /* AshtonHTMLTests.m */; };
@@ -115,6 +116,7 @@
 		C55FCAB0185A284D004E64EA /* AshtonMarkdownReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonMarkdownReader.m; sourceTree = "<group>"; };
 		C55FCAB5185A2867004E64EA /* AshtonMarkdownWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonMarkdownWriter.h; sourceTree = "<group>"; };
 		C55FCAB6185A2867004E64EA /* AshtonMarkdownWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonMarkdownWriter.m; sourceTree = "<group>"; };
+		C55FCAB9185B4437004E64EA /* AshtonMarkdownWriterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonMarkdownWriterTest.m; sourceTree = "<group>"; };
 		C566DF9B169ABCD100579E94 /* AshtonIntermediate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonIntermediate.h; sourceTree = "<group>"; };
 		C566DF9C169ABCD100579E94 /* AshtonIntermediate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonIntermediate.m; sourceTree = "<group>"; };
 		C56B7B6A17378DD000C5D751 /* AshtonHTMLTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonHTMLTests.h; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				C5E35C591700541E00A386A7 /* AshtonAppKitTests.m */,
 				C56B7B6A17378DD000C5D751 /* AshtonHTMLTests.h */,
 				C56B7B6B17378DD000C5D751 /* AshtonHTMLTests.m */,
+				C55FCAB9185B4437004E64EA /* AshtonMarkdownWriterTest.m */,
 				C53879A616F9F01900908630 /* AshtonCSSTests.h */,
 				C53879A716F9F01900908630 /* AshtonCSSTests.m */,
 				C5F716B1163E97EA005B34D1 /* OSXExampleTests.h */,
@@ -609,6 +612,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C55FCABA185B4437004E64EA /* AshtonMarkdownWriterTest.m in Sources */,
 				C5F716B3163E97EA005B34D1 /* OSXExampleTests.m in Sources */,
 				C53879A816F9F01900908630 /* AshtonCSSTests.m in Sources */,
 				C5E35C5A1700541E00A386A7 /* AshtonAppKitTests.m in Sources */,

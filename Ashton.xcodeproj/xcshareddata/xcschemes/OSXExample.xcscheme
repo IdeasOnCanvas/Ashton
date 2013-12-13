@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C5F716A5163E97EA005B34D1"
-               BuildableName = "OSXExampleTests.octest"
+               BuildableName = "OSXExampleTests.xctest"
                BlueprintName = "OSXExampleTests"
                ReferencedContainer = "container:Ashton.xcodeproj">
             </BuildableReference>
