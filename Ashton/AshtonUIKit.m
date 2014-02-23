@@ -21,7 +21,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        _attributesToPreserve = @[ AshtonAttrBaselineOffset, AshtonAttrLink, AshtonAttrStrikethroughColor, AshtonAttrUnderlineColor, AshtonAttrVerticalAlign ];
+        _attributesToPreserve = @[ AshtonAttrBaselineOffset, AshtonAttrStrikethroughColor, AshtonAttrUnderlineColor, AshtonAttrVerticalAlign ];
     }
     return self;
 }
@@ -76,6 +76,13 @@
                 // produces: color
                 if (![attr isKindOfClass:[UIColor class]]) continue;
                 newAttrs[AshtonAttrColor] = [self arrayForColor:attr];
+            }
+			if ([attrName isEqual:NSLinkAttributeName]) {
+				if ([attr isKindOfClass:[NSURL class]]) {
+					newAttrs[AshtonAttrLink] = [attr absoluteString];
+				} else if ([attr isKindOfClass:[NSString class]]) {
+					newAttrs[AshtonAttrLink] = attr;
+				}
             }
         }
         // after going through all UIKit attributes copy back the preserved attributes, but only if they don't exist already
@@ -143,6 +150,12 @@
                 if ([attr isEqualToString:AshtonStrikethroughStyleSingle]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
                 if ([attr isEqualToString:AshtonStrikethroughStyleDouble]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
                 if ([attr isEqualToString:AshtonStrikethroughStyleThick]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
+            }
+			if ([attrName isEqualToString:AshtonAttrLink]) {
+                NSURL *URL = [NSURL URLWithString:attr];
+				if (URL) {
+					newAttrs[NSLinkAttributeName] = URL;
+				}
             }
             if ([attrName isEqualToString:AshtonAttrColor]) {
                 // consumes: color
