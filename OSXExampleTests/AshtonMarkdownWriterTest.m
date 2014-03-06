@@ -58,6 +58,25 @@
     XCTAssertEqualObjects(output, @"Test: ~~strikethrough~~. and ~~**strikethrough with bold**~~.\n\n");
 }
 
+- (void)testLinks {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: link. and link with bold ok last work also link."];
+    [string setAttributes:@{ AshtonAttrLink: @"http://apple.com" } range:NSMakeRange(6, 4)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES }, AshtonAttrLink: @"http://google.com" } range:NSMakeRange(16, 14)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES, AshtonFontAttrTraitItalic: @YES }, AshtonAttrLink: @"http://amazon.com", AshtonAttrStrikethrough: AshtonStrikethroughStyleSingle } range:NSMakeRange(34, 19)];
+    NSString *output = [writer markdownStringFromAttributedString:string];
+    XCTAssertEqualObjects(output, @"Test: [link](http://apple.com). and [**link with bold**](http://google.com) ok [~~***last work also link***~~.](http://amazon.com)\n\n");
+}
+
+- (void)testAllLink {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: link. and link with bold ok last work also link."];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES } } range:NSMakeRange(16, 14)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES, AshtonFontAttrTraitItalic: @YES }, AshtonAttrStrikethrough: AshtonStrikethroughStyleSingle } range:NSMakeRange(34, 19)];
+    [string addAttribute:AshtonAttrLink value:@"http://apple.com" range:NSMakeRange(0, string.length)];
+    NSString *output = [writer markdownStringFromAttributedString:string];
+    XCTAssertEqualObjects(output, @"[Test: link. and **link with bold** ok ~~***last work also link***~~.](http://apple.com)\n\n");
+}
+
+
 - (void)testParagraphs {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: bold That's italic. and both.\nnext paragraph"];
     [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES } } range:NSMakeRange(6, 4)];

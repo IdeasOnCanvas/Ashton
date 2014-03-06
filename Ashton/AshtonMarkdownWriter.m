@@ -25,12 +25,15 @@
         __block BOOL outputIsBold = NO;
         __block BOOL outputIsItalic = NO;
         __block BOOL outputIsStrikethrough = NO;
+        __block BOOL outputIsLink = NO;
+        __block NSString *outputLink; // current link
         __block NSString *previousSuffix = nil;
         [inputString enumerateSubstringsInRange:paragraphRange options:NSStringEnumerationByWords usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
             NSDictionary *attrs = [input attributesAtIndex:substringRange.location effectiveRange:NULL];
             BOOL isBold = [attrs[AshtonAttrFont][AshtonFontAttrTraitBold] boolValue];
             BOOL isItalic = [attrs[AshtonAttrFont][AshtonFontAttrTraitItalic] boolValue];
             BOOL isStrikethrough = (attrs[AshtonAttrStrikethrough] != nil);
+            BOOL isLink = (attrs[AshtonAttrLink] != nil);
 
             NSUInteger prefixLocation = enclosingRange.location;
             NSUInteger prefixLength = enclosingRange.location - substringRange.location;
@@ -43,10 +46,18 @@
             if (outputIsBold && !isBold) [output appendString:@"**"];
             if (outputIsItalic && !isItalic) [output appendString:@"*"];
             if (outputIsStrikethrough && !isStrikethrough) [output appendString:@"~~"];
+            if (outputIsLink && !isLink) {
+                [output appendFormat:@"](%@)", outputLink];
+                outputLink = nil;
+            }
 
             if (previousSuffix) [output appendString:previousSuffix];
             if (prefix) [output appendString:prefix];
 
+            if (!outputIsLink && isLink) {
+                outputLink = attrs[AshtonAttrLink];
+                [output appendString:@"["];
+            }
             if (!outputIsStrikethrough && isStrikethrough) [output appendString:@"~~"];
             if (!outputIsBold && isBold) [output appendString:@"**"];
             if (!outputIsItalic && isItalic) [output appendString:@"*"];
@@ -58,11 +69,13 @@
             outputIsBold = isBold;
             outputIsItalic = isItalic;
             outputIsStrikethrough = isStrikethrough;
+            outputIsLink = isLink;
         }];
         if (outputIsBold) [output appendString:@"**"];
         if (outputIsItalic) [output appendString:@"*"];
         if (outputIsStrikethrough) [output appendString:@"~~"];
         if (previousSuffix) [output appendString:previousSuffix];
+        if (outputIsLink) [output appendFormat:@"](%@)", outputLink];
         [output appendFormat:@"\n\n"];
     }
     return output;
