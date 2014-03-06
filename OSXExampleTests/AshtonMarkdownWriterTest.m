@@ -50,6 +50,14 @@
     XCTAssertEqualObjects(output, @"Test: **bold and *italic* and bold** That's *italic*. and ***both***.\n\n", "bold, italic and bold italic writing failed.");
 }
 
+- (void)testStrikethrough {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: strikethrough. and strikethrough with bold."];
+    [string setAttributes:@{ AshtonAttrStrikethrough: AshtonStrikethroughStyleSingle } range:NSMakeRange(6, 13)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES }, AshtonAttrStrikethrough: AshtonStrikethroughStyleSingle } range:NSMakeRange(25, 23)];;
+    NSString *output = [writer markdownStringFromAttributedString:string];
+    XCTAssertEqualObjects(output, @"Test: ~~strikethrough~~. and ~~**strikethrough with bold**~~.\n\n");
+}
+
 - (void)testParagraphs {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: bold That's italic. and both.\nnext paragraph"];
     [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES } } range:NSMakeRange(6, 4)];

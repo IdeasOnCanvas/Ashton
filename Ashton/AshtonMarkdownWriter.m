@@ -24,11 +24,13 @@
         paragraphRange = NSMakeRange(paraStart, contentsEnd - paraStart);
         __block BOOL outputIsBold = NO;
         __block BOOL outputIsItalic = NO;
+        __block BOOL outputIsStrikethrough = NO;
         __block NSString *previousSuffix = nil;
         [inputString enumerateSubstringsInRange:paragraphRange options:NSStringEnumerationByWords usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
             NSDictionary *attrs = [input attributesAtIndex:substringRange.location effectiveRange:NULL];
             BOOL isBold = [attrs[AshtonAttrFont][AshtonFontAttrTraitBold] boolValue];
             BOOL isItalic = [attrs[AshtonAttrFont][AshtonFontAttrTraitItalic] boolValue];
+            BOOL isStrikethrough = (attrs[AshtonAttrStrikethrough] != nil);
 
             NSUInteger prefixLocation = enclosingRange.location;
             NSUInteger prefixLength = enclosingRange.location - substringRange.location;
@@ -40,10 +42,12 @@
 
             if (outputIsBold && !isBold) [output appendString:@"**"];
             if (outputIsItalic && !isItalic) [output appendString:@"*"];
+            if (outputIsStrikethrough && !isStrikethrough) [output appendString:@"~~"];
 
             if (previousSuffix) [output appendString:previousSuffix];
             if (prefix) [output appendString:prefix];
 
+            if (!outputIsStrikethrough && isStrikethrough) [output appendString:@"~~"];
             if (!outputIsBold && isBold) [output appendString:@"**"];
             if (!outputIsItalic && isItalic) [output appendString:@"*"];
 
@@ -53,10 +57,11 @@
             previousSuffix = suffix;
             outputIsBold = isBold;
             outputIsItalic = isItalic;
-
+            outputIsStrikethrough = isStrikethrough;
         }];
         if (outputIsBold) [output appendString:@"**"];
         if (outputIsItalic) [output appendString:@"*"];
+        if (outputIsStrikethrough) [output appendString:@"~~"];
         if (previousSuffix) [output appendString:previousSuffix];
         [output appendFormat:@"\n\n"];
     }
