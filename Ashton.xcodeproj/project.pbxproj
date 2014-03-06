@@ -28,6 +28,11 @@
 		C54BA90D1651613200D057E7 /* TextEdit Test Document.html in Resources */ = {isa = PBXBuildFile; fileRef = C54BA90B1651613200D057E7 /* TextEdit Test Document.html */; };
 		C54BA9111651699F00D057E7 /* iOSUIKitTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C54BA9101651699F00D057E7 /* iOSUIKitTextViewController.m */; };
 		C55FCAAE185A26FC004E64EA /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C51BA10F18228CD100F9309F /* XCTest.framework */; };
+		C55FCAB1185A284D004E64EA /* AshtonMarkdownReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FCAB0185A284D004E64EA /* AshtonMarkdownReader.m */; };
+		C55FCAB2185A284D004E64EA /* AshtonMarkdownReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FCAB0185A284D004E64EA /* AshtonMarkdownReader.m */; };
+		C55FCAB7185A2867004E64EA /* AshtonMarkdownWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FCAB6185A2867004E64EA /* AshtonMarkdownWriter.m */; };
+		C55FCAB8185A2867004E64EA /* AshtonMarkdownWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FCAB6185A2867004E64EA /* AshtonMarkdownWriter.m */; };
+		C55FCABA185B4437004E64EA /* AshtonMarkdownWriterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C55FCAB9185B4437004E64EA /* AshtonMarkdownWriterTest.m */; };
 		C566DF9D169ABCD100579E94 /* AshtonIntermediate.m in Sources */ = {isa = PBXBuildFile; fileRef = C566DF9C169ABCD100579E94 /* AshtonIntermediate.m */; };
 		C566DF9E169ABCD100579E94 /* AshtonIntermediate.m in Sources */ = {isa = PBXBuildFile; fileRef = C566DF9C169ABCD100579E94 /* AshtonIntermediate.m */; };
 		C56B7B6C17378DD000C5D751 /* AshtonHTMLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C56B7B6B17378DD000C5D751 /* AshtonHTMLTests.m */; };
@@ -107,6 +112,11 @@
 		C54BA90B1651613200D057E7 /* TextEdit Test Document.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "TextEdit Test Document.html"; sourceTree = "<group>"; };
 		C54BA90F1651699F00D057E7 /* iOSUIKitTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSUIKitTextViewController.h; sourceTree = "<group>"; };
 		C54BA9101651699F00D057E7 /* iOSUIKitTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSUIKitTextViewController.m; sourceTree = "<group>"; };
+		C55FCAAF185A284D004E64EA /* AshtonMarkdownReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonMarkdownReader.h; sourceTree = "<group>"; };
+		C55FCAB0185A284D004E64EA /* AshtonMarkdownReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonMarkdownReader.m; sourceTree = "<group>"; };
+		C55FCAB5185A2867004E64EA /* AshtonMarkdownWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonMarkdownWriter.h; sourceTree = "<group>"; };
+		C55FCAB6185A2867004E64EA /* AshtonMarkdownWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonMarkdownWriter.m; sourceTree = "<group>"; };
+		C55FCAB9185B4437004E64EA /* AshtonMarkdownWriterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonMarkdownWriterTest.m; sourceTree = "<group>"; };
 		C566DF9B169ABCD100579E94 /* AshtonIntermediate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonIntermediate.h; sourceTree = "<group>"; };
 		C566DF9C169ABCD100579E94 /* AshtonIntermediate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonIntermediate.m; sourceTree = "<group>"; };
 		C56B7B6A17378DD000C5D751 /* AshtonHTMLTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonHTMLTests.h; sourceTree = "<group>"; };
@@ -226,6 +236,10 @@
 				C57D6B16164AA5300089E70A /* AshtonHTMLReader.m */,
 				C57D6AD216496D280089E70A /* AshtonHTMLWriter.h */,
 				C57D6AD316496D280089E70A /* AshtonHTMLWriter.m */,
+				C55FCAAF185A284D004E64EA /* AshtonMarkdownReader.h */,
+				C55FCAB0185A284D004E64EA /* AshtonMarkdownReader.m */,
+				C55FCAB5185A2867004E64EA /* AshtonMarkdownWriter.h */,
+				C55FCAB6185A2867004E64EA /* AshtonMarkdownWriter.m */,
 				C566DF9B169ABCD100579E94 /* AshtonIntermediate.h */,
 				C566DF9C169ABCD100579E94 /* AshtonIntermediate.m */,
 				C51B5D7716454AD300D2062B /* AshtonAppKit.h */,
@@ -354,6 +368,7 @@
 				C5E35C591700541E00A386A7 /* AshtonAppKitTests.m */,
 				C56B7B6A17378DD000C5D751 /* AshtonHTMLTests.h */,
 				C56B7B6B17378DD000C5D751 /* AshtonHTMLTests.m */,
+				C55FCAB9185B4437004E64EA /* AshtonMarkdownWriterTest.m */,
 				C53879A616F9F01900908630 /* AshtonCSSTests.h */,
 				C53879A716F9F01900908630 /* AshtonCSSTests.m */,
 				C5F716B1163E97EA005B34D1 /* OSXExampleTests.h */,
@@ -561,6 +576,7 @@
 				C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */,
 				C5F71666163E97CF005B34D1 /* iOSViewController.m in Sources */,
 				C51B5D8116454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */,
+				C55FCAB1185A284D004E64EA /* AshtonMarkdownReader.m in Sources */,
 				C51B5D8D164557C900D2062B /* AshtonCoreText.m in Sources */,
 				C5DC48921647F0D7009FEA27 /* iOSCoreTextView.m in Sources */,
 				C57D6AD0164968F00089E70A /* AshtonUIKit.m in Sources */,
@@ -568,6 +584,7 @@
 				C57D6B17164AA5300089E70A /* AshtonHTMLReader.m in Sources */,
 				C54BA9111651699F00D057E7 /* iOSUIKitTextViewController.m in Sources */,
 				C566DF9D169ABCD100579E94 /* AshtonIntermediate.m in Sources */,
+				C55FCAB7185A2867004E64EA /* AshtonMarkdownWriter.m in Sources */,
 				C53879D816FA0DE400908630 /* AshtonUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -577,6 +594,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5F71696163E97EA005B34D1 /* main.m in Sources */,
+				C55FCAB2185A284D004E64EA /* AshtonMarkdownReader.m in Sources */,
+				C55FCAB8185A2867004E64EA /* AshtonMarkdownWriter.m in Sources */,
 				C5F7169D163E97EA005B34D1 /* OSXAppDelegate.m in Sources */,
 				C51B5D7916454AD300D2062B /* AshtonAppKit.m in Sources */,
 				C51B5D8216454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */,
@@ -593,6 +612,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C55FCABA185B4437004E64EA /* AshtonMarkdownWriterTest.m in Sources */,
 				C5F716B3163E97EA005B34D1 /* OSXExampleTests.m in Sources */,
 				C53879A816F9F01900908630 /* AshtonCSSTests.m in Sources */,
 				C5E35C5A1700541E00A386A7 /* AshtonAppKitTests.m in Sources */,
