@@ -23,25 +23,39 @@ static void writeMarkdownFragment(NSAttributedString *input, NSString *inputStri
         if (suffixLength > 0) suffix = [inputString substringWithRange:NSMakeRange(suffixLocation, suffixLength)];
         if (prefixLength > 0) prefix = [inputString substringWithRange:NSMakeRange(prefixLocation, prefixLength)];
 
-        if (outputIsBold && !isBold) [output appendString:@"**"];
-        if (outputIsItalic && !isItalic) [output appendString:@"*"];
-        if (outputIsStrikethrough && !isStrikethrough) [output appendString:@"~~"];
         if (outputIsLink && !isLink) {
+            if (outputIsBold) [output appendString:@"**"];
+            if (outputIsItalic) [output appendString:@"*"];
+            if (outputIsStrikethrough) [output appendString:@"~~"];
             [output appendFormat:@"](%@)", outputLink];
+            if (outputIsBold && isBold) [output appendString:@"**"];
+            if (outputIsItalic && isItalic) [output appendString:@"*"];
+            if (outputIsStrikethrough && isStrikethrough) [output appendString:@"~~"];
             outputLink = nil;
+        } else {
+            if (outputIsBold && !isBold) [output appendString:@"**"];
+            if (outputIsItalic && !isItalic) [output appendString:@"*"];
+            if (outputIsStrikethrough && !isStrikethrough) [output appendString:@"~~"];
         }
-
-        if (previousSuffix) [output appendString:previousSuffix];
-        if (prefix) [output appendString:prefix];
 
         if (!outputIsLink && isLink) {
             outputLink = attrs[AshtonAttrLink];
+            if (outputIsStrikethrough) [output appendString:@"~~"];
+            if (outputIsBold) [output appendString:@"**"];
+            if (outputIsItalic) [output appendString:@"*"];
+            if (previousSuffix) [output appendString:previousSuffix];
+            if (prefix) [output appendString:prefix];
             [output appendString:@"["];
+            if (isStrikethrough) [output appendString:@"~~"];
+            if (isBold) [output appendString:@"**"];
+            if (isItalic) [output appendString:@"*"];
+        } else {
+            if (previousSuffix) [output appendString:previousSuffix];
+            if (prefix) [output appendString:prefix];
+            if (!outputIsStrikethrough && isStrikethrough) [output appendString:@"~~"];
+            if (!outputIsBold && isBold) [output appendString:@"**"];
+            if (!outputIsItalic && isItalic) [output appendString:@"*"];
         }
-        if (!outputIsStrikethrough && isStrikethrough) [output appendString:@"~~"];
-        if (!outputIsBold && isBold) [output appendString:@"**"];
-        if (!outputIsItalic && isItalic) [output appendString:@"*"];
-
         [output appendString:substring];
 
 

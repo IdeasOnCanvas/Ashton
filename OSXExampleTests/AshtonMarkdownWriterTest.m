@@ -76,6 +76,30 @@
     XCTAssertEqualObjects(output, @"[Test: link. and **link with bold** ok ~~***last work also link***~~.](http://apple.com)\n\n");
 }
 
+- (void)testLinksWithChangingAttrsInside {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: bold with link italic inside all strikethrough."];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES } } range:NSMakeRange(6, 9)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES }, AshtonAttrLink: @"http://apple.com" } range:NSMakeRange(16, 5)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitItalic: @YES }, AshtonAttrLink: @"http://apple.com" } range:NSMakeRange(21, 5)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES }, AshtonAttrLink: @"http://apple.com" } range:NSMakeRange(26, 8)];
+    [string setAttributes:@{ AshtonAttrStrikethrough: AshtonStrikethroughStyleDouble } range:NSMakeRange(35, 18)];
+
+    NSString *output = [writer markdownStringFromAttributedString:string];
+    XCTAssertEqualObjects(output, @"Test: **bold with** [**link** *italic* **inside**](http://apple.com) ~~all strikethrough~~.\n\n");
+}
+
+- (void)testLinksWithNestedAttrsInside {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: bold with link italic inside all strikethrough."];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES } } range:NSMakeRange(6, 9)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES }, AshtonAttrLink: @"http://apple.com" } range:NSMakeRange(16, 5)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitItalic: @YES, AshtonFontAttrTraitBold: @YES }, AshtonAttrLink: @"http://apple.com" } range:NSMakeRange(21, 5)];
+    [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES }, AshtonAttrLink: @"http://apple.com" } range:NSMakeRange(26, 8)];
+    [string setAttributes:@{ AshtonAttrStrikethrough: AshtonStrikethroughStyleDouble } range:NSMakeRange(35, 18)];
+
+    NSString *output = [writer markdownStringFromAttributedString:string];
+    XCTAssertEqualObjects(output, @"Test: **bold with** [**link *italic* inside**](http://apple.com) ~~all strikethrough~~.\n\n");
+}
+
 - (void)testParagraphs {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: bold That's italic. and both.\nnext paragraph"];
     [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES } } range:NSMakeRange(6, 4)];
