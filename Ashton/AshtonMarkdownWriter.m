@@ -1,6 +1,63 @@
 #import "AshtonMarkdownWriter.h"
 #import "AshtonIntermediate.h"
 
+static void writeMarkdownFragment(NSAttributedString *input, NSString *inputString, NSRange range, NSMutableString *output) {
+    __block BOOL outputIsBold = NO;
+    __block BOOL outputIsItalic = NO;
+    __block BOOL outputIsStrikethrough = NO;
+    __block BOOL outputIsLink = NO;
+    __block NSString *outputLink; // current link
+    __block NSString *previousSuffix = nil;
+    [inputString enumerateSubstringsInRange:range options:NSStringEnumerationByWords usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+        NSDictionary *attrs = [input attributesAtIndex:substringRange.location effectiveRange:NULL];
+        BOOL isBold = [attrs[AshtonAttrFont][AshtonFontAttrTraitBold] boolValue];
+        BOOL isItalic = [attrs[AshtonAttrFont][AshtonFontAttrTraitItalic] boolValue];
+        BOOL isStrikethrough = (attrs[AshtonAttrStrikethrough] != nil);
+        BOOL isLink = (attrs[AshtonAttrLink] != nil);
+
+        NSUInteger prefixLocation = enclosingRange.location;
+        NSUInteger prefixLength = enclosingRange.location - substringRange.location;
+        NSUInteger suffixLocation = substringRange.location + substringRange.length;
+        NSUInteger suffixLength = (enclosingRange.location + enclosingRange.length) - suffixLocation;
+        NSString *suffix = nil, *prefix = nil;
+        if (suffixLength > 0) suffix = [inputString substringWithRange:NSMakeRange(suffixLocation, suffixLength)];
+        if (prefixLength > 0) prefix = [inputString substringWithRange:NSMakeRange(prefixLocation, prefixLength)];
+
+        if (outputIsBold && !isBold) [output appendString:@"**"];
+        if (outputIsItalic && !isItalic) [output appendString:@"*"];
+        if (outputIsStrikethrough && !isStrikethrough) [output appendString:@"~~"];
+        if (outputIsLink && !isLink) {
+            [output appendFormat:@"](%@)", outputLink];
+            outputLink = nil;
+        }
+
+        if (previousSuffix) [output appendString:previousSuffix];
+        if (prefix) [output appendString:prefix];
+
+        if (!outputIsLink && isLink) {
+            outputLink = attrs[AshtonAttrLink];
+            [output appendString:@"["];
+        }
+        if (!outputIsStrikethrough && isStrikethrough) [output appendString:@"~~"];
+        if (!outputIsBold && isBold) [output appendString:@"**"];
+        if (!outputIsItalic && isItalic) [output appendString:@"*"];
+
+        [output appendString:substring];
+
+
+        previousSuffix = suffix;
+        outputIsBold = isBold;
+        outputIsItalic = isItalic;
+        outputIsStrikethrough = isStrikethrough;
+        outputIsLink = isLink;
+    }];
+    if (outputIsBold) [output appendString:@"**"];
+    if (outputIsItalic) [output appendString:@"*"];
+    if (outputIsStrikethrough) [output appendString:@"~~"];
+    if (previousSuffix) [output appendString:previousSuffix];
+    if (outputIsLink) [output appendFormat:@"](%@)", outputLink];
+}
+
 @implementation AshtonMarkdownWriter
 
 + (instancetype)sharedInstance {
@@ -22,60 +79,7 @@
         [inputString getParagraphStart:&paraStart end:&paraEnd
                             contentsEnd:&contentsEnd forRange:NSMakeRange(paraEnd, 0)];
         paragraphRange = NSMakeRange(paraStart, contentsEnd - paraStart);
-        __block BOOL outputIsBold = NO;
-        __block BOOL outputIsItalic = NO;
-        __block BOOL outputIsStrikethrough = NO;
-        __block BOOL outputIsLink = NO;
-        __block NSString *outputLink; // current link
-        __block NSString *previousSuffix = nil;
-        [inputString enumerateSubstringsInRange:paragraphRange options:NSStringEnumerationByWords usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-            NSDictionary *attrs = [input attributesAtIndex:substringRange.location effectiveRange:NULL];
-            BOOL isBold = [attrs[AshtonAttrFont][AshtonFontAttrTraitBold] boolValue];
-            BOOL isItalic = [attrs[AshtonAttrFont][AshtonFontAttrTraitItalic] boolValue];
-            BOOL isStrikethrough = (attrs[AshtonAttrStrikethrough] != nil);
-            BOOL isLink = (attrs[AshtonAttrLink] != nil);
-
-            NSUInteger prefixLocation = enclosingRange.location;
-            NSUInteger prefixLength = enclosingRange.location - substringRange.location;
-            NSUInteger suffixLocation = substringRange.location + substringRange.length;
-            NSUInteger suffixLength = (enclosingRange.location + enclosingRange.length) - suffixLocation;
-            NSString *suffix = nil, *prefix = nil;
-            if (suffixLength > 0) suffix = [inputString substringWithRange:NSMakeRange(suffixLocation, suffixLength)];
-            if (prefixLength > 0) prefix = [inputString substringWithRange:NSMakeRange(prefixLocation, prefixLength)];
-
-            if (outputIsBold && !isBold) [output appendString:@"**"];
-            if (outputIsItalic && !isItalic) [output appendString:@"*"];
-            if (outputIsStrikethrough && !isStrikethrough) [output appendString:@"~~"];
-            if (outputIsLink && !isLink) {
-                [output appendFormat:@"](%@)", outputLink];
-                outputLink = nil;
-            }
-
-            if (previousSuffix) [output appendString:previousSuffix];
-            if (prefix) [output appendString:prefix];
-
-            if (!outputIsLink && isLink) {
-                outputLink = attrs[AshtonAttrLink];
-                [output appendString:@"["];
-            }
-            if (!outputIsStrikethrough && isStrikethrough) [output appendString:@"~~"];
-            if (!outputIsBold && isBold) [output appendString:@"**"];
-            if (!outputIsItalic && isItalic) [output appendString:@"*"];
-
-            [output appendString:substring];
-
-
-            previousSuffix = suffix;
-            outputIsBold = isBold;
-            outputIsItalic = isItalic;
-            outputIsStrikethrough = isStrikethrough;
-            outputIsLink = isLink;
-        }];
-        if (outputIsBold) [output appendString:@"**"];
-        if (outputIsItalic) [output appendString:@"*"];
-        if (outputIsStrikethrough) [output appendString:@"~~"];
-        if (previousSuffix) [output appendString:previousSuffix];
-        if (outputIsLink) [output appendFormat:@"](%@)", outputLink];
+        writeMarkdownFragment(input, inputString, paragraphRange, output);
         [output appendFormat:@"\n\n"];
     }
     return output;

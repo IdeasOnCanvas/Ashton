@@ -76,7 +76,6 @@
     XCTAssertEqualObjects(output, @"[Test: link. and **link with bold** ok ~~***last work also link***~~.](http://apple.com)\n\n");
 }
 
-
 - (void)testParagraphs {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: bold That's italic. and both.\nnext paragraph"];
     [string setAttributes:@{ AshtonAttrFont: @{ AshtonFontAttrTraitBold: @YES } } range:NSMakeRange(6, 4)];
