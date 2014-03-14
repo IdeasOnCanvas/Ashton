@@ -94,7 +94,9 @@ static void writeMarkdownFragment(NSAttributedString *input, NSString *inputStri
                             contentsEnd:&contentsEnd forRange:NSMakeRange(paraEnd, 0)];
         paragraphRange = NSMakeRange(paraStart, contentsEnd - paraStart);
         writeMarkdownFragment(input, inputString, paragraphRange, output);
-        [output appendFormat:@"\n\n"];
+		if (paraEnd < length) {
+			[output appendFormat:@"\n\n"];
+		}
     }
     return output;
 }
