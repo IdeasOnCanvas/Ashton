@@ -82,6 +82,11 @@
                 if (![attr isKindOfClass:[NSColor class]]) continue;
                 newAttrs[AshtonAttrColor] = [self arrayForColor:attr];
             }
+            if ([attrName isEqual:NSBackgroundColorAttributeName]) {
+                // produces: backgroundColor
+                if (![attr isKindOfClass:[NSColor class]]) continue;
+                newAttrs[AshtonAttrBackgroundColor] = [self arrayForColor:attr];
+            }
 
             if ([attrName isEqual:NSStrikethroughStyleAttributeName]) {
                 // produces: strikethrough
@@ -158,6 +163,10 @@
             if ([attrName isEqualToString:AshtonAttrColor]) {
                 // consumes: color
                 newAttrs[NSForegroundColorAttributeName] = [self colorForArray:attr];
+            }
+            if ([attrName isEqualToString:AshtonAttrBackgroundColor]) {
+                // consumes: backgroundColor
+                newAttrs[NSBackgroundColorAttributeName] = [self colorForArray:attr];
             }
             if ([attrName isEqualToString:AshtonAttrStrikethrough]) {
                 // consumes: strikethrough
