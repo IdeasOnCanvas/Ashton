@@ -1,4 +1,5 @@
 extern NSString * const AshtonAttrColor;
+extern NSString * const AshtonAttrBackgroundColor;
 extern NSString * const AshtonAttrFont;
 extern NSString * const AshtonAttrLink;
 extern NSString * const AshtonAttrParagraph;

@@ -77,6 +77,11 @@
                 if (![attr isKindOfClass:[UIColor class]]) continue;
                 newAttrs[AshtonAttrColor] = [self arrayForColor:attr];
             }
+            if ([attrName isEqual:NSBackgroundColorAttributeName]) {
+                // produces: color
+                if (![attr isKindOfClass:[UIColor class]]) continue;
+                newAttrs[AshtonAttrBackgroundColor] = [self arrayForColor:attr];
+            }
 			if ([attrName isEqual:NSLinkAttributeName]) {
 				if ([attr isKindOfClass:[NSURL class]]) {
 					newAttrs[AshtonAttrLink] = [attr absoluteString];
@@ -160,6 +165,10 @@
             if ([attrName isEqualToString:AshtonAttrColor]) {
                 // consumes: color
                 newAttrs[NSForegroundColorAttributeName] = [self colorForArray:attr];
+            }
+            if ([attrName isEqualToString:AshtonAttrBackgroundColor]) {
+                // consumes: backgroundColor
+                newAttrs[NSBackgroundColorAttributeName] = [self colorForArray:attr];
             }
             if ([self.attributesToPreserve containsObject:attrName]) {
                 newAttrs[attrName] = attr;

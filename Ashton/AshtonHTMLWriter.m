@@ -219,6 +219,9 @@
     if ([attrName isEqualToString:AshtonAttrColor]) {
         styles[AshtonAttrColor] = [self CSSColor:attr];
     }
+    if ([attrName isEqualToString:AshtonAttrBackgroundColor]) {
+        styles[@"background-color"] = [self CSSColor:attr];
+    }
 
     if ([attrName isEqualToString:AshtonAttrStrikethrough]) {
         styles[@"text-decoration"] = @"line-through";

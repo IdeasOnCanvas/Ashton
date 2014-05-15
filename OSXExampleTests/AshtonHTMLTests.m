@@ -35,5 +35,13 @@
     XCTAssertEqualObjects(string, roundtripped, @"HTML escaping of linked paragraph failed");
 }
 
+- (void)testBackgroundColor {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"Test: Background Color."];
+    [string setAttributes:@{ AshtonAttrBackgroundColor: @[ @(1), @(1), @(0), @(1.) ] } range:NSMakeRange(6, 10)];
+    NSString *htmlString = [writer HTMLStringFromAttributedString:string];
+    NSAttributedString *roundtripped = [reader attributedStringFromHTMLString:htmlString];
+    XCTAssertEqualObjects(string, roundtripped, @"HTML output for background color failed");
+}
+
 
 @end

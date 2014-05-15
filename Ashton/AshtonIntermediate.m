@@ -1,6 +1,7 @@
 #import "AshtonIntermediate.h"
 
 NSString * const AshtonAttrColor = @"color";
+NSString * const AshtonAttrBackgroundColor = @"backgroundColor";
 NSString * const AshtonAttrFont = @"font";
 NSString * const AshtonAttrLink = @"link";
 NSString * const AshtonAttrParagraph = @"paragraph";
