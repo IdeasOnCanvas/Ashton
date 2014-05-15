@@ -16,7 +16,7 @@ static void writeMarkdownFragment(NSAttributedString *input, NSString *inputStri
         BOOL isLink = (attrs[AshtonAttrLink] != nil);
 
         NSUInteger prefixLocation = enclosingRange.location;
-        NSUInteger prefixLength = enclosingRange.location - substringRange.location;
+        NSUInteger prefixLength = substringRange.location - enclosingRange.location;
         NSUInteger suffixLocation = substringRange.location + substringRange.length;
         NSUInteger suffixLength = (enclosingRange.location + enclosingRange.length) - suffixLocation;
         NSString *suffix = nil, *prefix = nil;
