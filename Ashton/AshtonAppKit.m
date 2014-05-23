@@ -137,7 +137,13 @@
                                                           boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
                                                         italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
                                                            features:attrDict[AshtonFontAttrFeatures]];
-                if (font) newAttrs[NSFontAttributeName] = font;
+                if (font) {
+					newAttrs[NSFontAttributeName] = font;
+				} else {
+					// If the font is not available on this device (e.g. custom font) fallback to system font
+					newAttrs[NSFontAttributeName] = [NSFont systemFontOfSize:[attrDict[AshtonFontAttrPointSize] doubleValue]];
+				}
+				
             }
             if ([attrName isEqualToString:AshtonAttrVerticalAlign]) {
                 newAttrs[NSSuperscriptAttributeName] = attr;

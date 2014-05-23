@@ -136,7 +136,7 @@
 
                     if (font) newAttrs[NSFontAttributeName] = font;
                 } else {
-                    // assign system font with requested size
+					// If the font is not available on this device (e.g. custom font), fallback to system font
                     newAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:[attrDict[AshtonFontAttrPointSize] doubleValue]];
                 }
             }
