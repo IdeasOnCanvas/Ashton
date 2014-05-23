@@ -121,20 +121,14 @@
             if ([attrName isEqualToString:AshtonAttrFont]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
-
-                CTFontRef ctFont = (__bridge CTFontRef)([AshtonUtils CTFontRefWithFamilyName:attrDict[AshtonFontAttrFamilyName]
+				UIFont *font = [AshtonUtils CTFontRefWithFamilyName:attrDict[AshtonFontAttrFamilyName]
                                                                               postScriptName:attrDict[AshtonFontAttrPostScriptName]
                                                                                         size:[attrDict[AshtonFontAttrPointSize] doubleValue]
                                                                                    boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
                                                                                  italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
                                                                                     features:attrDict[AshtonFontAttrFeatures]]);
-
-                if (ctFont) {
-                    // We need to construct a kCTFontPostScriptNameKey for the font with the given attributes
-                    NSString *fontName = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontPostScriptNameKey));
-                    UIFont *font = [UIFont fontWithName:fontName size:[attrDict[AshtonFontAttrPointSize] doubleValue]];
-
-                    if (font) newAttrs[NSFontAttributeName] = font;
+                if (font) {
+                    newAttrs[NSFontAttributeName] = font;
                 } else {
 					// If the font is not available on this device (e.g. custom font), fallback to system font
                     newAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:[attrDict[AshtonFontAttrPointSize] doubleValue]];
