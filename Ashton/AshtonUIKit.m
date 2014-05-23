@@ -77,6 +77,11 @@
                 if (![attr isKindOfClass:[UIColor class]]) continue;
                 newAttrs[AshtonAttrColor] = [self arrayForColor:attr];
             }
+            if ([attrName isEqual:NSBackgroundColorAttributeName]) {
+                // produces: color
+                if (![attr isKindOfClass:[UIColor class]]) continue;
+                newAttrs[AshtonAttrBackgroundColor] = [self arrayForColor:attr];
+            }
 			if ([attrName isEqual:NSLinkAttributeName]) {
 				if ([attr isKindOfClass:[NSURL class]]) {
 					newAttrs[AshtonAttrLink] = [attr absoluteString];
@@ -126,7 +131,7 @@
                                                                                         size:[attrDict[AshtonFontAttrPointSize] doubleValue]
                                                                                    boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
                                                                                  italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
-                                                                                    features:attrDict[AshtonFontAttrFeatures]]);
+                                                                                    features:attrDict[AshtonFontAttrFeatures]];
                 if (font) {
                     newAttrs[NSFontAttributeName] = font;
                 } else {
@@ -154,6 +159,10 @@
             if ([attrName isEqualToString:AshtonAttrColor]) {
                 // consumes: color
                 newAttrs[NSForegroundColorAttributeName] = [self colorForArray:attr];
+            }
+            if ([attrName isEqualToString:AshtonAttrBackgroundColor]) {
+                // consumes: backgroundColor
+                newAttrs[NSBackgroundColorAttributeName] = [self colorForArray:attr];
             }
             if ([self.attributesToPreserve containsObject:attrName]) {
                 newAttrs[attrName] = attr;

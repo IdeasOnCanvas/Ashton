@@ -114,6 +114,10 @@
                 // produces: color
                 attrs[AshtonAttrColor] = [self colorForCSS:value];
             }
+            if ([key isEqualToString:@"background-color"]) {
+                // produces backgroundColor
+                attrs[AshtonAttrBackgroundColor] = [self colorForCSS:value];
+            }
             if ([key isEqualToString:@"-cocoa-strikethrough"]) {
                 // produces: strikethrough
                 if ([value isEqualToString:@"single"]) attrs[AshtonAttrStrikethrough] = AshtonStrikethroughStyleSingle;

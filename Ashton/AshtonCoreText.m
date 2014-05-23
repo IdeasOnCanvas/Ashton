@@ -20,7 +20,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        _attributesToPreserve = @[ AshtonAttrBaselineOffset, AshtonAttrStrikethrough, AshtonAttrStrikethroughColor, AshtonAttrLink ];
+        _attributesToPreserve = @[ AshtonAttrBackgroundColor, AshtonAttrBaselineOffset, AshtonAttrStrikethrough, AshtonAttrStrikethroughColor, AshtonAttrLink ];
     }
     return self;
 }
