@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Ashton"
-  s.version      = "0.2.0"
+  s.version      = "1.0.0"
   s.summary      = "Converts NSAttributedStrings between AppKit, CoreText, UIKit and HTML."
   s.homepage     = "https://github.com/IdeasOnCanvas/Ashton"
 
@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/IdeasOnCanvas/Ashton.git", :tag => "v#{s.version}" }
 
-  s.ios.deployment_target = '6.1'
+  s.ios.deployment_target = '7.0'
   s.ios.frameworks = 'CoreText'
   s.ios.source_files = 'Ashton/*.{h,m}'
   s.ios.exclude_files = 'Ashton/AshtonAppKit.{h,m}'
