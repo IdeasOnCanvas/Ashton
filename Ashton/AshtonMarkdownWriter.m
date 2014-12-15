@@ -8,7 +8,9 @@ static void writeMarkdownFragment(NSAttributedString *input, NSString *inputStri
     __block BOOL outputIsLink = NO;
     __block NSString *outputLink; // current link
     __block NSString *previousSuffix = nil;
-    [inputString enumerateSubstringsInRange:range options:NSStringEnumerationByWords usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+
+    __block BOOL didParseWord = NO;
+    void(^parseBlock)(NSString *, NSRange, NSRange, BOOL *) = ^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
         NSDictionary *attrs = [input attributesAtIndex:substringRange.location effectiveRange:NULL];
         BOOL isBold = [attrs[AshtonAttrFont][AshtonFontAttrTraitBold] boolValue];
         BOOL isItalic = [attrs[AshtonAttrFont][AshtonFontAttrTraitItalic] boolValue];
@@ -64,7 +66,16 @@ static void writeMarkdownFragment(NSAttributedString *input, NSString *inputStri
         outputIsItalic = isItalic;
         outputIsStrikethrough = isStrikethrough;
         outputIsLink = isLink;
-    }];
+
+        didParseWord = YES;
+    };
+
+    [inputString enumerateSubstringsInRange:range options:NSStringEnumerationByWords usingBlock:parseBlock];
+    // parse surrogate pairs instead
+    if (!didParseWord) {
+        [inputString enumerateSubstringsInRange:range options:NSStringEnumerationByComposedCharacterSequences usingBlock:parseBlock];
+    }
+
     if (outputIsBold) [output appendString:@"**"];
     if (outputIsItalic) [output appendString:@"*"];
     if (outputIsStrikethrough) [output appendString:@"~~"];
@@ -91,12 +102,12 @@ static void writeMarkdownFragment(NSAttributedString *input, NSString *inputStri
     NSRange paragraphRange;
     while (paraEnd < length) {
         [inputString getParagraphStart:&paraStart end:&paraEnd
-                            contentsEnd:&contentsEnd forRange:NSMakeRange(paraEnd, 0)];
+                           contentsEnd:&contentsEnd forRange:NSMakeRange(paraEnd, 0)];
         paragraphRange = NSMakeRange(paraStart, contentsEnd - paraStart);
         writeMarkdownFragment(input, inputString, paragraphRange, output);
-		if (paraEnd < length) {
-			[output appendFormat:@"  \n"];
-		}
+        if (paraEnd < length) {
+            [output appendFormat:@"  \n"];
+        }
     }
     return output;
 }
