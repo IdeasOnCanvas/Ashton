@@ -209,7 +209,7 @@
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
-    NSMutableAttributedString *fragment = [[NSMutableAttributedString alloc] initWithString:string attributes:[self currentAttributes]];
+    NSAttributedString *fragment = [[NSAttributedString alloc] initWithString:string attributes:[self currentAttributes]];
     [self.output appendAttributedString:fragment];
 }
 

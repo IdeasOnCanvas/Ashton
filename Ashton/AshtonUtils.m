@@ -32,6 +32,7 @@
         CFRelease(descriptor);
 
         cache[descriptorAttributes] = font;
+        NSLog(@"Created a font with %@ for attributes: %@", font, descriptorAttributes);
     }
 
     // We ignore symbolic traits when a postScriptName is given, because the postScriptName already encodes bold/italic and if we
