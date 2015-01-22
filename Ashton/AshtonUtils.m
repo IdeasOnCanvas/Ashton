@@ -5,10 +5,13 @@
 
 + (id)CTFontRefWithFamilyName:(NSString *)familyName postScriptName:(NSString *)postScriptName size:(CGFloat)pointSize boldTrait:(BOOL)isBold italicTrait:(BOOL)isItalic features:(NSArray *)features {
 
+    static NSMutableDictionary *cache = nil;
+    if (!cache) {
+        cache = [NSMutableDictionary dictionary];
+    }
     NSMutableDictionary *descriptorAttributes = [NSMutableDictionary dictionaryWithCapacity:2];
     if (familyName) descriptorAttributes[(id)kCTFontNameAttribute] = familyName;
     if (postScriptName) descriptorAttributes[(id)kCTFontNameAttribute] = postScriptName;
-    CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
 
     if (features) {
         NSMutableArray *fontFeatures = [NSMutableArray array];
@@ -16,13 +19,20 @@
             [fontFeatures addObject:@{(id)kCTFontFeatureTypeIdentifierKey:feature[0], (id)kCTFontFeatureSelectorIdentifierKey:feature[1]}];
         }
         descriptorAttributes[(id)kCTFontFeatureSettingsAttribute] = fontFeatures;
-        CTFontDescriptorRef newDescriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
-        CFRelease(descriptor);
-        descriptor = newDescriptor;
     }
+    id font;
+    id cached_font = cache[descriptorAttributes];
 
-    CTFontRef font = CTFontCreateWithFontDescriptor(descriptor, pointSize, NULL);
-    CFRelease(descriptor);
+    if (cached_font) {
+        font = cached_font;
+    } else {
+        CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
+
+        font = CFBridgingRelease(CTFontCreateWithFontDescriptor(descriptor, pointSize, NULL));
+        CFRelease(descriptor);
+
+        cache[descriptorAttributes] = font;
+    }
 
     // We ignore symbolic traits when a postScriptName is given, because the postScriptName already encodes bold/italic and if we
     // specify it again as a trait we get different fonts (e.g. Helvetica-Oblique becomes Helvetica-LightOblique)
@@ -32,15 +42,14 @@
     if (symbolicTraits != 0) {
         // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
         // Is there a better way to detect "no" symbolic traits?
-        CTFontRef newFont = CTFontCreateCopyWithSymbolicTraits(font, 0.0, NULL, symbolicTraits, symbolicTraits);
+        CTFontRef newFont = CTFontCreateCopyWithSymbolicTraits((__bridge CTFontRef)font, 0.0, NULL, symbolicTraits, symbolicTraits);
         // And even worse, if a font is defined to be "only" bold (like Arial Rounded MT Bold is) then
         // CTFontCreateCopyWithSymbolicTraits also returns NULL
         if (newFont != NULL) {
-            CFRelease(font);
-            font = newFont;
+            font = CFBridgingRelease(newFont);
         }
     }
-    return CFBridgingRelease(font);
+    return font;
 }
 
 + (NSArray *)arrayForCGColor:(CGColorRef)color {
