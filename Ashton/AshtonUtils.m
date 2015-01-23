@@ -5,10 +5,7 @@
 
 + (id)CTFontRefWithFamilyName:(NSString *)familyName postScriptName:(NSString *)postScriptName size:(CGFloat)pointSize boldTrait:(BOOL)isBold italicTrait:(BOOL)isItalic features:(NSArray *)features {
 
-    static NSMutableDictionary *cache = nil;
-    if (!cache) {
-        cache = [NSMutableDictionary dictionary];
-    }
+    NSMutableDictionary *cache = [self fontsCache];
     NSMutableDictionary *descriptorAttributes = [NSMutableDictionary dictionaryWithCapacity:2];
     if (familyName) descriptorAttributes[(id)kCTFontNameAttribute] = familyName;
     if (postScriptName) descriptorAttributes[(id)kCTFontNameAttribute] = postScriptName;
@@ -32,7 +29,6 @@
         CFRelease(descriptor);
 
         cache[descriptorAttributes] = font;
-        NSLog(@"Created a font with %@ for attributes: %@", font, descriptorAttributes);
     }
 
     // We ignore symbolic traits when a postScriptName is given, because the postScriptName already encodes bold/italic and if we
@@ -51,6 +47,20 @@
         }
     }
     return font;
+}
+
++ (NSMutableDictionary *)fontsCache
+{
+    static NSMutableDictionary *cache = nil;
+    if (!cache) {
+        cache = [NSMutableDictionary dictionary];
+    }
+    return cache;
+}
+
++ (void)clearFontsCache
+{
+    [[self fontsCache] removeAllObjects];
 }
 
 + (NSArray *)arrayForCGColor:(CGColorRef)color {
