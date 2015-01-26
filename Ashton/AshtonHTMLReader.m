@@ -23,7 +23,7 @@
     return stylesCache;
 }
 
-+ (void)emptyStylesCache
++ (void)clearStylesCache
 {
     [[self stylesCache] removeAllObjects];
 }
