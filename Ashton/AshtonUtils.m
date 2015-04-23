@@ -6,7 +6,8 @@
 + (id)CTFontRefWithFamilyName:(NSString *)familyName postScriptName:(NSString *)postScriptName size:(CGFloat)pointSize boldTrait:(BOOL)isBold italicTrait:(BOOL)isItalic features:(NSArray *)features {
 
     NSMutableDictionary *cache = [self fontsCache];
-    NSMutableDictionary *descriptorAttributes = [NSMutableDictionary dictionaryWithCapacity:2];
+    NSMutableDictionary *descriptorAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
+    descriptorAttributes[(id)kCTFontSizeAttribute] = @(pointSize);
     if (familyName) descriptorAttributes[(id)kCTFontNameAttribute] = familyName;
     if (postScriptName) descriptorAttributes[(id)kCTFontNameAttribute] = postScriptName;
 
