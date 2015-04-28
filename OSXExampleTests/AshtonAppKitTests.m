@@ -49,7 +49,7 @@
     // make sure this color can't be converted to RGB using the naive approach
     XCTAssertNil([color colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]], @"converting windowBackgroundColor was too easy.");
     array = [ashton arrayForColor:color];
-    expectedArray = @[ @(0.909803926945), @(0.909803926945), @(0.909803926945), @(1) ];
+    expectedArray = @[ @(0.905882358551), @(0.905882358551), @(0.905882358551), @(1) ];
     [self assertArray:array equals:expectedArray or:@"windowBackgroundColor has changed"];
 }
 
