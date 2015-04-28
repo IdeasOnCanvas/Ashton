@@ -1,6 +1,5 @@
 #import "AshtonHTMLWriter.h"
 #import "AshtonIntermediate.h"
-#import "NSString+AshtonStringEscaping.h"
 
 @implementation AshtonHTMLWriter
 
@@ -56,7 +55,12 @@
 }
 
 - (NSString *)HTMLEscapeString:(NSString *)input {
-    input = [input ashton_stringByEscapingForHTML];
+    input = [input stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+    input = [input stringByReplacingOccurrencesOfString:@"\"" withString:@"&quot;"];
+    input = [input stringByReplacingOccurrencesOfString:@"'" withString:@"&apos;"];
+    input = [input stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+    input = [input stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+    input = [input stringByReplacingOccurrencesOfString:@"\n" withString:@"<br />"];
     return input;
 }
 
