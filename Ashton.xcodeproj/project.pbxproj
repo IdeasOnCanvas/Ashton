@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B0A76F11AEF8E55008001DB /* NSString+AshtonStringEscaping.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0A76F01AEF8E55008001DB /* NSString+AshtonStringEscaping.m */; };
+		2B0A76F21AEF8E55008001DB /* NSString+AshtonStringEscaping.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B0A76F01AEF8E55008001DB /* NSString+AshtonStringEscaping.m */; };
 		C5164BBA165E782A0079F4A9 /* Typography.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C5164BB9165E782A0079F4A9 /* Typography.rtf */; };
 		C5164BBD165E86DB0079F4A9 /* isolated.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C5164BBC165E86DB0079F4A9 /* isolated.rtf */; };
 		C51B5D7916454AD300D2062B /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C51B5D7816454AD300D2062B /* AshtonAppKit.m */; };
@@ -86,6 +88,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B0A76EF1AEF8E55008001DB /* NSString+AshtonStringEscaping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AshtonStringEscaping.h"; sourceTree = "<group>"; };
+		2B0A76F01AEF8E55008001DB /* NSString+AshtonStringEscaping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AshtonStringEscaping.m"; sourceTree = "<group>"; };
 		C5164BB9165E782A0079F4A9 /* Typography.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Typography.rtf; sourceTree = "<group>"; };
 		C5164BBC165E86DB0079F4A9 /* isolated.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = isolated.rtf; sourceTree = "<group>"; };
 		C51B5D7716454AD300D2062B /* AshtonAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKit.h; sourceTree = "<group>"; };
@@ -251,6 +255,8 @@
 				C57D6ACF164968F00089E70A /* AshtonUIKit.m */,
 				C53879D616FA0DE400908630 /* AshtonUtils.h */,
 				C53879D716FA0DE400908630 /* AshtonUtils.m */,
+				2B0A76EF1AEF8E55008001DB /* NSString+AshtonStringEscaping.h */,
+				2B0A76F01AEF8E55008001DB /* NSString+AshtonStringEscaping.m */,
 			);
 			path = Ashton;
 			sourceTree = "<group>";
@@ -468,7 +474,7 @@
 		C5F71634163E9776005B34D1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0630;
 				TargetAttributes = {
 					C51BA10D18228CD100F9309F = {
 						TestTargetID = C5F71641163E97CF005B34D1;
@@ -576,6 +582,7 @@
 				C5F71657163E97CF005B34D1 /* iOSAppDelegate.m in Sources */,
 				C5F71666163E97CF005B34D1 /* iOSViewController.m in Sources */,
 				C51B5D8116454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */,
+				2B0A76F11AEF8E55008001DB /* NSString+AshtonStringEscaping.m in Sources */,
 				C55FCAB1185A284D004E64EA /* AshtonMarkdownReader.m in Sources */,
 				C51B5D8D164557C900D2062B /* AshtonCoreText.m in Sources */,
 				C5DC48921647F0D7009FEA27 /* iOSCoreTextView.m in Sources */,
@@ -596,6 +603,7 @@
 				C5F71696163E97EA005B34D1 /* main.m in Sources */,
 				C55FCAB2185A284D004E64EA /* AshtonMarkdownReader.m in Sources */,
 				C55FCAB8185A2867004E64EA /* AshtonMarkdownWriter.m in Sources */,
+				2B0A76F21AEF8E55008001DB /* NSString+AshtonStringEscaping.m in Sources */,
 				C5F7169D163E97EA005B34D1 /* OSXAppDelegate.m in Sources */,
 				C51B5D7916454AD300D2062B /* AshtonAppKit.m in Sources */,
 				C51B5D8216454F8C00D2062B /* NSAttributedString+Ashton.m in Sources */,
@@ -690,7 +698,6 @@
 		C51BA12018228CD100F9309F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iOSExample.app/iOSExample";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -727,7 +734,6 @@
 		C51BA12118228CD100F9309F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iOSExample.app/iOSExample";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -778,8 +784,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
@@ -802,8 +808,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -848,7 +854,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -870,7 +875,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -890,7 +894,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OSXExample.app/Contents/MacOS/OSXExample";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -913,7 +916,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OSXExample.app/Contents/MacOS/OSXExample";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
