@@ -43,5 +43,14 @@
     XCTAssertEqualObjects(string, roundtripped, @"HTML output for background color failed");
 }
 
+- (void)testCombiningOfParagraphsAttributes {
+    NSString *ashtonRep = @"<p style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Palatino\"; -cocoa-font-postscriptname: \"Palatino-Roman\"; '>Line1</p><p style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Palatino\"; -cocoa-font-postscriptname: \"Palatino-Roman\"; '>Line2</p>";
+    NSAttributedString *attrString = [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:ashtonRep];
+    NSRange range = NSMakeRange(0, attrString.length);
+    NSRange maxRange;
+    [attrString attributesAtIndex:0 longestEffectiveRange:&maxRange inRange:range];
+    XCTAssert(NSEqualRanges(maxRange, range), @"%@ != %@", NSStringFromRange(maxRange), NSStringFromRange(range));
+}
+
 
 @end
