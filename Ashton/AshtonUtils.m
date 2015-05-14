@@ -47,7 +47,7 @@
             font = CFBridgingRelease(newFont);
         }
     }
-#ifdef TARGET_OS_MAC
+#ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
     NSFontDescriptor *fontDescriptor = [font fontDescriptor];
     font = [NSFont fontWithDescriptor:fontDescriptor size:fontDescriptor.pointSize];
 #endif
