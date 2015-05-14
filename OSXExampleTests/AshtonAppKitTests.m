@@ -1,5 +1,6 @@
 #import "AshtonAppKitTests.h"
 #import "AshtonAppKit.h"
+#import "AshtonUtils.h"
 
 
 @interface AshtonAppKit (Private)
@@ -51,6 +52,15 @@
     array = [ashton arrayForColor:color];
     expectedArray = @[ @(0.905882358551), @(0.905882358551), @(0.905882358551), @(1) ];
     [self assertArray:array equals:expectedArray or:@"windowBackgroundColor has changed"];
+}
+
+- (void)testFontLineHeights {
+    CTFontRef ctFont = (__bridge CTFontRef)([AshtonUtils CTFontRefWithFamilyName:@"Palatino-Bold" postScriptName:@"Palatino" size:18.0 boldTrait:YES italicTrait:NO features:nil]);
+    NSLayoutManager *lm = [NSLayoutManager new];
+    CGFloat ctHeight = [lm defaultLineHeightForFont:(__bridge NSFont *)(ctFont)];
+    NSFont *nsFont = [NSFont fontWithName:@"Palatino-Bold" size:18.0];
+    CGFloat nsHeight  = [lm defaultLineHeightForFont:nsFont];
+    XCTAssertEqual(ctHeight, nsHeight, @"Line heights are not equal");
 }
 
 @end
