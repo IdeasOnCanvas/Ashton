@@ -4,7 +4,7 @@
 #import <CoreText/CoreText.h>
 
 @interface AshtonCoreText ()
-@property (nonatomic, readonly) NSArray *attributesToPreserve;
+@property (nonatomic, readonly) NSSet *attributesToPreserve;
 @end
 
 @implementation AshtonCoreText
@@ -20,7 +20,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        _attributesToPreserve = @[ AshtonAttrBackgroundColor, AshtonAttrBaselineOffset, AshtonAttrStrikethrough, AshtonAttrStrikethroughColor, AshtonAttrLink ];
+        _attributesToPreserve = [NSSet setWithObjects: AshtonAttrBackgroundColor, AshtonAttrBaselineOffset, AshtonAttrStrikethrough, AshtonAttrStrikethroughColor, AshtonAttrLink, nil ];
     }
     return self;
 }

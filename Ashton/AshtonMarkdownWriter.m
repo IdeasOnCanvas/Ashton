@@ -1,5 +1,10 @@
 #import "AshtonMarkdownWriter.h"
 #import "AshtonIntermediate.h"
+#if TARGET_OS_IPHONE
+#import "AshtonUIKit.h"
+#else
+#import "AshtonAppKit.h"
+#endif
 
 static void writeMarkdownFragment(NSAttributedString *input, NSString *inputString, NSRange range, NSMutableString *output) {
     __block BOOL outputIsBold = NO;
@@ -95,11 +100,22 @@ static void writeMarkdownFragment(NSAttributedString *input, NSString *inputStri
 }
 
 - (NSString *)markdownStringFromAttributedString:(NSAttributedString *)input {
+    if (input.length == 0) {
+        return @"";
+    }
+
+#if TARGET_OS_IPHONE
+    input = [[AshtonUIKit sharedInstance] intermediateRepresentationWithTargetRepresentation:input];
+#else
+    input = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:input];
+#endif
+
     NSString *inputString = input.string;
     NSMutableString *output = [NSMutableString stringWithCapacity:input.length*1.5];
     NSUInteger length = [input length];
     NSUInteger paraStart = 0, paraEnd = 0, contentsEnd = 0;
     NSRange paragraphRange;
+
     while (paraEnd < length) {
         [inputString getParagraphStart:&paraStart end:&paraEnd
                            contentsEnd:&contentsEnd forRange:NSMakeRange(paraEnd, 0)];
