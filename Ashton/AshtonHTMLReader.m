@@ -96,10 +96,8 @@
                     [scanner scanString:@"\"" intoString:NULL];
                     NSString *familyName; [scanner scanUpToString:@"\"" intoString:&familyName];
 
-                    attrs[AshtonAttrFont][AshtonFontAttrTraitBold] = @(traitBold);
-                    attrs[AshtonAttrFont][AshtonFontAttrTraitItalic] = @(traitItalic);
-                    if (familyName) attrs[AshtonAttrFont][AshtonFontAttrFamilyName] = familyName;
-                    attrs[AshtonAttrFont][AshtonFontAttrPointSize] = @(pointSize);
+                    NSDictionary *fontAttrs = @{ AshtonFontAttrTraitBold: @(traitBold), AshtonFontAttrTraitItalic: @(traitItalic), AshtonFontAttrFamilyName: familyName, AshtonFontAttrPointSize: @(pointSize), AshtonFontAttrFeatures: @[] };
+                    attrs[AshtonAttrFont] = [self mergeFontAttributes:fontAttrs into:attrs[AshtonAttrFont]];
                 }
                 if ([key isEqualToString:@"-cocoa-font-postscriptname"]) {
                     NSScanner *scanner = [NSScanner scannerWithString:value];
