@@ -52,5 +52,11 @@
     XCTAssert(NSEqualRanges(maxRange, range), @"%@ != %@", NSStringFromRange(maxRange), NSStringFromRange(range));
 }
 
+- (void)testReadStringWithMissingFontFamilyName {
+    NSString *ashtonRep = @"<p style='text-align: left; '><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"\"; -cocoa-font-postscriptname: \"FontAwesome\"; '>\\UF016</span><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>  1. Numbers</span></p>";
+    NSAttributedString *attrString = [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:ashtonRep];
+    NSDictionary *attributes = [attrString attributesAtIndex:0 effectiveRange:NULL];
+    XCTAssert([attributes[AshtonAttrFont][AshtonFontAttrPostScriptName] isEqualToString:@"FontAwesome"]);
+}
 
 @end
