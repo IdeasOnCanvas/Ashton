@@ -49,6 +49,7 @@
                 // produces: font
                 if (![attr isKindOfClass:[UIFont class]]) continue;
                 UIFont *font = attr;
+                UIFontDescriptor *fontDescriptor = font.fontDescriptor;
                 NSMutableDictionary *attrDict = [NSMutableDictionary dictionary];
 
                 CTFontRef ctFont = CTFontCreateWithName((__bridge CFStringRef)font.fontName, font.pointSize, NULL);
@@ -56,6 +57,16 @@
                 if ((symbolicTraits & kCTFontTraitBold) == kCTFontTraitBold) attrDict[AshtonFontAttrTraitBold] = @(YES);
                 if ((symbolicTraits & kCTFontTraitItalic) == kCTFontTraitItalic) attrDict[AshtonFontAttrTraitItalic] = @(YES);
 
+                // non-default font feature settings
+                NSArray *fontFeatures = [fontDescriptor objectForKey:UIFontDescriptorFeatureSettingsAttribute];
+                NSMutableSet *features = [NSMutableSet set];
+                if (fontFeatures) {
+                    for (NSDictionary *feature in fontFeatures) {
+                        [features addObject:@[feature[UIFontFeatureTypeIdentifierKey], feature[UIFontFeatureSelectorIdentifierKey]]];
+                    }
+                }
+
+                attrDict[AshtonFontAttrFeatures] = features;
                 attrDict[AshtonFontAttrPointSize] = @(font.pointSize);
                 attrDict[AshtonFontAttrFamilyName] = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontFamilyNameKey));
                 attrDict[AshtonFontAttrPostScriptName] = CFBridgingRelease(CTFontCopyName(ctFont, kCTFontPostScriptNameKey));
@@ -82,12 +93,12 @@
                 if (![attr isKindOfClass:[UIColor class]]) continue;
                 newAttrs[AshtonAttrBackgroundColor] = [self arrayForColor:attr];
             }
-			if ([attrName isEqual:NSLinkAttributeName]) {
-				if ([attr isKindOfClass:[NSURL class]]) {
-					newAttrs[AshtonAttrLink] = [attr absoluteString];
-				} else if ([attr isKindOfClass:[NSString class]]) {
-					newAttrs[AshtonAttrLink] = attr;
-				}
+            if ([attrName isEqual:NSLinkAttributeName]) {
+                if ([attr isKindOfClass:[NSURL class]]) {
+                    newAttrs[AshtonAttrLink] = [attr absoluteString];
+                } else if ([attr isKindOfClass:[NSString class]]) {
+                    newAttrs[AshtonAttrLink] = attr;
+                }
             }
         }
         // after going through all UIKit attributes copy back the preserved attributes, but only if they don't exist already
@@ -126,16 +137,16 @@
             if ([attrName isEqualToString:AshtonAttrFont]) {
                 // consumes: font
                 NSDictionary *attrDict = attr;
-				UIFont *font = [AshtonUtils CTFontRefWithFamilyName:attrDict[AshtonFontAttrFamilyName]
-                                                                              postScriptName:attrDict[AshtonFontAttrPostScriptName]
-                                                                                        size:[attrDict[AshtonFontAttrPointSize] doubleValue]
-                                                                                   boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
-                                                                                 italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
-                                                                                    features:attrDict[AshtonFontAttrFeatures]];
+                UIFont *font = [AshtonUtils CTFontRefWithFamilyName:attrDict[AshtonFontAttrFamilyName]
+                                                     postScriptName:attrDict[AshtonFontAttrPostScriptName]
+                                                               size:[attrDict[AshtonFontAttrPointSize] doubleValue]
+                                                          boldTrait:[attrDict[AshtonFontAttrTraitBold] isEqual:@(YES)]
+                                                        italicTrait:[attrDict[AshtonFontAttrTraitItalic] isEqual:@(YES)]
+                                                           features:attrDict[AshtonFontAttrFeatures]];
                 if (font) {
                     newAttrs[NSFontAttributeName] = font;
                 } else {
-					// If the font is not available on this device (e.g. custom font), fallback to system font
+                    // If the font is not available on this device (e.g. custom font), fallback to system font
                     newAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:[attrDict[AshtonFontAttrPointSize] doubleValue]];
                 }
             }
@@ -150,11 +161,11 @@
                 if ([attr isEqualToString:AshtonStrikethroughStyleDouble]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
                 if ([attr isEqualToString:AshtonStrikethroughStyleThick]) newAttrs[NSStrikethroughStyleAttributeName] = @(NSUnderlineStyleSingle);
             }
-			if ([attrName isEqualToString:AshtonAttrLink]) {
+            if ([attrName isEqualToString:AshtonAttrLink]) {
                 NSURL *URL = [NSURL URLWithString:attr];
-				if (URL) {
-					newAttrs[NSLinkAttributeName] = URL;
-				}
+                if (URL) {
+                    newAttrs[NSLinkAttributeName] = URL;
+                }
             }
             if ([attrName isEqualToString:AshtonAttrColor]) {
                 // consumes: color
