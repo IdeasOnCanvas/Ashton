@@ -18,6 +18,11 @@ Pod::Spec.new do |s|
   s.osx.frameworks = 'CoreText'
   s.osx.source_files = 'Ashton/*.{h,m}'
   s.osx.exclude_files = 'Ashton/AshtonUIKit.{h,m}'
+  
+  s.watchos.deployment_target = '2.0'
+  s.watchos.frameworks = 'CoreText'
+  s.watchos.source_files = 'Ashton/*.{h,m}'
+  s.watchos.exclude_files = 'Ashton/AshtonAppKit.{h,m}'
 
   s.requires_arc = true
 end
