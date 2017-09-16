@@ -11,6 +11,15 @@
 		C8A9CE0F1F6D13700095C6AE /* AshtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */; };
 		C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */ = {isa = PBXBuildFile; fileRef = C8A9CE031F6D13700095C6AE /* Ashton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8A9CE1B1F6D13D40095C6AE /* Ashton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE1A1F6D13D40095C6AE /* Ashton.swift */; };
+		C8A9CE861F6D1B0F0095C6AE /* AshtonCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE741F6D1B0F0095C6AE /* AshtonCoreText.m */; };
+		C8A9CE871F6D1B0F0095C6AE /* AshtonHTMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE761F6D1B0F0095C6AE /* AshtonHTMLReader.m */; };
+		C8A9CE881F6D1B0F0095C6AE /* AshtonHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE781F6D1B0F0095C6AE /* AshtonHTMLWriter.m */; };
+		C8A9CE891F6D1B0F0095C6AE /* AshtonIntermediate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE7A1F6D1B0F0095C6AE /* AshtonIntermediate.m */; };
+		C8A9CE8A1F6D1B0F0095C6AE /* AshtonMarkdownReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE7C1F6D1B0F0095C6AE /* AshtonMarkdownReader.m */; };
+		C8A9CE8B1F6D1B0F0095C6AE /* AshtonMarkdownWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE7E1F6D1B0F0095C6AE /* AshtonMarkdownWriter.m */; };
+		C8A9CE8C1F6D1B0F0095C6AE /* AshtonUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE801F6D1B0F0095C6AE /* AshtonUIKit.m */; };
+		C8A9CE8D1F6D1B0F0095C6AE /* AshtonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE821F6D1B0F0095C6AE /* AshtonUtils.m */; };
+		C8A9CE8F1F6D1B0F0095C6AE /* NSAttributedString+Ashton.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE851F6D1B0F0095C6AE /* NSAttributedString+Ashton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +40,27 @@
 		C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonTests.swift; sourceTree = "<group>"; };
 		C8A9CE101F6D13700095C6AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8A9CE1A1F6D13D40095C6AE /* Ashton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ashton.swift; sourceTree = "<group>"; };
+		C8A9CE6B1F6D19960095C6AE /* Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
+		C8A9CE721F6D1B0F0095C6AE /* AshtonConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonConverter.h; sourceTree = "<group>"; };
+		C8A9CE731F6D1B0F0095C6AE /* AshtonCoreText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonCoreText.h; sourceTree = "<group>"; };
+		C8A9CE741F6D1B0F0095C6AE /* AshtonCoreText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonCoreText.m; sourceTree = "<group>"; };
+		C8A9CE751F6D1B0F0095C6AE /* AshtonHTMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonHTMLReader.h; sourceTree = "<group>"; };
+		C8A9CE761F6D1B0F0095C6AE /* AshtonHTMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonHTMLReader.m; sourceTree = "<group>"; };
+		C8A9CE771F6D1B0F0095C6AE /* AshtonHTMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonHTMLWriter.h; sourceTree = "<group>"; };
+		C8A9CE781F6D1B0F0095C6AE /* AshtonHTMLWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonHTMLWriter.m; sourceTree = "<group>"; };
+		C8A9CE791F6D1B0F0095C6AE /* AshtonIntermediate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonIntermediate.h; sourceTree = "<group>"; };
+		C8A9CE7A1F6D1B0F0095C6AE /* AshtonIntermediate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonIntermediate.m; sourceTree = "<group>"; };
+		C8A9CE7B1F6D1B0F0095C6AE /* AshtonMarkdownReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonMarkdownReader.h; sourceTree = "<group>"; };
+		C8A9CE7C1F6D1B0F0095C6AE /* AshtonMarkdownReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonMarkdownReader.m; sourceTree = "<group>"; };
+		C8A9CE7D1F6D1B0F0095C6AE /* AshtonMarkdownWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonMarkdownWriter.h; sourceTree = "<group>"; };
+		C8A9CE7E1F6D1B0F0095C6AE /* AshtonMarkdownWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonMarkdownWriter.m; sourceTree = "<group>"; };
+		C8A9CE7F1F6D1B0F0095C6AE /* AshtonUIKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonUIKit.h; sourceTree = "<group>"; };
+		C8A9CE801F6D1B0F0095C6AE /* AshtonUIKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonUIKit.m; sourceTree = "<group>"; };
+		C8A9CE811F6D1B0F0095C6AE /* AshtonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonUtils.h; sourceTree = "<group>"; };
+		C8A9CE821F6D1B0F0095C6AE /* AshtonUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonUtils.m; sourceTree = "<group>"; };
+		C8A9CE831F6D1B0F0095C6AE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8A9CE841F6D1B0F0095C6AE /* NSAttributedString+Ashton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Ashton.h"; sourceTree = "<group>"; };
+		C8A9CE851F6D1B0F0095C6AE /* NSAttributedString+Ashton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Ashton.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +88,7 @@
 				C8A9CE021F6D13700095C6AE /* Ashton */,
 				C8A9CE0D1F6D13700095C6AE /* AshtonTests */,
 				C8A9CE011F6D13700095C6AE /* Products */,
+				C8A9CE6E1F6D19DE0095C6AE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,10 +114,46 @@
 		C8A9CE0D1F6D13700095C6AE /* AshtonTests */ = {
 			isa = PBXGroup;
 			children = (
+				C8A9CE701F6D1B0F0095C6AE /* AshtonBenchmark */,
+				C8A9CE6B1F6D19960095C6AE /* Bridging.h */,
 				C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */,
 				C8A9CE101F6D13700095C6AE /* Info.plist */,
 			);
 			path = AshtonTests;
+			sourceTree = "<group>";
+		};
+		C8A9CE6E1F6D19DE0095C6AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8A9CE701F6D1B0F0095C6AE /* AshtonBenchmark */ = {
+			isa = PBXGroup;
+			children = (
+				C8A9CE721F6D1B0F0095C6AE /* AshtonConverter.h */,
+				C8A9CE731F6D1B0F0095C6AE /* AshtonCoreText.h */,
+				C8A9CE741F6D1B0F0095C6AE /* AshtonCoreText.m */,
+				C8A9CE751F6D1B0F0095C6AE /* AshtonHTMLReader.h */,
+				C8A9CE761F6D1B0F0095C6AE /* AshtonHTMLReader.m */,
+				C8A9CE771F6D1B0F0095C6AE /* AshtonHTMLWriter.h */,
+				C8A9CE781F6D1B0F0095C6AE /* AshtonHTMLWriter.m */,
+				C8A9CE791F6D1B0F0095C6AE /* AshtonIntermediate.h */,
+				C8A9CE7A1F6D1B0F0095C6AE /* AshtonIntermediate.m */,
+				C8A9CE7B1F6D1B0F0095C6AE /* AshtonMarkdownReader.h */,
+				C8A9CE7C1F6D1B0F0095C6AE /* AshtonMarkdownReader.m */,
+				C8A9CE7D1F6D1B0F0095C6AE /* AshtonMarkdownWriter.h */,
+				C8A9CE7E1F6D1B0F0095C6AE /* AshtonMarkdownWriter.m */,
+				C8A9CE7F1F6D1B0F0095C6AE /* AshtonUIKit.h */,
+				C8A9CE801F6D1B0F0095C6AE /* AshtonUIKit.m */,
+				C8A9CE811F6D1B0F0095C6AE /* AshtonUtils.h */,
+				C8A9CE821F6D1B0F0095C6AE /* AshtonUtils.m */,
+				C8A9CE831F6D1B0F0095C6AE /* Info.plist */,
+				C8A9CE841F6D1B0F0095C6AE /* NSAttributedString+Ashton.h */,
+				C8A9CE851F6D1B0F0095C6AE /* NSAttributedString+Ashton.m */,
+			);
+			path = AshtonBenchmark;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +275,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8A9CE881F6D1B0F0095C6AE /* AshtonHTMLWriter.m in Sources */,
+				C8A9CE891F6D1B0F0095C6AE /* AshtonIntermediate.m in Sources */,
+				C8A9CE8D1F6D1B0F0095C6AE /* AshtonUtils.m in Sources */,
+				C8A9CE8A1F6D1B0F0095C6AE /* AshtonMarkdownReader.m in Sources */,
+				C8A9CE8C1F6D1B0F0095C6AE /* AshtonUIKit.m in Sources */,
+				C8A9CE861F6D1B0F0095C6AE /* AshtonCoreText.m in Sources */,
+				C8A9CE8F1F6D1B0F0095C6AE /* NSAttributedString+Ashton.m in Sources */,
+				C8A9CE871F6D1B0F0095C6AE /* AshtonHTMLReader.m in Sources */,
+				C8A9CE8B1F6D1B0F0095C6AE /* AshtonMarkdownWriter.m in Sources */,
 				C8A9CE0F1F6D13700095C6AE /* AshtonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,6 +467,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schwmi.AshtonTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = AshtonTests/Bridging.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -406,6 +483,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schwmi.AshtonTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = AshtonTests/Bridging.h;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

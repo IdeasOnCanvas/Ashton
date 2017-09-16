@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// transforms AttributedString
+/// Transforms AttributedString into HTML in both directions
 public final class Ashton {
 
 	public typealias HTML = String
