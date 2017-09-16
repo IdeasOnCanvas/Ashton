@@ -30,4 +30,24 @@ class AshtonTests: XCTestCase {
 		let convertedBack = NSAttributedString(htmlString: html)!
 		XCTAssertEqual(convertedBack, attributedString)
 	}
+
+	func testParagraphSpacing() {
+		let attributedString = NSMutableAttributedString(string: "Hello World.\nThis is line 2.\nThisIsLine3\n\nThis is line 4")
+		let referenceHtml = attributedString.mn_HTMLRepresentation()!
+		let html = Ashton.encode(attributedString)
+		XCTAssertEqual(html, referenceHtml)
+		let convertedBack = NSAttributedString(htmlString: referenceHtml)!
+		XCTAssertEqual(convertedBack, attributedString)
+	}
+
+	func testParagraphSpacingPerformance() {
+		let attributedString = NSMutableAttributedString(string: "Hello World.\nThis is line 2.\nThisIsLine3\n\nThis is line 4")
+
+		self.measure {
+			for _ in 0...10000 {
+				//let html = attributedString.mn_HTMLRepresentation()!
+				//let html = Ashton.encode(attributedString)
+			}
+		}
+	}
 }

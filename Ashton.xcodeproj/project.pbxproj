@@ -20,6 +20,7 @@
 		C8A9CE8C1F6D1B0F0095C6AE /* AshtonUIKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE801F6D1B0F0095C6AE /* AshtonUIKit.m */; };
 		C8A9CE8D1F6D1B0F0095C6AE /* AshtonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE821F6D1B0F0095C6AE /* AshtonUtils.m */; };
 		C8A9CE8F1F6D1B0F0095C6AE /* NSAttributedString+Ashton.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE851F6D1B0F0095C6AE /* NSAttributedString+Ashton.m */; };
+		C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		C8A9CE831F6D1B0F0095C6AE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8A9CE841F6D1B0F0095C6AE /* NSAttributedString+Ashton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Ashton.h"; sourceTree = "<group>"; };
 		C8A9CE851F6D1B0F0095C6AE /* NSAttributedString+Ashton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Ashton.m"; sourceTree = "<group>"; };
+		C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonHTMLWriter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 		C8A9CE021F6D13700095C6AE /* Ashton */ = {
 			isa = PBXGroup;
 			children = (
+				C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */,
 				C8A9CE1A1F6D13D40095C6AE /* Ashton.swift */,
 				C8A9CE031F6D13700095C6AE /* Ashton.h */,
 				C8A9CE041F6D13700095C6AE /* Info.plist */,
@@ -267,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */,
 				C8A9CE1B1F6D13D40095C6AE /* Ashton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

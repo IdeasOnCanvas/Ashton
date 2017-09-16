@@ -15,7 +15,7 @@ public final class Ashton {
 	public typealias HTML = String
 
 	public static func encode(_ attributedString: NSAttributedString) -> HTML {
-		return ""
+		return AshtonHTMLWriter().encode(attributedString)
 	}
 
 	public static func decode(_ html: HTML) -> NSAttributedString {
