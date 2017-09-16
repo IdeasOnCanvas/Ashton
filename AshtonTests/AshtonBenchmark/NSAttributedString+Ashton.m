@@ -20,7 +20,7 @@
 	return [[AshtonHTMLWriter sharedInstance] HTMLStringFromAttributedString:attString];
 }
 
-- (instancetype)mn_initWithHTMLString:(NSString *)htmlString
+- (instancetype)initWithHTMLString:(NSString *)htmlString
 {
 	NSAttributedString *attString = [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
 #if TARGET_OS_IPHONE

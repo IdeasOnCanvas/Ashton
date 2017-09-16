@@ -7,7 +7,7 @@
 
 // Attributed String with UIKit or AppKit Attributes
 - (NSString *)mn_HTMLRepresentation;
-- (instancetype)mn_initWithHTMLString:(NSString *)htmlString NS_RETURNS_RETAINED __attribute__((ns_consumes_self));
+- (instancetype)initWithHTMLString:(NSString *)htmlString NS_RETURNS_RETAINED __attribute__((ns_consumes_self));
 
 // Attributed String with CT Attributes
 - (NSString *)mn_HTMLRepresentationFromCoreTextAttributes;

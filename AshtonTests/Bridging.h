@@ -9,6 +9,8 @@
 #ifndef AshtonBenchmark_h
 #define AshtonBenchmark_h
 
+#import "NSAttributedString+Ashton.h"
+#import "AshtonHTMLReader.h"
 #import "AshtonHTMLWriter.h"
 
 #endif /* AshtonBenchmark_h */
