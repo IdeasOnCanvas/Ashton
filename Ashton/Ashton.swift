@@ -19,6 +19,6 @@ public final class Ashton {
 	}
 
 	public static func decode(_ html: HTML) -> NSAttributedString {
-		return NSAttributedString()
+		return AshtonHTMLReader().decode(html)
 	}
 }

@@ -11,7 +11,7 @@ import Foundation
 
 final class AshtonHTMLWriter {
 
-	public func encode(_ attributedString: NSAttributedString) -> Ashton.HTML {
+	func encode(_ attributedString: NSAttributedString) -> Ashton.HTML {
 		let string = attributedString.string
 		let paragraphRanges = self.getParagraphRanges(from: string)
 
