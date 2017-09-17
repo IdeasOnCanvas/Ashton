@@ -70,10 +70,37 @@ struct HTMLTag {
 	}
 
 	func makeOpenTag() -> String {
-		return "<\(name)>"
+		if attributes.isEmpty {
+			return "<\(name)>"
+		} else {
+			var styles = ""
+			self.attributes.forEach { key, value in
+				switch key {
+				case .backgroundColor:
+					guard let color = value as? UIColor else { return }
+					styles += "background-color: " + self.makeCSSrgba(for: color)
+				default:
+					assertionFailure("did not handle \(key)")
+				}
+				styles += "; "
+			}
+			return "<\(name) style: '\(styles)'>"
+		}
 	}
 
 	func makeCloseTag() -> String {
 		return "</\(name)>"
+	}
+
+	// MARK: - Private
+
+	private func makeCSSrgba(for color: UIColor) -> String {
+		var red: CGFloat = 0.0
+		var green: CGFloat = 0.0
+		var blue: CGFloat = 0.0
+		var alpha: CGFloat = 0.0
+		color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+		
+		return "rgba(\(Int(red * 255.0)), \(Int(green * 255.0)), \(Int(blue * 255.0)), \(alpha))"
 	}
 }
