@@ -26,7 +26,10 @@ class AshtonTests: XCTestCase {
 		attributedString.addAttribute(NSAttributedStringKey.backgroundColor,
 		                              value: UIColor.red,
 		                              range: NSRange(location: 6, length: 10))
-		let html = attributedString.mn_HTMLRepresentation()!
+		let referenceHtml = attributedString.mn_HTMLRepresentation()!
+		let html = Ashton.encode(attributedString)
+		XCTAssertEqual(referenceHtml, html)
+
 		let convertedBack = NSAttributedString(htmlString: html)!
 		XCTAssertEqual(convertedBack, attributedString)
 	}
@@ -36,6 +39,7 @@ class AshtonTests: XCTestCase {
 		let referenceHtml = attributedString.mn_HTMLRepresentation()!
 		let html = Ashton.encode(attributedString)
 		XCTAssertEqual(html, referenceHtml)
+
 		let convertedBack = NSAttributedString(htmlString: referenceHtml)!
 		XCTAssertEqual(convertedBack, attributedString)
 	}
@@ -46,7 +50,7 @@ class AshtonTests: XCTestCase {
 		self.measure {
 			for _ in 0...10000 {
 				//let html = attributedString.mn_HTMLRepresentation()!
-				//let html = Ashton.encode(attributedString)
+				let html = Ashton.encode(attributedString)
 			}
 		}
 	}
