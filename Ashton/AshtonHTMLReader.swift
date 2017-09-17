@@ -11,6 +11,7 @@ import Foundation
 
 final class AshtonHTMLReader: NSObject {
 
+	private var skipNextLineBreak: Bool = true
 	private var output: NSMutableAttributedString!
 	private var attributesOfLastElement: [NSAttributedStringKey: Any]? {
 		guard !self.output.string.isEmpty else { return nil }
@@ -24,6 +25,7 @@ final class AshtonHTMLReader: NSObject {
 		self.output = NSMutableAttributedString()
 
 		let parser = XMLParser(data: data)
+		parser.shouldProcessNamespaces = false
 		parser.delegate = self
 		parser.parse()
 
@@ -40,9 +42,6 @@ extension AshtonHTMLReader: XMLParserDelegate {
 	}
 
 	func parserDidEndDocument(_ parser: XMLParser) {
-		if self.output.string.hasPrefix("\n") {
-			self.output.deleteCharacters(in: NSRange(location: 0, length: 1))
-		}
 		self.output.endEditing()
 	}
 
@@ -53,18 +52,20 @@ extension AshtonHTMLReader: XMLParserDelegate {
 
 	func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
 		switch elementName {
-		case "html":
-			break
 		case "p":
-			let linebreak = NSAttributedString(string: "\n", attributes: self.attributesOfLastElement)
+			guard !self.skipNextLineBreak else {
+				self.skipNextLineBreak = false
+				return
+			}
+			let linebreak = NSAttributedString(string: "\n", attributes: nil)
 			self.output.append(linebreak)
 		default:
-			assertionFailure("did not handle \(elementName)")
+			break
 		}
 	}
 
 	func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-		// remove element styles
+
 	}
 
 	func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {

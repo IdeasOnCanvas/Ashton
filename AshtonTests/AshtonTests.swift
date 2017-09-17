@@ -31,11 +31,13 @@ class AshtonTests: XCTestCase {
 
 	func testParagraphSpacingPerformance() {
 		let attributedString = NSMutableAttributedString(string: "Hello World.\nThis is line 2.\nThisIsLine3\n\nThis is line 4")
+		let html = Ashton.encode(attributedString)
 
 		self.measure {
 			for _ in 0...10000 {
+				//let attr = NSAttributedString(htmlString: html)
+				let attr = Ashton.decode(html)
 				//let html = attributedString.mn_HTMLRepresentation()!
-				let html = Ashton.encode(attributedString)
 			}
 		}
 	}
