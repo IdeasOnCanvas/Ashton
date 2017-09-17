@@ -70,24 +70,35 @@ struct HTMLTag {
 	}
 
 	func makeOpenTag() -> String {
+		let defaultOpenTag = "<\(self.name)>"
 		if attributes.isEmpty {
-			return "<\(name)>"
+			return defaultOpenTag
 		} else {
 			var styles = ""
 			self.attributes.forEach { key, value in
 				switch key {
 				case .backgroundColor:
 					guard let color = value as? UIColor else { return }
+
 					styles += "background-color: " + self.makeCSSrgba(for: color)
 				case .foregroundColor:
 					guard let color = value as? UIColor else { return }
+
 					styles += "color: " + self.makeCSSrgba(for: color)
+				case .underlineStyle:
+					guard let underlineStyle = self.underlineStyle(from: value) else { return }
+
+					styles += "text-decoration: underline; -cocoa-underline: \(underlineStyle)"
 				default:
 					assertionFailure("did not handle \(key)")
 				}
 				styles += "; "
 			}
-			return "<\(name) style='\(styles)'>"
+			if styles.isEmpty {
+				return defaultOpenTag
+			} else {
+				return "<\(name) style='\(styles)'>"
+			}
 		}
 	}
 
@@ -105,5 +116,21 @@ struct HTMLTag {
 		color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
 
 		return "rgba(\(Int(red * 255.0)), \(Int(green * 255.0)), \(Int(blue * 255.0)), \(String(format: "%.6f", alpha)))"
+	}
+
+	private func underlineStyle(from value: Any) -> String? {
+		guard let rawValue = value as? Int else { return nil  }
+		guard let underlineStyle = NSUnderlineStyle(rawValue: rawValue) else { return nil }
+
+		switch underlineStyle {
+		case .styleSingle:
+			return "single"
+		case .styleThick:
+			return nil//"tick"
+		case .styleDouble:
+			return nil//"double"
+		default:
+			return nil
+		}
 	}
 }

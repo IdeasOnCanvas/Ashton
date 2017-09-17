@@ -12,8 +12,10 @@ import XCTest
 class AshtonTests: XCTestCase {
 
 	func testAttributeEncodingWithBenchmark() {
-		self.compareAttributeEncodingWithBenchmark(.backgroundColor, value: UIColor.red)
-		self.compareAttributeEncodingWithBenchmark(.foregroundColor, value: UIColor(hue: 0.2, saturation: 0.1, brightness: 0.3, alpha: 0.7))
+		self.compareAttributeEncodingWithBenchmark(.backgroundColor, values: [UIColor.red])
+		self.compareAttributeEncodingWithBenchmark(.foregroundColor, values: [UIColor(hue: 0.2, saturation: 0.1, brightness: 0.3, alpha: 0.7)])
+		let underlineStyles: [NSUnderlineStyle] = [.styleSingle]//, .styleThick, .styleDouble]
+		self.compareAttributeEncodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue })
 	}
 
 	func testParagraphSpacing() {
@@ -42,13 +44,15 @@ class AshtonTests: XCTestCase {
 
 private extension AshtonTests {
 
-	func compareAttributeEncodingWithBenchmark(_ attribute: NSAttributedStringKey, value: Any) {
-		let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\nNext line with no attribute")
-		attributedString.addAttribute(attribute,
-		                              value: value,
-		                              range: NSRange(location: 6, length: 10))
-		let referenceHtml = attributedString.mn_HTMLRepresentation()!
-		let html = Ashton.encode(attributedString)
-		XCTAssertEqual(referenceHtml, html)
+	func compareAttributeEncodingWithBenchmark(_ attribute: NSAttributedStringKey, values: [Any]) {
+		for value in values {
+			let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\nNext line with no attribute")
+			attributedString.addAttribute(attribute,
+			                              value: value,
+			                              range: NSRange(location: 6, length: 10))
+			let referenceHtml = attributedString.mn_HTMLRepresentation()!
+			let html = Ashton.encode(attributedString)
+			XCTAssertEqual(referenceHtml, html)
+		}
 	}
 }

@@ -227,7 +227,7 @@
         styles[@"text-decoration"] = @"line-through";
 
         if ([attr isEqualToString:AshtonStrikethroughStyleSingle]) styles[@"-cocoa-strikethrough"] = @"single";
-        if ([attr isEqualToString:AshtonStrikethroughStyleThick]) styles[@"-cocoa-strikethrough"] = @"thick";
+        if ([attr isEqualToString:AshtonStrikethroughStyleThick]) styles[@"-cocoa-strikethrough"] = @" ";
         if ([attr isEqualToString:AshtonStrikethroughStyleDouble]) styles[@"-cocoa-strikethrough"] = @"double";
     }
     if ([attrName isEqualToString:AshtonAttrStrikethroughColor]) {
