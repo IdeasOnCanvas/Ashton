@@ -89,6 +89,10 @@ struct HTMLTag {
 					guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
 					styles += "text-decoration: underline; -cocoa-underline: \(underlineStyle)"
+				case .strikethroughStyle:
+					guard let underlineStyle = self.underlineStyle(from: value) else { return }
+
+					styles += "text-decoration: line-through; -cocoa-strikethrough: \(underlineStyle)"
 				default:
 					assertionFailure("did not handle \(key)")
 				}

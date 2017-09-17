@@ -16,6 +16,7 @@ class AshtonTests: XCTestCase {
 		self.compareAttributeEncodingWithBenchmark(.foregroundColor, values: [UIColor(hue: 0.2, saturation: 0.1, brightness: 0.3, alpha: 0.7)])
 		let underlineStyles: [NSUnderlineStyle] = [.styleSingle]//, .styleThick, .styleDouble]
 		self.compareAttributeEncodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue })
+		self.compareAttributeEncodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue })
 	}
 
 	func testParagraphSpacing() {
