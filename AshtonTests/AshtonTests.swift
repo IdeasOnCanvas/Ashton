@@ -12,8 +12,11 @@ import XCTest
 class AshtonTests: XCTestCase {
 
 	func testAttributeEncodingWithBenchmark() {
-		self.compareAttributeEncodingWithBenchmark(.backgroundColor, values: [UIColor.red])
-		self.compareAttributeEncodingWithBenchmark(.foregroundColor, values: [UIColor(hue: 0.2, saturation: 0.1, brightness: 0.3, alpha: 0.7)])
+		let testColors = [UIColor.red, UIColor(hue: 0.2, saturation: 0.1, brightness: 0.3, alpha: 0.7)]
+		self.compareAttributeEncodingWithBenchmark(.backgroundColor, values: testColors)
+		self.compareAttributeEncodingWithBenchmark(.foregroundColor, values: testColors)
+		self.compareAttributeEncodingWithBenchmark(.strikethroughColor, values: testColors)
+		self.compareAttributeEncodingWithBenchmark(.underlineColor, values: testColors)
 		let underlineStyles: [NSUnderlineStyle] = [.styleSingle]//, .styleThick, .styleDouble]
 		self.compareAttributeEncodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue })
 		self.compareAttributeEncodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue })

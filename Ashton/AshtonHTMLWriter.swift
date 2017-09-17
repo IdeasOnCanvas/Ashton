@@ -89,6 +89,14 @@ struct HTMLTag {
 					guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
 					styles += "text-decoration: underline; -cocoa-underline: \(underlineStyle)"
+				case .underlineColor:
+					guard let color = value as? UIColor else { return }
+
+					styles += "-cocoa-underline-color: " + self.makeCSSrgba(for: color)
+				case .strikethroughColor:
+					guard let color = value as? UIColor else { return }
+
+					styles += "-cocoa-strikethrough-color: " + self.makeCSSrgba(for: color)
 				case .strikethroughStyle:
 					guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
