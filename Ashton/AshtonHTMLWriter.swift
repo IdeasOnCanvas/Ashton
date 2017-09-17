@@ -79,6 +79,9 @@ struct HTMLTag {
 				case .backgroundColor:
 					guard let color = value as? UIColor else { return }
 					styles += "background-color: " + self.makeCSSrgba(for: color)
+				case .foregroundColor:
+					guard let color = value as? UIColor else { return }
+					styles += "color: " + self.makeCSSrgba(for: color)
 				default:
 					assertionFailure("did not handle \(key)")
 				}
