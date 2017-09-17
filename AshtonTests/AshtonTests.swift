@@ -11,30 +11,9 @@ import XCTest
 
 class AshtonTests: XCTestCase {
 
-	func testBackgroundColor() {
-		let attributedString = NSMutableAttributedString(string: "Test: Background Color.")
-		attributedString.addAttribute(NSAttributedStringKey.backgroundColor,
-		                              value: UIColor.red,
-		                              range: NSRange(location: 6, length: 10))
-		let referenceHtml = attributedString.mn_HTMLRepresentation()!
-		let html = Ashton.encode(attributedString)
-		XCTAssertEqual(referenceHtml, html)
-
-		let convertedBack = NSAttributedString(htmlString: html)!
-		XCTAssertEqual(convertedBack, attributedString)
-	}
-
-	func testForegroundColor() {
-		let attributedString = NSMutableAttributedString(string: "Test: foreground Color.")
-		attributedString.addAttribute(NSAttributedStringKey.foregroundColor,
-		                              value: UIColor.green,
-		                              range: NSRange(location: 6, length: 10))
-		let referenceHtml = attributedString.mn_HTMLRepresentation()!
-		let html = Ashton.encode(attributedString)
-		XCTAssertEqual(referenceHtml, html)
-
-		let convertedBack = NSAttributedString(htmlString: html)!
-		XCTAssertEqual(convertedBack, attributedString)
+	func testAttributeEncodingWithBenchmark() {
+		self.compareAttributeEncodingWithBenchmark(.backgroundColor, value: UIColor.red)
+		self.compareAttributeEncodingWithBenchmark(.foregroundColor, value: UIColor(hue: 0.2, saturation: 0.1, brightness: 0.3, alpha: 0.7))
 	}
 
 	func testParagraphSpacing() {
@@ -56,5 +35,20 @@ class AshtonTests: XCTestCase {
 				let html = Ashton.encode(attributedString)
 			}
 		}
+	}
+}
+
+// MARK: - Private
+
+private extension AshtonTests {
+
+	func compareAttributeEncodingWithBenchmark(_ attribute: NSAttributedStringKey, value: Any) {
+		let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\nNext line with no attribute")
+		attributedString.addAttribute(attribute,
+		                              value: value,
+		                              range: NSRange(location: 6, length: 10))
+		let referenceHtml = attributedString.mn_HTMLRepresentation()!
+		let html = Ashton.encode(attributedString)
+		XCTAssertEqual(referenceHtml, html)
 	}
 }
