@@ -27,18 +27,6 @@ final class AshtonHTMLReader: NSObject {
 		self.output = NSMutableAttributedString()
 		self.parseElement(tbxml.rootXMLElement)
 
-
-//		let name = TBXML.elementName(tbxml.rootXMLElement)
-//		let name2 = TBXML.elementName(tbxml.rootXMLElement.pointee.firstChild)
-//		let text = TBXML.text(for: tbxml.rootXMLElement.pointee.firstChild.pointee.nextSibling)
-//		guard let data = wrappedHTML.data(using: .utf8) else { return NSAttributedString() }
-//		self.output = NSMutableAttributedString()
-//
-//		let parser = XMLParser(data: data)
-//		parser.shouldProcessNamespaces = false
-//		parser.delegate = self
-//		parser.parse()
-
 		return self.output
 	}
 
@@ -68,46 +56,5 @@ final class AshtonHTMLReader: NSObject {
 		if let nextChild = element.pointee.nextSibling {
 			self.parseElement(nextChild)
 		}
-	}
-}
-
-// MARK: - XMLParserDelegate
-
-extension AshtonHTMLReader: XMLParserDelegate {
-
-	func parserDidStartDocument(_ parser: XMLParser) {
-		self.output.beginEditing()
-		
-	}
-
-	func parserDidEndDocument(_ parser: XMLParser) {
-		self.output.endEditing()
-	}
-
-	func parser(_ parser: XMLParser, foundCharacters string: String) {
-		// add styles
-		self.output.append(NSAttributedString(string: string, attributes: nil))
-	}
-
-	func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-		switch elementName {
-		case "p":
-			guard !self.skipNextLineBreak else {
-				self.skipNextLineBreak = false
-				return
-			}
-			let linebreak = NSAttributedString(string: "\n", attributes: nil)
-			self.output.append(linebreak)
-		default:
-			break
-		}
-	}
-
-	func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-
-	}
-
-	func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-		print("error happened: \(parseError)")
 	}
 }
