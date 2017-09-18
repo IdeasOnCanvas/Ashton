@@ -11,15 +11,15 @@ import XCTest
 
 class AshtonTests: XCTestCase {
 
-	func testAttributeEncodingWithBenchmark() {
+	func testAttributeCodingWithBenchmark() {
 		let testColors = [UIColor.red, UIColor(hue: 0.2, saturation: 0.1, brightness: 0.3, alpha: 0.7)]
-		self.compareAttributeEncodingWithBenchmark(.backgroundColor, values: testColors)
-		self.compareAttributeEncodingWithBenchmark(.foregroundColor, values: testColors)
+		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors)
+		//self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors)
 		//self.compareAttributeEncodingWithBenchmark(.strikethroughColor, values: testColors)
 		//self.compareAttributeEncodingWithBenchmark(.underlineColor, values: testColors)
 		let underlineStyles: [NSUnderlineStyle] = [.styleSingle]//, .styleThick, .styleDouble]
-		self.compareAttributeEncodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue })
-		self.compareAttributeEncodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue })
+		//self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue })
+		//self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue })
 	}
 
 	func testParagraphSpacing() {
@@ -28,6 +28,8 @@ class AshtonTests: XCTestCase {
 		let convertedBack = Ashton.decode(html)
 		XCTAssertEqual(attributedString, convertedBack)
 	}
+
+	// MARK: - Performance Tests
 
 	func testParagraphDecodingPerformance() {
 		let attributedString = NSMutableAttributedString(string: " Hello World. \nThis is line 2.\nThisIsLine3\n\nThis is line 4")
@@ -55,7 +57,7 @@ class AshtonTests: XCTestCase {
 
 private extension AshtonTests {
 
-	func compareAttributeEncodingWithBenchmark(_ attribute: NSAttributedStringKey, values: [Any]) {
+	func compareAttributeCodingWithBenchmark(_ attribute: NSAttributedStringKey, values: [Any]) {
 		for value in values {
 			let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\n\nNext line with no attribute")
 			attributedString.addAttribute(attribute,
@@ -64,6 +66,9 @@ private extension AshtonTests {
 			let referenceHtml = attributedString.mn_HTMLRepresentation()!
 			let html = Ashton.encode(attributedString)
 			XCTAssertEqual(referenceHtml, html)
+
+			let decodedString = Ashton.decode(html)
+			XCTAssertEqual(attributedString, decodedString)
 		}
 	}
 }

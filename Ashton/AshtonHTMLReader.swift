@@ -45,6 +45,10 @@ final class AshtonHTMLReader: NSObject {
 			}
 		}
 
+		if let attribute = element.pointee.firstAttribute {
+			self.parseAttributes(attribute)
+		}
+
 		if let text = TBXML.text(for: element) {
 			self.output.append(NSAttributedString(string: text, attributes: nil))
 		}
@@ -55,6 +59,17 @@ final class AshtonHTMLReader: NSObject {
 
 		if let nextChild = element.pointee.nextSibling {
 			self.parseElement(nextChild)
+		}
+	}
+
+	func parseAttributes(_ attribute: UnsafeMutablePointer<TBXMLAttribute>) {
+
+		let name = String(cString: attribute.pointee.name)
+		let value = String(cString: attribute.pointee.value)
+
+		print("Attribute \(name) \(value)" )
+		if let nextAttribute = attribute.pointee.next {
+			self.parseAttributes(nextAttribute)
 		}
 	}
 }
