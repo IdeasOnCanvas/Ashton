@@ -22,16 +22,52 @@ final class AshtonHTMLReader: NSObject {
 
 	func decode(_ html: Ashton.HTML) -> NSAttributedString {
 		let wrappedHTML = "<html>\(html)</html>"
-		let tbxml = try? TBXML.newTBXML(withXMLString: wrappedHTML, error: ())
-		guard let data = wrappedHTML.data(using: .utf8) else { return NSAttributedString() }
-		self.output = NSMutableAttributedString()
+		let tbxml = try! TBXML.newTBXML(withXMLString: wrappedHTML, error: ())
 
-		let parser = XMLParser(data: data)
-		parser.shouldProcessNamespaces = false
-		parser.delegate = self
-		parser.parse()
+		self.output = NSMutableAttributedString()
+		self.parseElement(tbxml.rootXMLElement)
+
+
+//		let name = TBXML.elementName(tbxml.rootXMLElement)
+//		let name2 = TBXML.elementName(tbxml.rootXMLElement.pointee.firstChild)
+//		let text = TBXML.text(for: tbxml.rootXMLElement.pointee.firstChild.pointee.nextSibling)
+//		guard let data = wrappedHTML.data(using: .utf8) else { return NSAttributedString() }
+//		self.output = NSMutableAttributedString()
+//
+//		let parser = XMLParser(data: data)
+//		parser.shouldProcessNamespaces = false
+//		parser.delegate = self
+//		parser.parse()
 
 		return self.output
+	}
+
+	func parseElement(_ element: UnsafeMutablePointer<TBXMLElement>) {
+		if let elementName = TBXML.elementName(element) {
+			switch elementName {
+			case "p":
+				guard !self.skipNextLineBreak else {
+					self.skipNextLineBreak = false
+					break
+				}
+				let linebreak = NSAttributedString(string: "\n", attributes: nil)
+				self.output.append(linebreak)
+			default:
+				break
+			}
+		}
+
+		if let text = TBXML.text(for: element) {
+			self.output.append(NSAttributedString(string: text, attributes: nil))
+		}
+
+		if let firstChild = element.pointee.firstChild {
+			self.parseElement(firstChild)
+		}
+
+		if let nextChild = element.pointee.nextSibling {
+			self.parseElement(nextChild)
+		}
 	}
 }
 

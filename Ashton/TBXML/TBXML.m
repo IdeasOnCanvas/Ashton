@@ -698,13 +698,13 @@
 
 				if (parentXMLElement->text) {
 					// trim whitespace from start of text
-					while (isspace(*parentXMLElement->text)) 
+				/*	while (isspace(*parentXMLElement->text))
 						parentXMLElement->text++;
 					
 					// trim whitespace from end of text
 					char * end = parentXMLElement->text + strlen(parentXMLElement->text)-1;
 					while (end > parentXMLElement->text && isspace(*end)) 
-						*end--=0;
+						*end--=0;*/
 				}
 				
 				parentXMLElement = parentXMLElement->parentElement;

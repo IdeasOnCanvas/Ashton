@@ -23,21 +23,29 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testParagraphSpacing() {
-		let attributedString = NSMutableAttributedString(string: "\nHello World.\nThis is line 2.\nThisIsLine3\n\nThis is line 4")
+		let attributedString = NSMutableAttributedString(string: "\n Hello World.\nThis is line 2. \nThisIsLine3\n\nThis is line 4")
 		let html = Ashton.encode(attributedString)
 		let convertedBack = Ashton.decode(html)
 		XCTAssertEqual(attributedString, convertedBack)
 	}
 
-	func testParagraphSpacingPerformance() {
-		let attributedString = NSMutableAttributedString(string: "Hello World.\nThis is line 2.\nThisIsLine3\n\nThis is line 4")
+	func testParagraphDecodingPerformance() {
+		let attributedString = NSMutableAttributedString(string: " Hello World. \nThis is line 2.\nThisIsLine3\n\nThis is line 4")
 		let html = Ashton.encode(attributedString)
 
 		self.measure {
-			for _ in 0...10000 {
-				//let attr = NSAttributedString(htmlString: html)
-				let attr = Ashton.decode(html)
-				//let html = attributedString.mn_HTMLRepresentation()!
+			for _ in 0...1000 {
+				_ = Ashton.decode(html)
+			}
+		}
+	}
+
+	func testParagraphEncodingPerformance() {
+		let attributedString = NSMutableAttributedString(string: " Hello World. \nThis is line 2.\nThisIsLine3\n\nThis is line 4")
+
+		self.measure {
+			for _ in 0...1000 {
+				_ = Ashton.encode(attributedString)
 			}
 		}
 	}
