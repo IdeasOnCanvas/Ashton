@@ -1,0 +1,9 @@
+//  Created by Michael Schwarz on 17.09.17.
+//  Copyright © 2017 Michael Schwarz. All rights reserved.
+//
+
+framework module Ashton {
+	explicit module TBXML {
+		header "TBXML.h"
+	}
+}

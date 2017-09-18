@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Ashton.TBXML
 
 
 final class AshtonHTMLReader: NSObject {
@@ -21,6 +22,7 @@ final class AshtonHTMLReader: NSObject {
 
 	func decode(_ html: Ashton.HTML) -> NSAttributedString {
 		let wrappedHTML = "<html>\(html)</html>"
+		let tbxml = try? TBXML.newTBXML(withXMLString: wrappedHTML, error: ())
 		guard let data = wrappedHTML.data(using: .utf8) else { return NSAttributedString() }
 		self.output = NSMutableAttributedString()
 
@@ -39,6 +41,7 @@ extension AshtonHTMLReader: XMLParserDelegate {
 
 	func parserDidStartDocument(_ parser: XMLParser) {
 		self.output.beginEditing()
+		
 	}
 
 	func parserDidEndDocument(_ parser: XMLParser) {

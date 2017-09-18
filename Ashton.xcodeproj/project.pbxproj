@@ -22,6 +22,8 @@
 		C8A9CE8F1F6D1B0F0095C6AE /* NSAttributedString+Ashton.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE851F6D1B0F0095C6AE /* NSAttributedString+Ashton.m */; };
 		C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */; };
 		C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */; };
+		C8F26B9B1F6EF1AC006CD738 /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = C8F26B991F6EF1AC006CD738 /* TBXML.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F26B9A1F6EF1AC006CD738 /* TBXML.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,9 @@
 		C8A9CE851F6D1B0F0095C6AE /* NSAttributedString+Ashton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Ashton.m"; sourceTree = "<group>"; };
 		C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonHTMLWriter.swift; sourceTree = "<group>"; };
 		C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonHTMLReader.swift; sourceTree = "<group>"; };
+		C8F26B991F6EF1AC006CD738 /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
+		C8F26B9A1F6EF1AC006CD738 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
+		C8F26B9D1F6F0038006CD738 /* Ashton.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = Ashton.modulemap; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,9 +113,11 @@
 		C8A9CE021F6D13700095C6AE /* Ashton */ = {
 			isa = PBXGroup;
 			children = (
+				C8F26B981F6EF1AC006CD738 /* TBXML */,
 				C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */,
 				C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */,
 				C8A9CE1A1F6D13D40095C6AE /* Ashton.swift */,
+				C8F26B9D1F6F0038006CD738 /* Ashton.modulemap */,
 				C8A9CE031F6D13700095C6AE /* Ashton.h */,
 				C8A9CE041F6D13700095C6AE /* Info.plist */,
 			);
@@ -162,6 +169,15 @@
 			path = AshtonBenchmark;
 			sourceTree = "<group>";
 		};
+		C8F26B981F6EF1AC006CD738 /* TBXML */ = {
+			isa = PBXGroup;
+			children = (
+				C8F26B991F6EF1AC006CD738 /* TBXML.h */,
+				C8F26B9A1F6EF1AC006CD738 /* TBXML.m */,
+			);
+			path = TBXML;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -169,6 +185,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8F26B9B1F6EF1AC006CD738 /* TBXML.h in Headers */,
 				C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */,
+				C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */,
 				C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */,
 				C8A9CE1B1F6D13D40095C6AE /* Ashton.swift in Sources */,
 			);
@@ -423,6 +441,7 @@
 		C8A9CE151F6D13700095C6AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -431,9 +450,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Ashton/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Ashton/Ashton.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = com.schwmi.Ashton;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -446,6 +467,7 @@
 		C8A9CE161F6D13700095C6AE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -454,9 +476,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Ashton/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = Ashton/Ashton.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = com.schwmi.Ashton;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
