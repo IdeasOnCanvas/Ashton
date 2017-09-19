@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import UIKit
 import Ashton.TBXML
 
 
 final class AshtonHTMLReader: NSObject {
 
+    private var currentAttributes: [NSAttributedStringKey: Any] = [:]
 	private var skipNextLineBreak: Bool = true
 	private var output: NSMutableAttributedString!
 	private var attributesOfLastElement: [NSAttributedStringKey: Any]? {
@@ -29,47 +31,104 @@ final class AshtonHTMLReader: NSObject {
 
 		return self.output
 	}
+}
 
-	func parseElement(_ element: UnsafeMutablePointer<TBXMLElement>) {
-		if let elementName = TBXML.elementName(element) {
-			switch elementName {
-			case "p":
-				guard !self.skipNextLineBreak else {
-					self.skipNextLineBreak = false
-					break
-				}
-				let linebreak = NSAttributedString(string: "\n", attributes: nil)
-				self.output.append(linebreak)
-			default:
-				break
-			}
-		}
+// MARK: - Private
 
-		if let attribute = element.pointee.firstAttribute {
-			self.parseAttributes(attribute)
-		}
+private extension AshtonHTMLReader {
 
-		if let text = TBXML.text(for: element) {
-			self.output.append(NSAttributedString(string: text, attributes: nil))
-		}
+    func append(_ string: String) {
+        if !self.currentAttributes.isEmpty {
+            self.output.append(NSAttributedString(string: string, attributes: self.currentAttributes))
+        } else {
+            self.output.append(NSAttributedString(string: string))
+        }
+    }
 
-		if let firstChild = element.pointee.firstChild {
-			self.parseElement(firstChild)
-		}
+    func parseElement(_ element: UnsafeMutablePointer<TBXMLElement>) {
+        if let elementName = TBXML.elementName(element) {
+            switch elementName {
+            case "p":
+                guard !self.skipNextLineBreak else {
+                    self.skipNextLineBreak = false
+                    break
+                }
+                self.append("\n")
+            default:
+                break
+            }
+        }
 
-		if let nextChild = element.pointee.nextSibling {
-			self.parseElement(nextChild)
-		}
-	}
+        let attributesBeforeElement = self.currentAttributes
+        if let attribute = element.pointee.firstAttribute {
+            self.parseAttributes(attribute)
+        }
 
-	func parseAttributes(_ attribute: UnsafeMutablePointer<TBXMLAttribute>) {
+        if let text = TBXML.text(for: element) {
+            self.append(text)
+        }
 
-		let name = String(cString: attribute.pointee.name)
-		let value = String(cString: attribute.pointee.value)
+        if let firstChild = element.pointee.firstChild {
+            self.parseElement(firstChild)
+        }
 
-		print("Attribute \(name) \(value)" )
-		if let nextAttribute = attribute.pointee.next {
-			self.parseAttributes(nextAttribute)
-		}
-	}
+        self.currentAttributes = attributesBeforeElement
+
+        if let nextChild = element.pointee.nextSibling {
+            self.parseElement(nextChild)
+        }
+    }
+
+    func parseAttributes(_ attribute: UnsafeMutablePointer<TBXMLAttribute>) {
+        let name = String(cString: attribute.pointee.name)
+        let value = String(cString: attribute.pointee.value)
+
+        switch name {
+        case "style":
+            self.parseStyleString(value)
+        default:
+            print("unhandled attribute: \(value)")
+        }
+
+        if let nextAttribute = attribute.pointee.next {
+            self.parseAttributes(nextAttribute)
+        }
+    }
+
+    func parseStyleString(_ styleString: String) {
+        let scanner = Scanner(string: styleString)
+        var propertyName: NSString? = nil
+        var value: NSString? = nil
+        scanner.scanUpTo(":", into: &propertyName)
+        scanner.scanUpTo(";", into: &value)
+
+        if let propertyName = (propertyName as String?), let value = (value as String?) {
+            switch (propertyName as String) {
+            case "background-color":
+                guard let color = self.parseCSSColor(from: value) else { return }
+
+                self.currentAttributes[.backgroundColor] = color
+            default:
+                print("unhandled property: \(value)")
+
+            }
+        }
+    }
+
+    func parseCSSColor(from string: String) -> UIColor? {
+        let scanner = Scanner(string: string)
+        scanner.charactersToBeSkipped = CharacterSet(charactersIn: ", :")
+        var rValue: Int = 0
+        var gValue: Int = 0
+        var bValue: Int = 0
+        var alpha: Float = -1
+
+        guard scanner.scanString("rgba(", into: nil) else { return nil }
+        guard scanner.scanInt(&rValue) else { return nil }
+        guard scanner.scanInt(&gValue) else { return nil }
+        guard scanner.scanInt(&bValue) else { return nil }
+        guard scanner.scanFloat(&alpha) else { return nil }
+
+        return UIColor(red: CGFloat(rValue) / 255.0, green: CGFloat(gValue) / 255.0, blue: CGFloat(bValue) / 255.0, alpha: CGFloat(alpha))
+    }
 }
