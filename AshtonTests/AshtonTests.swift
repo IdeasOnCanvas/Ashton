@@ -12,7 +12,7 @@ import XCTest
 class AshtonTests: XCTestCase {
 
 	func testAttributeCodingWithBenchmark() {
-		let testColors = [UIColor.red, UIColor(hue: 0.2, saturation: 0.1, brightness: 0.3, alpha: 0.7)]
+		let testColors = [UIColor.red, UIColor.green]
 		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors)
 		//self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors)
 		//self.compareAttributeEncodingWithBenchmark(.strikethroughColor, values: testColors)
