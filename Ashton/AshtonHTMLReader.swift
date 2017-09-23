@@ -99,6 +99,7 @@ private extension AshtonHTMLReader {
         let scanner = Scanner(string: styleString)
         var propertyName: NSString? = nil
         var value: NSString? = nil
+		scanner.charactersToBeSkipped = CharacterSet(charactersIn: ": ")
         scanner.scanUpTo(":", into: &propertyName)
         scanner.scanUpTo(";", into: &value)
 
@@ -108,6 +109,10 @@ private extension AshtonHTMLReader {
                 guard let color = self.parseCSSColor(from: value) else { return }
 
                 self.currentAttributes[.backgroundColor] = color
+			case "color":
+				 guard let color = self.parseCSSColor(from: value) else { return }
+
+				self.currentAttributes[.foregroundColor] = color
             default:
                 print("unhandled property: \(value)")
 
@@ -117,7 +122,7 @@ private extension AshtonHTMLReader {
 
     func parseCSSColor(from string: String) -> UIColor? {
         let scanner = Scanner(string: string)
-        scanner.charactersToBeSkipped = CharacterSet(charactersIn: ", :")
+        scanner.charactersToBeSkipped = CharacterSet(charactersIn: ", ")
         var rValue: Int = 0
         var gValue: Int = 0
         var bValue: Int = 0

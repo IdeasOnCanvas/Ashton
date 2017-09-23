@@ -14,7 +14,7 @@ class AshtonTests: XCTestCase {
 	func testAttributeCodingWithBenchmark() {
 		let testColors = [UIColor.red, UIColor.green]
 		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors)
-		//self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors)
+		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors)
 		//self.compareAttributeEncodingWithBenchmark(.strikethroughColor, values: testColors)
 		//self.compareAttributeEncodingWithBenchmark(.underlineColor, values: testColors)
 		let underlineStyles: [NSUnderlineStyle] = [.styleSingle]//, .styleThick, .styleDouble]
