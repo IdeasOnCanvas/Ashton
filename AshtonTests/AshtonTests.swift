@@ -51,6 +51,22 @@ class AshtonTests: XCTestCase {
 			}
 		}
 	}
+
+	func testAttributeDecodingPerformance() {
+		let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\n\nNext line with no attribute")
+		attributedString.addAttribute(.backgroundColor,
+		                              value: UIColor.green,
+		                              range: NSRange(location: 6, length: 10))
+
+		let referenceHtml = attributedString.mn_HTMLRepresentation()!
+
+		self.measure {
+			for _ in 0...1000 {
+				_ = Ashton.decode(referenceHtml)
+			}
+		}
+
+	}
 }
 
 // MARK: - Private
