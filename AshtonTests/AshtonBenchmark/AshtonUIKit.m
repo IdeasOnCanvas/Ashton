@@ -21,7 +21,7 @@
 
 - (id)init {
     if (self = [super init]) {
-        _attributesToPreserve = @[ AshtonAttrBaselineOffset, AshtonAttrStrikethroughColor, AshtonAttrUnderlineColor, AshtonAttrVerticalAlign ];
+        _attributesToPreserve = @[ AshtonAttrBaselineOffset, AshtonAttrVerticalAlign ];
     }
     return self;
 }
@@ -93,6 +93,16 @@
                 if (![attr isKindOfClass:[UIColor class]]) continue;
                 newAttrs[AshtonAttrBackgroundColor] = [self arrayForColor:attr];
             }
+			if ([attrName isEqual:NSUnderlineColorAttributeName]) {
+				// produces: color
+				if (![attr isKindOfClass:[UIColor class]]) continue;
+				newAttrs[AshtonAttrUnderlineColor] = [self arrayForColor:attr];
+			}
+			if ([attrName isEqual:NSStrikethroughColorAttributeName]) {
+				// produces: color
+				if (![attr isKindOfClass:[UIColor class]]) continue;
+				newAttrs[AshtonAttrStrikethroughColor] = [self arrayForColor:attr];
+			}
             if ([attrName isEqual:NSLinkAttributeName]) {
                 if ([attr isKindOfClass:[NSURL class]]) {
                     newAttrs[AshtonAttrLink] = [attr absoluteString];

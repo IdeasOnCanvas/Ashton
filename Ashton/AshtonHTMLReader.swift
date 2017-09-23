@@ -104,7 +104,7 @@ private extension AshtonHTMLReader {
         scanner.scanUpTo(";", into: &value)
 
         if let propertyName = (propertyName as String?), let value = (value as String?) {
-            switch (propertyName as String) {
+            switch propertyName {
             case "background-color":
                 guard let color = self.parseCSSColor(from: value) else { return }
 
@@ -113,8 +113,16 @@ private extension AshtonHTMLReader {
 				 guard let color = self.parseCSSColor(from: value) else { return }
 
 				self.currentAttributes[.foregroundColor] = color
+			case "-cocoa-strikethrough-color":
+				guard let color = self.parseCSSColor(from: value) else { return }
+
+				self.currentAttributes[.strikethroughColor] = color
+			case "-cocoa-underline-color":
+				guard let color = self.parseCSSColor(from: value) else { return }
+
+				self.currentAttributes[.underlineColor] = color
             default:
-                print("unhandled property: \(value)")
+                print("unhandled propertyName: \(propertyName)")
 
             }
         }
