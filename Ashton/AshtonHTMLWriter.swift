@@ -135,15 +135,12 @@ struct HTMLTag {
 		guard let rawValue = value as? Int else { return nil  }
 		guard let underlineStyle = NSUnderlineStyle(rawValue: rawValue) else { return nil }
 
-		switch underlineStyle {
-		case .styleSingle:
-			return "single"
-		case .styleThick:
-			return nil//"tick"
-		case .styleDouble:
-			return nil//"double"
-		default:
-			return nil
-		}
+		let mapping: [NSUnderlineStyle: String] = [
+			.styleSingle: "single",
+			.styleDouble: "double",
+			.styleThick: "thick"
+		]
+
+		return mapping[underlineStyle]
 	}
 }

@@ -13,7 +13,7 @@ import Ashton.TBXML
 
 final class AshtonHTMLReader: NSObject {
 
-    private var currentAttributes: [NSAttributedStringKey: Any] = [:]
+	private var currentAttributes: [NSAttributedStringKey: Any] = [:]
 	private var skipNextLineBreak: Bool = true
 	private var output: NSMutableAttributedString!
 	private var attributesOfLastElement: [NSAttributedStringKey: Any]? {
@@ -37,111 +37,144 @@ final class AshtonHTMLReader: NSObject {
 
 private extension AshtonHTMLReader {
 
-    func append(_ string: String) {
-        if !self.currentAttributes.isEmpty {
-            self.output.append(NSAttributedString(string: string, attributes: self.currentAttributes))
-        } else {
-            self.output.append(NSAttributedString(string: string))
-        }
-    }
+	func append(_ string: String) {
+		if !self.currentAttributes.isEmpty {
+			self.output.append(NSAttributedString(string: string, attributes: self.currentAttributes))
+		} else {
+			self.output.append(NSAttributedString(string: string))
+		}
+	}
 
-    func parseElement(_ element: UnsafeMutablePointer<TBXMLElement>) {
-        if let elementName = TBXML.elementName(element) {
-            switch elementName {
-            case "p":
-                guard !self.skipNextLineBreak else {
-                    self.skipNextLineBreak = false
-                    break
-                }
-                self.append("\n")
-            default:
-                break
-            }
-        }
+	func parseElement(_ element: UnsafeMutablePointer<TBXMLElement>) {
+		if let elementName = TBXML.elementName(element) {
+			switch elementName {
+			case "p":
+				guard !self.skipNextLineBreak else {
+					self.skipNextLineBreak = false
+					break
+				}
+				self.append("\n")
+			default:
+				break
+			}
+		}
 
-        let attributesBeforeElement = self.currentAttributes
-        if let attribute = element.pointee.firstAttribute {
-            self.parseAttributes(attribute)
-        }
+		let attributesBeforeElement = self.currentAttributes
+		if let attribute = element.pointee.firstAttribute {
+			self.parseAttributes(attribute)
+		}
 
-        if let text = TBXML.text(for: element) {
-            self.append(text)
-        }
+		if let text = TBXML.text(for: element) {
+			self.append(text)
+		}
 
-        if let firstChild = element.pointee.firstChild {
-            self.parseElement(firstChild)
-        }
+		if let firstChild = element.pointee.firstChild {
+			self.parseElement(firstChild)
+		}
 
-        self.currentAttributes = attributesBeforeElement
+		self.currentAttributes = attributesBeforeElement
 
-        if let nextChild = element.pointee.nextSibling {
-            self.parseElement(nextChild)
-        }
-    }
+		if let nextChild = element.pointee.nextSibling {
+			self.parseElement(nextChild)
+		}
+	}
 
-    func parseAttributes(_ attribute: UnsafeMutablePointer<TBXMLAttribute>) {
-        let name = String(cString: attribute.pointee.name)
-        let value = String(cString: attribute.pointee.value)
+	func parseAttributes(_ attribute: UnsafeMutablePointer<TBXMLAttribute>) {
+		let name = String(cString: attribute.pointee.name)
+		let value = String(cString: attribute.pointee.value)
 
-        switch name {
-        case "style":
-            self.parseStyleString(value)
-        default:
-            print("unhandled attribute: \(value)")
-        }
+		switch name {
+		case "style":
+			self.parseStyleString(value)
+		default:
+			print("unhandled attribute: \(value)")
+		}
 
-        if let nextAttribute = attribute.pointee.next {
-            self.parseAttributes(nextAttribute)
-        }
-    }
+		if let nextAttribute = attribute.pointee.next {
+			self.parseAttributes(nextAttribute)
+		}
+	}
 
-    func parseStyleString(_ styleString: String) {
-        let scanner = Scanner(string: styleString)
-        var propertyName: NSString? = nil
-        var value: NSString? = nil
-		scanner.charactersToBeSkipped = CharacterSet(charactersIn: ": ")
-        scanner.scanUpTo(":", into: &propertyName)
-        scanner.scanUpTo(";", into: &value)
+	func parseStyleString(_ styleString: String) {
+		let scanner = Scanner(string: styleString)
+		var propertyName: NSString? = nil
+		var value: NSString? = nil
+		scanner.charactersToBeSkipped = CharacterSet(charactersIn: ": ;")
 
-        if let propertyName = (propertyName as String?), let value = (value as String?) {
-            switch propertyName {
-            case "background-color":
-                guard let color = self.parseCSSColor(from: value) else { return }
+		while (scanner.scanUpTo(":", into: &propertyName) && scanner.scanUpTo(";", into: &value)) {
+			if let propertyName = (propertyName as String?), let value = (value as String?) {
+				switch propertyName {
+				case "background-color":
+					guard let color = self.parseCSSColor(from: value) else { continue }
 
-                self.currentAttributes[.backgroundColor] = color
-			case "color":
-				 guard let color = self.parseCSSColor(from: value) else { return }
+					self.currentAttributes[.backgroundColor] = color
+				case "color":
+					guard let color = self.parseCSSColor(from: value) else { continue }
 
-				self.currentAttributes[.foregroundColor] = color
-			case "-cocoa-strikethrough-color":
-				guard let color = self.parseCSSColor(from: value) else { return }
+					self.currentAttributes[.foregroundColor] = color
+				case "-cocoa-strikethrough-color":
+					guard let color = self.parseCSSColor(from: value) else { continue }
 
-				self.currentAttributes[.strikethroughColor] = color
-			case "-cocoa-underline-color":
-				guard let color = self.parseCSSColor(from: value) else { return }
+					self.currentAttributes[.strikethroughColor] = color
+				case "-cocoa-underline-color":
+					guard let color = self.parseCSSColor(from: value) else { continue }
 
-				self.currentAttributes[.underlineColor] = color
-            default:
-                print("unhandled propertyName: \(propertyName)")
+					self.currentAttributes[.underlineColor] = color
+				case "text-decoration":
+					guard let textDecoration = self.parseTextDecoration(from: value) else { continue }
 
-            }
-        }
-    }
+					self.currentAttributes[textDecoration.attributedStringKey] = textDecoration.value
+				case "-cocoa-underline":
+					guard let underlineStyle = self.parseUnderlineStyle(from: value) else { continue }
 
-    func parseCSSColor(from string: String) -> UIColor? {
-        let scanner = Scanner(string: string)
-        scanner.charactersToBeSkipped = CharacterSet(charactersIn: ", ")
-        var rValue: Int = 0
-        var gValue: Int = 0
-        var bValue: Int = 0
-        var alpha: Float = -1
+					self.currentAttributes[.underlineStyle] = underlineStyle.rawValue
+				case "-cocoa-strikethrough":
+					guard let underlineStyle = self.parseUnderlineStyle(from: value) else { continue }
 
-        guard scanner.scanString("rgba(", into: nil) else { return nil }
-        guard scanner.scanInt(&rValue) else { return nil }
-        guard scanner.scanInt(&gValue) else { return nil }
-        guard scanner.scanInt(&bValue) else { return nil }
-        guard scanner.scanFloat(&alpha) else { return nil }
+					self.currentAttributes[.strikethroughStyle] = underlineStyle.rawValue
+				default:
+					print("unhandled propertyName: \(propertyName)")
+				}
+			}
+		}
+	}
 
-        return UIColor(red: CGFloat(rValue) / 255.0, green: CGFloat(gValue) / 255.0, blue: CGFloat(bValue) / 255.0, alpha: CGFloat(alpha))
-    }
+	func parseCSSColor(from string: String) -> UIColor? {
+		let scanner = Scanner(string: string)
+		scanner.charactersToBeSkipped = CharacterSet(charactersIn: ", ")
+		var rValue: Int = 0
+		var gValue: Int = 0
+		var bValue: Int = 0
+		var alpha: Float = -1
+
+		guard scanner.scanString("rgba(", into: nil) else { return nil }
+		guard scanner.scanInt(&rValue) else { return nil }
+		guard scanner.scanInt(&gValue) else { return nil }
+		guard scanner.scanInt(&bValue) else { return nil }
+		guard scanner.scanFloat(&alpha) else { return nil }
+
+		return UIColor(red: CGFloat(rValue) / 255.0, green: CGFloat(gValue) / 255.0, blue: CGFloat(bValue) / 255.0, alpha: CGFloat(alpha))
+	}
+
+	func parseTextDecoration(from value: String) -> (attributedStringKey: NSAttributedStringKey, value: Any)? {
+		switch value {
+		case "underline":
+			return (.underlineStyle, NSUnderlineStyle.styleSingle.rawValue)
+		case "line-through":
+			return (.strikethroughStyle, NSUnderlineStyle.styleSingle.rawValue)
+		default:
+			print("unhandled text decoration value: \(value)")
+			return nil
+		}
+	}
+
+	func parseUnderlineStyle(from value: String) -> NSUnderlineStyle? {
+		// TODO: create some bidirectional mapping struct to use same construct in writer and reader
+		let mapping: [String: NSUnderlineStyle] = [
+			"single": .styleSingle,
+			"double": .styleDouble,
+			"thick": .styleThick
+		]
+		return mapping[value]
+	}
 }
