@@ -102,6 +102,23 @@ struct HTMLTag {
 					guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
 					styles += "text-decoration: line-through; -cocoa-strikethrough: \(underlineStyle)"
+				case .font:
+					guard let font = value as? UIFont else { return }
+
+					let fontDescriptor = font.fontDescriptor
+
+					styles += "font: "
+					if fontDescriptor.symbolicTraits.contains(.traitBold) {
+						styles += "bold "
+					}
+					if fontDescriptor.symbolicTraits.contains(.traitItalic) {
+						styles += "italic "
+					}
+
+					styles += String(format: "%gpx ", fontDescriptor.pointSize)
+					styles += "\"\(font.familyName)\"; "
+
+					styles += "-cocoa-font-postscriptname: \"\(fontDescriptor.postscriptName)\""
 				default:
 					assertionFailure("did not handle \(key)")
 				}

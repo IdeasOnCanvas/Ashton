@@ -29,6 +29,12 @@ class AshtonTests: XCTestCase {
 		XCTAssertEqual(attributedString, convertedBack)
 	}
 
+	func testFonts() {
+		let font1 = UIFont.systemFont(ofSize: 12)
+		let font2 = UIFont.boldSystemFont(ofSize: 14)
+		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2])
+	}
+
 	// MARK: - Performance Tests
 
 	func testParagraphDecodingPerformance() {
