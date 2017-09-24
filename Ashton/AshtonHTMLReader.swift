@@ -132,6 +132,54 @@ private extension AshtonHTMLReader {
 					guard let underlineStyle = self.parseUnderlineStyle(from: value) else { continue }
 
 					self.currentAttributes[.strikethroughStyle] = underlineStyle.rawValue
+				case "font":
+					let scanner = Scanner(string: value)
+					scanner.charactersToBeSkipped = CharacterSet(charactersIn: ", ")
+					let isBold = scanner.scanString("bold", into: nil)
+					let isItalic = scanner.scanString("italic", into: nil)
+					var pointSize: Int = 0
+					guard scanner.scanInt(&pointSize) else { continue }
+
+					scanner.scanString("px", into: nil)
+					scanner.scanString("\"", into: nil)
+					var family: NSString?
+					guard scanner.scanUpTo("\"", into: &family) else { continue }
+					guard let fontFamily = (family as String?) else { continue }
+
+					var symbolicTraits = UIFontDescriptorSymbolicTraits()
+					if isBold {	symbolicTraits.insert(.traitBold) }
+					if isItalic { symbolicTraits.insert(.traitItalic) }
+
+					let attributes: [UIFontDescriptor.AttributeName: Any] = [
+						UIFontDescriptor.AttributeName.family: fontFamily
+					]
+					guard let descriptor = UIFontDescriptor(fontAttributes: attributes).withSymbolicTraits(symbolicTraits) else { continue }
+					let font = UIFont(descriptor: descriptor, size: CGFloat(pointSize))
+
+					self.currentAttributes[.font] = font
+
+					/*
+					NSScanner *scanner = [NSScanner scannerWithString:value];
+					BOOL traitBold = [scanner scanString:@"bold " intoString:NULL];
+					BOOL traitItalic = [scanner scanString:@"italic " intoString:NULL];
+					NSInteger pointSize;
+					[scanner scanInteger:&pointSize];
+					[scanner scanString:@"px " intoString:NULL];
+					[scanner scanString:@"\"" intoString:NULL];
+
+					NSMutableDictionary *fontAttributes = [@{ AshtonFontAttrTraitBold: @(traitBold), AshtonFontAttrTraitItalic: @(traitItalic), AshtonFontAttrPointSize: @(pointSize), AshtonFontAttrFeatures: @[] } mutableCopy];
+
+					NSString *familyName = nil;
+					[scanner scanUpToString:@"\"" intoString:&familyName];
+					if (familyName != nil) {
+						fontAttributes[AshtonFontAttrFamilyName] = familyName;
+					}
+
+					attrs[AshtonAttrFont] = [self mergeFontAttributes:fontAttributes into:attrs[AshtonAttrFont]];*/
+					
+				case "-cocoa-font-postscriptname":
+					break
+					
 				default:
 					print("unhandled propertyName: \(propertyName)")
 				}
