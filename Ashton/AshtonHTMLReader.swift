@@ -157,25 +157,6 @@ private extension AshtonHTMLReader {
 					let font = UIFont(descriptor: descriptor, size: CGFloat(pointSize))
 
 					self.currentAttributes[.font] = font
-
-					/*
-					NSScanner *scanner = [NSScanner scannerWithString:value];
-					BOOL traitBold = [scanner scanString:@"bold " intoString:NULL];
-					BOOL traitItalic = [scanner scanString:@"italic " intoString:NULL];
-					NSInteger pointSize;
-					[scanner scanInteger:&pointSize];
-					[scanner scanString:@"px " intoString:NULL];
-					[scanner scanString:@"\"" intoString:NULL];
-
-					NSMutableDictionary *fontAttributes = [@{ AshtonFontAttrTraitBold: @(traitBold), AshtonFontAttrTraitItalic: @(traitItalic), AshtonFontAttrPointSize: @(pointSize), AshtonFontAttrFeatures: @[] } mutableCopy];
-
-					NSString *familyName = nil;
-					[scanner scanUpToString:@"\"" intoString:&familyName];
-					if (familyName != nil) {
-						fontAttributes[AshtonFontAttrFamilyName] = familyName;
-					}
-
-					attrs[AshtonAttrFont] = [self mergeFontAttributes:fontAttributes into:attrs[AshtonAttrFont]];*/
 					
 				case "-cocoa-font-postscriptname":
 					break
