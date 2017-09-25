@@ -119,6 +119,11 @@ struct HTMLTag {
 					styles += "\"\(font.familyName)\"; "
 
 					styles += "-cocoa-font-postscriptname: \"\(fontDescriptor.postscriptName)\""
+
+					let uiUsageAttribute = UIFontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
+					if let uiUsage = fontDescriptor.fontAttributes[uiUsageAttribute] {
+						styles += "; -cocoa-font-uiusage: \"\(uiUsage)\""
+					}
 				default:
 					assertionFailure("did not handle \(key)")
 				}

@@ -37,6 +37,42 @@ final class AshtonHTMLReader: NSObject {
 
 private extension AshtonHTMLReader {
 
+	struct FontBuilder {
+		var familyName: String?
+		var postScriptName: String?
+		var isBold: Bool = false
+		var isItalic: Bool = false
+		var pointSize: CGFloat?
+		var uiUsage: String?
+
+		func makeFont() -> UIFont? {
+			guard let fontName = self.postScriptName ?? self.familyName else { return nil }
+			guard let pointSize = self.pointSize else { return nil }
+
+			var attributes: [UIFontDescriptor.AttributeName: Any] = [
+				UIFontDescriptor.AttributeName.name: fontName
+			]
+			if let uiUsage = self.uiUsage {
+				let uiUsageAttribute = UIFontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
+				attributes[uiUsageAttribute] = uiUsage
+			}
+
+			let fontDescriptor = UIFontDescriptor(fontAttributes: attributes)
+			let fontDescriptorWithTraits: UIFontDescriptor?
+
+			var symbolicTraits = UIFontDescriptorSymbolicTraits()
+			if self.postScriptName == nil {
+				if self.isBold {	symbolicTraits.insert(.traitBold) }
+				if self.isItalic { symbolicTraits.insert(.traitItalic) }
+				fontDescriptorWithTraits = fontDescriptor.withSymbolicTraits(symbolicTraits)
+			} else {
+				fontDescriptorWithTraits = nil
+			}
+
+			return UIFont(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize)
+		}
+	}
+
 	func append(_ string: String) {
 		if !self.currentAttributes.isEmpty {
 			self.output.append(NSAttributedString(string: string, attributes: self.currentAttributes))
@@ -99,6 +135,7 @@ private extension AshtonHTMLReader {
 		let scanner = Scanner(string: styleString)
 		var propertyName: NSString? = nil
 		var value: NSString? = nil
+		var fontBuilder = FontBuilder()
 		scanner.charactersToBeSkipped = CharacterSet(charactersIn: ": ;")
 
 		while (scanner.scanUpTo(":", into: &propertyName) && scanner.scanUpTo(";", into: &value)) {
@@ -135,36 +172,43 @@ private extension AshtonHTMLReader {
 				case "font":
 					let scanner = Scanner(string: value)
 					scanner.charactersToBeSkipped = CharacterSet(charactersIn: ", ")
-					let isBold = scanner.scanString("bold", into: nil)
-					let isItalic = scanner.scanString("italic", into: nil)
+					fontBuilder.isBold = scanner.scanString("bold", into: nil)
+					fontBuilder.isItalic = scanner.scanString("italic", into: nil)
 					var pointSize: Int = 0
 					guard scanner.scanInt(&pointSize) else { continue }
 
+					fontBuilder.pointSize = CGFloat(pointSize)
 					scanner.scanString("px", into: nil)
 					scanner.scanString("\"", into: nil)
 					var family: NSString?
 					guard scanner.scanUpTo("\"", into: &family) else { continue }
 					guard let fontFamily = (family as String?) else { continue }
 
-					var symbolicTraits = UIFontDescriptorSymbolicTraits()
-					if isBold {	symbolicTraits.insert(.traitBold) }
-					if isItalic { symbolicTraits.insert(.traitItalic) }
+					fontBuilder.familyName = fontFamily
 
-					let attributes: [UIFontDescriptor.AttributeName: Any] = [
-						UIFontDescriptor.AttributeName.family: fontFamily
-					]
-					guard let descriptor = UIFontDescriptor(fontAttributes: attributes).withSymbolicTraits(symbolicTraits) else { continue }
-					let font = UIFont(descriptor: descriptor, size: CGFloat(pointSize))
-
-					self.currentAttributes[.font] = font
-					
 				case "-cocoa-font-postscriptname":
-					break
-					
+					let scanner = Scanner(string: value)
+					scanner.scanString("\"", into: nil)
+					var postscriptName: NSString?
+					guard scanner.scanUpTo("\"", into: &postscriptName) else { continue }
+
+					fontBuilder.postScriptName = postscriptName as String?
+
+				case "-cocoa-font-uiusage":
+					let scanner = Scanner(string: value)
+					scanner.scanString("\"", into: nil)
+					var uiusage: NSString?
+					guard scanner.scanUpTo("\"", into: &uiusage) else { continue }
+
+					fontBuilder.uiUsage = uiusage as String?
+
 				default:
 					print("unhandled propertyName: \(propertyName)")
 				}
 			}
+		}
+		if let font = fontBuilder.makeFont() {
+			self.currentAttributes[.font] = font
 		}
 	}
 

@@ -32,7 +32,8 @@ class AshtonTests: XCTestCase {
 	func testFonts() {
 		let font1 = UIFont.systemFont(ofSize: 12)
 		let font2 = UIFont.boldSystemFont(ofSize: 14)
-		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2])
+		// we ignore the old Ashton reference HTML as we encode more attributes
+		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: true)
 	}
 
 	// MARK: - Performance Tests
@@ -78,7 +79,7 @@ class AshtonTests: XCTestCase {
 
 private extension AshtonTests {
 
-	func compareAttributeCodingWithBenchmark(_ attribute: NSAttributedStringKey, values: [Any]) {
+	func compareAttributeCodingWithBenchmark(_ attribute: NSAttributedStringKey, values: [Any], ignoreReferenceHTML: Bool = false) {
 		for value in values {
 			let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\n\nNext line with no attribute")
 			attributedString.addAttribute(attribute,
@@ -86,10 +87,12 @@ private extension AshtonTests {
 			                              range: NSRange(location: 6, length: 10))
 			let referenceHtml = attributedString.mn_HTMLRepresentation()!
 			let html = Ashton.encode(attributedString)
-			XCTAssertEqual(referenceHtml, html)
+			if ignoreReferenceHTML == false {
+				XCTAssertEqual(referenceHtml, html)
+			}
 
 			let decodedString = Ashton.decode(html)
-			XCTAssertEqual(attributedString, decodedString)
+			XCTAssertEqual(decodedString, attributedString)
 		}
 	}
 }
