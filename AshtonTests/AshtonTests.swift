@@ -29,6 +29,12 @@ class AshtonTests: XCTestCase {
 		XCTAssertEqual(attributedString, convertedBack)
 	}
 
+	func testURLs() {
+		let url = URL(string: "https://www.orf.at")!
+
+		self.compareAttributeCodingWithBenchmark(.link, values: [url], ignoreReferenceHTML: false)
+	}
+
 	func testFonts() {
 		let font1 = UIFont.systemFont(ofSize: 12)
 		let font2 = UIFont.boldSystemFont(ofSize: 14)

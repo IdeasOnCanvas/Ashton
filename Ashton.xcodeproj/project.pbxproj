@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C82B1C5F1F79956C006E7CC4 /* AshtonMacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C82B1C561F79956C006E7CC4 /* AshtonMacOS.framework */; };
+		C82B1C641F79956C006E7CC4 /* AshtonMacOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82B1C631F79956C006E7CC4 /* AshtonMacOSTests.swift */; };
+		C82B1C661F79956C006E7CC4 /* AshtonMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = C82B1C581F79956C006E7CC4 /* AshtonMacOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8A9CE0A1F6D13700095C6AE /* Ashton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A9CE001F6D13700095C6AE /* Ashton.framework */; };
 		C8A9CE0F1F6D13700095C6AE /* AshtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */; };
 		C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */ = {isa = PBXBuildFile; fileRef = C8A9CE031F6D13700095C6AE /* Ashton.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,6 +30,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C82B1C601F79956C006E7CC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8A9CDF71F6D13700095C6AE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C82B1C551F79956C006E7CC4;
+			remoteInfo = AshtonMacOS;
+		};
 		C8A9CE0B1F6D13700095C6AE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C8A9CDF71F6D13700095C6AE /* Project object */;
@@ -37,6 +47,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C82B1C561F79956C006E7CC4 /* AshtonMacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AshtonMacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C82B1C581F79956C006E7CC4 /* AshtonMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AshtonMacOS.h; sourceTree = "<group>"; };
+		C82B1C591F79956C006E7CC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C82B1C5E1F79956C006E7CC4 /* AshtonMacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AshtonMacOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C82B1C631F79956C006E7CC4 /* AshtonMacOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonMacOSTests.swift; sourceTree = "<group>"; };
+		C82B1C651F79956C006E7CC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8A9CE001F6D13700095C6AE /* Ashton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ashton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A9CE031F6D13700095C6AE /* Ashton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ashton.h; sourceTree = "<group>"; };
 		C8A9CE041F6D13700095C6AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -73,6 +89,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C82B1C521F79956C006E7CC4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C82B1C5B1F79956C006E7CC4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C82B1C5F1F79956C006E7CC4 /* AshtonMacOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8A9CDFC1F6D13700095C6AE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -91,11 +122,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C82B1C571F79956C006E7CC4 /* AshtonMacOS */ = {
+			isa = PBXGroup;
+			children = (
+				C82B1C581F79956C006E7CC4 /* AshtonMacOS.h */,
+				C82B1C591F79956C006E7CC4 /* Info.plist */,
+			);
+			path = AshtonMacOS;
+			sourceTree = "<group>";
+		};
+		C82B1C621F79956C006E7CC4 /* AshtonMacOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				C82B1C631F79956C006E7CC4 /* AshtonMacOSTests.swift */,
+				C82B1C651F79956C006E7CC4 /* Info.plist */,
+			);
+			path = AshtonMacOSTests;
+			sourceTree = "<group>";
+		};
 		C8A9CDF61F6D13700095C6AE = {
 			isa = PBXGroup;
 			children = (
 				C8A9CE021F6D13700095C6AE /* Ashton */,
 				C8A9CE0D1F6D13700095C6AE /* AshtonTests */,
+				C82B1C571F79956C006E7CC4 /* AshtonMacOS */,
+				C82B1C621F79956C006E7CC4 /* AshtonMacOSTests */,
 				C8A9CE011F6D13700095C6AE /* Products */,
 				C8A9CE6E1F6D19DE0095C6AE /* Frameworks */,
 			);
@@ -106,6 +157,8 @@
 			children = (
 				C8A9CE001F6D13700095C6AE /* Ashton.framework */,
 				C8A9CE091F6D13700095C6AE /* AshtonTests.xctest */,
+				C82B1C561F79956C006E7CC4 /* AshtonMacOS.framework */,
+				C82B1C5E1F79956C006E7CC4 /* AshtonMacOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -181,6 +234,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		C82B1C531F79956C006E7CC4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C82B1C661F79956C006E7CC4 /* AshtonMacOS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8A9CDFD1F6D13700095C6AE /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,6 +254,42 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		C82B1C551F79956C006E7CC4 /* AshtonMacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C82B1C6B1F79956C006E7CC4 /* Build configuration list for PBXNativeTarget "AshtonMacOS" */;
+			buildPhases = (
+				C82B1C511F79956C006E7CC4 /* Sources */,
+				C82B1C521F79956C006E7CC4 /* Frameworks */,
+				C82B1C531F79956C006E7CC4 /* Headers */,
+				C82B1C541F79956C006E7CC4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AshtonMacOS;
+			productName = AshtonMacOS;
+			productReference = C82B1C561F79956C006E7CC4 /* AshtonMacOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C82B1C5D1F79956C006E7CC4 /* AshtonMacOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C82B1C6C1F79956C006E7CC4 /* Build configuration list for PBXNativeTarget "AshtonMacOSTests" */;
+			buildPhases = (
+				C82B1C5A1F79956C006E7CC4 /* Sources */,
+				C82B1C5B1F79956C006E7CC4 /* Frameworks */,
+				C82B1C5C1F79956C006E7CC4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C82B1C611F79956C006E7CC4 /* PBXTargetDependency */,
+			);
+			name = AshtonMacOSTests;
+			productName = AshtonMacOSTests;
+			productReference = C82B1C5E1F79956C006E7CC4 /* AshtonMacOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C8A9CDFF1F6D13700095C6AE /* Ashton */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C8A9CE141F6D13700095C6AE /* Build configuration list for PBXNativeTarget "Ashton" */;
@@ -239,6 +336,14 @@
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Michael Schwarz";
 				TargetAttributes = {
+					C82B1C551F79956C006E7CC4 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
+					C82B1C5D1F79956C006E7CC4 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
 					C8A9CDFF1F6D13700095C6AE = {
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
@@ -264,11 +369,27 @@
 			targets = (
 				C8A9CDFF1F6D13700095C6AE /* Ashton */,
 				C8A9CE081F6D13700095C6AE /* AshtonTests */,
+				C82B1C551F79956C006E7CC4 /* AshtonMacOS */,
+				C82B1C5D1F79956C006E7CC4 /* AshtonMacOSTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C82B1C541F79956C006E7CC4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C82B1C5C1F79956C006E7CC4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8A9CDFE1F6D13700095C6AE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -286,6 +407,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C82B1C511F79956C006E7CC4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C82B1C5A1F79956C006E7CC4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C82B1C641F79956C006E7CC4 /* AshtonMacOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C8A9CDFB1F6D13700095C6AE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -317,6 +453,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C82B1C611F79956C006E7CC4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C82B1C551F79956C006E7CC4 /* AshtonMacOS */;
+			targetProxy = C82B1C601F79956C006E7CC4 /* PBXContainerItemProxy */;
+		};
 		C8A9CE0C1F6D13700095C6AE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C8A9CDFF1F6D13700095C6AE /* Ashton */;
@@ -325,6 +466,88 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		C82B1C671F79956C006E7CC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XTM47F84ZT;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = AshtonMacOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.schwmi.AshtonMacOS;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		C82B1C681F79956C006E7CC4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XTM47F84ZT;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = AshtonMacOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.schwmi.AshtonMacOS;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		C82B1C691F79956C006E7CC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = XTM47F84ZT;
+				INFOPLIST_FILE = AshtonMacOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.schwmi.AshtonMacOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		C82B1C6A1F79956C006E7CC4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = XTM47F84ZT;
+				INFOPLIST_FILE = AshtonMacOSTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.schwmi.AshtonMacOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 		C8A9CE121F6D13700095C6AE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -524,6 +747,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C82B1C6B1F79956C006E7CC4 /* Build configuration list for PBXNativeTarget "AshtonMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C82B1C671F79956C006E7CC4 /* Debug */,
+				C82B1C681F79956C006E7CC4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C82B1C6C1F79956C006E7CC4 /* Build configuration list for PBXNativeTarget "AshtonMacOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C82B1C691F79956C006E7CC4 /* Debug */,
+				C82B1C6A1F79956C006E7CC4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C8A9CDFA1F6D13700095C6AE /* Build configuration list for PBXProject "Ashton" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -122,6 +122,8 @@ private extension AshtonHTMLReader {
 		switch name {
 		case "style":
 			self.parseStyleString(value)
+		case "href":
+			self.parseLink(value)
 		default:
 			print("unhandled attribute: \(value)")
 		}
@@ -129,6 +131,12 @@ private extension AshtonHTMLReader {
 		if let nextAttribute = attribute.pointee.next {
 			self.parseAttributes(nextAttribute)
 		}
+	}
+
+	func parseLink(_ link: String) {
+		guard let url = URL(string: link) else { return }
+
+		self.currentAttributes[.link] = url
 	}
 
 	func parseStyleString(_ styleString: String) {
