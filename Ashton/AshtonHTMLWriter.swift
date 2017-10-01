@@ -60,19 +60,23 @@ private extension AshtonHTMLWriter {
 	}
 }
 
-struct HTMLTag {
+private struct HTMLTag {
 
 	enum Name: String {
 		case p
 		case span
 		case a
 
-		func wrapped(with attributes: String? = nil) -> String {
+		func openTag(with attributes: String? = nil) -> String {
 			if let attributes = attributes {
 				return "<\(self.rawValue) \(attributes)>"
 			} else {
 				return "<\(self.rawValue)>"
 			}
+		}
+
+		func closeTag() -> String {
+			return "</\(self.rawValue)>"
 		}
 	}
 
@@ -86,7 +90,7 @@ struct HTMLTag {
 	}
 
 	func makeOpenTag() -> String {
-		guard !self.attributes.isEmpty else { return self.defaultName.wrapped() }
+		guard !self.attributes.isEmpty else { return self.defaultName.openTag() }
 
 		var styles = ""
 		var links = ""
@@ -96,27 +100,27 @@ struct HTMLTag {
 			case .backgroundColor:
 				guard let color = value as? UIColor else { return }
 
-				styles += "background-color: " + self.makeCSSrgba(for: color)
+				styles += "background-color: " + self.makeCSSrgba(for: color) + "; "
 			case .foregroundColor:
 				guard let color = value as? UIColor else { return }
 
-				styles += "color: " + self.makeCSSrgba(for: color)
+				styles += "color: " + self.makeCSSrgba(for: color) + "; "
 			case .underlineStyle:
 				guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
-				styles += "text-decoration: underline; -cocoa-underline: \(underlineStyle)"
+				styles += "text-decoration: underline; -cocoa-underline: \(underlineStyle); "
 			case .underlineColor:
 				guard let color = value as? UIColor else { return }
 
-				styles += "-cocoa-underline-color: " + self.makeCSSrgba(for: color)
+				styles += "-cocoa-underline-color: " + self.makeCSSrgba(for: color) + "; "
 			case .strikethroughColor:
 				guard let color = value as? UIColor else { return }
 
-				styles += "-cocoa-strikethrough-color: " + self.makeCSSrgba(for: color)
+				styles += "-cocoa-strikethrough-color: " + self.makeCSSrgba(for: color) + "; "
 			case .strikethroughStyle:
 				guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
-				styles += "text-decoration: line-through; -cocoa-strikethrough: \(underlineStyle)"
+				styles += "text-decoration: line-through; -cocoa-strikethrough: \(underlineStyle); "
 			case .font:
 				guard let font = value as? UIFont else { return }
 
@@ -133,11 +137,11 @@ struct HTMLTag {
 				styles += String(format: "%gpx ", fontDescriptor.pointSize)
 				styles += "\"\(font.familyName)\"; "
 
-				styles += "-cocoa-font-postscriptname: \"\(fontDescriptor.postscriptName)\""
+				styles += "-cocoa-font-postscriptname: \"\(fontDescriptor.postscriptName)\"; "
 
 				let uiUsageAttribute = UIFontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
 				if let uiUsage = fontDescriptor.fontAttributes[uiUsageAttribute] {
-					styles += "; -cocoa-font-uiusage: \"\(uiUsage)\""
+					styles += "; -cocoa-font-uiusage: \"\(uiUsage)\"; "
 				}
 			case .link:
 				guard let url = value as? URL else { return }
@@ -146,32 +150,45 @@ struct HTMLTag {
 			default:
 				assertionFailure("did not handle \(key)")
 			}
-			if !styles.isEmpty {
-				styles += "; "
-			}
 		}
 
-		if styles.isEmpty {
-			if !links.isEmpty {
-				return Name.a.wrapped(with: links)
-			}
-			return self.defaultName.wrapped()
-		} else {
-			var openingTag: String = ""
-			if !links.isEmpty {
-				openingTag += Name.a.wrapped(with: links)
-			}
-			let styleAttributes = "style='\(styles)'"
-			return openingTag + self.defaultName.wrapped(with: styleAttributes)
+		if styles.isEmpty && links.isEmpty {
+			return self.defaultName.openTag()
 		}
+
+		var openTag = ""
+		if !styles.isEmpty {
+			let styleAttributes = "style='\(styles)'"
+			openTag += self.defaultName.openTag(with: styleAttributes)
+		} else if links.isEmpty {
+			openTag += self.defaultName.openTag()
+		}
+
+		if !links.isEmpty {
+			openTag += Name.a.openTag(with: links)
+		}
+
+		return openTag
 	}
 
+	private static let styleAttributes: Set<NSAttributedStringKey> = [
+		.font, .strikethroughStyle, .strikethroughColor, .underlineColor, .underlineStyle, .foregroundColor, .backgroundColor
+	]
+
 	func makeCloseTag() -> String {
-		let containsLinks = (self.attributes.first(where: { $0.key == .link }) != nil)
+		let containsStyle = self.attributes.contains(where: { HTMLTag.styleAttributes.contains($0.key) })
+		let containsLinks = self.attributes.contains(where: { $0.key == .link })
+
 		if containsLinks {
-			return "</\(Name.a)>"
+			var closeTag = ""
+			closeTag += Name.a.closeTag()
+			if containsStyle {
+				closeTag += self.defaultName.closeTag()
+			}
+			return closeTag
+		} else {
+			return self.defaultName.closeTag()
 		}
-		return "</\(self.defaultName.rawValue)>"
 	}
 
 	// MARK: - Private
