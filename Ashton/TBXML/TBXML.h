@@ -150,17 +150,6 @@ typedef void (^TBXMLIterateAttributeBlock)(TBXMLAttribute *attribute, NSString *
 
 @property (nonatomic, readonly) TBXMLElement * rootXMLElement;
 
-+ (id)newTBXMLWithXMLString:(NSString*)aXMLString error:(NSError **)error;
-+ (id)newTBXMLWithXMLData:(NSData*)aData error:(NSError **)error;
-+ (id)newTBXMLWithXMLFile:(NSString*)aXMLFile error:(NSError **)error;
-+ (id)newTBXMLWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError **)error;
-
-+ (id)newTBXMLWithXMLString:(NSString*)aXMLString __attribute__((deprecated));
-+ (id)newTBXMLWithXMLData:(NSData*)aData __attribute__((deprecated));
-+ (id)newTBXMLWithXMLFile:(NSString*)aXMLFile __attribute__((deprecated));
-+ (id)newTBXMLWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension __attribute__((deprecated));
-
-
 - (id)initWithXMLString:(NSString*)aXMLString error:(NSError **)error;
 - (id)initWithXMLData:(NSData*)aData error:(NSError **)error;
 - (id)initWithXMLFile:(NSString*)aXMLFile error:(NSError **)error;

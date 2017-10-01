@@ -48,38 +48,6 @@
 
 @synthesize rootXMLElement;
 
-+ (id)newTBXMLWithXMLString:(NSString*)aXMLString {
-	return [[TBXML alloc] initWithXMLString:aXMLString];
-}
-
-+ (id)newTBXMLWithXMLString:(NSString*)aXMLString error:(NSError *__autoreleasing *)error {
-	return [[TBXML alloc] initWithXMLString:aXMLString error:error];
-}
-
-+ (id)newTBXMLWithXMLData:(NSData*)aData {
-	return [[TBXML alloc] initWithXMLData:aData];
-}
-
-+ (id)newTBXMLWithXMLData:(NSData*)aData error:(NSError *__autoreleasing *)error {
-	return [[TBXML alloc] initWithXMLData:aData error:error];
-}
-
-+ (id)newTBXMLWithXMLFile:(NSString*)aXMLFile {
-	return [[TBXML alloc] initWithXMLFile:aXMLFile];
-}
-
-+ (id)newTBXMLWithXMLFile:(NSString*)aXMLFile error:(NSError *__autoreleasing *)error {
-	return [[TBXML alloc] initWithXMLFile:aXMLFile error:error];
-}
-
-+ (id)newTBXMLWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension {
-	return [[TBXML alloc] initWithXMLFile:aXMLFile fileExtension:aFileExtension];
-}
-
-+ (id)newTBXMLWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError *__autoreleasing *)error {
-	return [[TBXML alloc] initWithXMLFile:aXMLFile fileExtension:aFileExtension error:error];
-}
-
 - (id)init {
 	self = [super init];
 	if (self != nil) {
