@@ -147,6 +147,12 @@ private struct HTMLTag {
 				guard let url = value as? URL else { return }
 
 				links = "href='\(url.absoluteString)'"
+			case .paragraphStyle:
+				print("ok")
+			case .baselineOffset:
+				print("bo")
+			case NSAttributedStringKey(rawValue: "NSSuperScript"):
+				print("su")
 			default:
 				assertionFailure("did not handle \(key)")
 			}

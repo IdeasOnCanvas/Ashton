@@ -11,6 +11,19 @@ import XCTest
 
 class AshtonTests: XCTestCase {
 
+	func testRTFTestFileRoundTrip() {
+		let rtfURL = Bundle(for: AshtonTests.self).url(forResource: "Test1", withExtension: "rtf")!
+		let attributedString = try? NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
+		XCTAssertNotNil(attributedString)
+
+		let html = Ashton.encode(attributedString!)
+		let referenceHTML = attributedString!.mn_HTMLRepresentation()
+
+		XCTAssertEqual(html, referenceHTML)
+
+		print(attributedString!)
+	}
+
 	func testAttributeCodingWithBenchmark() {
 		let testColors = [UIColor.red, UIColor.green]
 		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors)
