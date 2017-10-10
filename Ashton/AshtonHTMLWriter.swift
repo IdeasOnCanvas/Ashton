@@ -20,16 +20,19 @@ final class AshtonHTMLWriter {
 		for paragraphRange in paragraphRanges {
 			var paragraphContent = String()
 			let nsParagraphRange = NSRange(paragraphRange, in: string)
-			var paragraphTag = HTMLTag(defaultName: .p, attributes: [:])
+			var paragraphTag = HTMLTag(defaultName: .p, attributes: [:], ignoreParagraphStyles: false)
 			attributedString.enumerateAttributes(in: nsParagraphRange,
 			                                     options: .longestEffectiveRangeNotRequired, using: { attributes, nsrange, _ in
+													let paragraphStyle = attributes.filter { $0.key == .paragraphStyle }
+													paragraphTag.addAttributes(paragraphStyle)
+
 													if nsParagraphRange.length == nsrange.length {
 														paragraphTag.addAttributes(attributes)
 														paragraphContent += String(attributedString.string[paragraphRange])
 													} else {
 														guard let range = Range(nsrange, in: attributedString.string) else { return }
 
-														let tag = HTMLTag(defaultName: .span, attributes: attributes)
+														let tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
 														paragraphContent += tag.makeOpenTag()
 														paragraphContent += String(attributedString.string[range])
 														paragraphContent += tag.makeCloseTag()
@@ -82,6 +85,7 @@ private struct HTMLTag {
 
 	let defaultName: Name
 	var attributes: [NSAttributedStringKey: Any]
+	let ignoreParagraphStyles: Bool
 
 	mutating func addAttributes(_ attributes: [NSAttributedStringKey: Any]?) {
 		attributes?.forEach { (key, value) in
@@ -148,7 +152,10 @@ private struct HTMLTag {
 
 				links = "href='\(url.absoluteString)'"
 			case .paragraphStyle:
-				print("ok")
+				guard self.ignoreParagraphStyles == false else { return }
+				guard let paragraphStyle = value as? NSParagraphStyle else { return }
+
+				styles += "text-align: \(paragraphStyle.alignment.htmlAttributeValue)"
 			case .baselineOffset:
 				print("bo")
 			case NSAttributedStringKey(rawValue: "NSSuperScript"):
@@ -220,5 +227,25 @@ private struct HTMLTag {
 		]
 
 		return mapping[underlineStyle]
+	}
+}
+
+// MARK: - NSTextAlignment
+
+private extension NSTextAlignment {
+
+	var htmlAttributeValue: String {
+		switch self {
+		case .center:
+			return "center"
+		case .justified:
+			return "justify"
+		case .right:
+			return "right"
+		case .left:
+			return "left"
+		case .natural:
+			return "left"
+		}
 	}
 }
