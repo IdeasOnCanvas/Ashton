@@ -157,7 +157,9 @@ private struct HTMLTag {
 
 				styles += "text-align: \(paragraphStyle.alignment.htmlAttributeValue)"
 			case .baselineOffset:
-				print("bo")
+				guard let offset = value as? Float else { return }
+
+				styles += "-cocoa-baseline-offset: \(offset); "
 			case NSAttributedStringKey(rawValue: "NSSuperScript"):
 				print("su")
 			default:
