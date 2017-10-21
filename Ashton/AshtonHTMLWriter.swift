@@ -155,7 +155,7 @@ private struct HTMLTag {
 				guard self.ignoreParagraphStyles == false else { return }
 				guard let paragraphStyle = value as? NSParagraphStyle else { return }
 
-				styles += "text-align: \(paragraphStyle.alignment.htmlAttributeValue)"
+				styles += "text-align: \(paragraphStyle.alignment.htmlAttributeValue); "
 			case .baselineOffset:
 				guard let offset = value as? Float else { return }
 
