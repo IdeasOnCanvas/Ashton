@@ -161,7 +161,11 @@ private struct HTMLTag {
 
 				styles += "-cocoa-baseline-offset: \(offset); "
 			case NSAttributedStringKey(rawValue: "NSSuperScript"):
-				print("su")
+                guard let offset = value as? Int, offset != 0 else { return }
+
+                let verticalAlignment = offset > 0 ? "super" : "sub"
+                styles += "vertical-align = \(verticalAlignment);"
+                styles += "-cocoa-vertical-align = \(offset)"
 			default:
 				assertionFailure("did not handle \(key)")
 			}
