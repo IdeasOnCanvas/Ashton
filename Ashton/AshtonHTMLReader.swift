@@ -7,12 +7,12 @@
 //
 
 import Foundation
-#if os(iOS)
-import UIKit
-#elseif os(macOS)
-import AppKit
-#endif
 import Ashton.TBXML
+#if os(iOS)
+    import UIKit
+#elseif os(macOS)
+    import AppKit
+#endif
 
 
 final class AshtonHTMLReader: NSObject {
@@ -50,31 +50,36 @@ private extension AshtonHTMLReader {
 		var pointSize: CGFloat?
 		var uiUsage: String?
 
-		func makeFont() -> UIFont? {
+		func makeFont() -> Font? {
 			guard let fontName = self.postScriptName ?? self.familyName else { return nil }
 			guard let pointSize = self.pointSize else { return nil }
 
-			var attributes: [UIFontDescriptor.AttributeName: Any] = [
-				UIFontDescriptor.AttributeName.name: fontName
+			var attributes: [FontDescriptor.AttributeName: Any] = [
+				FontDescriptor.AttributeName.name: fontName
 			]
 			if let uiUsage = self.uiUsage {
-				let uiUsageAttribute = UIFontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
+				let uiUsageAttribute = FontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
 				attributes[uiUsageAttribute] = uiUsage
 			}
 
-			let fontDescriptor = UIFontDescriptor(fontAttributes: attributes)
-			let fontDescriptorWithTraits: UIFontDescriptor?
+			let fontDescriptor = FontDescriptor(fontAttributes: attributes)
+			let fontDescriptorWithTraits: FontDescriptor?
 
-			var symbolicTraits = UIFontDescriptorSymbolicTraits()
-			if self.postScriptName == nil {
-				if self.isBold {	symbolicTraits.insert(.traitBold) }
-				if self.isItalic { symbolicTraits.insert(.traitItalic) }
-				fontDescriptorWithTraits = fontDescriptor.withSymbolicTraits(symbolicTraits)
+            var symbolicTraits = FontDescriptorSymbolicTraits()
+            if self.postScriptName == nil {
+                #if os(iOS)
+                    if self.isBold { symbolicTraits.insert(.traitBold) }
+                    if self.isItalic { symbolicTraits.insert(.traitItalic) }
+                #elseif os(macOS)
+                    if self.isBold { symbolicTraits.insert(.bold) }
+                    if self.isItalic { symbolicTraits.insert(.italic) }
+                #endif
+                fontDescriptorWithTraits = fontDescriptor.withSymbolicTraits(symbolicTraits)
 			} else {
 				fontDescriptorWithTraits = nil
 			}
 
-			return UIFont(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize)
+			return Font(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize)
 		}
 	}
 
@@ -225,7 +230,7 @@ private extension AshtonHTMLReader {
 		}
 	}
 
-	func parseCSSColor(from string: String) -> UIColor? {
+	func parseCSSColor(from string: String) -> Color? {
 		let scanner = Scanner(string: string)
 		scanner.charactersToBeSkipped = CharacterSet(charactersIn: ", ")
 		var rValue: Int = 0
@@ -239,7 +244,7 @@ private extension AshtonHTMLReader {
 		guard scanner.scanInt(&bValue) else { return nil }
 		guard scanner.scanFloat(&alpha) else { return nil }
 
-		return UIColor(red: CGFloat(rValue) / 255.0, green: CGFloat(gValue) / 255.0, blue: CGFloat(bValue) / 255.0, alpha: CGFloat(alpha))
+		return Color(red: CGFloat(rValue) / 255.0, green: CGFloat(gValue) / 255.0, blue: CGFloat(bValue) / 255.0, alpha: CGFloat(alpha))
 	}
 
 	func parseTextDecoration(from value: String) -> (attributedStringKey: NSAttributedStringKey, value: Any)? {

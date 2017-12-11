@@ -106,11 +106,11 @@ private struct HTMLTag {
 		self.attributes.forEach { key, value in
 			switch key {
 			case .backgroundColor:
-				guard let color = value as? UIColor else { return }
+				guard let color = value as? Color else { return }
 
 				styles += "background-color: " + self.makeCSSrgba(for: color) + "; "
 			case .foregroundColor:
-				guard let color = value as? UIColor else { return }
+				guard let color = value as? Color else { return }
 
 				styles += "color: " + self.makeCSSrgba(for: color) + "; "
 			case .underlineStyle:
@@ -118,11 +118,11 @@ private struct HTMLTag {
 
 				styles += "text-decoration: underline; -cocoa-underline: \(underlineStyle); "
 			case .underlineColor:
-				guard let color = value as? UIColor else { return }
+				guard let color = value as? Color else { return }
 
 				styles += "-cocoa-underline-color: " + self.makeCSSrgba(for: color) + "; "
 			case .strikethroughColor:
-				guard let color = value as? UIColor else { return }
+				guard let color = value as? Color else { return }
 
 				styles += "-cocoa-strikethrough-color: " + self.makeCSSrgba(for: color) + "; "
 			case .strikethroughStyle:
@@ -130,24 +130,33 @@ private struct HTMLTag {
 
 				styles += "text-decoration: line-through; -cocoa-strikethrough: \(underlineStyle); "
 			case .font:
-				guard let font = value as? UIFont else { return }
+				guard let font = value as? Font else { return }
 
 				let fontDescriptor = font.fontDescriptor
 
 				styles += "font: "
+                #if os(iOS)
 				if fontDescriptor.symbolicTraits.contains(.traitBold) {
 					styles += "bold "
 				}
 				if fontDescriptor.symbolicTraits.contains(.traitItalic) {
 					styles += "italic "
 				}
+                #elseif os(macOS)
+                    if fontDescriptor.symbolicTraits.contains(.bold) {
+                        styles += "bold "
+                    }
+                    if fontDescriptor.symbolicTraits.contains(.italic) {
+                        styles += "italic "
+                    }
+                #endif
 
 				styles += String(format: "%gpx ", fontDescriptor.pointSize)
 				styles += "\"\(font.familyName)\"; "
 
 				styles += "-cocoa-font-postscriptname: \"\(fontDescriptor.postscriptName)\"; "
 
-				let uiUsageAttribute = UIFontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
+				let uiUsageAttribute = FontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
 				if let uiUsage = fontDescriptor.fontAttributes[uiUsageAttribute] {
 					styles += "; -cocoa-font-uiusage: \"\(uiUsage)\"; "
 				}
@@ -216,7 +225,7 @@ private struct HTMLTag {
 
 	// MARK: - Private
 
-	private func makeCSSrgba(for color: UIColor) -> String {
+	private func makeCSSrgba(for color: Color) -> String {
 		var red: CGFloat = 0.0
 		var green: CGFloat = 0.0
 		var blue: CGFloat = 0.0

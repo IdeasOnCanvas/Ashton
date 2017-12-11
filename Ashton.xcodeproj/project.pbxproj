@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C87514AD1F818AB5002117FB /* Test1.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C87514AC1F818AB5002117FB /* Test1.rtf */; };
+		C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */; };
 		C8A9CE0A1F6D13700095C6AE /* Ashton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A9CE001F6D13700095C6AE /* Ashton.framework */; };
 		C8A9CE0F1F6D13700095C6AE /* AshtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */; };
 		C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */ = {isa = PBXBuildFile; fileRef = C8A9CE031F6D13700095C6AE /* Ashton.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		C87514AC1F818AB5002117FB /* Test1.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Test1.rtf; sourceTree = "<group>"; };
+		C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossPlatformCompatibility.swift; sourceTree = "<group>"; };
 		C8A9CE001F6D13700095C6AE /* Ashton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ashton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A9CE031F6D13700095C6AE /* Ashton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ashton.h; sourceTree = "<group>"; };
 		C8A9CE041F6D13700095C6AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				C8F26B9D1F6F0038006CD738 /* Ashton.modulemap */,
 				C8A9CE031F6D13700095C6AE /* Ashton.h */,
 				C8A9CE041F6D13700095C6AE /* Info.plist */,
+				C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */,
 			);
 			path = Ashton;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */,
 				C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */,
 				C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */,
+				C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */,
 				C8A9CE1B1F6D13D40095C6AE /* Ashton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
