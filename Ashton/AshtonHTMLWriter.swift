@@ -7,7 +7,11 @@
 //
 
 import Foundation
-import UIKit
+#if os(iOS)
+    import UIKit
+#elseif os(macOS)
+    import AppKit
+#endif
 
 
 final class AshtonHTMLWriter {
