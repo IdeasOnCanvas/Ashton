@@ -5,6 +5,7 @@
 @property (nonatomic, strong) NSXMLParser *parser;
 @property (nonatomic, strong) NSMutableAttributedString *output;
 @property (nonatomic, strong) NSMutableArray *styleStack;
+@property (nonatomic, strong) NSError *parseError;
 @end
 
 @implementation AshtonHTMLReader
@@ -28,7 +29,14 @@
     [[self stylesCache] removeAllObjects];
 }
 
-- (NSAttributedString *)attributedStringFromHTMLString:(NSString *)htmlString {
+- (NSAttributedString *)attributedStringFromHTMLString:(NSString *)htmlString
+{
+    return [self attributedStringFromHTMLString:htmlString error:nil];
+}
+
+- (NSAttributedString *)attributedStringFromHTMLString:(NSString *)htmlString error:(__autoreleasing NSError **)error
+{
+    self.parseError = nil;
     self.output = [[NSMutableAttributedString alloc] init];
     self.styleStack = [NSMutableArray array];
     NSMutableString *stringToParse = [NSMutableString stringWithCapacity:(htmlString.length + 13)];
@@ -38,6 +46,9 @@
     self.parser = [[NSXMLParser alloc] initWithData:[stringToParse dataUsingEncoding:NSUTF8StringEncoding]];
     self.parser.delegate = self;
     [self.parser parse];
+    if (error != nil && self.parseError != nil) {
+        *error = self.parseError;
+    }
     return self.output;
 }
 
@@ -212,7 +223,7 @@
 }
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    NSLog(@"error %@", parseError);
+    self.parseError = parseError;
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
@@ -221,16 +232,17 @@
 }
 
 - (id)colorForCSS:(NSString *)css {
-  NSScanner *scanner = [NSScanner scannerWithString:css];
-  [scanner scanString:@"rgba(" intoString:NULL];
-  int red; [scanner scanInt:&red];
-  [scanner scanString:@", " intoString:NULL];
-  int green; [scanner scanInt:&green];
-  [scanner scanString:@", " intoString:NULL];
-  int blue; [scanner scanInt:&blue];
-  [scanner scanString:@", " intoString:NULL];
-  float alpha; [scanner scanFloat:&alpha];
- 
-  return @[ @((float)red / 255), @((float)green / 255), @((float)blue / 255), @(alpha) ];
+    NSScanner *scanner = [NSScanner scannerWithString:css];
+    [scanner scanString:@"rgba(" intoString:NULL];
+    int red; [scanner scanInt:&red];
+    [scanner scanString:@", " intoString:NULL];
+    int green; [scanner scanInt:&green];
+    [scanner scanString:@", " intoString:NULL];
+    int blue; [scanner scanInt:&blue];
+    [scanner scanString:@", " intoString:NULL];
+    float alpha; [scanner scanFloat:&alpha];
+
+    return @[ @((float)red / 255), @((float)green / 255), @((float)blue / 255), @(alpha) ];
 }
+
 @end
