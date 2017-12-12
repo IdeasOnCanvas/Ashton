@@ -52,10 +52,9 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testFonts() {
-		let font1 = Font.systemFont(ofSize: 12)
-		let font2 = Font.boldSystemFont(ofSize: 14)
-		// we ignore the old Ashton reference HTML as we encode more attributes
-		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: true)
+        let font1 = NSFont(name: "Arial", size: 12)!
+        let font2 = NSFont(name: "Helvetica-Bold", size: 14)!
+		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: false)
 	}
 
 	// MARK: - Performance Tests
