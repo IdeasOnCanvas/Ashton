@@ -236,7 +236,7 @@ private extension AshtonHTMLReader {
                     let attribute = NSAttributedStringKey(rawValue: "NSSuperScript")
                     self.currentAttributes[attribute] = offset
 				default:
-					print("unhandled propertyName: \(propertyName)")
+                    assertionFailure("Did not handle property \(propertyName)")
 				}
 			}
 		}

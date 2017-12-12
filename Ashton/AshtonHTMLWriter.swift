@@ -27,8 +27,8 @@ final class AshtonHTMLWriter {
 			var paragraphTag = HTMLTag(defaultName: .p, attributes: [:], ignoreParagraphStyles: false)
 			attributedString.enumerateAttributes(in: nsParagraphRange,
 			                                     options: .longestEffectiveRangeNotRequired, using: { attributes, nsrange, _ in
-													let paragraphStyle = attributes.filter { $0.key == .paragraphStyle }
-													paragraphTag.addAttributes(paragraphStyle)
+                                                    let paragraphStyle = attributes.filter { $0.key == .paragraphStyle }
+                                                    paragraphTag.addAttributes(paragraphStyle)
 
 													if nsParagraphRange.length == nsrange.length {
 														paragraphTag.addAttributes(attributes)

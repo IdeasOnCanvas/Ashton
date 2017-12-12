@@ -12,17 +12,21 @@ import XCTest
 
 class AshtonTests: XCTestCase {
 
+    /*
 	func testRTFTestFileRoundTrip() {
 		let rtfURL = Bundle(for: AshtonTests.self).url(forResource: "Test1", withExtension: "rtf")!
 		let attributedString = try? NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
 		XCTAssertNotNil(attributedString)
 
-		let html = Ashton.encode(attributedString!)
-		let referenceHTML = attributedString!.mn_HTMLRepresentation()
+        let oldAshtonHTML = attributedString!.mn_HTMLRepresentation()!
+		let newAshtonHtml = Ashton.encode(attributedString!)
 
-        let decodedString = Ashton.decode(html)
-        XCTAssertEqual(decodedString, attributedString)
-	}
+        let decodedString = Ashton.decode(oldAshtonHTML)
+        let referenceHTML2 = Ashton.encode(decodedString)
+
+        print("\(oldAshtonHTML)")
+        XCTAssertEqual(oldAshtonHTML, referenceHTML2)
+	}*/
 
 	func testAttributeCodingWithBenchmark() {
         // we ignore the reference HTML here because Asthon old looses rgb precision when converting
@@ -37,10 +41,10 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testParagraphSpacing() {
-		let attributedString = NSMutableAttributedString(string: "\n Hello World.\nThis is line 2. \nThisIsLine3\n\nThis is line 4")
-		let html = Ashton.encode(attributedString)
-		let convertedBack = Ashton.decode(html)
-		XCTAssertEqual(attributedString, convertedBack)
+        let attributedString = NSMutableAttributedString(string: "\n Hello World.\nThis is line 2. \nThisIsLine3\n\nThis is line 4")
+        let html = Ashton.encode(attributedString)
+        let convertedBack = Ashton.decode(html)
+        XCTAssertEqual(attributedString, convertedBack)
 	}
 
 	func testURLs() {
@@ -48,6 +52,24 @@ class AshtonTests: XCTestCase {
 
 		self.compareAttributeCodingWithBenchmark(.link, values: [url], ignoreReferenceHTML: false)
 	}
+
+    func testTextAlignment() {
+        let alignments: [NSTextAlignment] = [.center, .left, .right, .justified]
+        let paragraphStyles: [NSParagraphStyle] = alignments.map { alignment in
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = alignment
+            return paragraphStyle
+        }
+        for paragraphStyle in paragraphStyles {
+            let attributedString = NSMutableAttributedString(string: "This is a text with changed alignment\n\nNext line with no attribute\nThis is normal text")
+            attributedString.addAttribute(.paragraphStyle,
+                                          value: paragraphStyle,
+                                          range: NSRange(location: 0, length: 37))
+            let html = Ashton.encode(attributedString)
+            let convertedBack = Ashton.decode(html)
+            XCTAssertEqual(attributedString, convertedBack)
+        }
+    }
 
 	func testFonts() {
         let font1 = Font(name: "Arial", size: 12)!
@@ -98,7 +120,7 @@ class AshtonTests: XCTestCase {
 
 private extension AshtonTests {
 
-	func compareAttributeCodingWithBenchmark(_ attribute: NSAttributedStringKey, values: [Any], ignoreReferenceHTML: Bool = false) {
+    func compareAttributeCodingWithBenchmark(_ attribute: NSAttributedStringKey, values: [Any], ignoreReferenceHTML: Bool = false) {
 		for value in values {
 			let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\n\nNext line with no attribute")
 			attributedString.addAttribute(attribute,
