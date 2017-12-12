@@ -220,6 +220,13 @@ private extension AshtonHTMLReader {
 
 					fontBuilder.uiUsage = uiusage as String?
 
+                case "text-align":
+                    let alignment = self.parseAlignment(from: value)
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.alignment = alignment
+                    self.currentAttributes[.paragraphStyle] = paragraphStyle
+                    print("\(value)")
+
 				default:
 					print("unhandled propertyName: \(propertyName)")
 				}
@@ -268,4 +275,19 @@ private extension AshtonHTMLReader {
 		]
 		return mapping[value]
 	}
+
+    func parseAlignment(from value: String) -> NSTextAlignment {
+        switch value {
+        case "left":
+            return .left
+        case "center":
+            return .center
+        case "right":
+            return .right
+        case "justify":
+            return .justified
+        default:
+            return .left
+        }
+    }
 }

@@ -157,7 +157,6 @@ private struct HTMLTag {
 				styles += "-cocoa-font-postscriptname: \"\(fontDescriptor.cpPostscriptName)\"; "
 
 				let uiUsageAttribute = FontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
-                print(fontDescriptor.fontAttributes)
 				if let uiUsage = fontDescriptor.fontAttributes[uiUsageAttribute] {
 					styles += "; -cocoa-font-uiusage: \"\(uiUsage)\"; "
 				}

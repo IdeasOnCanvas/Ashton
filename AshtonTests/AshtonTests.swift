@@ -19,11 +19,9 @@ class AshtonTests: XCTestCase {
 
 		let html = Ashton.encode(attributedString!)
 		let referenceHTML = attributedString!.mn_HTMLRepresentation()
-		print(html)
 
-		XCTAssertEqual(html, referenceHTML)
-
-		print(attributedString!)
+        let decodedString = Ashton.decode(html)
+        XCTAssertEqual(decodedString, attributedString)
 	}
 
 	func testAttributeCodingWithBenchmark() {
