@@ -177,8 +177,8 @@ private struct HTMLTag {
                 guard let offset = value as? Int, offset != 0 else { return }
 
                 let verticalAlignment = offset > 0 ? "super" : "sub"
-                styles += "vertical-align = \(verticalAlignment);"
-                styles += "-cocoa-vertical-align = \(offset)"
+                styles += "vertical-align: \(verticalAlignment); "
+                styles += "-cocoa-vertical-align: \(offset); "
 			default:
 				assertionFailure("did not handle \(key)")
 			}

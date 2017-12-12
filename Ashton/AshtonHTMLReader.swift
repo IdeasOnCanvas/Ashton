@@ -225,8 +225,16 @@ private extension AshtonHTMLReader {
                     let paragraphStyle = NSMutableParagraphStyle()
                     paragraphStyle.alignment = alignment
                     self.currentAttributes[.paragraphStyle] = paragraphStyle
-                    print("\(value)")
 
+                case "-cocoa-baseline-offset":
+                    guard let offset = Float(value)  else { return }
+
+                    self.currentAttributes[.baselineOffset] = offset
+                case "vertical-align":
+                    guard let offset = Int(value), offset != 0 else { return }
+
+                    let attribute = NSAttributedStringKey(rawValue: "NSSuperScript")
+                    self.currentAttributes[attribute] = offset
 				default:
 					print("unhandled propertyName: \(propertyName)")
 				}
