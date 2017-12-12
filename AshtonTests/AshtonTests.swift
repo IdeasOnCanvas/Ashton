@@ -52,8 +52,8 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testFonts() {
-        let font1 = NSFont(name: "Arial", size: 12)!
-        let font2 = NSFont(name: "Helvetica-Bold", size: 14)!
+        let font1 = Font(name: "Arial", size: 12)!
+        let font2 = Font(name: "Helvetica-Bold", size: 14)!
 		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: false)
 	}
 
