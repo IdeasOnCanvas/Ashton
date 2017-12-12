@@ -157,6 +157,7 @@ private struct HTMLTag {
 				styles += "-cocoa-font-postscriptname: \"\(fontDescriptor.cpPostscriptName)\"; "
 
 				let uiUsageAttribute = FontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
+                print(fontDescriptor.fontAttributes)
 				if let uiUsage = fontDescriptor.fontAttributes[uiUsageAttribute] {
 					styles += "; -cocoa-font-uiusage: \"\(uiUsage)\"; "
 				}
@@ -226,11 +227,16 @@ private struct HTMLTag {
 	// MARK: - Private
 
 	private func makeCSSrgba(for color: Color) -> String {
+        var rgbColor = color
+        #if os(macOS)
+        // as usingColorSpace returns an optional we have a fallback to black
+        rgbColor = color.usingColorSpace(NSColorSpace.sRGB) ?? NSColor(deviceRed: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        #endif
 		var red: CGFloat = 0.0
 		var green: CGFloat = 0.0
 		var blue: CGFloat = 0.0
 		var alpha: CGFloat = 0.0
-		color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+		rgbColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
 
 		return "rgba(\(Int(red * 255.0)), \(Int(green * 255.0)), \(Int(blue * 255.0)), \(String(format: "%.6f", alpha)))"
 	}

@@ -27,14 +27,15 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testAttributeCodingWithBenchmark() {
+        // we ignore the reference HTML here because Asthon old looses rgb precision when converting
 		let testColors = [Color.red, Color.green]
-		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors)
-		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors)
-		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors)
-		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors)
+		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors, ignoreReferenceHTML: true)
 		let underlineStyles: [NSUnderlineStyle] = [.styleSingle]//, .styleThick, .styleDouble]
-		self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue })
-		self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue })
+		self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
 	}
 
 	func testParagraphSpacing() {
