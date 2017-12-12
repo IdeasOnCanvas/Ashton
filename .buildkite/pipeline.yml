@@ -5,5 +5,5 @@ env:
   LC_ALL: "en_US.UTF-8"
 
 steps:
-  - command: "source ~/.bash_profile\n\nbundle exec fastlane ios test\nbundle exec fastlane mac test"
+  - command: "source ~/.bash_profile\n\nbundle install --path ~/gems\n\nbundle exec fastlane ios test\nbundle exec fastlane mac test"
     label: ":rocket: Execute Test Suite"
