@@ -9,6 +9,7 @@
 import XCTest
 @testable import Ashton
 
+
 class AshtonTests: XCTestCase {
 
 	func testRTFTestFileRoundTrip() {
@@ -26,7 +27,7 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testAttributeCodingWithBenchmark() {
-		let testColors = [UIColor.red, UIColor.green]
+		let testColors = [Color.red, Color.green]
 		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors)
 		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors)
 		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors)
@@ -50,8 +51,8 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testFonts() {
-		let font1 = UIFont.systemFont(ofSize: 12)
-		let font2 = UIFont.boldSystemFont(ofSize: 14)
+		let font1 = Font.systemFont(ofSize: 12)
+		let font2 = Font.boldSystemFont(ofSize: 14)
 		// we ignore the old Ashton reference HTML as we encode more attributes
 		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: true)
 	}
@@ -82,7 +83,7 @@ class AshtonTests: XCTestCase {
 	func testAttributeDecodingPerformance() {
 		let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\n\nNext line with no attribute")
 		attributedString.addAttribute(.backgroundColor,
-		                              value: UIColor.green,
+		                              value: Color.green,
 		                              range: NSRange(location: 6, length: 10))
 
 		let referenceHtml = attributedString.mn_HTMLRepresentation()!

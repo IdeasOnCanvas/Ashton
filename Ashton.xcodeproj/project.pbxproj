@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81811391FDFD82A0049620D /* AshtonAppKit.m */; };
 		C87514AD1F818AB5002117FB /* Test1.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C87514AC1F818AB5002117FB /* Test1.rtf */; };
 		C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */; };
 		C8A9CE0A1F6D13700095C6AE /* Ashton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A9CE001F6D13700095C6AE /* Ashton.framework */; };
@@ -39,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C81811381FDFD82A0049620D /* AshtonAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKit.h; sourceTree = "<group>"; };
+		C81811391FDFD82A0049620D /* AshtonAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonAppKit.m; sourceTree = "<group>"; };
 		C87514AC1F818AB5002117FB /* Test1.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Test1.rtf; sourceTree = "<group>"; };
 		C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossPlatformCompatibility.swift; sourceTree = "<group>"; };
 		C8A9CE001F6D13700095C6AE /* Ashton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ashton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +162,8 @@
 		C8A9CE701F6D1B0F0095C6AE /* AshtonBenchmark */ = {
 			isa = PBXGroup;
 			children = (
+				C81811381FDFD82A0049620D /* AshtonAppKit.h */,
+				C81811391FDFD82A0049620D /* AshtonAppKit.m */,
 				C8A9CE721F6D1B0F0095C6AE /* AshtonConverter.h */,
 				C8A9CE731F6D1B0F0095C6AE /* AshtonCoreText.h */,
 				C8A9CE741F6D1B0F0095C6AE /* AshtonCoreText.m */,
@@ -320,6 +325,7 @@
 				C8A9CE881F6D1B0F0095C6AE /* AshtonHTMLWriter.m in Sources */,
 				C8A9CE891F6D1B0F0095C6AE /* AshtonIntermediate.m in Sources */,
 				C8A9CE8D1F6D1B0F0095C6AE /* AshtonUtils.m in Sources */,
+				C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */,
 				C8A9CE8A1F6D1B0F0095C6AE /* AshtonMarkdownReader.m in Sources */,
 				C8A9CE8C1F6D1B0F0095C6AE /* AshtonUIKit.m in Sources */,
 				C8A9CE861F6D1B0F0095C6AE /* AshtonCoreText.m in Sources */,
@@ -531,7 +537,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = AshtonTests/Bridging.h;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 			};
 			name = Debug;
 		};
@@ -547,7 +553,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = AshtonTests/Bridging.h;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 			};
 			name = Release;
 		};

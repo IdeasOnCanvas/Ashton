@@ -1,3 +1,6 @@
+#import <TargetConditionals.h>
+
+#if TARGET_OS_IPHONE
 #import "AshtonUIKit.h"
 #import "AshtonIntermediate.h"
 #import "AshtonUtils.h"
@@ -205,3 +208,4 @@
 }
 
 @end
+#endif
