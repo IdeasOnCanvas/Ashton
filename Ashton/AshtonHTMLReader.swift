@@ -84,7 +84,7 @@ private extension AshtonHTMLReader {
 	}
 
 	func append(_ string: String) {
-		if !self.currentAttributes.isEmpty {
+		if self.currentAttributes.isEmpty == false {
 			self.output.append(NSAttributedString(string: string, attributes: self.currentAttributes))
 		} else {
 			self.output.append(NSAttributedString(string: string))

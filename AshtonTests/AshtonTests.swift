@@ -12,20 +12,24 @@ import XCTest
 
 class AshtonTests: XCTestCase {
 
+
     /*
 	func testRTFTestFileRoundTrip() {
 		let rtfURL = Bundle(for: AshtonTests.self).url(forResource: "Test1", withExtension: "rtf")!
-		let attributedString = try? NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
+		let attributedString = try! NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
 		XCTAssertNotNil(attributedString)
 
-        let oldAshtonHTML = attributedString!.mn_HTMLRepresentation()!
-		let newAshtonHtml = Ashton.encode(attributedString!)
+        let oldAshtonHTML = attributedString.mn_HTMLRepresentation()!
+        let oldAshtonAttributedString = NSAttributedString(htmlString: oldAshtonHTML)!
 
-        let decodedString = Ashton.decode(oldAshtonHTML)
-        let referenceHTML2 = Ashton.encode(decodedString)
+        let html = Ashton.encode(oldAshtonAttributedString)
+        let decodedString = Ashton.decode(html)
+        let roundTripHTML = Ashton.encode(decodedString)
+        let roundTripDecodedString = Ashton.decode(roundTripHTML)
 
-        print("\(oldAshtonHTML)")
-        XCTAssertEqual(oldAshtonHTML, referenceHTML2)
+        print("\n\n\nRT\n\(roundTripHTML)\n\n\\IN\n\(html)\n\n")
+
+        XCTAssertEqual(roundTripHTML, html)
 	}*/
 
 	func testAttributeCodingWithBenchmark() {
@@ -78,7 +82,7 @@ class AshtonTests: XCTestCase {
 
 	func testFonts() {
         let font1 = Font(name: "Arial", size: 12)!
-        let font2 = Font(name: "Helvetica-Bold", size: 14)!
+        let font2 = Font(name: "Helvetica-Bold", size: 16)!
 		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: false)
 	}
 
@@ -136,7 +140,6 @@ private extension AshtonTests {
 			if ignoreReferenceHTML == false {
 				XCTAssertEqual(referenceHtml, html)
 			}
-            print(html)
 
 			let decodedString = Ashton.decode(html)
 			XCTAssertEqual(decodedString, attributedString)
