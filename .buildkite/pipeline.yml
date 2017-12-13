@@ -5,11 +5,8 @@ env:
   LC_ALL: "en_US.UTF-8"
 
 steps:
-  - command: "#!/bin/bash\n\nsource ~/.bash_profile\n\nbundle install --path ~/gems"
-    label: ":airplane_departure: Preflight"
-
-  - command: "#!/bin/bash\n\nbundle exec fastlane ios test"
+  - command: "#!/bin/bash\n\nbundle install --path ~/gems\n\nbundle exec fastlane ios test"
     label: ":iphone: iOS Tests"
 
-  - command: "#!/bin/bash\n\nbundle exec fastlane mac test"
+  - command: "#!/bin/bash\n\nbundle install --path ~/gems\n\nbundle exec fastlane mac test"
     label: ":desktop_computer: macOS Tests"
