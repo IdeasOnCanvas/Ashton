@@ -230,11 +230,22 @@ private extension AshtonHTMLReader {
                     guard let offset = Float(value)  else { return }
 
                     self.currentAttributes[.baselineOffset] = offset
-                case "vertical-align":
-                    guard let offset = Int(value), offset != 0 else { return }
+                case "-cocoa-vertical-align":
+                    guard let offset = Float(value)  else { return }
 
-                    let attribute = NSAttributedStringKey(rawValue: "NSSuperScript")
-                    self.currentAttributes[attribute] = offset
+                    self.currentAttributes[.superscript] = offset
+                case "vertical-align":
+                    // skip, if we assigned already via -cocoa-vertical-align
+                    guard self.currentAttributes[.superscript] == nil else { return }
+
+                    switch value {
+                    case "super":
+                        self.currentAttributes[.superscript] = 1
+                    case "sub":
+                        self.currentAttributes[.superscript] = -1
+                    default:
+                        break
+                    }
 				default:
                     assertionFailure("Did not handle property \(propertyName)")
 				}

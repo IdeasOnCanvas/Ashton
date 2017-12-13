@@ -20,6 +20,10 @@
     extension UIFontDescriptor {
         var cpPostscriptName: String { return self.postscriptName }
     }
+
+    extension NSAttributedStringKey {
+        static let superscript = NSAttributedStringKey(rawValue: "NSSuperScript")
+    }
 #elseif os(macOS)
     import AppKit
     typealias Font = NSFont

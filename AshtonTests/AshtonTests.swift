@@ -53,6 +53,11 @@ class AshtonTests: XCTestCase {
 		self.compareAttributeCodingWithBenchmark(.link, values: [url], ignoreReferenceHTML: false)
 	}
 
+    func testVerticalAlignment() {
+        let key = NSAttributedStringKey(rawValue: "NSSuperScript")
+        self.compareAttributeCodingWithBenchmark(key, values: [2, -2], ignoreReferenceHTML: true)
+    }
+
     func testTextAlignment() {
         let alignments: [NSTextAlignment] = [.center, .left, .right, .justified]
         let paragraphStyles: [NSParagraphStyle] = alignments.map { alignment in
@@ -131,6 +136,7 @@ private extension AshtonTests {
 			if ignoreReferenceHTML == false {
 				XCTAssertEqual(referenceHtml, html)
 			}
+            print(html)
 
 			let decodedString = Ashton.decode(html)
 			XCTAssertEqual(decodedString, attributedString)
