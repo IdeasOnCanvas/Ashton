@@ -100,65 +100,69 @@ private struct HTMLTag {
 	func makeOpenTag() -> String {
 		guard !self.attributes.isEmpty else { return self.defaultName.openTag() }
 
-		var styles = ""
-		var links = ""
+        var styles: [String] = []
+        var links = ""
 
 		self.attributes.forEach { key, value in
 			switch key {
 			case .backgroundColor:
 				guard let color = value as? Color else { return }
 
-				styles += "background-color: " + self.makeCSSrgba(for: color) + "; "
+                styles.insertFront("background-color: " + self.makeCSSrgba(for: color))
 			case .foregroundColor:
 				guard let color = value as? Color else { return }
 
-				styles += "color: " + self.makeCSSrgba(for: color) + "; "
+                styles.insertFront("color: " + self.makeCSSrgba(for: color))
 			case .underlineStyle:
 				guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
-				styles += "text-decoration: underline; -cocoa-underline: \(underlineStyle); "
+                styles.insertFront("text-decoration: underline")
+                styles.insertBack("-cocoa-underline: \(underlineStyle)")
 			case .underlineColor:
 				guard let color = value as? Color else { return }
 
-				styles += "-cocoa-underline-color: " + self.makeCSSrgba(for: color) + "; "
+                styles.insertBack("-cocoa-underline-color: " + self.makeCSSrgba(for: color))
 			case .strikethroughColor:
 				guard let color = value as? Color else { return }
 
-				styles += "-cocoa-strikethrough-color: " + self.makeCSSrgba(for: color) + "; "
+                styles.insertBack("-cocoa-strikethrough-color: " + self.makeCSSrgba(for: color))
 			case .strikethroughStyle:
 				guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
-				styles += "text-decoration: line-through; -cocoa-strikethrough: \(underlineStyle); "
+                styles.insertFront("text-decoration: line-through")
+                styles.insertBack("-cocoa-strikethrough: \(underlineStyle)")
 			case .font:
 				guard let font = value as? Font else { return }
 
+
 				let fontDescriptor = font.fontDescriptor
 
-				styles += "font: "
+				var fontStyle = "font: "
                 #if os(iOS)
 				if fontDescriptor.symbolicTraits.contains(.traitBold) {
-					styles += "bold "
+					fontStyle += "bold "
 				}
 				if fontDescriptor.symbolicTraits.contains(.traitItalic) {
-					styles += "italic "
+					fontStyle += "italic "
 				}
                 #elseif os(macOS)
                     if fontDescriptor.symbolicTraits.contains(.bold) {
-                        styles += "bold "
+                        fontStyle += "bold "
                     }
                     if fontDescriptor.symbolicTraits.contains(.italic) {
-                        styles += "italic "
+                        fontStyle += "italic "
                     }
                 #endif
 
-				styles += String(format: "%gpx ", fontDescriptor.pointSize)
-				styles += "\"\(font.cpFamilyName)\"; "
+				fontStyle += String(format: "%gpx ", fontDescriptor.pointSize)
+				fontStyle += "\"\(font.cpFamilyName)\""
 
-				styles += "-cocoa-font-postscriptname: \"\(fontDescriptor.cpPostscriptName)\"; "
+                styles.insertFront(fontStyle)
+                styles.insertBack("-cocoa-font-postscriptname: \"\(fontDescriptor.cpPostscriptName)\"")
 
 				let uiUsageAttribute = FontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
 				if let uiUsage = fontDescriptor.fontAttributes[uiUsageAttribute] {
-					styles += "; -cocoa-font-uiusage: \"\(uiUsage)\"; "
+                    styles.insertBack("-cocoa-font-uiusage: \"\(uiUsage)\"")
 				}
 			case .link:
 				guard let url = value as? URL else { return }
@@ -168,17 +172,17 @@ private struct HTMLTag {
 				guard self.ignoreParagraphStyles == false else { return }
 				guard let paragraphStyle = value as? NSParagraphStyle else { return }
 
-				styles += "text-align: \(paragraphStyle.alignment.htmlAttributeValue); "
+                styles.insertFront("text-align: \(paragraphStyle.alignment.htmlAttributeValue)")
 			case .baselineOffset:
 				guard let offset = value as? Float else { return }
 
-				styles += "-cocoa-baseline-offset: \(offset); "
+                styles.insertBack("-cocoa-baseline-offset: \(offset)")
 			case NSAttributedStringKey(rawValue: "NSSuperScript"):
                 guard let offset = value as? Int, offset != 0 else { return }
 
                 let verticalAlignment = offset > 0 ? "super" : "sub"
-                styles += "vertical-align: \(verticalAlignment); "
-                styles += "-cocoa-vertical-align: \(offset); "
+                styles.insertFront("vertical-align: \(verticalAlignment)")
+                styles.insertBack("-cocoa-vertical-align: \(offset)")
 			default:
 				assertionFailure("did not handle \(key)")
 			}
@@ -189,8 +193,10 @@ private struct HTMLTag {
 		}
 
 		var openTag = ""
-		if !styles.isEmpty {
-			let styleAttributes = "style='\(styles)'"
+		if styles.isEmpty == false {
+            let separator = "; "
+            let styleString = styles.joined(separator: separator) + separator
+			let styleAttributes = "style='\(styleString)'"
 			openTag += self.defaultName.openTag(with: styleAttributes)
 		} else if links.isEmpty {
 			openTag += self.defaultName.openTag()
@@ -272,4 +278,17 @@ private extension NSTextAlignment {
 			return "left"
 		}
 	}
+}
+
+// MARK: - Array
+
+private extension Array where Element: Hashable {
+
+    mutating func insertFront(_ element: Element) {
+        self.insert(element, at: 0)
+    }
+
+    mutating func insertBack(_ element: Element) {
+        self.append(element)
+    }
 }
