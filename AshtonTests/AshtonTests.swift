@@ -12,12 +12,23 @@ import XCTest
 
 class AshtonTests: XCTestCase {
 
+    func testTextStyles() {
+        let attributedString = self.loadAttributedString(fromRTF: "TextStyles")
+        let html = Ashton.encode(attributedString)
+        let benchmarkHTML = attributedString.mn_HTMLRepresentation()!
+        // we compare with benchmark only on macOS as iOS Ashton old drops attributes here
+        #if os(macOS)
+        XCTAssertEqual(html, benchmarkHTML)
+        #endif
+        let roundTripAttributedString = Ashton.decode(html)
+        let roundTripHTML = Ashton.encode(roundTripAttributedString)
+        XCTAssertEqual(html, roundTripHTML)
+    }
+
 
     /*
 	func testRTFTestFileRoundTrip() {
-		let rtfURL = Bundle(for: AshtonTests.self).url(forResource: "Test1", withExtension: "rtf")!
-		let attributedString = try! NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
-		XCTAssertNotNil(attributedString)
+        let attributedString = self.loadAttributedString(fromRTF: "RTFText")
 
         let oldAshtonHTML = attributedString.mn_HTMLRepresentation()!
         let oldAshtonAttributedString = NSAttributedString(htmlString: oldAshtonHTML)!
@@ -35,7 +46,7 @@ class AshtonTests: XCTestCase {
 	func testAttributeCodingWithBenchmark() {
         // we ignore the reference HTML here because Asthon old looses rgb precision when converting
 		let testColors = [Color.red, Color.green]
-		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: false)
 		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: true)
 		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors, ignoreReferenceHTML: true)
 		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors, ignoreReferenceHTML: true)
@@ -128,6 +139,11 @@ class AshtonTests: XCTestCase {
 // MARK: - Private
 
 private extension AshtonTests {
+
+    func loadAttributedString(fromRTF fileName: String) -> NSAttributedString {
+        let rtfURL = Bundle(for: AshtonTests.self).url(forResource: fileName, withExtension: "rtf")!
+        return try! NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
+    }
 
     func compareAttributeCodingWithBenchmark(_ attribute: NSAttributedStringKey, values: [Any], ignoreReferenceHTML: Bool = false) {
 		for value in values {

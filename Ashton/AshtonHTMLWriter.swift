@@ -16,135 +16,136 @@ import Foundation
 
 final class AshtonHTMLWriter {
 
-	func encode(_ attributedString: NSAttributedString) -> Ashton.HTML {
-		let string = attributedString.string
-		let paragraphRanges = self.getParagraphRanges(from: string)
+    func encode(_ attributedString: NSAttributedString) -> Ashton.HTML {
+        let string = attributedString.string
+        let paragraphRanges = self.getParagraphRanges(from: string)
 
-		var html = String()
-		for paragraphRange in paragraphRanges {
-			var paragraphContent = String()
-			let nsParagraphRange = NSRange(paragraphRange, in: string)
-			var paragraphTag = HTMLTag(defaultName: .p, attributes: [:], ignoreParagraphStyles: false)
-			attributedString.enumerateAttributes(in: nsParagraphRange,
-			                                     options: .longestEffectiveRangeNotRequired, using: { attributes, nsrange, _ in
+        var html = String()
+        for paragraphRange in paragraphRanges {
+            var paragraphContent = String()
+            let nsParagraphRange = NSRange(paragraphRange, in: string)
+            var paragraphTag = HTMLTag(defaultName: .p, attributes: [:], ignoreParagraphStyles: false)
+            attributedString.enumerateAttributes(in: nsParagraphRange,
+                                                 options: .longestEffectiveRangeNotRequired, using: { attributes, nsrange, _ in
                                                     let paragraphStyle = attributes.filter { $0.key == .paragraphStyle }
                                                     paragraphTag.addAttributes(paragraphStyle)
 
-													if nsParagraphRange.length == nsrange.length {
-														paragraphTag.addAttributes(attributes)
-														paragraphContent += String(attributedString.string[paragraphRange])
-													} else {
-														guard let range = Range(nsrange, in: attributedString.string) else { return }
+                                                    if nsParagraphRange.length == nsrange.length {
+                                                        paragraphTag.addAttributes(attributes)
+                                                        paragraphContent += String(attributedString.string[paragraphRange])
+                                                    } else {
+                                                        guard let range = Range(nsrange, in: attributedString.string) else { return }
 
-														let tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
-														paragraphContent += tag.makeOpenTag()
-														paragraphContent += String(attributedString.string[range])
-														paragraphContent += tag.makeCloseTag()
-													}
-			})
+                                                        let tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
+                                                        paragraphContent += tag.makeOpenTag()
+                                                        paragraphContent += String(attributedString.string[range])
+                                                        paragraphContent += tag.makeCloseTag()
+                                                    }
+            })
 
-			html += paragraphTag.makeOpenTag() + paragraphContent + paragraphTag.makeCloseTag()
-		}
+            html += paragraphTag.makeOpenTag() + paragraphContent + paragraphTag.makeCloseTag()
+        }
 
-		return html
-	}
+        return html
+    }
 }
 
 // MARK: - Private
 
 private extension AshtonHTMLWriter {
 
-	func getParagraphRanges(from string: String) -> [Range<String.Index>] {
-		var (paragraphStart, paragraphEnd, contentsEnd) = (string.startIndex, string.startIndex, string.startIndex)
-		var ranges = [Range<String.Index>]()
-		let length = string.endIndex
+    func getParagraphRanges(from string: String) -> [Range<String.Index>] {
+        var (paragraphStart, paragraphEnd, contentsEnd) = (string.startIndex, string.startIndex, string.startIndex)
+        var ranges = [Range<String.Index>]()
+        let length = string.endIndex
 
-		while paragraphEnd < length {
-			string.getParagraphStart(&paragraphStart, end: &paragraphEnd, contentsEnd: &contentsEnd, for: paragraphEnd...paragraphEnd)
-			ranges.append(paragraphStart..<contentsEnd)
-		}
-		return ranges
-	}
+        while paragraphEnd < length {
+            string.getParagraphStart(&paragraphStart, end: &paragraphEnd, contentsEnd: &contentsEnd, for: paragraphEnd...paragraphEnd)
+            ranges.append(paragraphStart..<contentsEnd)
+        }
+        return ranges
+    }
 }
 
 private struct HTMLTag {
 
-	enum Name: String {
-		case p
-		case span
-		case a
+    enum Name: String {
+        case p
+        case span
+        case a
 
-		func openTag(with attributes: String? = nil) -> String {
-			if let attributes = attributes {
-				return "<\(self.rawValue) \(attributes)>"
-			} else {
-				return "<\(self.rawValue)>"
-			}
-		}
+        func openTag(with attributes: String? = nil) -> String {
+            if let attributes = attributes {
+                return "<\(self.rawValue) \(attributes)>"
+            } else {
+                return "<\(self.rawValue)>"
+            }
+        }
 
-		func closeTag() -> String {
-			return "</\(self.rawValue)>"
-		}
-	}
+        func closeTag() -> String {
+            return "</\(self.rawValue)>"
+        }
+    }
 
-	let defaultName: Name
-	var attributes: [NSAttributedStringKey: Any]
-	let ignoreParagraphStyles: Bool
+    let defaultName: Name
+    var attributes: [NSAttributedStringKey: Any]
+    let ignoreParagraphStyles: Bool
 
-	mutating func addAttributes(_ attributes: [NSAttributedStringKey: Any]?) {
-		attributes?.forEach { (key, value) in
-			self.attributes[key] = value
-		}
-	}
+    mutating func addAttributes(_ attributes: [NSAttributedStringKey: Any]?) {
+        attributes?.forEach { (key, value) in
+            self.attributes[key] = value
+        }
+    }
 
-	func makeOpenTag() -> String {
-		guard !self.attributes.isEmpty else { return self.defaultName.openTag() }
+    func makeOpenTag() -> String {
+        guard !self.attributes.isEmpty else { return self.defaultName.openTag() }
 
-        var styles: [String] = []
+        var styles: [String: String] = [:]
+        var cocoaStyles: [String: String] = [:]
         var links = ""
 
-		self.attributes.forEach { key, value in
-			switch key {
-			case .backgroundColor:
-				guard let color = value as? Color else { return }
+        self.attributes.forEach { key, value in
+            switch key {
+            case .backgroundColor:
+                guard let color = value as? Color else { return }
 
-                styles.insertFront("background-color: " + self.makeCSSrgba(for: color))
-			case .foregroundColor:
-				guard let color = value as? Color else { return }
+                styles["background-color"] = self.makeCSSrgba(for: color)
+            case .foregroundColor:
+                guard let color = value as? Color else { return }
 
-                styles.insertFront("color: " + self.makeCSSrgba(for: color))
-			case .underlineStyle:
-				guard let underlineStyle = self.underlineStyle(from: value) else { return }
+                styles["color"] = self.makeCSSrgba(for: color)
+            case .underlineStyle:
+                guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
-                styles.insertFront("text-decoration: underline")
-                styles.insertBack("-cocoa-underline: \(underlineStyle)")
-			case .underlineColor:
-				guard let color = value as? Color else { return }
+                styles["text-decoration"] = "underline"
+                cocoaStyles["-cocoa-underline"] = String(underlineStyle)
+            case .underlineColor:
+                guard let color = value as? Color else { return }
 
-                styles.insertBack("-cocoa-underline-color: " + self.makeCSSrgba(for: color))
-			case .strikethroughColor:
-				guard let color = value as? Color else { return }
+                cocoaStyles["-cocoa-underline-color"] = self.makeCSSrgba(for: color)
+            case .strikethroughColor:
+                guard let color = value as? Color else { return }
 
-                styles.insertBack("-cocoa-strikethrough-color: " + self.makeCSSrgba(for: color))
-			case .strikethroughStyle:
-				guard let underlineStyle = self.underlineStyle(from: value) else { return }
+                cocoaStyles["-cocoa-strikethrough-color"] = self.makeCSSrgba(for: color)
+            case .strikethroughStyle:
+                guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
-                styles.insertFront("text-decoration: line-through")
-                styles.insertBack("-cocoa-strikethrough: \(underlineStyle)")
-			case .font:
-				guard let font = value as? Font else { return }
+                styles["text-decoration"] = "line-through"
+                cocoaStyles["-cocoa-strikethrough"] = String(underlineStyle)
+            case .font:
+                guard let font = value as? Font else { return }
 
 
-				let fontDescriptor = font.fontDescriptor
+                let fontDescriptor = font.fontDescriptor
 
-				var fontStyle = "font: "
+                var fontStyle = ""
                 #if os(iOS)
-				if fontDescriptor.symbolicTraits.contains(.traitBold) {
-					fontStyle += "bold "
-				}
-				if fontDescriptor.symbolicTraits.contains(.traitItalic) {
-					fontStyle += "italic "
-				}
+                    if fontDescriptor.symbolicTraits.contains(.traitBold) {
+                        fontStyle += "bold "
+                    }
+                    if fontDescriptor.symbolicTraits.contains(.traitItalic) {
+                        fontStyle += "italic "
+                    }
                 #elseif os(macOS)
                     if fontDescriptor.symbolicTraits.contains(.bold) {
                         fontStyle += "bold "
@@ -154,141 +155,130 @@ private struct HTMLTag {
                     }
                 #endif
 
-				fontStyle += String(format: "%gpx ", fontDescriptor.pointSize)
-				fontStyle += "\"\(font.cpFamilyName)\""
+                fontStyle += String(format: "%gpx ", fontDescriptor.pointSize)
+                fontStyle += "\"\(font.cpFamilyName)\""
 
-                styles.insertFront(fontStyle)
-                styles.insertBack("-cocoa-font-postscriptname: \"\(fontDescriptor.cpPostscriptName)\"")
+                styles["font"] = fontStyle
+                cocoaStyles["-cocoa-font-postscriptname"] = "\"\(fontDescriptor.cpPostscriptName)\""
+            case .paragraphStyle:
+                guard self.ignoreParagraphStyles == false else { return }
+                guard let paragraphStyle = value as? NSParagraphStyle else { return }
 
-				let uiUsageAttribute = FontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
-				if let uiUsage = fontDescriptor.fontAttributes[uiUsageAttribute] {
-                    styles.insertBack("-cocoa-font-uiusage: \"\(uiUsage)\"")
-				}
-			case .link:
-				guard let url = value as? URL else { return }
+                styles["text-align"] = paragraphStyle.alignment.htmlAttributeValue
+            case .baselineOffset:
+                guard let offset = value as? Float else { return }
 
-				links = "href='\(url.absoluteString)'"
-			case .paragraphStyle:
-				guard self.ignoreParagraphStyles == false else { return }
-				guard let paragraphStyle = value as? NSParagraphStyle else { return }
-
-                styles.insertFront("text-align: \(paragraphStyle.alignment.htmlAttributeValue)")
-			case .baselineOffset:
-				guard let offset = value as? Float else { return }
-
-                styles.insertBack("-cocoa-baseline-offset: \(offset)")
-			case NSAttributedStringKey(rawValue: "NSSuperScript"):
+                cocoaStyles["-cocoa-baseline-offset"] = String(offset)
+            case NSAttributedStringKey(rawValue: "NSSuperScript"):
                 guard let offset = value as? Int, offset != 0 else { return }
 
                 let verticalAlignment = offset > 0 ? "super" : "sub"
-                styles.insertFront("vertical-align: \(verticalAlignment)")
-                styles.insertBack("-cocoa-vertical-align: \(offset)")
-			default:
-				assertionFailure("did not handle \(key)")
-			}
-		}
+                styles["vertical-align"] = String(verticalAlignment)
+                cocoaStyles["-cocoa-vertical-align"] = String(offset)
+            case .link:
+                guard let url = value as? URL else { return }
 
-		if styles.isEmpty && links.isEmpty {
-			return self.defaultName.openTag()
-		}
+                links = "href='\(url.absoluteString)'"
+            default:
+                assertionFailure("did not handle \(key)")
+            }
+        }
 
-		var openTag = ""
-		if styles.isEmpty == false {
+        if styles.isEmpty && cocoaStyles.isEmpty && links.isEmpty {
+            return self.defaultName.openTag()
+        }
+
+        var openTag = ""
+        if styles.isEmpty == false || cocoaStyles.isEmpty == false {
             let separator = "; "
-            let styleString = styles.joined(separator: separator) + separator
-			let styleAttributes = "style='\(styleString)'"
-			openTag += self.defaultName.openTag(with: styleAttributes)
-		} else if links.isEmpty {
-			openTag += self.defaultName.openTag()
-		}
+            let styleDictionaryTransform: ([String: String]) -> [String] = { return $0.sorted(by: <).map { "\($0): \($1)" } }
+            let styleString = (styleDictionaryTransform(styles) + styleDictionaryTransform(cocoaStyles)).joined(separator: separator) + separator
+            let styleAttributes = "style='\(styleString)'"
+            openTag += self.defaultName.openTag(with: styleAttributes)
+        } else if links.isEmpty {
+            openTag += self.defaultName.openTag()
+        }
 
-		if !links.isEmpty {
-			openTag += Name.a.openTag(with: links)
-		}
+        if !links.isEmpty {
+            openTag += Name.a.openTag(with: links)
+        }
 
-		return openTag
-	}
+        return openTag
+    }
 
-	private static let styleAttributes: Set<NSAttributedStringKey> = [
-		.font, .strikethroughStyle, .strikethroughColor, .underlineColor, .underlineStyle, .foregroundColor, .backgroundColor
-	]
+    private static let styleAttributes: Set<NSAttributedStringKey> = [
+        .font, .strikethroughStyle, .strikethroughColor, .underlineColor, .underlineStyle, .foregroundColor, .backgroundColor
+    ]
 
-	func makeCloseTag() -> String {
-		let containsStyle = self.attributes.contains(where: { HTMLTag.styleAttributes.contains($0.key) })
-		let containsLinks = self.attributes.contains(where: { $0.key == .link })
+    func makeCloseTag() -> String {
+        let containsStyle = self.attributes.contains(where: { HTMLTag.styleAttributes.contains($0.key) })
+        let containsLinks = self.attributes.contains(where: { $0.key == .link })
 
-		if containsLinks {
-			var closeTag = ""
-			closeTag += Name.a.closeTag()
-			if containsStyle {
-				closeTag += self.defaultName.closeTag()
-			}
-			return closeTag
-		} else {
-			return self.defaultName.closeTag()
-		}
-	}
+        if containsLinks {
+            var closeTag = ""
+            closeTag += Name.a.closeTag()
+            if containsStyle {
+                closeTag += self.defaultName.closeTag()
+            }
+            return closeTag
+        } else {
+            return self.defaultName.closeTag()
+        }
+    }
 
-	// MARK: - Private
+    // MARK: - Private
 
-	private func makeCSSrgba(for color: Color) -> String {
-        var rgbColor = color
-        #if os(macOS)
-        // as usingColorSpace returns an optional we have a fallback to black
-        rgbColor = color.usingColorSpace(NSColorSpace.sRGB) ?? NSColor(deviceRed: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
-        #endif
-		var red: CGFloat = 0.0
-		var green: CGFloat = 0.0
-		var blue: CGFloat = 0.0
-		var alpha: CGFloat = 0.0
-		rgbColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+    private func compareStyleTags(tags: (tag1: String, tag2: String)) -> Bool {
+        return tags.tag1 > tags.tag2
+    }
 
-		return "rgba(\(Int(red * 255.0)), \(Int(green * 255.0)), \(Int(blue * 255.0)), \(String(format: "%.6f", alpha)))"
-	}
+    private func makeCSSrgba(for color: Color) -> String {
+        var (red, green, blue): (CGFloat, CGFloat, CGFloat)
+        let alpha = color.cgColor.alpha
+        if color.cgColor.numberOfComponents == 2 {
+            let monochromeValue = color.cgColor.components?[0] ?? 0
+            (red, green, blue) = (monochromeValue, monochromeValue, monochromeValue)
+        } else if color.cgColor.numberOfComponents == 4 {
+            red = color.cgColor.components?[0] ?? 0
+            green = color.cgColor.components?[1] ?? 0
+            blue = color.cgColor.components?[2] ?? 0
+        } else {
+            (red, green, blue) = (0, 0, 0)
+        }
 
-	private func underlineStyle(from value: Any) -> String? {
-		guard let rawValue = value as? Int else { return nil  }
-		guard let underlineStyle = NSUnderlineStyle(rawValue: rawValue) else { return nil }
+        return "rgba(\(Int(red * 255.0)), \(Int(green * 255.0)), \(Int(blue * 255.0)), \(String(format: "%.6f", alpha)))"
+    }
 
-		let mapping: [NSUnderlineStyle: String] = [
-			.styleSingle: "single",
-			.styleDouble: "double",
-			.styleThick: "thick"
-		]
+    private func underlineStyle(from value: Any) -> String? {
+        guard let rawValue = value as? Int else { return nil  }
+        guard let underlineStyle = NSUnderlineStyle(rawValue: rawValue) else { return nil }
 
-		return mapping[underlineStyle]
-	}
+        let mapping: [NSUnderlineStyle: String] = [
+            .styleSingle: "single",
+            .styleDouble: "double",
+            .styleThick: "thick"
+        ]
+
+        return mapping[underlineStyle]
+    }
 }
 
 // MARK: - NSTextAlignment
 
 private extension NSTextAlignment {
 
-	var htmlAttributeValue: String {
-		switch self {
-		case .center:
-			return "center"
-		case .justified:
-			return "justify"
-		case .right:
-			return "right"
-		case .left:
-			return "left"
-		case .natural:
-			return "left"
-		}
-	}
-}
-
-// MARK: - Array
-
-private extension Array where Element: Hashable {
-
-    mutating func insertFront(_ element: Element) {
-        self.insert(element, at: 0)
-    }
-
-    mutating func insertBack(_ element: Element) {
-        self.append(element)
+    var htmlAttributeValue: String {
+        switch self {
+        case .center:
+            return "center"
+        case .justified:
+            return "justify"
+        case .right:
+            return "right"
+        case .left:
+            return "left"
+        case .natural:
+            return "left"
+        }
     }
 }

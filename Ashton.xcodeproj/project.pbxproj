@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81811391FDFD82A0049620D /* AshtonAppKit.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		C87514AD1F818AB5002117FB /* Test1.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C87514AC1F818AB5002117FB /* Test1.rtf */; };
+		C87514AD1F818AB5002117FB /* RTFText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C87514AC1F818AB5002117FB /* RTFText.rtf */; };
 		C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */; };
+		C89B7D111FE3ED990038EDB8 /* TextStyles.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */; };
 		C8A9CE0A1F6D13700095C6AE /* Ashton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A9CE001F6D13700095C6AE /* Ashton.framework */; };
 		C8A9CE0F1F6D13700095C6AE /* AshtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */; };
 		C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */ = {isa = PBXBuildFile; fileRef = C8A9CE031F6D13700095C6AE /* Ashton.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -42,8 +43,9 @@
 /* Begin PBXFileReference section */
 		C81811381FDFD82A0049620D /* AshtonAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKit.h; sourceTree = "<group>"; };
 		C81811391FDFD82A0049620D /* AshtonAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonAppKit.m; sourceTree = "<group>"; };
-		C87514AC1F818AB5002117FB /* Test1.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Test1.rtf; sourceTree = "<group>"; };
+		C87514AC1F818AB5002117FB /* RTFText.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RTFText.rtf; sourceTree = "<group>"; };
 		C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossPlatformCompatibility.swift; sourceTree = "<group>"; };
+		C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TextStyles.rtf; sourceTree = "<group>"; };
 		C8A9CE001F6D13700095C6AE /* Ashton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ashton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A9CE031F6D13700095C6AE /* Ashton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ashton.h; sourceTree = "<group>"; };
 		C8A9CE041F6D13700095C6AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,7 +103,8 @@
 		C87514A91F818A61002117FB /* TestFiles */ = {
 			isa = PBXGroup;
 			children = (
-				C87514AC1F818AB5002117FB /* Test1.rtf */,
+				C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */,
+				C87514AC1F818AB5002117FB /* RTFText.rtf */,
 			);
 			path = TestFiles;
 			sourceTree = "<group>";
@@ -299,7 +302,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C87514AD1F818AB5002117FB /* Test1.rtf in Resources */,
+				C87514AD1F818AB5002117FB /* RTFText.rtf in Resources */,
+				C89B7D111FE3ED990038EDB8 /* TextStyles.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

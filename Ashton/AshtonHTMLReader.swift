@@ -121,6 +121,7 @@ private extension AshtonHTMLReader {
 		self.currentAttributes = attributesBeforeElement
 
 		if let nextChild = element.pointee.nextSibling {
+            self.currentAttributes = [:]
 			self.parseElement(nextChild)
 		}
 	}
