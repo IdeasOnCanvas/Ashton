@@ -25,6 +25,12 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(html, roundTripHTML)
     }
 
+    func testStyleTagsOrdering() {
+        let referenceHTML = "<p style='font: 16px \"Helvetica\"; text-decoration: line-through; -cocoa-font-postscriptname: \"Helvetica\"; -cocoa-strikethrough: single; -cocoa-strikethrough-color: rgba(0, 0, 0, 1.000000); -cocoa-underline-color: rgba(255, 0, 0, 1.000000); '>Single Strikethrough.</p>"
+        let roundTripHTML = Ashton.encode(Ashton.decode(referenceHTML))
+        XCTAssertEqual(referenceHTML, roundTripHTML)
+    }
+
 
     /*
 	func testRTFTestFileRoundTrip() {
