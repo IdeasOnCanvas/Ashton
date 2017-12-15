@@ -32,13 +32,13 @@ final class AshtonHTMLWriter {
 
                                                     if nsParagraphRange.length == nsrange.length {
                                                         paragraphTag.addAttributes(attributes)
-                                                        paragraphContent += String(attributedString.string[paragraphRange])
+                                                        paragraphContent += String(attributedString.string[paragraphRange]).htmlEscaped
                                                     } else {
                                                         guard let range = Range(nsrange, in: attributedString.string) else { return }
 
                                                         let tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
                                                         paragraphContent += tag.makeOpenTag()
-                                                        paragraphContent += String(attributedString.string[range])
+                                                        paragraphContent += String(attributedString.string[range]).htmlEscaped
                                                         paragraphContent += tag.makeCloseTag()
                                                     }
             })
@@ -260,6 +260,31 @@ private struct HTMLTag {
         ]
 
         return mapping[underlineStyle]
+    }
+}
+
+// MARK: - String
+
+private extension String {
+
+    var htmlEscaped: String {
+        return self.reduce("") { $0 + $1.escaped }
+    }
+}
+
+private extension Character {
+
+    static let mapping: [Character: String] = [
+        "&": "&amp;",
+        "\"": "&quot;",
+        "'": "&apos;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\n": "<br />"
+    ]
+
+    var escaped: String {
+        return Character.mapping[self] ?? String(self)
     }
 }
 

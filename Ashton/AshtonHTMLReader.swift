@@ -111,7 +111,7 @@ private extension AshtonHTMLReader {
 		}
 
 		if let text = TBXML.text(for: element) {
-			self.append(text)
+			self.append(text.stringByRemovingHTMLEncoding)
 		}
 
 		if let firstChild = element.pointee.firstChild {
@@ -309,5 +309,16 @@ private extension AshtonHTMLReader {
         default:
             return .left
         }
+    }
+}
+
+// MARK: - String
+
+private extension String {
+
+    var stringByRemovingHTMLEncoding: String {
+        guard self.contains("&") else { return self }
+
+        return self
     }
 }

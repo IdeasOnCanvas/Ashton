@@ -31,7 +31,6 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(referenceHTML, roundTripHTML)
     }
 
-    /*
 	func testRTFTestFileRoundTrip() {
         let attributedString = self.loadAttributedString(fromRTF: "RTFText")
 
@@ -39,14 +38,15 @@ class AshtonTests: XCTestCase {
         let oldAshtonAttributedString = NSAttributedString(htmlString: oldAshtonHTML)!
 
         let html = Ashton.encode(oldAshtonAttributedString)
+        XCTAssertEqual(oldAshtonHTML, html)
         let decodedString = Ashton.decode(html)
         let roundTripHTML = Ashton.encode(decodedString)
         let roundTripDecodedString = Ashton.decode(roundTripHTML)
 
         print("\n\n\nRT\n\(roundTripHTML)\n\n\\IN\n\(html)\n\n")
 
-        XCTAssertEqual(roundTripHTML, html)
-	}*/
+     //   XCTAssertEqual(roundTripHTML, html)
+	}
 
 	func testAttributeCodingWithBenchmark() {
         // we ignore the reference HTML here because Asthon old looses rgb precision when converting
