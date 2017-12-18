@@ -181,7 +181,7 @@ private struct HTMLTag {
             case .baselineOffset:
                 guard let offset = value as? Float else { return }
 
-                cocoaStyles["-cocoa-baseline-offset"] = String(offset)
+                cocoaStyles["-cocoa-baseline-offset"] = String(format: "%.0f", offset)
             case NSAttributedStringKey(rawValue: "NSSuperScript"):
                 guard let offset = value as? Int, offset != 0 else { return }
 
@@ -210,7 +210,6 @@ private struct HTMLTag {
             let styleString = (styleDictionaryTransform(styles) + styleDictionaryTransform(cocoaStyles)).joined(separator: separator)
             if styleString.isEmpty == false {
                 styleAttributes = "style='\(styleString)\(separator)'"
-                print("\(styleAttributes)")
             }
         }
 
