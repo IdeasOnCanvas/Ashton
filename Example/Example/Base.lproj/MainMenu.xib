@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11134"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -10,9 +11,11 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application" customClass="NSApplication"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModuleProvider="target">
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Example" customModuleProvider="target">
             <connections>
+                <outlet property="baseTextView" destination="qHM-XZ-esl" id="yyV-t6-xYu"/>
+                <outlet property="roundTripTextView" destination="4CB-eK-qGM" id="w1f-HS-GJD"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -677,16 +680,98 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="199" y="-134"/>
         </menu>
         <window title="Example" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="contentRect" x="335" y="390" width="686" height="448"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                <rect key="frame" x="0.0" y="0.0" width="686" height="448"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OYT-Ef-rlC">
+                        <rect key="frame" x="20" y="59" width="313" height="353"/>
+                        <clipView key="contentView" id="LnC-4B-QFR">
+                            <rect key="frame" x="1" y="1" width="311" height="351"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="qHM-XZ-esl">
+                                    <rect key="frame" x="0.0" y="0.0" width="311" height="351"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="311" height="351"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="7xF-4j-KJ2">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="g9F-Ia-Po6">
+                            <rect key="frame" x="296" y="1" width="16" height="351"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5bJ-K8-Y1F">
+                        <rect key="frame" x="352" y="58" width="314" height="355"/>
+                        <clipView key="contentView" id="YnF-67-uGL">
+                            <rect key="frame" x="1" y="1" width="312" height="353"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="4CB-eK-qGM">
+                                    <rect key="frame" x="0.0" y="0.0" width="312" height="353"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="312" height="353"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="XrL-C6-4hU">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="TpW-Rx-nex">
+                            <rect key="frame" x="297" y="1" width="16" height="353"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T2V-vU-sWJ">
+                        <rect key="frame" x="243" y="8" width="200" height="41"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="188" id="Uxg-kB-Rqk"/>
+                            <constraint firstAttribute="height" constant="30" id="gZV-43-hj2"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="Execute Ashton Roundtrip" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e24-f2-eoo">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="executeRoundTrip:" target="Voe-Tx-rLC" id="Sad-TG-8w0"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="T2V-vU-sWJ" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="5cA-JC-Nwi"/>
+                    <constraint firstItem="4CB-eK-qGM" firstAttribute="leading" secondItem="OYT-Ef-rlC" secondAttribute="trailing" constant="20" id="AYC-I0-aZe"/>
+                    <constraint firstItem="OYT-Ef-rlC" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="36" id="AmY-2G-7Vf"/>
+                    <constraint firstItem="OYT-Ef-rlC" firstAttribute="top" secondItem="4CB-eK-qGM" secondAttribute="top" id="GF8-pt-NR4"/>
+                    <constraint firstItem="OYT-Ef-rlC" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="Hlt-sP-ALj"/>
+                    <constraint firstAttribute="bottom" secondItem="T2V-vU-sWJ" secondAttribute="bottom" constant="15" id="MHJ-j3-7Gi"/>
+                    <constraint firstItem="OYT-Ef-rlC" firstAttribute="height" secondItem="4CB-eK-qGM" secondAttribute="height" id="NTu-Jc-opG"/>
+                    <constraint firstAttribute="bottom" secondItem="OYT-Ef-rlC" secondAttribute="bottom" constant="59" id="c0O-Ph-GOB"/>
+                    <constraint firstAttribute="trailing" secondItem="5bJ-K8-Y1F" secondAttribute="trailing" constant="20" id="lE7-m0-2z5"/>
+                    <constraint firstItem="OYT-Ef-rlC" firstAttribute="width" secondItem="4CB-eK-qGM" secondAttribute="width" id="qvs-Tl-eEz"/>
+                </constraints>
             </view>
+            <point key="canvasLocation" x="328" y="172"/>
         </window>
     </objects>
 </document>
