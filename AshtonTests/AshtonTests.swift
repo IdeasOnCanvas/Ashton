@@ -110,6 +110,7 @@ class AshtonTests: XCTestCase {
 
 		self.measure {
 			for _ in 0...1000 {
+                //_ = NSAttributedString(htmlString: html) // old ashton benchmark
 				_ = Ashton.decode(html)
 			}
 		}
@@ -120,6 +121,7 @@ class AshtonTests: XCTestCase {
 
 		self.measure {
 			for _ in 0...1000 {
+                //_ = attributedString.mn_HTMLRepresentation()! // old ashton benchmark
 				_ = Ashton.encode(attributedString)
 			}
 		}
@@ -135,6 +137,7 @@ class AshtonTests: XCTestCase {
 
 		self.measure {
 			for _ in 0...1000 {
+                //_ = NSAttributedString(htmlString: referenceHtml) // old ashton benchmark
 				_ = Ashton.decode(referenceHtml)
 			}
 		}
