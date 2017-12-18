@@ -36,14 +36,14 @@ final class AshtonHTMLWriter {
                                                     } else {
                                                         guard let range = Range(nsrange, in: attributedString.string) else { return }
 
-                                                        let tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
-                                                        paragraphContent += tag.makeOpenTag()
+                                                        var tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
+                                                        paragraphContent += tag.parseOpenTag()
                                                         paragraphContent += String(attributedString.string[range]).htmlEscaped
                                                         paragraphContent += tag.makeCloseTag()
                                                     }
             })
 
-            html += paragraphTag.makeOpenTag() + paragraphContent + paragraphTag.makeCloseTag()
+            html += paragraphTag.parseOpenTag() + paragraphContent + paragraphTag.makeCloseTag()
         }
 
         return html
@@ -74,12 +74,14 @@ private struct HTMLTag {
         case span
         case a
 
-        func openTag(with attributes: String? = nil) -> String {
-            if let attributes = attributes {
-                return "<\(self.rawValue) \(attributes)>"
-            } else {
-                return "<\(self.rawValue)>"
+        func openTag(with attributes: String...) -> String {
+            var attributesString = ""
+            for attribute in attributes {
+                if attribute.isEmpty { continue }
+
+                attributesString += " " + attribute
             }
+            return "<\(self.rawValue)\(attributesString)>"
         }
 
         func closeTag() -> String {
@@ -87,9 +89,20 @@ private struct HTMLTag {
         }
     }
 
+    private var hasParsedLinks: Bool = false
+    private var usedTagName: Name { return self.hasParsedLinks ? Name.a : self.defaultName }
+
+    // MARK: - Properties
+
     let defaultName: Name
     var attributes: [NSAttributedStringKey: Any]
     let ignoreParagraphStyles: Bool
+
+    init(defaultName: Name, attributes: [NSAttributedStringKey: Any], ignoreParagraphStyles: Bool) {
+        self.defaultName = defaultName
+        self.attributes = attributes
+        self.ignoreParagraphStyles = ignoreParagraphStyles
+    }
 
     mutating func addAttributes(_ attributes: [NSAttributedStringKey: Any]?) {
         attributes?.forEach { (key, value) in
@@ -97,8 +110,8 @@ private struct HTMLTag {
         }
     }
 
-    func makeOpenTag() -> String {
-        guard !self.attributes.isEmpty else { return self.defaultName.openTag() }
+    mutating func parseOpenTag() -> String {
+        guard !self.attributes.isEmpty else { return self.usedTagName.openTag() }
 
         var styles: [String: String] = [:]
         var cocoaStyles: [String: String] = [:]
@@ -179,6 +192,7 @@ private struct HTMLTag {
                 guard let url = value as? URL else { return }
 
                 links = "href='\(url.absoluteString)'"
+                self.hasParsedLinks = true
             default:
                 assertionFailure("did not handle \(key)")
             }
@@ -189,19 +203,18 @@ private struct HTMLTag {
         }
 
         var openTag = ""
-        if styles.isEmpty == false || cocoaStyles.isEmpty == false {
+        var styleAttributes = ""
+        do {
             let separator = "; "
             let styleDictionaryTransform: ([String: String]) -> [String] = { return $0.sorted(by: <).map { "\($0): \($1)" } }
-            let styleString = (styleDictionaryTransform(styles) + styleDictionaryTransform(cocoaStyles)).joined(separator: separator) + separator
-            let styleAttributes = "style='\(styleString)'"
-            openTag += self.defaultName.openTag(with: styleAttributes)
-        } else if links.isEmpty {
-            openTag += self.defaultName.openTag()
+            let styleString = (styleDictionaryTransform(styles) + styleDictionaryTransform(cocoaStyles)).joined(separator: separator)
+            if styleString.isEmpty == false {
+                styleAttributes = "style='\(styleString)\(separator)'"
+                print("\(styleAttributes)")
+            }
         }
 
-        if !links.isEmpty {
-            openTag += Name.a.openTag(with: links)
-        }
+        openTag += self.usedTagName.openTag(with: links, styleAttributes)
 
         return openTag
     }
@@ -211,19 +224,7 @@ private struct HTMLTag {
     ]
 
     func makeCloseTag() -> String {
-        let containsStyle = self.attributes.contains(where: { HTMLTag.styleAttributes.contains($0.key) })
-        let containsLinks = self.attributes.contains(where: { $0.key == .link })
-
-        if containsLinks {
-            var closeTag = ""
-            closeTag += Name.a.closeTag()
-            if containsStyle {
-                closeTag += self.defaultName.closeTag()
-            }
-            return closeTag
-        } else {
-            return self.defaultName.closeTag()
-        }
+        return self.usedTagName.closeTag()
     }
 
     // MARK: - Private
