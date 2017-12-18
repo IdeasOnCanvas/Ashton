@@ -81,6 +81,13 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(attributedString, roundtripped)
     }
 
+    func testHTMLEscapingInHrefParagraph() {
+        let attributedString = NSMutableAttributedString(string: "Test: Link to test. That's it", attributes: [.link: "http://google.com/?a='b\"&c=<>"])
+        let html = Ashton.encode(attributedString)
+        let roundtripped = Ashton.decode(html)
+        XCTAssertEqual(attributedString, roundtripped)
+    }
+
     func testVerticalAlignment() {
         let key = NSAttributedStringKey(rawValue: "NSSuperScript")
         self.compareAttributeCodingWithBenchmark(key, values: [2, -2], ignoreReferenceHTML: true)
