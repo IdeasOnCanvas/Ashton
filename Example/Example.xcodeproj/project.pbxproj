@@ -10,7 +10,25 @@
 		C8C931FC1FE81A6500938039 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C931FB1FE81A6500938039 /* AppDelegate.swift */; };
 		C8C931FE1FE81A6500938039 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8C931FD1FE81A6500938039 /* Assets.xcassets */; };
 		C8C932011FE81A6500938039 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8C931FF1FE81A6500938039 /* MainMenu.xib */; };
+		C8C932131FE81FE400938039 /* Ashton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8C9320F1FE81FD800938039 /* Ashton.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C8C9320E1FE81FD800938039 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8C932091FE81FD800938039 /* Ashton.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C8A9CE001F6D13700095C6AE;
+			remoteInfo = Ashton;
+		};
+		C8C932101FE81FD800938039 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C8C932091FE81FD800938039 /* Ashton.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C8A9CE091F6D13700095C6AE;
+			remoteInfo = AshtonTests;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		C8C931F81FE81A6500938039 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -19,6 +37,7 @@
 		C8C932001FE81A6500938039 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		C8C932021FE81A6500938039 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8C932031FE81A6500938039 /* Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Example.entitlements; sourceTree = "<group>"; };
+		C8C932091FE81FD800938039 /* Ashton.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Ashton.xcodeproj; path = ../Ashton.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8C932131FE81FE400938039 /* Ashton.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +57,8 @@
 			children = (
 				C8C931FA1FE81A6500938039 /* Example */,
 				C8C931F91FE81A6500938039 /* Products */,
+				C8C932091FE81FD800938039 /* Ashton.xcodeproj */,
+				C8C932121FE81FE400938039 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +80,22 @@
 				C8C932031FE81A6500938039 /* Example.entitlements */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		C8C9320A1FE81FD800938039 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C8C9320F1FE81FD800938039 /* Ashton.framework */,
+				C8C932111FE81FD800938039 /* AshtonTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C8C932121FE81FE400938039 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,12 +145,35 @@
 			mainGroup = C8C931EF1FE81A6500938039;
 			productRefGroup = C8C931F91FE81A6500938039 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C8C9320A1FE81FD800938039 /* Products */;
+					ProjectRef = C8C932091FE81FD800938039 /* Ashton.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C8C931F71FE81A6500938039 /* Example */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C8C9320F1FE81FD800938039 /* Ashton.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Ashton.framework;
+			remoteRef = C8C9320E1FE81FD800938039 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C8C932111FE81FD800938039 /* AshtonTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AshtonTests.xctest;
+			remoteRef = C8C932101FE81FD800938039 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C8C931F61FE81A6500938039 /* Resources */ = {

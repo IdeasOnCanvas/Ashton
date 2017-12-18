@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Ashton
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -20,7 +21,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func executeRoundTrip(_ sender: Any) {
-        self.roundTripTextView.textStorage?.setAttributedString(self.baseTextView.textStorage!)
+        guard let attributedString = self.baseTextView.textStorage else { return }
+
+        let html = Ashton.encode(attributedString)
+        let roundTrip = Ashton.decode(html)
+        self.roundTripTextView.textStorage?.setAttributedString(roundTrip)
     }
 }
 
