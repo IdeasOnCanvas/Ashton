@@ -136,7 +136,7 @@ private extension AshtonHTMLReader {
 	}
 
 	func parseLink(_ link: String) {
-		guard let url = URL(string: link) else { return }
+		guard let url = URL(string: link.stringByRemovingHTMLEncoding) else { return }
 
 		self.currentAttributes[.link] = url
 	}
@@ -299,9 +299,23 @@ private extension AshtonHTMLReader {
 
 private extension String {
 
+    static let mapping: [String: String] = [
+        "&amp;": "&",
+        "&quot;": "\"",
+        "&apos;": "'",
+        "&lt;": "<",
+        "&gt;": ">",
+        "<br />": "\n"
+    ]
+
     var stringByRemovingHTMLEncoding: String {
         guard self.contains("&") else { return self }
 
-        return self
+        var newString = self
+        for (escapeString, escapedSymbol) in String.mapping {
+            newString = newString.replacingOccurrences(of: escapeString, with: escapedSymbol)
+        }
+
+        return newString
     }
 }

@@ -38,14 +38,15 @@ class AshtonTests: XCTestCase {
         let oldAshtonAttributedString = NSAttributedString(htmlString: oldAshtonHTML)!
 
         let html = Ashton.encode(oldAshtonAttributedString)
+        // we compare with benchmark only on macOS as iOS Ashton old drops attributes here
+        #if os(macOS)
         XCTAssertEqual(oldAshtonHTML, html)
+        #endif
         let decodedString = Ashton.decode(html)
         let roundTripHTML = Ashton.encode(decodedString)
         let roundTripDecodedString = Ashton.decode(roundTripHTML)
-
-        print("\n\n\nRT\n\(roundTripHTML)\n\n\\IN\n\(html)\n\n")
-
-     //   XCTAssertEqual(roundTripHTML, html)
+        XCTAssertEqual(roundTripHTML, html)
+        XCTAssertEqual(roundTripDecodedString, decodedString)
 	}
 
 	func testAttributeCodingWithBenchmark() {
