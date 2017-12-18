@@ -90,7 +90,6 @@ private struct HTMLTag {
     }
 
     private var hasParsedLinks: Bool = false
-    private var usedTagName: Name { return self.hasParsedLinks ? Name.a : self.defaultName }
 
     // MARK: - Properties
 
@@ -111,7 +110,7 @@ private struct HTMLTag {
     }
 
     mutating func parseOpenTag() -> String {
-        guard !self.attributes.isEmpty else { return self.usedTagName.openTag() }
+        guard !self.attributes.isEmpty else { return self.defaultName.openTag() }
 
         var styles: [String: String] = [:]
         var cocoaStyles: [String: String] = [:]
@@ -191,7 +190,7 @@ private struct HTMLTag {
             case .link:
                 guard let url = value as? URL else { return }
 
-                links = "href='\(url.absoluteString)'"
+                links = "href='\(url.absoluteString.htmlEscaped)'"
                 self.hasParsedLinks = true
             default:
                 assertionFailure("did not handle \(key)")
@@ -213,7 +212,16 @@ private struct HTMLTag {
             }
         }
 
-        openTag += self.usedTagName.openTag(with: links, styleAttributes)
+        if self.hasParsedLinks {
+            if self.defaultName == .p {
+                openTag += self.defaultName.openTag(with: styleAttributes)
+                openTag += Name.a.openTag(with: links)
+            } else {
+                openTag += Name.a.openTag(with: links, styleAttributes)
+            }
+        } else {
+            openTag += self.defaultName.openTag(with: links, styleAttributes)
+        }
 
         return openTag
     }
@@ -223,7 +231,15 @@ private struct HTMLTag {
     ]
 
     func makeCloseTag() -> String {
-        return self.usedTagName.closeTag()
+        if self.hasParsedLinks {
+            if self.defaultName == .p {
+                return Name.a.closeTag() + self.defaultName.closeTag()
+            } else {
+                return Name.a.closeTag()
+            }
+        } else {
+            return self.defaultName.closeTag()
+        }
     }
 
     // MARK: - Private

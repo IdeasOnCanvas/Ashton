@@ -53,11 +53,7 @@ private extension AshtonHTMLReader {
 			guard let fontName = self.postScriptName ?? self.familyName else { return nil }
 			guard let pointSize = self.pointSize else { return nil }
 
-			var attributes: [FontDescriptor.AttributeName: Any] = [
-				FontDescriptor.AttributeName.name: fontName
-			]
-
-			let fontDescriptor = FontDescriptor(fontAttributes: attributes)
+			let fontDescriptor = FontDescriptor(fontAttributes: [FontDescriptor.AttributeName.name: fontName])
 			let fontDescriptorWithTraits: FontDescriptor?
 
             var symbolicTraits = FontDescriptorSymbolicTraits()
