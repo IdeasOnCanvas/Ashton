@@ -88,6 +88,24 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(attributedString, roundtripped)
     }
 
+//    func testCombiningOfParagraphsAttributes() {
+//        let asthonHTML = "<p style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Palatino\"; -cocoa-font-postscriptname: \"Palatino-Roman\"; '>Line1</p><p style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Palatino\"; -cocoa-font-postscriptname: \"Palatino-Roman\"; '>Line2</p>"
+//        let attributedString = Ashton.decode(asthonHTML)
+//        let range = NSMakeRange(0, attributedString.length)
+//        var maxRange: NSRange = NSRange()
+//        attributedString.attributes(at: 0, longestEffectiveRange: &maxRange, in: range)
+//        XCTAssertEqual(range, maxRange)
+//    }
+
+//    func testReadStringWithMissingFontFamilyName() {
+//        let ashtonHTML = "<p style='text-align: left; '><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"\"; -cocoa-font-postscriptname: \"FontAwesome\"; '>\\UF016</span><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>  1. Numbers</span></p>"
+//        let attributedString = Ashton.decode(ashtonHTML)
+//        print(attributedString)
+//        let attributes = attributedString.attributes(at: 0, effectiveRange: nil)
+//        let font = attributes[.font] as! Font
+//        XCTAssertEqual(font.fontDescriptor.cpPostscriptName, "FontAwesome")
+//    }
+
     func testVerticalAlignment() {
         let key = NSAttributedStringKey(rawValue: "NSSuperScript")
         self.compareAttributeCodingWithBenchmark(key, values: [2, -2], ignoreReferenceHTML: true)
