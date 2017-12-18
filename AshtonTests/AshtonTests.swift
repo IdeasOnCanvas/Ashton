@@ -143,6 +143,29 @@ class AshtonTests: XCTestCase {
 			}
 		}
 	}
+
+    func testSampleRTFTextEncodingPerformance() {
+        let attributedString = self.loadAttributedString(fromRTF: "RTFText")
+        self.measure {
+            //let test1 = attributedString.mn_HTMLRepresentation()! // old ashton benchmark
+            //let test2 = attributedString.mn_HTMLRepresentation()! // old ashton benchmark
+            let test1 = Ashton.encode(attributedString)
+            let test2 = Ashton.encode(attributedString)
+            XCTAssertEqual(test1, test2)
+        }
+    }
+
+    func testSampleRTFTextDecodingPerformance() {
+        let attributedString = self.loadAttributedString(fromRTF: "RTFText")
+        let html = Ashton.encode(attributedString)
+        self.measure {
+            //let test1 = NSAttributedString(htmlString: html) // old ashton benchmark
+            //let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
+            let test1 = Ashton.decode(html)
+            let test2 = Ashton.decode(html)
+            XCTAssertEqual(test1, test2)
+        }
+    }
 }
 
 // MARK: - Private

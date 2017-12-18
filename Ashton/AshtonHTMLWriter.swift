@@ -285,7 +285,7 @@ private extension String {
 
     var htmlEscaped: String {
         guard self.contains(where: { Character.mapping[$0] != nil }) else { return self }
-        
+ 
         return self.reduce("") { $0 + $1.escaped }
     }
 }
