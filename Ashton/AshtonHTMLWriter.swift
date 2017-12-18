@@ -217,10 +217,10 @@ private struct HTMLTag {
                 openTag += self.defaultName.openTag(with: styleAttributes)
                 openTag += Name.a.openTag(with: links)
             } else {
-                openTag += Name.a.openTag(with: links, styleAttributes)
+                openTag += Name.a.openTag(with: styleAttributes, links)
             }
         } else {
-            openTag += self.defaultName.openTag(with: links, styleAttributes)
+            openTag += self.defaultName.openTag(with: styleAttributes)
         }
 
         return openTag
