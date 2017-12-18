@@ -88,14 +88,14 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(attributedString, roundtripped)
     }
 
-//    func testCombiningOfParagraphsAttributes() {
-//        let asthonHTML = "<p style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Palatino\"; -cocoa-font-postscriptname: \"Palatino-Roman\"; '>Line1</p><p style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Palatino\"; -cocoa-font-postscriptname: \"Palatino-Roman\"; '>Line2</p>"
-//        let attributedString = Ashton.decode(asthonHTML)
-//        let range = NSMakeRange(0, attributedString.length)
-//        var maxRange: NSRange = NSRange()
-//        attributedString.attributes(at: 0, longestEffectiveRange: &maxRange, in: range)
-//        XCTAssertEqual(range, maxRange)
-//    }
+    func testCombiningOfParagraphsAttributes() {
+        let asthonHTML = "<p style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Palatino\"; -cocoa-font-postscriptname: \"Palatino-Roman\"; '>Line1</p><p style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Palatino\"; -cocoa-font-postscriptname: \"Palatino-Roman\"; '>Line2</p>"
+        let attributedString = Ashton.decode(asthonHTML)
+        let range = NSMakeRange(0, attributedString.length)
+        var maxRange: NSRange = NSRange()
+        attributedString.attributes(at: 0, longestEffectiveRange: &maxRange, in: range)
+        XCTAssertEqual(range, maxRange)
+    }
 
     func testReadStringWithMissingFontFamilyName() {
         let ashtonHTML = "<p style='text-align: left; '><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"\"; -cocoa-font-postscriptname: \"Arial\"; '>\\UF016</span><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>  1. Numbers</span></p>"
@@ -118,10 +118,10 @@ class AshtonTests: XCTestCase {
             return paragraphStyle
         }
         for paragraphStyle in paragraphStyles {
-            let attributedString = NSMutableAttributedString(string: "This is a text with changed alignment\n\nNext line with no attribute\nThis is normal text")
+            let attributedString = NSMutableAttributedString(string: "Has changed alignment\nNext line with no attribute\nThis is normal text")
             attributedString.addAttribute(.paragraphStyle,
                                           value: paragraphStyle,
-                                          range: NSRange(location: 0, length: 37))
+                                          range: NSRange(location: 0, length: 22))
             let html = Ashton.encode(attributedString)
             let convertedBack = Ashton.decode(html)
             XCTAssertEqual(attributedString, convertedBack)
