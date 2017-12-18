@@ -31,7 +31,6 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(referenceHTML, roundTripHTML)
     }
 
-    /*
 	func testRTFTestFileRoundTrip() {
         let attributedString = self.loadAttributedString(fromRTF: "RTFText")
 
@@ -39,14 +38,16 @@ class AshtonTests: XCTestCase {
         let oldAshtonAttributedString = NSAttributedString(htmlString: oldAshtonHTML)!
 
         let html = Ashton.encode(oldAshtonAttributedString)
+        // we compare with benchmark only on macOS as iOS Ashton old drops attributes here
+        #if os(macOS)
+        XCTAssertEqual(oldAshtonHTML, html)
+        #endif
         let decodedString = Ashton.decode(html)
         let roundTripHTML = Ashton.encode(decodedString)
         let roundTripDecodedString = Ashton.decode(roundTripHTML)
-
-        print("\n\n\nRT\n\(roundTripHTML)\n\n\\IN\n\(html)\n\n")
-
         XCTAssertEqual(roundTripHTML, html)
-	}*/
+        XCTAssertEqual(roundTripDecodedString, decodedString)
+	}
 
 	func testAttributeCodingWithBenchmark() {
         // we ignore the reference HTML here because Asthon old looses rgb precision when converting
@@ -110,6 +111,7 @@ class AshtonTests: XCTestCase {
 
 		self.measure {
 			for _ in 0...1000 {
+                //_ = NSAttributedString(htmlString: html) // old ashton benchmark
 				_ = Ashton.decode(html)
 			}
 		}
@@ -120,6 +122,7 @@ class AshtonTests: XCTestCase {
 
 		self.measure {
 			for _ in 0...1000 {
+                //_ = attributedString.mn_HTMLRepresentation()! // old ashton benchmark
 				_ = Ashton.encode(attributedString)
 			}
 		}
@@ -135,6 +138,7 @@ class AshtonTests: XCTestCase {
 
 		self.measure {
 			for _ in 0...1000 {
+                //_ = NSAttributedString(htmlString: referenceHtml) // old ashton benchmark
 				_ = Ashton.decode(referenceHtml)
 			}
 		}

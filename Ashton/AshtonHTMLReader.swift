@@ -48,21 +48,12 @@ private extension AshtonHTMLReader {
 		var isBold: Bool = false
 		var isItalic: Bool = false
 		var pointSize: CGFloat?
-		var uiUsage: String?
 
 		func makeFont() -> Font? {
 			guard let fontName = self.postScriptName ?? self.familyName else { return nil }
 			guard let pointSize = self.pointSize else { return nil }
 
-			var attributes: [FontDescriptor.AttributeName: Any] = [
-				FontDescriptor.AttributeName.name: fontName
-			]
-			if let uiUsage = self.uiUsage {
-				let uiUsageAttribute = FontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
-				attributes[uiUsageAttribute] = uiUsage
-			}
-
-			let fontDescriptor = FontDescriptor(fontAttributes: attributes)
+			let fontDescriptor = FontDescriptor(fontAttributes: [FontDescriptor.AttributeName.name: fontName])
 			let fontDescriptorWithTraits: FontDescriptor?
 
             var symbolicTraits = FontDescriptorSymbolicTraits()
@@ -111,7 +102,7 @@ private extension AshtonHTMLReader {
 		}
 
 		if let text = TBXML.text(for: element) {
-			self.append(text)
+			self.append(text.stringByRemovingHTMLEncoding)
 		}
 
 		if let firstChild = element.pointee.firstChild {
@@ -145,7 +136,7 @@ private extension AshtonHTMLReader {
 	}
 
 	func parseLink(_ link: String) {
-		guard let url = URL(string: link) else { return }
+		guard let url = URL(string: link.stringByRemovingHTMLEncoding) else { return }
 
 		self.currentAttributes[.link] = url
 	}
@@ -212,14 +203,6 @@ private extension AshtonHTMLReader {
 					guard scanner.scanUpTo("\"", into: &postscriptName) else { continue }
 
 					fontBuilder.postScriptName = postscriptName as String?
-
-				case "-cocoa-font-uiusage":
-					let scanner = Scanner(string: value)
-					scanner.scanString("\"", into: nil)
-					var uiusage: NSString?
-					guard scanner.scanUpTo("\"", into: &uiusage) else { continue }
-
-					fontBuilder.uiUsage = uiusage as String?
 
                 case "text-align":
                     let alignment = self.parseAlignment(from: value)
@@ -309,5 +292,30 @@ private extension AshtonHTMLReader {
         default:
             return .left
         }
+    }
+}
+
+// MARK: - String
+
+private extension String {
+
+    static let mapping: [String: String] = [
+        "&amp;": "&",
+        "&quot;": "\"",
+        "&apos;": "'",
+        "&lt;": "<",
+        "&gt;": ">",
+        "<br />": "\n"
+    ]
+
+    var stringByRemovingHTMLEncoding: String {
+        guard self.contains("&") else { return self }
+
+        var newString = self
+        for (escapeString, escapedSymbol) in String.mapping {
+            newString = newString.replacingOccurrences(of: escapeString, with: escapedSymbol)
+        }
+
+        return newString
     }
 }
