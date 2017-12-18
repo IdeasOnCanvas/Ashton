@@ -97,14 +97,13 @@ class AshtonTests: XCTestCase {
 //        XCTAssertEqual(range, maxRange)
 //    }
 
-//    func testReadStringWithMissingFontFamilyName() {
-//        let ashtonHTML = "<p style='text-align: left; '><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"\"; -cocoa-font-postscriptname: \"FontAwesome\"; '>\\UF016</span><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>  1. Numbers</span></p>"
-//        let attributedString = Ashton.decode(ashtonHTML)
-//        print(attributedString)
-//        let attributes = attributedString.attributes(at: 0, effectiveRange: nil)
-//        let font = attributes[.font] as! Font
-//        XCTAssertEqual(font.fontDescriptor.cpPostscriptName, "FontAwesome")
-//    }
+    func testReadStringWithMissingFontFamilyName() {
+        let ashtonHTML = "<p style='text-align: left; '><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"\"; -cocoa-font-postscriptname: \"Arial\"; '>\\UF016</span><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>  1. Numbers</span></p>"
+        let attributedString = Ashton.decode(ashtonHTML)
+        let attributes = attributedString.attributes(at: 0, effectiveRange: nil)
+        let font = attributes[.font] as! Font
+        XCTAssertEqual(font.cpFamilyName, "Arial")
+    }
 
     func testVerticalAlignment() {
         let key = NSAttributedStringKey(rawValue: "NSSuperScript")
