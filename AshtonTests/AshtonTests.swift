@@ -69,10 +69,17 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testURLs() {
-		let url = URL(string: "https://www.orf.at")!
-
-		self.compareAttributeCodingWithBenchmark(.link, values: [url], ignoreReferenceHTML: false)
+		let urlString = "https://www.orf.at"
+		self.compareAttributeCodingWithBenchmark(.link, values: [urlString], ignoreReferenceHTML: false)
 	}
+
+    func testHTMLEscapingInHref() {
+        let attributedString = NSMutableAttributedString(string: "Test: Link to test. That's it")
+        attributedString.addAttribute(.link, value: "http://google.com/?a='b\"&c=<>", range: NSRange(location: 6, length: 13))
+        let html = Ashton.encode(attributedString)
+        let roundtripped = Ashton.decode(html)
+        XCTAssertEqual(attributedString, roundtripped)
+    }
 
     func testVerticalAlignment() {
         let key = NSAttributedStringKey(rawValue: "NSSuperScript")
@@ -102,6 +109,15 @@ class AshtonTests: XCTestCase {
         let font2 = Font(name: "Helvetica-Bold", size: 16)!
 		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: false)
 	}
+
+    func testSavingAndLoadingOfStringsWithControlCharacters() {
+        let stringWithControlChars = "Hello\u{1} World"
+        let attributedString = NSAttributedString(string: stringWithControlChars)
+
+        let html = Ashton.encode(attributedString)
+        let decodedString = Ashton.decode(html)
+        XCTAssertEqual(stringWithControlChars, decodedString.string)
+    }
 
 	// MARK: - Performance Tests
 

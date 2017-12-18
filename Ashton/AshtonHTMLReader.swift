@@ -136,9 +136,7 @@ private extension AshtonHTMLReader {
 	}
 
 	func parseLink(_ link: String) {
-		guard let url = URL(string: link.stringByRemovingHTMLEncoding) else { return }
-
-		self.currentAttributes[.link] = url
+		self.currentAttributes[.link] = link.stringByRemovingHTMLEncoding
 	}
 
 	func parseStyleString(_ styleString: String) {

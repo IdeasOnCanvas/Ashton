@@ -188,9 +188,17 @@ private struct HTMLTag {
                 styles["vertical-align"] = String(verticalAlignment)
                 cocoaStyles["-cocoa-vertical-align"] = String(offset)
             case .link:
-                guard let url = value as? URL else { return }
+                let link: String
+                switch value {
+                case let urlString as String:
+                    link = urlString
+                case let url as URL:
+                    link = url.absoluteString
+                default:
+                    return
+                }
 
-                links = "href='\(url.absoluteString.htmlEscaped)'"
+                links = "href='\(link.htmlEscaped)'"
                 self.hasParsedLinks = true
             default:
                 assertionFailure("did not handle \(key)")
