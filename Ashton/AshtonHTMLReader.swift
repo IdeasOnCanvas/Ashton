@@ -48,7 +48,6 @@ private extension AshtonHTMLReader {
 		var isBold: Bool = false
 		var isItalic: Bool = false
 		var pointSize: CGFloat?
-		var uiUsage: String?
 
 		func makeFont() -> Font? {
 			guard let fontName = self.postScriptName ?? self.familyName else { return nil }
@@ -57,10 +56,6 @@ private extension AshtonHTMLReader {
 			var attributes: [FontDescriptor.AttributeName: Any] = [
 				FontDescriptor.AttributeName.name: fontName
 			]
-			if let uiUsage = self.uiUsage {
-				let uiUsageAttribute = FontDescriptor.AttributeName.init(rawValue: "NSCTFontUIUsageAttribute")
-				attributes[uiUsageAttribute] = uiUsage
-			}
 
 			let fontDescriptor = FontDescriptor(fontAttributes: attributes)
 			let fontDescriptorWithTraits: FontDescriptor?
@@ -212,14 +207,6 @@ private extension AshtonHTMLReader {
 					guard scanner.scanUpTo("\"", into: &postscriptName) else { continue }
 
 					fontBuilder.postScriptName = postscriptName as String?
-
-				case "-cocoa-font-uiusage":
-					let scanner = Scanner(string: value)
-					scanner.scanString("\"", into: nil)
-					var uiusage: NSString?
-					guard scanner.scanUpTo("\"", into: &uiusage) else { continue }
-
-					fontBuilder.uiUsage = uiusage as String?
 
                 case "text-align":
                     let alignment = self.parseAlignment(from: value)
