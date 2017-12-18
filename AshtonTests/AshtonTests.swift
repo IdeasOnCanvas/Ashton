@@ -103,6 +103,15 @@ class AshtonTests: XCTestCase {
 		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: false)
 	}
 
+    func testSavingAndLoadingOfStringsWithControlCharacters() {
+        let stringWithControlChars = "Hello\u{1} World"
+        let attributedString = NSAttributedString(string: stringWithControlChars)
+
+        let html = Ashton.encode(attributedString)
+        let decodedString = Ashton.decode(html)
+        XCTAssertEqual(stringWithControlChars, decodedString.string)
+    }
+
 	// MARK: - Performance Tests
 
 	func testParagraphDecodingPerformance() {
