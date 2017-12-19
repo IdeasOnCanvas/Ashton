@@ -130,7 +130,7 @@ private struct HTMLTag {
                 guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
                 styles["text-decoration"] = "underline"
-                cocoaStyles["-cocoa-underline"] = String(underlineStyle)
+                cocoaStyles["-cocoa-underline"] = underlineStyle
             case .underlineColor:
                 guard let color = value as? Color else { return }
 
@@ -143,7 +143,7 @@ private struct HTMLTag {
                 guard let underlineStyle = self.underlineStyle(from: value) else { return }
 
                 styles["text-decoration"] = "line-through"
-                cocoaStyles["-cocoa-strikethrough"] = String(underlineStyle)
+                cocoaStyles["-cocoa-strikethrough"] = underlineStyle
             case .font:
                 guard let font = value as? Font else { return }
 
@@ -185,7 +185,7 @@ private struct HTMLTag {
                 guard let offset = value as? Int, offset != 0 else { return }
 
                 let verticalAlignment = offset > 0 ? "super" : "sub"
-                styles["vertical-align"] = String(verticalAlignment)
+                styles["vertical-align"] = verticalAlignment
                 cocoaStyles["-cocoa-vertical-align"] = String(offset)
             case .link:
                 let link: String
@@ -287,7 +287,7 @@ private extension String {
 
     var htmlEscaped: String {
         guard self.contains(where: { Character.mapping[$0] != nil }) else { return self }
- 
+
         return self.reduce("") { $0 + $1.escaped }
     }
 }
