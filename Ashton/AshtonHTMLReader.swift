@@ -83,19 +83,6 @@ private extension AshtonHTMLReader {
 	}
 
 	func parseElement(_ element: UnsafeMutablePointer<TBXMLElement>) {
-		if let elementName = TBXML.elementName(element) {
-			switch elementName {
-			case "p":
-				guard !self.skipNextLineBreak else {
-					self.skipNextLineBreak = false
-					break
-				}
-				self.append("\n")
-			default:
-				break
-			}
-		}
-
 		let attributesBeforeElement = self.currentAttributes
 		if let attribute = element.pointee.firstAttribute {
 			self.parseAttributes(attribute)
@@ -109,12 +96,15 @@ private extension AshtonHTMLReader {
 			self.parseElement(firstChild)
 		}
 
-		self.currentAttributes = attributesBeforeElement
-
 		if let nextChild = element.pointee.nextSibling {
+            let elementName = TBXML.elementName(element)
+            if elementName == "p" { self.append("\n") }
+
+            self.currentAttributes = attributesBeforeElement
+
             self.currentAttributes = [:]
 			self.parseElement(nextChild)
-		}
+        }
 	}
 
 	func parseAttributes(_ attribute: UnsafeMutablePointer<TBXMLAttribute>) {
