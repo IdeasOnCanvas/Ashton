@@ -75,8 +75,12 @@ private extension AshtonHTMLReader {
 				fontDescriptorWithTraits = nil
 			}
 
-            guard let font = Font(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize) else { return nil }
-            
+            #if os(iOS)
+                let font = Font(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize)
+            #elseif os(macOS)
+                guard let font = Font(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize) else { return nil }
+            #endif
+
             FontBuilder.fontCache.setObject(font, forKey: cacheKey as NSString)
 			return font
 		}
