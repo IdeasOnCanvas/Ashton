@@ -258,13 +258,7 @@ private extension AshtonHTMLReader {
 	}
 
 	func parseUnderlineStyle(from value: String) -> NSUnderlineStyle? {
-		// TODO: create some bidirectional mapping struct to use same construct in writer and reader
-		let mapping: [String: NSUnderlineStyle] = [
-			"single": .styleSingle,
-			"double": .styleDouble,
-			"thick": .styleThick
-		]
-		return mapping[value]
+        return Mappings.UnderlineStyle.decode[value]
 	}
 
     func parseAlignment(from value: String) -> NSTextAlignment {

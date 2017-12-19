@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81811391FDFD82A0049620D /* AshtonAppKit.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		C87514AD1F818AB5002117FB /* RTFText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C87514AC1F818AB5002117FB /* RTFText.rtf */; };
+		C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8838B8A1FE93728007F6177 /* Mappings.swift */; };
 		C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */; };
 		C89B7D111FE3ED990038EDB8 /* TextStyles.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */; };
 		C8A9CE0A1F6D13700095C6AE /* Ashton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A9CE001F6D13700095C6AE /* Ashton.framework */; };
@@ -44,6 +45,7 @@
 		C81811381FDFD82A0049620D /* AshtonAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKit.h; sourceTree = "<group>"; };
 		C81811391FDFD82A0049620D /* AshtonAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonAppKit.m; sourceTree = "<group>"; };
 		C87514AC1F818AB5002117FB /* RTFText.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RTFText.rtf; sourceTree = "<group>"; };
+		C8838B8A1FE93728007F6177 /* Mappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappings.swift; sourceTree = "<group>"; };
 		C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossPlatformCompatibility.swift; sourceTree = "<group>"; };
 		C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TextStyles.rtf; sourceTree = "<group>"; };
 		C8A9CE001F6D13700095C6AE /* Ashton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ashton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +141,7 @@
 				C8A9CE031F6D13700095C6AE /* Ashton.h */,
 				C8A9CE041F6D13700095C6AE /* Info.plist */,
 				C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */,
+				C8838B8A1FE93728007F6177 /* Mappings.swift */,
 			);
 			path = Ashton;
 			sourceTree = "<group>";
@@ -314,6 +317,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */,
 				C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */,
 				C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */,
 				C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */,
