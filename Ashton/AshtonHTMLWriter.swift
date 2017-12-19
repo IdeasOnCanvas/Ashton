@@ -127,7 +127,8 @@ private struct HTMLTag {
 
                 styles["color"] = self.makeCSSrgba(for: color)
             case .underlineStyle:
-                guard let underlineStyle = self.underlineStyle(from: value) else { return }
+                guard let intValue = value as? Int else { return }
+                guard let underlineStyle = Mappings.UnderlineStyle.encode[intValue] else { return }
 
                 styles["text-decoration"] = "underline"
                 cocoaStyles["-cocoa-underline"] = underlineStyle
@@ -140,7 +141,8 @@ private struct HTMLTag {
 
                 cocoaStyles["-cocoa-strikethrough-color"] = self.makeCSSrgba(for: color)
             case .strikethroughStyle:
-                guard let underlineStyle = self.underlineStyle(from: value) else { return }
+                guard let intValue = value as? Int else { return }
+                guard let underlineStyle = Mappings.UnderlineStyle.encode[intValue] else { return }
 
                 styles["text-decoration"] = "line-through"
                 cocoaStyles["-cocoa-strikethrough"] = underlineStyle
@@ -268,13 +270,6 @@ private struct HTMLTag {
         }
 
         return "rgba(\(Int(red * 255.0)), \(Int(green * 255.0)), \(Int(blue * 255.0)), \(String(format: "%.6f", alpha)))"
-    }
-
-    private func underlineStyle(from value: Any) -> String? {
-        guard let rawValue = value as? Int else { return nil  }
-        guard let underlineStyle = NSUnderlineStyle(rawValue: rawValue) else { return nil }
-
-        return Mappings.UnderlineStyle.encode[underlineStyle]
     }
 }
 

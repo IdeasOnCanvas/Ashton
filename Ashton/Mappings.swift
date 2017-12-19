@@ -18,10 +18,10 @@ import Foundation
 struct Mappings {
 
     struct UnderlineStyle {
-        static let encode: [NSUnderlineStyle: String] = [
-            .styleSingle: "single",
-            .styleDouble: "double",
-            .styleThick: "thick"
+        static let encode: [NSUnderlineStyle.RawValue: String] = [
+            NSUnderlineStyle.styleSingle.rawValue: "single",
+            NSUnderlineStyle.styleDouble.rawValue: "double",
+            NSUnderlineStyle.styleThick.rawValue: "thick"
         ]
         static let decode: [String: NSUnderlineStyle] = [
             "single": .styleSingle,
