@@ -235,10 +235,6 @@ private struct HTMLTag {
         return openTag
     }
 
-    private static let styleAttributes: Set<NSAttributedStringKey> = [
-        .font, .strikethroughStyle, .strikethroughColor, .underlineColor, .underlineStyle, .foregroundColor, .backgroundColor
-    ]
-
     func makeCloseTag() -> String {
         if self.hasParsedLinks {
             if self.defaultName == .p {
