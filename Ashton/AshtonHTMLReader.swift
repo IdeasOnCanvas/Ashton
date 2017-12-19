@@ -156,9 +156,9 @@ private extension AshtonHTMLReader {
 
 					self.currentAttributes[.underlineColor] = color
 				case "text-decoration":
-					guard let textDecoration = self.parseTextDecoration(from: value) else { continue }
+                    guard let textDecorationType = Mappings.TextDecoration.decode[value] else { continue }
 
-					self.currentAttributes[textDecoration.attributedStringKey] = textDecoration.value
+					self.currentAttributes[textDecorationType] = NSUnderlineStyle.styleSingle.rawValue
 				case "-cocoa-underline":
 					guard let underlineStyle = Mappings.UnderlineStyle.decode[value] else { continue }
 
@@ -244,18 +244,6 @@ private extension AshtonHTMLReader {
 		guard scanner.scanFloat(&alpha) else { return nil }
 
 		return Color(red: CGFloat(rValue) / 255.0, green: CGFloat(gValue) / 255.0, blue: CGFloat(bValue) / 255.0, alpha: CGFloat(alpha))
-	}
-
-	func parseTextDecoration(from value: String) -> (attributedStringKey: NSAttributedStringKey, value: Any)? {
-		switch value {
-		case "underline":
-			return (.underlineStyle, NSUnderlineStyle.styleSingle.rawValue)
-		case "line-through":
-			return (.strikethroughStyle, NSUnderlineStyle.styleSingle.rawValue)
-		default:
-			print("unhandled text decoration value: \(value)")
-			return nil
-		}
 	}
 }
 

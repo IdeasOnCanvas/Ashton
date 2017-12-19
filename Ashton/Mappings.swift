@@ -45,4 +45,11 @@ struct Mappings {
             "justify": .justified
         ]
     }
+
+    struct TextDecoration {
+        static let decode: [String: NSAttributedStringKey] = [
+            "underline": .underlineStyle,
+            "line-through": .strikethroughStyle
+        ]
+    }
 }
