@@ -49,9 +49,14 @@ private extension AshtonHTMLReader {
 		var isItalic: Bool = false
 		var pointSize: CGFloat?
 
+        static let fontCache = NSCache<NSString, Font>()
+
 		func makeFont() -> Font? {
 			guard let fontName = self.postScriptName ?? self.familyName else { return nil }
 			guard let pointSize = self.pointSize else { return nil }
+
+            let cacheKey = "\(fontName)\(pointSize)\(self.isItalic)\(self.isBold)"
+            if let cachedFont = FontBuilder.fontCache.object(forKey: cacheKey as NSString) { return cachedFont }
 
 			let fontDescriptor = FontDescriptor(fontAttributes: [FontDescriptor.AttributeName.name: fontName])
 			let fontDescriptorWithTraits: FontDescriptor?
@@ -70,7 +75,10 @@ private extension AshtonHTMLReader {
 				fontDescriptorWithTraits = nil
 			}
 
-			return Font(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize)
+            guard let font = Font(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize) else { return nil }
+            
+            FontBuilder.fontCache.setObject(font, forKey: cacheKey as NSString)
+			return font
 		}
 	}
 
