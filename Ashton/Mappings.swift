@@ -29,4 +29,20 @@ struct Mappings {
             "thick": .styleThick
         ]
     }
+
+    struct TextAlignment {
+        static let encode: [NSTextAlignment: String] = [
+            .left: "left",
+            .center: "center",
+            .right: "right",
+            .justified: "justify",
+            .natural: "left"
+        ]
+        static let decode: [String: NSTextAlignment] = [
+            "left": .left,
+            "center": .center,
+            "right": .right,
+            "justify": .justified
+        ]
+    }
 }

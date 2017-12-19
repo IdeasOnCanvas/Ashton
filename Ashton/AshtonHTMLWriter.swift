@@ -175,8 +175,9 @@ private struct HTMLTag {
             case .paragraphStyle:
                 guard self.ignoreParagraphStyles == false else { return }
                 guard let paragraphStyle = value as? NSParagraphStyle else { return }
+                guard let alignment = Mappings.TextAlignment.encode[paragraphStyle.alignment] else { return }
 
-                styles["text-align"] = paragraphStyle.alignment.htmlAttributeValue
+                styles["text-align"] = alignment
             case .baselineOffset:
                 guard let offset = value as? Float else { return }
 
@@ -305,25 +306,5 @@ private extension Character {
 
     var escaped: String {
         return Character.mapping[self] ?? String(self)
-    }
-}
-
-// MARK: - NSTextAlignment
-
-private extension NSTextAlignment {
-
-    var htmlAttributeValue: String {
-        switch self {
-        case .center:
-            return "center"
-        case .justified:
-            return "justify"
-        case .right:
-            return "right"
-        case .left:
-            return "left"
-        case .natural:
-            return "left"
-        }
     }
 }

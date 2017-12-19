@@ -160,11 +160,11 @@ private extension AshtonHTMLReader {
 
 					self.currentAttributes[textDecoration.attributedStringKey] = textDecoration.value
 				case "-cocoa-underline":
-					guard let underlineStyle = self.parseUnderlineStyle(from: value) else { continue }
+					guard let underlineStyle = Mappings.UnderlineStyle.decode[value] else { continue }
 
 					self.currentAttributes[.underlineStyle] = underlineStyle.rawValue
 				case "-cocoa-strikethrough":
-					guard let underlineStyle = self.parseUnderlineStyle(from: value) else { continue }
+					guard let underlineStyle = Mappings.UnderlineStyle.decode[value] else { continue }
 
 					self.currentAttributes[.strikethroughStyle] = underlineStyle.rawValue
 				case "font":
@@ -193,7 +193,8 @@ private extension AshtonHTMLReader {
 					fontBuilder.postScriptName = postscriptName as String?
 
                 case "text-align":
-                    let alignment = self.parseAlignment(from: value)
+                    guard let alignment = Mappings.TextAlignment.decode[value] else { continue }
+
                     let paragraphStyle = NSMutableParagraphStyle()
                     paragraphStyle.alignment = alignment
                     self.currentAttributes[.paragraphStyle] = paragraphStyle
@@ -256,25 +257,6 @@ private extension AshtonHTMLReader {
 			return nil
 		}
 	}
-
-	func parseUnderlineStyle(from value: String) -> NSUnderlineStyle? {
-        return Mappings.UnderlineStyle.decode[value]
-	}
-
-    func parseAlignment(from value: String) -> NSTextAlignment {
-        switch value {
-        case "left":
-            return .left
-        case "center":
-            return .center
-        case "right":
-            return .right
-        case "justify":
-            return .justified
-        default:
-            return .left
-        }
-    }
 }
 
 // MARK: - String
