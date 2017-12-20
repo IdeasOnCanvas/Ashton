@@ -20,7 +20,9 @@
     dispatch_once(&onceToken, ^{
         stylesCache = [NSMutableDictionary dictionary];
     });
-    return stylesCache;
+    return nil;
+
+    //return stylesCache;
 }
 
 + (void)clearStylesCache

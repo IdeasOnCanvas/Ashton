@@ -11,6 +11,8 @@
 		C87514AD1F818AB5002117FB /* RTFText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C87514AC1F818AB5002117FB /* RTFText.rtf */; };
 		C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8838B8A1FE93728007F6177 /* Mappings.swift */; };
 		C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */; };
+		C88B8EED1FEA56920024FEB2 /* AshtonObjcHTMLReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C88B8EEB1FEA56920024FEB2 /* AshtonObjcHTMLReader.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C88B8EEE1FEA56920024FEB2 /* AshtonObjcHTMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C88B8EEC1FEA56920024FEB2 /* AshtonObjcHTMLReader.m */; };
 		C89B7D111FE3ED990038EDB8 /* TextStyles.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */; };
 		C8A9CE0A1F6D13700095C6AE /* Ashton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A9CE001F6D13700095C6AE /* Ashton.framework */; };
 		C8A9CE0F1F6D13700095C6AE /* AshtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */; };
@@ -47,6 +49,8 @@
 		C87514AC1F818AB5002117FB /* RTFText.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RTFText.rtf; sourceTree = "<group>"; };
 		C8838B8A1FE93728007F6177 /* Mappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappings.swift; sourceTree = "<group>"; };
 		C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossPlatformCompatibility.swift; sourceTree = "<group>"; };
+		C88B8EEB1FEA56920024FEB2 /* AshtonObjcHTMLReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AshtonObjcHTMLReader.h; sourceTree = "<group>"; };
+		C88B8EEC1FEA56920024FEB2 /* AshtonObjcHTMLReader.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = AshtonObjcHTMLReader.m; sourceTree = "<group>"; };
 		C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TextStyles.rtf; sourceTree = "<group>"; };
 		C8A9CE001F6D13700095C6AE /* Ashton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ashton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A9CE031F6D13700095C6AE /* Ashton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ashton.h; sourceTree = "<group>"; };
@@ -111,6 +115,15 @@
 			path = TestFiles;
 			sourceTree = "<group>";
 		};
+		C88B8EEA1FEA566A0024FEB2 /* AshtonObjc */ = {
+			isa = PBXGroup;
+			children = (
+				C88B8EEB1FEA56920024FEB2 /* AshtonObjcHTMLReader.h */,
+				C88B8EEC1FEA56920024FEB2 /* AshtonObjcHTMLReader.m */,
+			);
+			path = AshtonObjc;
+			sourceTree = "<group>";
+		};
 		C8A9CDF61F6D13700095C6AE = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +146,7 @@
 		C8A9CE021F6D13700095C6AE /* Ashton */ = {
 			isa = PBXGroup;
 			children = (
+				C88B8EEA1FEA566A0024FEB2 /* AshtonObjc */,
 				C8F26B981F6EF1AC006CD738 /* TBXML */,
 				C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */,
 				C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */,
@@ -211,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8F26B9B1F6EF1AC006CD738 /* TBXML.h in Headers */,
+				C88B8EED1FEA56920024FEB2 /* AshtonObjcHTMLReader.h in Headers */,
 				C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +335,7 @@
 				C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */,
 				C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */,
 				C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */,
+				C88B8EEE1FEA56920024FEB2 /* AshtonObjcHTMLReader.m in Sources */,
 				C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */,
 				C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */,
 				C8A9CE1B1F6D13D40095C6AE /* Ashton.swift in Sources */,
