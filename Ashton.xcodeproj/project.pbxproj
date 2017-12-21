@@ -29,6 +29,7 @@
 		C8A9CE8F1F6D1B0F0095C6AE /* NSAttributedString+Ashton.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE851F6D1B0F0095C6AE /* NSAttributedString+Ashton.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */; };
 		C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */; };
+		C8D16C8D1FEBDBC7001BA1AB /* AshtonEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = C8D16C8B1FEBDBC7001BA1AB /* AshtonEnvironment.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C8F26B9B1F6EF1AC006CD738 /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = C8F26B991F6EF1AC006CD738 /* TBXML.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F26B9A1F6EF1AC006CD738 /* TBXML.m */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,7 @@
 		C8A9CE851F6D1B0F0095C6AE /* NSAttributedString+Ashton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Ashton.m"; sourceTree = "<group>"; };
 		C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonHTMLWriter.swift; sourceTree = "<group>"; };
 		C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonHTMLReader.swift; sourceTree = "<group>"; };
+		C8D16C8B1FEBDBC7001BA1AB /* AshtonEnvironment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AshtonEnvironment.h; sourceTree = "<group>"; };
 		C8F26B991F6EF1AC006CD738 /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
 		C8F26B9A1F6EF1AC006CD738 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
 		C8F26B9D1F6F0038006CD738 /* Ashton.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = Ashton.modulemap; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				C88B8EEB1FEA56920024FEB2 /* AshtonObjcHTMLReader.h */,
 				C88B8EEC1FEA56920024FEB2 /* AshtonObjcHTMLReader.m */,
+				C8D16C8B1FEBDBC7001BA1AB /* AshtonEnvironment.h */,
 			);
 			path = AshtonObjc;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				C8F26B9B1F6EF1AC006CD738 /* TBXML.h in Headers */,
 				C88B8EED1FEA56920024FEB2 /* AshtonObjcHTMLReader.h in Headers */,
 				C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */,
+				C8D16C8D1FEBDBC7001BA1AB /* AshtonEnvironment.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

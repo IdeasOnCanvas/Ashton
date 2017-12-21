@@ -8,8 +8,7 @@
 
 #import "AshtonObjcHTMLReader.h"
 #import "TBXML.h"
-
-@import UIKit;
+#import "AshtonEnvironment.h"
 
 
 @interface AshtonObjcHTMLReader()
@@ -127,22 +126,22 @@
 
     while ([scanner scanUpToString:@":" intoString:&propertyName] && [scanner scanUpToString:@";" intoString:&value]) {
         if ([propertyName isEqualToString:@"background-color"]) {
-            UIColor *color = [self parseCSSColor:value];
+            ASHColor *color = [self parseCSSColor:value];
             if (color == nil) { continue; }
 
             self.currentAttributes[NSBackgroundColorAttributeName] = color;
         } else if ([propertyName isEqualToString:@"color"]) {
-            UIColor *color = [self parseCSSColor:value];
+            ASHColor *color = [self parseCSSColor:value];
             if (color == nil) { continue; }
 
             self.currentAttributes[NSForegroundColorAttributeName] = color;
         } else if ([propertyName isEqualToString:@"-cocoa-strikethrough-color"]) {
-            UIColor *color = [self parseCSSColor:value];
+            ASHColor *color = [self parseCSSColor:value];
             if (color == nil) { continue; }
 
             self.currentAttributes[NSStrikethroughColorAttributeName] = color;
         } else if ([propertyName isEqualToString:@"-cocoa-underline-color"]) {
-            UIColor *color = [self parseCSSColor:value];
+            ASHColor *color = [self parseCSSColor:value];
             if (color == nil) { continue; }
 
             self.currentAttributes[NSUnderlineColorAttributeName] = color;
@@ -234,26 +233,26 @@
         NSString *fontName = postScriptname != nil ? postScriptname : fontFamily;
 
         NSString *cacheKey = [NSString stringWithFormat:@"%@%zd%d%d", fontName, pointSize, isBold, isItalic];
-        UIFont *cachedFont = (UIFont *)[fontCache objectForKey:cacheKey];
+        ASHFont *cachedFont = (ASHFont *)[fontCache objectForKey:cacheKey];
         if (cachedFont != nil) {
             self.currentAttributes[NSFontAttributeName] = cachedFont;
             return;
         }
 
-        UIFontDescriptor *descriptor = [UIFontDescriptor fontDescriptorWithFontAttributes:@{UIFontDescriptorNameAttribute: fontName}];
+        ASHFontDescriptor *descriptor = [ASHFontDescriptor fontDescriptorWithFontAttributes:@{ASHFontDescriptorNameAttribute: fontName}];
 
         if (postScriptname == nil) {
-            UIFontDescriptorSymbolicTraits traits = descriptor.symbolicTraits;
+            ASHFontDescriptorSymbolicTraits traits = descriptor.symbolicTraits;
             if (isBold) {
-                traits |= UIFontDescriptorTraitBold;
+                traits |= ASHFontDescriptorTraitBold;
             }
             if (isItalic) {
-                traits |= UIFontDescriptorTraitItalic;
+                traits |= ASHFontDescriptorTraitItalic;
             }
             descriptor = [descriptor fontDescriptorWithSymbolicTraits:traits];
         }
 
-        UIFont *font = [UIFont fontWithDescriptor:descriptor size:pointSize];
+        ASHFont *font = [ASHFont fontWithDescriptor:descriptor size:pointSize];
         [fontCache setObject:font forKey:cacheKey];
         self.currentAttributes[NSFontAttributeName] = font;
     }
@@ -280,7 +279,7 @@
     return string;
 }
 
-- (UIColor *)parseCSSColor:(NSString *)colorString
+- (ASHColor *)parseCSSColor:(NSString *)colorString
 {
     if (colorString == nil) { return nil; }
 
@@ -295,7 +294,7 @@
     if ([scanner scanInt:&b] == NO) { return nil; }
     if ([scanner scanFloat:&alpha] == NO) { return nil; }
 
-    return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:alpha];
+    return [ASHColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:alpha];
 }
 
 
