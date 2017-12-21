@@ -23,11 +23,12 @@
 
 + (NSMutableDictionary *)fontsCache
 {
-        static NSMutableDictionary *cache = nil;
-        if (!cache) {
-            cache = [NSMutableDictionary dictionary];
-        }
-        return cache;
+    static NSMutableDictionary *cache = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cache = [NSMutableDictionary new];
+    });
+    return cache;
 }
 
 - (NSAttributedString *)decodeAttributedStringFromHTML:(NSString *)html
