@@ -17,10 +17,12 @@ public final class Ashton {
     private static let reader = AshtonObjcHTMLReader()
     private static let writer = AshtonHTMLWriter()
 
+    @objc
 	public static func encode(_ attributedString: NSAttributedString) -> HTML {
         return Ashton.writer.encode(attributedString)
 	}
 
+    @objc
 	public static func decode(_ html: HTML) -> NSAttributedString {
         return Ashton.reader.decodeAttributedString(fromHTML: html) ?? NSAttributedString()
 
