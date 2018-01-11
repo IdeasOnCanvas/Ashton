@@ -10,7 +10,8 @@ import Foundation
 import Ashton.AshtonObjc
 
 /// Transforms AttributedString into HTML in both directions
-public final class Ashton {
+@objc
+public final class Ashton: NSObject {
 
 	public typealias HTML = String
 
