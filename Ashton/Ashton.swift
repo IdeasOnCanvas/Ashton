@@ -19,7 +19,7 @@ public final class Ashton {
 	}
 
 	public static func decode(_ html: HTML) -> NSAttributedString {
-        return AshtonObjcHTMLReader().decodeAttributedString(fromHTML: html)
+        return AshtonObjcHTMLReader().decodeAttributedString(fromHTML: html) ?? NSAttributedString()
 
 		// swift implementation is substantially slower (using swift4 to compile)
         // return AshtonHTMLReader().decode(html) // swift implementation
