@@ -21,6 +21,16 @@
 
 @implementation AshtonObjcHTMLReader
 
++ (NSMutableDictionary *)stylesCache
+{
+    static NSMutableDictionary *stylesCache;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        stylesCache = [NSMutableDictionary dictionary];
+    });
+    return stylesCache;
+}
+
 + (NSMutableDictionary *)fontsCache
 {
     static NSMutableDictionary *cache = nil;
@@ -33,12 +43,12 @@
 
 - (NSAttributedString *)decodeAttributedStringFromHTML:(NSString *)html
 {
+    self.output = [NSMutableAttributedString new];
     self.currentAttributes = [NSMutableDictionary new];
     NSMutableString *stringToParse = [NSMutableString stringWithCapacity:(html.length + 13)];
     [stringToParse appendString:@"<html>"];
     [stringToParse appendString:html];
     [stringToParse appendString:@"</html>"];
-    self.output = [NSMutableAttributedString new];
     TBXML *tbxml = [[TBXML alloc] initWithXMLString:stringToParse error:nil];
     [self parseElement:tbxml.rootXMLElement];
 
@@ -109,8 +119,15 @@
 
 - (void)parseStyleString:(NSString *)styleString
 {
-    if (styleString == nil) { return; }
+    if (styleString == nil || styleString.length == 0) { return; }
 
+    NSDictionary *cachedAttributes = [AshtonObjcHTMLReader stylesCache][styleString];
+    if (cachedAttributes != nil) {
+        [self.currentAttributes addEntriesFromDictionary:cachedAttributes];
+        return;
+    }
+
+    NSMutableDictionary *attributes = [NSMutableDictionary new];
     NSScanner *scanner = [[NSScanner alloc] initWithString:styleString];
     NSString *propertyName = nil;
     NSString *value = nil;
@@ -130,22 +147,22 @@
             ASHColor *color = [self parseCSSColor:value];
             if (color == nil) { continue; }
 
-            self.currentAttributes[NSBackgroundColorAttributeName] = color;
+            attributes[NSBackgroundColorAttributeName] = color;
         } else if ([propertyName isEqualToString:@"color"]) {
             ASHColor *color = [self parseCSSColor:value];
             if (color == nil) { continue; }
 
-            self.currentAttributes[NSForegroundColorAttributeName] = color;
+            attributes[NSForegroundColorAttributeName] = color;
         } else if ([propertyName isEqualToString:@"-cocoa-strikethrough-color"]) {
             ASHColor *color = [self parseCSSColor:value];
             if (color == nil) { continue; }
 
-            self.currentAttributes[NSStrikethroughColorAttributeName] = color;
+            attributes[NSStrikethroughColorAttributeName] = color;
         } else if ([propertyName isEqualToString:@"-cocoa-underline-color"]) {
             ASHColor *color = [self parseCSSColor:value];
             if (color == nil) { continue; }
 
-            self.currentAttributes[NSUnderlineColorAttributeName] = color;
+            attributes[NSUnderlineColorAttributeName] = color;
         } else if ([propertyName isEqualToString:@"text-decoration"]) {
             static NSDictionary* textDecoration = nil;
             static dispatch_once_t onceToken;
@@ -158,7 +175,7 @@
             NSString *textDecorationStyle = textDecoration[value];
             if (textDecorationStyle == nil) { continue; }
 
-            self.currentAttributes[textDecorationStyle] = @(NSUnderlineStyleSingle);
+            attributes[textDecorationStyle] = @(NSUnderlineStyleSingle);
         } else if ([propertyName isEqualToString:@"-cocoa-underline"] || ([propertyName isEqualToString:@"-cocoa-strikethrough"])) {
             static NSDictionary* underlineMapping = nil;
             static dispatch_once_t onceToken;
@@ -173,9 +190,9 @@
             if (style == nil) { continue; }
 
             if ([propertyName isEqualToString:@"-cocoa-underline"]) {
-                self.currentAttributes[NSUnderlineStyleAttributeName] = style;
+                attributes[NSUnderlineStyleAttributeName] = style;
             } else {
-                self.currentAttributes[NSStrikethroughStyleAttributeName] = style;
+                attributes[NSStrikethroughStyleAttributeName] = style;
             }
         } else if ([propertyName isEqualToString:@"font"]) {
             NSCharacterSet *skippedCharacters = [NSCharacterSet characterSetWithCharactersInString:@", "];
@@ -212,19 +229,19 @@
 
             NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
             paragraphStyle.alignment = alignment.integerValue;
-            self.currentAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
+            attributes[NSParagraphStyleAttributeName] = paragraphStyle;
         } else if ([propertyName isEqualToString:@"-cocoa-baseline-offset"]) {
-            self.currentAttributes[NSBaselineOffsetAttributeName] = @(value.floatValue);
+            attributes[NSBaselineOffsetAttributeName] = @(value.floatValue);
         } else if ([propertyName isEqualToString:@"-cocoa-vertical-align"]) {
-            self.currentAttributes[@"NSSuperScript"] = @(value.floatValue);
+            attributes[@"NSSuperScript"] = @(value.floatValue);
         } else if ([propertyName isEqualToString:@"vertical-align"]) {
             // skip, if we assigned already via -cocoa-vertical-align
-            if (self.currentAttributes[@"NSSuperScript"] != nil) { continue; }
+            if (attributes[@"NSSuperScript"] != nil) { continue; }
 
             if ([value isEqualToString:@"super"]) {
-                self.currentAttributes[@"NSSuperScript"] = @(1);
+                attributes[@"NSSuperScript"] = @(1);
             } else if ([value isEqualToString:@"sub"]) {
-                self.currentAttributes[@"NSSuperScript"] = @(-1);
+                attributes[@"NSSuperScript"] = @(-1);
             }
         }
     }
@@ -236,27 +253,29 @@
         NSString *cacheKey = [NSString stringWithFormat:@"%@%zd%d%d", fontName, pointSize, isBold, isItalic];
         ASHFont *cachedFont = (ASHFont *)[fontCache objectForKey:cacheKey];
         if (cachedFont != nil) {
-            self.currentAttributes[NSFontAttributeName] = cachedFont;
-            return;
-        }
+            attributes[NSFontAttributeName] = cachedFont;
+        } else {
+            ASHFontDescriptor *descriptor = [ASHFontDescriptor fontDescriptorWithFontAttributes:@{ASHFontDescriptorNameAttribute: fontName}];
 
-        ASHFontDescriptor *descriptor = [ASHFontDescriptor fontDescriptorWithFontAttributes:@{ASHFontDescriptorNameAttribute: fontName}];
-
-        if (postScriptname == nil) {
-            ASHFontDescriptorSymbolicTraits traits = descriptor.symbolicTraits;
-            if (isBold) {
-                traits |= ASHFontDescriptorTraitBold;
+            if (postScriptname == nil) {
+                ASHFontDescriptorSymbolicTraits traits = descriptor.symbolicTraits;
+                if (isBold) {
+                    traits |= ASHFontDescriptorTraitBold;
+                }
+                if (isItalic) {
+                    traits |= ASHFontDescriptorTraitItalic;
+                }
+                descriptor = [descriptor fontDescriptorWithSymbolicTraits:traits];
             }
-            if (isItalic) {
-                traits |= ASHFontDescriptorTraitItalic;
-            }
-            descriptor = [descriptor fontDescriptorWithSymbolicTraits:traits];
-        }
 
-        ASHFont *font = [ASHFont fontWithDescriptor:descriptor size:pointSize];
-        [fontCache setObject:font forKey:cacheKey];
-        self.currentAttributes[NSFontAttributeName] = font;
+            ASHFont *font = [ASHFont fontWithDescriptor:descriptor size:pointSize];
+            [fontCache setObject:font forKey:cacheKey];
+            attributes[NSFontAttributeName] = font;
+        }
     }
+
+    [self.currentAttributes addEntriesFromDictionary:attributes];
+    [AshtonObjcHTMLReader stylesCache][styleString] = attributes;
 }
 
 - (void)parseLink:(NSString *)link

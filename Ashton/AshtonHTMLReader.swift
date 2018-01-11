@@ -23,7 +23,7 @@ final class AshtonHTMLReader: NSObject {
 	func decode(_ html: Ashton.HTML) -> NSAttributedString {
 		let wrappedHTML = "<html>\(html)</html>"
 
-		let tbxml = try! TBXML(xmlString: html, error: ())
+		let tbxml = try! TBXML(xmlString: wrappedHTML, error: ())
 
 		self.output = NSMutableAttributedString()
 		self.parseElement(tbxml.rootXMLElement)
