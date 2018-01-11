@@ -43,13 +43,17 @@
 
 - (NSAttributedString *)decodeAttributedStringFromHTML:(NSString *)html
 {
+    if (html == nil || html.length == 0) { return nil; }
+    
     self.output = [NSMutableAttributedString new];
     self.currentAttributes = [NSMutableDictionary new];
-    NSMutableString *stringToParse = [NSMutableString stringWithCapacity:(html.length + 13)];
-    [stringToParse appendString:@"<html>"];
-    [stringToParse appendString:html];
-    [stringToParse appendString:@"</html>"];
-    TBXML *tbxml = [[TBXML alloc] initWithXMLString:stringToParse error:nil];
+    NSMutableString *stringToParse = [[NSMutableString alloc] initWithFormat:@"<html>%@</html>", html];
+    NSError *parseError;
+    TBXML *tbxml = [[TBXML alloc] initWithXMLString:stringToParse error:&parseError];
+    if (parseError != nil) {
+        NSLog(@"%@", parseError.description);
+        return nil;
+    }
     [self parseElement:tbxml.rootXMLElement];
 
     return self.output;
@@ -81,7 +85,6 @@
         }
 
         self.currentAttributes = [attributesBeforeElement mutableCopy];
-
         [self parseElement:nextSibling];
     }
 }
@@ -107,8 +110,6 @@
         [self parseStyleString:value];
     } else if ([name isEqualToString:@"href"]) {
         [self parseLink:value];
-    } else {
-        NSLog(@"unhandeled attribute");
     }
 
     TBXMLAttribute *nextAttribute = attribute->next;
@@ -164,7 +165,7 @@
 
             attributes[NSUnderlineColorAttributeName] = color;
         } else if ([propertyName isEqualToString:@"text-decoration"]) {
-            static NSDictionary* textDecoration = nil;
+            static NSDictionary *textDecoration = nil;
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^{
                 textDecoration = @{
@@ -259,12 +260,8 @@
 
             if (postScriptname == nil) {
                 ASHFontDescriptorSymbolicTraits traits = descriptor.symbolicTraits;
-                if (isBold) {
-                    traits |= ASHFontDescriptorTraitBold;
-                }
-                if (isItalic) {
-                    traits |= ASHFontDescriptorTraitItalic;
-                }
+                if (isBold) { traits |= ASHFontDescriptorTraitBold; }
+                if (isItalic) { traits |= ASHFontDescriptorTraitItalic; }
                 descriptor = [descriptor fontDescriptorWithSymbolicTraits:traits];
             }
 
