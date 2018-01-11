@@ -18,18 +18,12 @@ import Ashton.TBXML
 final class AshtonHTMLReader: NSObject {
 
 	private var currentAttributes: [NSAttributedStringKey: Any] = [:]
-	private var skipNextLineBreak: Bool = true
 	private var output: NSMutableAttributedString!
-	private var attributesOfLastElement: [NSAttributedStringKey: Any]? {
-		guard !self.output.string.isEmpty else { return nil }
-
-		return self.output.attributes(at: self.output.string.count - 1, effectiveRange: nil)
-	}
 
 	func decode(_ html: Ashton.HTML) -> NSAttributedString {
 		let wrappedHTML = "<html>\(html)</html>"
 
-		let tbxml = try! TBXML(xmlString: wrappedHTML, error: ())
+		let tbxml = try! TBXML(xmlString: html, error: ())
 
 		self.output = NSMutableAttributedString()
 		self.parseElement(tbxml.rootXMLElement)
@@ -113,8 +107,6 @@ private extension AshtonHTMLReader {
             if elementName == "p" { self.append("\n") }
 
             self.currentAttributes = attributesBeforeElement
-
-            self.currentAttributes = [:]
 			self.parseElement(nextChild)
         }
 	}
@@ -196,7 +188,7 @@ private extension AshtonHTMLReader {
 
 					fontBuilder.familyName = fontFamily
 
-				case "-cocoa-font-postscriptname":
+                case "-cocoa-font-postscriptname":
 					let scanner = Scanner(string: value)
 					scanner.scanString("\"", into: nil)
 					var postscriptName: NSString?
