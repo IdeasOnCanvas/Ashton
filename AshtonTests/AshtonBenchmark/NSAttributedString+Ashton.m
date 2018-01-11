@@ -15,7 +15,7 @@
 #if TARGET_OS_IPHONE
 	NSAttributedString *attString = [[[AshtonUIKit alloc] init] intermediateRepresentationWithTargetRepresentation:self];
 #else
-	NSAttributedString *attString = [[AshtonAppKit alloc] init] intermediateRepresentationWithTargetRepresentation:self];
+	NSAttributedString *attString = [[[AshtonAppKit alloc] init] intermediateRepresentationWithTargetRepresentation:self];
 #endif
 	return [[[AshtonHTMLWriter alloc] init] HTMLStringFromAttributedString:attString];
 }

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AshtonObjcHTMLReader : NSObject
 
-- (NSAttributedString * _Nullable )decodeAttributedStringFromHTML:(NSString * _Nullable)html;
+- (nullable NSAttributedString *)decodeAttributedStringFromHTML:(nullable NSString *)html;
 
 @end
 
