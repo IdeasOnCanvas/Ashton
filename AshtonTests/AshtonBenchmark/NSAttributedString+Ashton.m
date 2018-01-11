@@ -13,22 +13,22 @@
 - (NSString *)mn_HTMLRepresentation
 {
 #if TARGET_OS_IPHONE
-	NSAttributedString *attString = [[AshtonUIKit sharedInstance] intermediateRepresentationWithTargetRepresentation:self];
+	NSAttributedString *attString = [[[AshtonUIKit alloc] init] intermediateRepresentationWithTargetRepresentation:self];
 #else
-	NSAttributedString *attString = [[AshtonAppKit sharedInstance] intermediateRepresentationWithTargetRepresentation:self];
+	NSAttributedString *attString = [[[AshtonAppKit alloc] init] intermediateRepresentationWithTargetRepresentation:self];
 #endif
-	return [[AshtonHTMLWriter sharedInstance] HTMLStringFromAttributedString:attString];
+	return [[[AshtonHTMLWriter alloc] init] HTMLStringFromAttributedString:attString];
 }
 
 - (instancetype)initWithHTMLString:(NSString *)htmlString
 {
-	NSAttributedString *attString = [[AshtonHTMLReader HTMLReader] attributedStringFromHTMLString:htmlString];
+    NSAttributedString *attributedString = [[[AshtonHTMLReader alloc] init] attributedStringFromHTMLString:htmlString];
 #if TARGET_OS_IPHONE
-	attString = [[AshtonUIKit sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
+	attributedString = [[[AshtonUIKit alloc] init] targetRepresentationWithIntermediateRepresentation:attributedString];
 #else
-	attString = [[AshtonAppKit sharedInstance] targetRepresentationWithIntermediateRepresentation:attString];
+    attributedString = [[[AshtonAppKit alloc] init] targetRepresentationWithIntermediateRepresentation:attributedString];
 #endif
-    return [self initWithAttributedString:attString];
+    return [self initWithAttributedString:attributedString];
 }
 
 

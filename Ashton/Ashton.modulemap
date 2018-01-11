@@ -6,4 +6,7 @@ framework module Ashton {
 	explicit module TBXML {
 		header "TBXML.h"
 	}
+    explicit module AshtonObjc {
+        header "AshtonObjcHTMLReader.h"
+    }
 }
