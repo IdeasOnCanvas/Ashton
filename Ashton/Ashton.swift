@@ -14,12 +14,15 @@ public final class Ashton {
 
 	public typealias HTML = String
 
+    private static let reader = AshtonObjcHTMLReader()
+    private static let writer = AshtonHTMLWriter()
+
 	public static func encode(_ attributedString: NSAttributedString) -> HTML {
-		return AshtonHTMLWriter().encode(attributedString)
+        return Ashton.writer.encode(attributedString)
 	}
 
 	public static func decode(_ html: HTML) -> NSAttributedString {
-        return AshtonObjcHTMLReader().decodeAttributedString(fromHTML: html) ?? NSAttributedString()
+        return Ashton.reader.decodeAttributedString(fromHTML: html) ?? NSAttributedString()
 
 		// swift implementation is substantially slower (using swift4 to compile)
         // return AshtonHTMLReader().decode(html) // swift implementation
