@@ -169,6 +169,19 @@ private struct HTMLTag {
                     }
                 #endif
 
+                if let fontFeatures = fontDescriptor.object(forKey: .featureSettings) as? [[String: Any]] {
+                    let features = fontFeatures.flatMap { feature in
+                        guard let typeID = feature[NSFontDescriptor.FeatureKey.typeIdentifier.rawValue] else { return nil }
+                        guard let selectorID = feature[NSFontDescriptor.FeatureKey.selectorIdentifier.rawValue] else { return nil }
+
+                        return "\(typeID)/\(selectorID)"
+                    }.joined(separator: " ")
+
+                    if features.isEmpty == false {
+                        cocoaStyles["-cocoa-font-features"] = features
+                    }
+                }
+
                 fontStyle += String(format: "%gpx ", fontDescriptor.pointSize)
                 fontStyle += "\"\(font.cpFamilyName)\""
 

@@ -143,6 +143,15 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(stringWithControlChars, decodedString.string)
     }
 
+    func testFontFeatures() {
+        let ashtonHTML = "<p style= '-cocoa-font-features: 3/3; font: 14px \"Hoefler Text\"; text-align: left; color: rgba(0, 0, 0, 1.000000); '>hello world</p>"
+        let attributedString = Ashton.decode(ashtonHTML)
+        let referenceAttributedString = NSAttributedString(htmlString: ashtonHTML)
+        let referenceHTML = referenceAttributedString?.mn_HTMLRepresentation()
+        let roundtrippedHTML = Ashton.encode(referenceAttributedString!)
+        XCTAssertEqual(referenceHTML, roundtrippedHTML)
+    }
+
 	// MARK: - Performance Tests
 
 	func testParagraphDecodingPerformance() {
