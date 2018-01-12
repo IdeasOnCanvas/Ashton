@@ -171,8 +171,8 @@ private struct HTMLTag {
 
                 if let fontFeatures = fontDescriptor.object(forKey: .featureSettings) as? [[String: Any]] {
                     let features = fontFeatures.flatMap { feature in
-                        guard let typeID = feature[NSFontDescriptor.FeatureKey.typeIdentifier.rawValue] else { return nil }
-                        guard let selectorID = feature[NSFontDescriptor.FeatureKey.selectorIdentifier.rawValue] else { return nil }
+                        guard let typeID = feature[FontDescriptor.FeatureKey.typeIdentifier.rawValue] else { return nil }
+                        guard let selectorID = feature[FontDescriptor.cpSelectorIdentifier] else { return nil }
 
                         return "\(typeID)/\(selectorID)"
                     }.joined(separator: " ")

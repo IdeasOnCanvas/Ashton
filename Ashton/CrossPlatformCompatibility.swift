@@ -19,6 +19,7 @@
 
     extension UIFontDescriptor {
         var cpPostscriptName: String { return self.postscriptName }
+        static var cpSelectorIdentifier: String { return UIFontDescriptor.FeatureKey.featureIdentifier.rawValue }
     }
 
     extension NSAttributedStringKey {
@@ -37,5 +38,6 @@
 
     extension NSFontDescriptor {
         var cpPostscriptName: String { return self.postscriptName ?? "" }
+        static var cpSelectorIdentifier: String { return NSFontDescriptor.FeatureKey.selectorIdentifier.rawValue }
     }
 #endif

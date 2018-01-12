@@ -9,6 +9,7 @@
 #import "AshtonObjcHTMLReader.h"
 #import "TBXML.h"
 #import "AshtonEnvironment.h"
+#import <CoreText/CoreText.h>
 
 
 @interface AshtonObjcHTMLReader()
@@ -136,6 +137,7 @@
     // font properties
     NSString *fontFamily = nil;
     NSString *postScriptname = nil;
+    NSMutableArray *cocoaFontFeatures = nil;
     BOOL isBold = NO;
     BOOL isItalic = NO;
     int pointSize = 0;
@@ -182,10 +184,10 @@
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^{
                 underlineMapping = @{
-                                 @"single": @(NSUnderlineStyleSingle),
-                                 @"double": @(NSUnderlineStyleDouble),
-                                 @"thick": @(NSUnderlineStyleThick)
-                                 };
+                                     @"single": @(NSUnderlineStyleSingle),
+                                     @"double": @(NSUnderlineStyleDouble),
+                                     @"thick": @(NSUnderlineStyleThick)
+                                     };
             });
             NSNumber *style = underlineMapping[value];
             if (style == nil) { continue; }
@@ -244,6 +246,20 @@
             } else if ([value isEqualToString:@"sub"]) {
                 attributes[@"NSSuperScript"] = @(-1);
             }
+        } else if ([propertyName isEqualToString:@"-cocoa-font-features"]) {
+            NSArray<NSString *> *features = [value componentsSeparatedByString:@" "];
+            for (NSString *feature in features) {
+                NSArray<NSString *> *featureIDs = [feature componentsSeparatedByString:@"/"];
+                if (featureIDs.count != 2) { continue; }
+
+                if (cocoaFontFeatures == nil) {
+                    cocoaFontFeatures = [NSMutableArray new];
+                }
+                [cocoaFontFeatures addObject:@{
+                                               (id)kCTFontFeatureTypeIdentifierKey: @(featureIDs[0].integerValue),
+                                               (id)kCTFontFeatureSelectorIdentifierKey: @(featureIDs[1].integerValue)
+                                               }];
+            }
         }
     }
 
@@ -251,24 +267,49 @@
         NSMutableDictionary *fontCache = [AshtonObjcHTMLReader fontsCache];
         NSString *fontName = postScriptname != nil ? postScriptname : fontFamily;
 
-        NSString *cacheKey = [NSString stringWithFormat:@"%@%zd%d%d", fontName, pointSize, isBold, isItalic];
-        ASHFont *cachedFont = (ASHFont *)[fontCache objectForKey:cacheKey];
-        if (cachedFont != nil) {
-            attributes[NSFontAttributeName] = cachedFont;
-        } else {
-            ASHFontDescriptor *descriptor = [ASHFontDescriptor fontDescriptorWithFontAttributes:@{ASHFontDescriptorNameAttribute: fontName}];
-
-            if (postScriptname == nil) {
-                ASHFontDescriptorSymbolicTraits traits = descriptor.symbolicTraits;
-                if (isBold) { traits |= ASHFontDescriptorTraitBold; }
-                if (isItalic) { traits |= ASHFontDescriptorTraitItalic; }
-                descriptor = [descriptor fontDescriptorWithSymbolicTraits:traits];
-            }
-
-            ASHFont *font = [ASHFont fontWithDescriptor:descriptor size:pointSize];
-            [fontCache setObject:font forKey:cacheKey];
-            attributes[NSFontAttributeName] = font;
+        NSMutableDictionary *descriptorAttributes = [NSMutableDictionary dictionaryWithCapacity:3];
+        descriptorAttributes[(id)kCTFontSizeAttribute] = @(pointSize);
+        descriptorAttributes[(id)kCTFontNameAttribute] = fontName;
+        if (cocoaFontFeatures != nil) {
+            descriptorAttributes[(id)kCTFontFeatureSettingsAttribute] = cocoaFontFeatures;
         }
+
+        id font = fontCache[descriptorAttributes];
+
+        if (font == nil) {
+            CTFontDescriptorRef descriptor = CTFontDescriptorCreateWithAttributes((__bridge CFDictionaryRef)(descriptorAttributes));
+
+            font = CFBridgingRelease(CTFontCreateWithFontDescriptor(descriptor, pointSize, NULL));
+            CFRelease(descriptor);
+
+            fontCache[descriptorAttributes] = font;
+        } else {
+            
+        }
+
+        // We ignore symbolic traits when a postScriptName is given, because the postScriptName already encodes bold/italic and if we
+        // specify it again as a trait we get different fonts (e.g. Helvetica-Oblique becomes Helvetica-LightOblique)
+        if (postScriptname == nil) {
+            CTFontSymbolicTraits symbolicTraits = 0;
+            if (isBold) { symbolicTraits |= kCTFontTraitBold; }
+            if (isItalic) { symbolicTraits |= kCTFontTraitItalic; }
+
+            if (symbolicTraits != 0) {
+                // Unfortunately CTFontCreateCopyWithSymbolicTraits returns NULL when there are no symbolicTraits (== 0)
+                // Is there a better way to detect "no" symbolic traits?
+                CTFontRef newFont = CTFontCreateCopyWithSymbolicTraits((__bridge CTFontRef)font, 0.0, NULL, symbolicTraits, symbolicTraits);
+                // And even worse, if a font is defined to be "only" bold (like Arial Rounded MT Bold is) then
+                // CTFontCreateCopyWithSymbolicTraits also returns NULL
+                if (newFont != NULL) {
+                    font = CFBridgingRelease(newFont);
+                }
+            }
+        }
+#ifndef TARGET_OS_IOS
+        NSFontDescriptor *fontDescriptor = [font fontDescriptor];
+        font = [ASHFont fontWithDescriptor:fontDescriptor size:fontDescriptor.pointSize];
+#endif
+        attributes[NSFontAttributeName] = font;
     }
 
     [self.currentAttributes addEntriesFromDictionary:attributes];
