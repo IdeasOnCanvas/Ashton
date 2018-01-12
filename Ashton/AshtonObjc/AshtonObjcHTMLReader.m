@@ -305,7 +305,7 @@
                 }
             }
         }
-#ifndef TARGET_OS_IOS
+#ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
         NSFontDescriptor *fontDescriptor = [font fontDescriptor];
         font = [ASHFont fontWithDescriptor:fontDescriptor size:fontDescriptor.pointSize];
 #endif
