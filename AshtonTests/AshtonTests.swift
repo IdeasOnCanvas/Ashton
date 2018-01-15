@@ -32,9 +32,9 @@ class AshtonTests: XCTestCase {
     }
 
     func testMixedHTMLContentParsing() {
-//        let referenceHTML = "<code>Inline code</code> and some other text"
-//        let attributedString = Ashton.decode(referenceHTML)
-//        XCTAssertEqual(attributedString.string, "Inline code and some other text")
+        let referenceHTML = "<code>Inline code</code> and some other text"
+        let attributedString = Ashton.decode(referenceHTML, containsMixedContent: true)
+        XCTAssertEqual(attributedString.string, "Inline code and some other text")
 
         let referenceHTML2 = "<p style='font: 16px \"Helvetica\"; text-decoration: line-through; -cocoa-font-postscriptname: \"Helvetica\";'><strong>Sub<u>topic</u></strong> 2</p>"
         let attributedString2 = Ashton.decode(referenceHTML2, containsMixedContent: true)

@@ -20,12 +20,12 @@
 
 - (NSString *)preprocessHTMLString:(NSString *)htmlString
 {
-    self.output = [[NSMutableString alloc] initWithCapacity:htmlString.length];
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[htmlString dataUsingEncoding:NSUTF8StringEncoding]];
+    NSString *input = [[NSString alloc] initWithFormat:@"<html>%@</html>", htmlString];
+    self.output = [[NSMutableString alloc] initWithCapacity:input.length];
+    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:[input dataUsingEncoding:NSUTF8StringEncoding]];
     parser.delegate = self;
     [parser parse];
 
-    NSLog(@"%@", self.output);
     return self.output;
 }
 
