@@ -39,6 +39,7 @@ class AshtonTests: XCTestCase {
         let referenceHTML2 = "<p style='font: 16px \"Helvetica\"; text-decoration: line-through; -cocoa-font-postscriptname: \"Helvetica\";'><strong>Sub<u>topic</u></strong> 2</p>"
         let attributedString2 = Ashton.decode(referenceHTML2, containsMixedContent: true)
         XCTAssertEqual(attributedString2.string, "Subtopic 2")
+        print(attributedString2)
     }
 
 	func testRTFTestFileRoundTrip() {

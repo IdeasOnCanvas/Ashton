@@ -56,7 +56,6 @@
         return nil;
     }
     [self parseElement:tbxml.rootXMLElement];
-
     return self.output;
 }
 
@@ -67,6 +66,9 @@
     if (attribute != nil) {
         [self parseAttribute:attribute];
     }
+
+    NSString *currentElementName = [TBXML elementName:element];
+    [self parseStyleFromElementName:currentElementName];
 
     NSString *text = [TBXML textForElement:element];
     if (text != nil) {
@@ -80,8 +82,7 @@
 
     TBXMLElement *nextSibling = element->nextSibling;
     if (nextSibling != nil) {
-        NSString *elementName = [TBXML elementName:element];
-        if ([elementName isEqualToString:@"p"]) {
+        if ([currentElementName isEqualToString:@"p"]) {
             [self appendString:@"\n"];
         }
 
@@ -99,6 +100,19 @@
         stringToAppend = [[NSAttributedString alloc] initWithString:string attributes:self.currentAttributes];
     }
     [self.output appendAttributedString:stringToAppend];
+}
+
+- (void)parseStyleFromElementName:(NSString *)elementName
+{
+    if ([elementName isEqualToString:@"strong"]) {
+        // TODO: Change for a injected default font
+        ASHFont *currentFont = self.currentAttributes[NSFontAttributeName] ?: [ASHFont systemFontOfSize:12.0];
+        ASHFontDescriptor *fontDescriptor = [currentFont fontDescriptor];
+        CTFontSymbolicTraits traits = (CTFontSymbolicTraits)fontDescriptor.symbolicTraits;
+        traits |= kCTFontBoldTrait;
+        CTFontRef newFont = CTFontCreateCopyWithSymbolicTraits((__bridge CTFontRef)currentFont, 0.0, NULL, traits, traits);
+        self.currentAttributes[NSFontAttributeName] = (__bridge ASHFont *)newFont;
+    }
 }
 
 
@@ -283,8 +297,6 @@
             CFRelease(descriptor);
 
             fontCache[descriptorAttributes] = font;
-        } else {
-            
         }
 
         // We ignore symbolic traits when a postScriptName is given, because the postScriptName already encodes bold/italic and if we
