@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81811391FDFD82A0049620D /* AshtonAppKit.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		C82AD51F200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.h in Headers */ = {isa = PBXBuildFile; fileRef = C82AD51D200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C82AD520200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m in Sources */ = {isa = PBXBuildFile; fileRef = C82AD51E200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m */; };
 		C87514AD1F818AB5002117FB /* RTFText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C87514AC1F818AB5002117FB /* RTFText.rtf */; };
 		C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8838B8A1FE93728007F6177 /* Mappings.swift */; };
 		C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */; };
@@ -47,6 +49,8 @@
 /* Begin PBXFileReference section */
 		C81811381FDFD82A0049620D /* AshtonAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKit.h; sourceTree = "<group>"; };
 		C81811391FDFD82A0049620D /* AshtonAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonAppKit.m; sourceTree = "<group>"; };
+		C82AD51D200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AshtonObjcMixedContentPreprocessor.h; sourceTree = "<group>"; };
+		C82AD51E200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AshtonObjcMixedContentPreprocessor.m; sourceTree = "<group>"; };
 		C87514AC1F818AB5002117FB /* RTFText.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RTFText.rtf; sourceTree = "<group>"; };
 		C8838B8A1FE93728007F6177 /* Mappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappings.swift; sourceTree = "<group>"; };
 		C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossPlatformCompatibility.swift; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 				C88B8EEB1FEA56920024FEB2 /* AshtonObjcHTMLReader.h */,
 				C88B8EEC1FEA56920024FEB2 /* AshtonObjcHTMLReader.m */,
 				C8D16C8B1FEBDBC7001BA1AB /* AshtonEnvironment.h */,
+				C82AD51D200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.h */,
+				C82AD51E200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m */,
 			);
 			path = AshtonObjc;
 			sourceTree = "<group>";
@@ -227,6 +233,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C82AD51F200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.h in Headers */,
 				C8F26B9B1F6EF1AC006CD738 /* TBXML.h in Headers */,
 				C88B8EED1FEA56920024FEB2 /* AshtonObjcHTMLReader.h in Headers */,
 				C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */,
@@ -339,6 +346,7 @@
 				C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */,
 				C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */,
 				C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */,
+				C82AD520200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m in Sources */,
 				C88B8EEE1FEA56920024FEB2 /* AshtonObjcHTMLReader.m in Sources */,
 				C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */,
 				C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */,

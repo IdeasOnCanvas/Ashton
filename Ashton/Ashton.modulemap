@@ -8,5 +8,6 @@ framework module Ashton {
 	}
     explicit module AshtonObjc {
         header "AshtonObjcHTMLReader.h"
+        header "AshtonObjcMixedContentPreprocessor.h"
     }
 }
