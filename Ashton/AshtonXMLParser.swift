@@ -256,8 +256,6 @@ final class AshtonXMLParser {
         default:
             return nil
         }
-        
-        return nil
     }
     
     func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> String {
@@ -273,7 +271,7 @@ final class AshtonXMLParser {
         var href = "".unicodeScalars
         
         while let char = iterator.next(), char != ">" {
-            href.append(char)
+           href.append(char)
         }
         return String(href)
     }
