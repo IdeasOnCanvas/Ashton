@@ -9,6 +9,11 @@
 import Foundation
 
 
+protocol AshtonXMLParserDelegate: class {
+    func didParseContent(_ string: String)
+}
+
+
 final class AshtonXMLParser {
     
     private static let closeChar: UnicodeScalar = ">"
@@ -19,34 +24,44 @@ final class AshtonXMLParser {
     private let xmlString: String
     private var tags: [Int] = []
     private var snippets: [String] = []
-    private var outputString: String = ""
     
     // MARK: - Lifecycle
+    
+    weak var delegate: AshtonXMLParserDelegate?
     
     init(xmlString: String) {
         self.xmlString = xmlString
     }
     
-    func parse() -> String {
-        self.outputString = ""
+    func parse() {
+        var parsedScalars = "".unicodeScalars
         var iterator: String.UnicodeScalarView.Iterator = self.xmlString.unicodeScalars.makeIterator()
+        
+        func flushContent() {
+            guard parsedScalars.isEmpty == false else { return }
+            
+            delegate?.didParseContent(String(parsedScalars))
+        }
         
         while let character = iterator.next() {
             switch character {
             case AshtonXMLParser.openChar:
+                flushContent()
                 self.parseTag(&iterator)
             case AshtonXMLParser.escapeStart:
-                iterator = self.parseEscape(iterator)
+                let (iteratorAfterEscape, parsedChar)  = self.parseEscape(iterator)
+                parsedScalars.append(parsedChar)
+                iterator = iteratorAfterEscape
             default:
-                self.outputString.unicodeScalars.append(character)
+                parsedScalars.append(character)
             }
         }
-        return self.outputString
+        flushContent()
     }
     
     // MARK: - Private
     
-    private func parseEscape(_ iterator: String.UnicodeScalarView.Iterator) -> String.UnicodeScalarView.Iterator {
+    private func parseEscape(_ iterator: String.UnicodeScalarView.Iterator) -> (String.UnicodeScalarView.Iterator, UnicodeScalar) {
         var escapeParseIterator = iterator
         var escapedName = "".unicodeScalars
         
@@ -55,27 +70,24 @@ final class AshtonXMLParser {
             if character == ";" {
                 switch String(escapedName) {
                 case "amp":
-                    self.outputString.unicodeScalars.append("&")
+                    return (escapeParseIterator, "&")
                 case "quot":
-                    self.outputString.unicodeScalars.append("\"")
+                    return (escapeParseIterator, "\"")
                 case "apos":
-                    self.outputString.unicodeScalars.append("'")
+                    return (escapeParseIterator, "'")
                 case "lt":
-                    self.outputString.unicodeScalars.append("<")
+                    return (escapeParseIterator, "<")
                 case "gt":
-                    self.outputString.unicodeScalars.append(">")
+                    return (escapeParseIterator, ">")
                 default:
-                    self.outputString.unicodeScalars.append("&")
-                    return iterator
+                    return (iterator, "&")
                 }
-                return escapeParseIterator
             }
             escapedName.append(character)
             parsedCharacters += 1
             if parsedCharacters > 5 { break }
         }
-        self.outputString.unicodeScalars.append("&")
-        return iterator
+        return (iterator, "&")
     }
     
     func parseTag(_ iterator: inout String.UnicodeScalarView.Iterator) {

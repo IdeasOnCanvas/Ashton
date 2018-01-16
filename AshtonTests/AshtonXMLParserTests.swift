@@ -14,29 +14,50 @@ final class AshtonXMLParserTests: XCTestCase {
     
     func testEscapeSubstitution() {
         let sampleString = "hello &amp; world"
-        let parser = AshtonXMLParser(xmlString: sampleString)
-        XCTAssertEqual(parser.parse(), "hello & world")
+        XCTAssertEqual(self.parseString(sampleString), "hello & world")
         
         let sampleString2 = "&apos;hello&apos; &lt;&gt; &quot;world&quot;"
-        let parser2 = AshtonXMLParser(xmlString: sampleString2)
-        XCTAssertEqual(parser2.parse(), "'hello' <> \"world\"")
+        XCTAssertEqual(self.parseString(sampleString2), "'hello' <> \"world\"")
         
         let sampleString3 = "&lfds;"
-        let parser3 = AshtonXMLParser(xmlString: sampleString3)
-        XCTAssertEqual(parser3.parse(), "&lfds;")
+        XCTAssertEqual(self.parseString(sampleString3), "&lfds;")
         
         let sampleString4 = "&lfdsfasdfasdf"
-        let parser4 = AshtonXMLParser(xmlString: sampleString4)
-        XCTAssertEqual(parser4.parse(), "&lfdsfasdfasdf")
+        XCTAssertEqual(self.parseString(sampleString4), "&lfdsfasdfasdf")
     }
     
     func testXMLParsingPerformance() {
         let rtfURL = Bundle(for: AshtonTests.self).url(forResource: "RTFText", withExtension: "rtf")!
         let attributedString =  try! NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
         let sampleHTML = Ashton.encode(attributedString)
+        let delegate = DummyParserDelegate()
         self.measure {
             let parser = AshtonXMLParser(xmlString: sampleHTML)
-            _ = parser.parse()
+            parser.delegate = delegate
+            parser.parse()
+            print(delegate)
         }
+    }
+}
+
+// MARK: - Private
+
+private extension AshtonXMLParserTests {
+    
+    final class DummyParserDelegate: AshtonXMLParserDelegate {
+        
+        var content: String = ""
+        
+        func didParseContent(_ string: String) {
+            self.content.append(string)
+        }
+    }
+    
+    func parseString(_ string: String) -> String {
+        let parser = AshtonXMLParser(xmlString: string)
+        let dummyDelegate = DummyParserDelegate()
+        parser.delegate = dummyDelegate
+        parser.parse()
+        return dummyDelegate.content
     }
 }
