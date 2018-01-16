@@ -24,6 +24,10 @@ final class AshtonXMLParserTests: XCTestCase {
         let sampleString3 = "&lfds;"
         let parser3 = AshtonXMLParser(xmlString: sampleString3)
         XCTAssertEqual(parser3.parse(), "&lfds;")
+        
+        let sampleString4 = "&lfdsfasdfasdf"
+        let parser4 = AshtonXMLParser(xmlString: sampleString4)
+        XCTAssertEqual(parser4.parse(), "&lfdsfasdfasdf")
     }
     
     func testXMLParsingPerformance() {
