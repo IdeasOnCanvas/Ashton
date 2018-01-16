@@ -11,19 +11,28 @@ import Foundation
 
 protocol AshtonXMLParserDelegate: class {
     func didParseContent(_ string: String)
+    func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: String?)
+    func didCloseTag()
 }
 
 
 final class AshtonXMLParser {
     
+    enum Tag {
+        case p
+        case span
+        case ignored
+        
+        static var allTags: Set<Tag> {
+            return Set([.p, .span])
+        }
+    }
+    
     private static let closeChar: UnicodeScalar = ">"
     private static let openChar: UnicodeScalar = "<"
-    private static let slash: UnicodeScalar = "/"
     private static let escapeStart: UnicodeScalar = "&"
     
     private let xmlString: String
-    private var tags: [Int] = []
-    private var snippets: [String] = []
     
     // MARK: - Lifecycle
     
@@ -92,52 +101,107 @@ final class AshtonXMLParser {
     }
     
     func parseTag(_ iterator: inout String.UnicodeScalarView.Iterator) {
-        var tag: String = ""
-        if let character = iterator.next() {
-            if character == AshtonXMLParser.slash {
-                while let char = iterator.next(), char != AshtonXMLParser.closeChar { }
-                self.tags.removeLast()
-                return
+        var potentialTags: Set<Tag> = Set()
+        
+        func forwardUntilCloseTag() {
+            while let char = iterator.next(), char != ">" {}
+        }
+        
+        switch iterator.next() ?? ">" {
+        case "p":
+            potentialTags.insert(.p)
+        case "s":
+            potentialTags.insert(.span)
+        case ">":
+            return
+        case "/":
+            forwardUntilCloseTag()
+            self.delegate?.didCloseTag()
+        default:
+            forwardUntilCloseTag()
+            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            return
+        }
+        
+        switch iterator.next() ?? ">" {
+        case " ":
+            if potentialTags.contains(.p) {
+                let attributes = self.parseAttributes(&iterator)
+                self.delegate?.didOpenTag(.p, attributes: attributes)
             } else {
-               // tag.unicodeScalars.append(character)
+                forwardUntilCloseTag()
+                self.delegate?.didOpenTag(.ignored, attributes: nil)
             }
+            return
+        case "p":
+            potentialTags.formIntersection([.span])
+        case ">":
+            if potentialTags.contains(.p) {
+                self.delegate?.didOpenTag(.p, attributes: nil)
+            } else {
+                self.delegate?.didOpenTag(.ignored, attributes: nil)
+            }
+            return
+        default:
+            forwardUntilCloseTag()
+            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            return
         }
-        var tag2 = 0
-        var appender = 0
-        while let character = iterator.next(), character != AshtonXMLParser.closeChar {
-            switch character {
-            case "p":
-                tag2 = 1
-            case "s":
-                tag2 = 2
-            default:
-                tag2 = 3
-            }
-            if character == "p" {
-                
-            }
-            appender += 1
-            tag.unicodeScalars.append(character)
-            if appender % 2 == 0 {
-               // self.snippets.append(tag)
-                tag = ""
-            }
-            
+        
+        switch iterator.next() ?? ">" {
+        case " ", ">":
+            forwardUntilCloseTag()
+            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            return
+        case "a":
+            potentialTags.formIntersection([.span])
+        default:
+            forwardUntilCloseTag()
+            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            return
         }
-        self.tags.append(tag2)
+        
+        switch iterator.next() ?? ">" {
+        case " ", ">":
+            forwardUntilCloseTag()
+            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            return
+        case "n":
+            potentialTags.formIntersection([.span])
+        default:
+            forwardUntilCloseTag()
+            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            return
+        }
+        
+        switch iterator.next() ?? ">" {
+        case " ":
+            if potentialTags.contains(.span) {
+                let attributes = self.parseAttributes(&iterator)
+                self.delegate?.didOpenTag(.span, attributes: attributes)
+            } else {
+                forwardUntilCloseTag()
+                self.delegate?.didOpenTag(.ignored, attributes: nil)
+            }
+            return
+        case ">":
+            if potentialTags.contains(.span) {
+                self.delegate?.didOpenTag(.span, attributes: nil)
+            } else {
+                self.delegate?.didOpenTag(.ignored, attributes: nil)
+            }
+        default:
+            forwardUntilCloseTag()
+            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            return
+        }
     }
     
-    static let p = "p"
-    static let span = "span"
-    
-//    func matcher(iterator: inout String.UnicodeScalarView.Iterator) {
-//        var potentialMatches = [AshtonXMLParser.p.makeIterator(), AshtonXMLParser.span.makeIterator()]
-//        var index = 0
-//        while let character = iterator.next(), potentialMatches.count > 0 {
-//            index += 1
-//            for testitem in potentialMatches {
-//                p.mak.next()
-//            }
-//        }
-//    }
+    func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> String {
+        var attributes = "".unicodeScalars
+        while let char = iterator.next(), char != ">" {
+            attributes.append(char)
+        }
+        return String(attributes)
+    }
 }
