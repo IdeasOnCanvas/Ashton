@@ -35,8 +35,7 @@ struct Mappings {
             .left: "left",
             .center: "center",
             .right: "right",
-            .justified: "justify",
-            .natural: "left"
+            .justified: "justify"
         ]
         static let decode: [String: NSTextAlignment] = [
             "left": .left,
