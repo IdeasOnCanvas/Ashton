@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45EA087E200D398C0073ADFD /* AshtonXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */; };
+		45EA0880200E7B070073ADFD /* AshtonXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA087F200E7B070073ADFD /* AshtonXMLParserTests.swift */; };
 		C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81811391FDFD82A0049620D /* AshtonAppKit.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		C82AD51F200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.h in Headers */ = {isa = PBXBuildFile; fileRef = C82AD51D200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C82AD520200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m in Sources */ = {isa = PBXBuildFile; fileRef = C82AD51E200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonXMLParser.swift; sourceTree = "<group>"; };
+		45EA087F200E7B070073ADFD /* AshtonXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonXMLParserTests.swift; sourceTree = "<group>"; };
 		C81811381FDFD82A0049620D /* AshtonAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKit.h; sourceTree = "<group>"; };
 		C81811391FDFD82A0049620D /* AshtonAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonAppKit.m; sourceTree = "<group>"; };
 		C82AD51D200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AshtonObjcMixedContentPreprocessor.h; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 				C8A9CE041F6D13700095C6AE /* Info.plist */,
 				C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */,
 				C8838B8A1FE93728007F6177 /* Mappings.swift */,
+				45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */,
 			);
 			path = Ashton;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 				C8A9CE701F6D1B0F0095C6AE /* AshtonBenchmark */,
 				C8A9CE6B1F6D19960095C6AE /* Bridging.h */,
 				C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */,
+				45EA087F200E7B070073ADFD /* AshtonXMLParserTests.swift */,
 				C8A9CE101F6D13700095C6AE /* Info.plist */,
 			);
 			path = AshtonTests;
@@ -345,6 +351,7 @@
 			files = (
 				C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */,
 				C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */,
+				45EA087E200D398C0073ADFD /* AshtonXMLParser.swift in Sources */,
 				C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */,
 				C82AD520200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m in Sources */,
 				C88B8EEE1FEA56920024FEB2 /* AshtonObjcHTMLReader.m in Sources */,
@@ -369,6 +376,7 @@
 				C8A9CE871F6D1B0F0095C6AE /* AshtonHTMLReader.m in Sources */,
 				C8A9CE8B1F6D1B0F0095C6AE /* AshtonMarkdownWriter.m in Sources */,
 				C8A9CE0F1F6D13700095C6AE /* AshtonTests.swift in Sources */,
+				45EA0880200E7B070073ADFD /* AshtonXMLParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,6 +559,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = 3;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Ashton/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -592,6 +601,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_OPTIMIZATION_LEVEL = 3;
 				INFOPLIST_FILE = AshtonTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schwmi.AshtonTests;
