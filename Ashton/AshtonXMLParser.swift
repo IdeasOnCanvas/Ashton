@@ -21,6 +21,7 @@ final class AshtonXMLParser {
     enum Tag {
         case p
         case span
+        case a
         case ignored
         
         static var allTags: Set<Tag> {
@@ -102,7 +103,7 @@ final class AshtonXMLParser {
     
     func parseTag(_ iterator: inout String.UnicodeScalarView.Iterator) {
         var potentialTags: Set<Tag> = Set()
-        
+
         func forwardUntilCloseTag() {
             while let char = iterator.next(), char != ">" {}
         }
@@ -112,11 +113,14 @@ final class AshtonXMLParser {
             potentialTags.insert(.p)
         case "s":
             potentialTags.insert(.span)
+        case "a":
+            potentialTags.insert(.a)
         case ">":
             return
         case "/":
             forwardUntilCloseTag()
             self.delegate?.didCloseTag()
+            return
         default:
             forwardUntilCloseTag()
             self.delegate?.didOpenTag(.ignored, attributes: nil)
@@ -128,6 +132,9 @@ final class AshtonXMLParser {
             if potentialTags.contains(.p) {
                 let attributes = self.parseAttributes(&iterator)
                 self.delegate?.didOpenTag(.p, attributes: attributes)
+            } else if potentialTags.contains(.a) {
+                let attributes = self.parseAttributes(&iterator)
+                self.delegate?.didOpenTag(.a, attributes: attributes)
             } else {
                 forwardUntilCloseTag()
                 self.delegate?.didOpenTag(.ignored, attributes: nil)
@@ -138,6 +145,8 @@ final class AshtonXMLParser {
         case ">":
             if potentialTags.contains(.p) {
                 self.delegate?.didOpenTag(.p, attributes: nil)
+            } else if potentialTags.contains(.a) {
+                self.delegate?.didOpenTag(.a, attributes: nil)
             } else {
                 self.delegate?.didOpenTag(.ignored, attributes: nil)
             }

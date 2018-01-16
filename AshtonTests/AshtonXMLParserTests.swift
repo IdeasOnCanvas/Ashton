@@ -35,7 +35,6 @@ final class AshtonXMLParserTests: XCTestCase {
             let parser = AshtonXMLParser(xmlString: sampleHTML)
             parser.delegate = delegate
             parser.parse()
-            print(delegate)
         }
     }
 }
@@ -48,6 +47,7 @@ private extension AshtonXMLParserTests {
         var content: String = ""
         
         func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: String?) {
+
         }
         
         func didCloseTag() {
