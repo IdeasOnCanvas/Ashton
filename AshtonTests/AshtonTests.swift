@@ -63,13 +63,13 @@ class AshtonTests: XCTestCase {
 	func testAttributeCodingWithBenchmark() {
         // we ignore the reference HTML here because Asthon old looses rgb precision when converting
 		let testColors = [Color.red, Color.green]
-		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: false)
+		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: false)
+		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors, ignoreReferenceHTML: false)
+		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors, ignoreReferenceHTML: false)
 		let underlineStyles: [NSUnderlineStyle] = [.styleSingle]//, .styleThick, .styleDouble]
-		self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: false)
+		self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: false)
 	}
 
 	func testParagraphSpacing() {
@@ -250,7 +250,9 @@ private extension AshtonTests {
 			}
 
 			let decodedString = Ashton.decode(html)
-			XCTAssertEqual(decodedString, attributedString)
+            let reencodedHTML = Ashton.encode(decodedString)
+            let roundTripped = Ashton.decode(reencodedHTML)
+			XCTAssertEqual(decodedString, roundTripped)
 		}
 	}
 }

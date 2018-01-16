@@ -364,7 +364,11 @@
     if ([scanner scanInt:&b] == NO) { return nil; }
     if ([scanner scanFloat:&alpha] == NO) { return nil; }
 
-    return [ASHColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:alpha];
+    #ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
+    return [NSColor colorWithCalibratedRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:alpha];
+    #else
+        return [ASHColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:alpha];
+    #endif
 }
 
 
