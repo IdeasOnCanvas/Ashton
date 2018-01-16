@@ -217,7 +217,7 @@ private struct HTMLTag {
                 links = "href='\(link.htmlEscaped)'"
                 self.hasParsedLinks = true
             default:
-                assertionFailure("did not handle \(key)")
+                break
             }
         }
 
