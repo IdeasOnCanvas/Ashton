@@ -46,8 +46,7 @@ private extension AshtonXMLParserTests {
     final class DummyParserDelegate: AshtonXMLParserDelegate {
         var content: String = ""
         
-        func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: String?) {
-
+        func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [AshtonXMLParser.Attribute: String]?) {
         }
         
         func didCloseTag() {

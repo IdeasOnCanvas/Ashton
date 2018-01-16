@@ -11,22 +11,23 @@ import Foundation
 
 protocol AshtonXMLParserDelegate: class {
     func didParseContent(_ string: String)
-    func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: String?)
+    func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [AshtonXMLParser.Attribute: String]?)
     func didCloseTag()
 }
 
 
 final class AshtonXMLParser {
     
+    enum Attribute {
+        case style
+        case href
+    }
+    
     enum Tag {
         case p
         case span
         case a
         case ignored
-        
-        static var allTags: Set<Tag> {
-            return Set([.p, .span])
-        }
     }
     
     private static let closeChar: UnicodeScalar = ">"
@@ -206,11 +207,74 @@ final class AshtonXMLParser {
         }
     }
     
-    func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> String {
-        var attributes = "".unicodeScalars
-        while let char = iterator.next(), char != ">" {
-            attributes.append(char)
+    func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> [Attribute: String]? {
+        var potentialAttributes: Set<Attribute> = Set()
+        
+        switch iterator.next() ?? ">" {
+        case "s":
+            potentialAttributes.insert(.style)
+        case "h":
+            potentialAttributes.insert(.href)
+        default:
+            return nil
         }
-        return String(attributes)
+        
+        switch iterator.next() ?? ">" {
+        case "t":
+            guard potentialAttributes.contains(.style) else { return nil }
+        case "r":
+            guard potentialAttributes.contains(.href) else { return nil }
+        default:
+            return nil
+        }
+        
+        switch iterator.next() ?? ">" {
+        case "y":
+            guard potentialAttributes.contains(.style) else { return nil }
+        case "e":
+            guard potentialAttributes.contains(.href) else { return nil }
+        default:
+            return nil
+        }
+        
+        switch iterator.next() ?? ">" {
+        case "l":
+            guard potentialAttributes.contains(.style) else { return nil }
+        case "f":
+            guard potentialAttributes.contains(.href) else { return nil }
+            
+            return [.href: self.parseHRef(&iterator)]
+        default:
+            return nil
+        }
+        
+        switch iterator.next() ?? ">" {
+        case "e":
+            guard potentialAttributes.contains(.style) else { return nil }
+            
+            return [.style: self.parseStyles(&iterator)]
+        default:
+            return nil
+        }
+        
+        return nil
+    }
+    
+    func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> String {
+        var style = "".unicodeScalars
+        
+        while let char = iterator.next(), char != ">" {
+            style.append(char)
+        }
+        return String(style)
+    }
+    
+    func parseHRef(_ iterator: inout String.UnicodeScalarView.Iterator) -> String {
+        var href = "".unicodeScalars
+        
+        while let char = iterator.next(), char != ">" {
+            href.append(char)
+        }
+        return String(href)
     }
 }
