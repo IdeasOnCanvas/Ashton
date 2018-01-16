@@ -41,6 +41,7 @@ final class AshtonXMLParser {
             guard parsedScalars.isEmpty == false else { return }
             
             delegate?.didParseContent(String(parsedScalars))
+            parsedScalars = "".unicodeScalars
         }
         
         while let character = iterator.next() {

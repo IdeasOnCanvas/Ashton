@@ -29,7 +29,7 @@ final class AshtonXMLParserTests: XCTestCase {
     func testXMLParsingPerformance() {
         let rtfURL = Bundle(for: AshtonTests.self).url(forResource: "RTFText", withExtension: "rtf")!
         let attributedString =  try! NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
-        let sampleHTML = Ashton.encode(attributedString)
+        let sampleHTML = Ashton.encode(attributedString) + ""
         let delegate = DummyParserDelegate()
         self.measure {
             let parser = AshtonXMLParser(xmlString: sampleHTML)
