@@ -61,7 +61,6 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testAttributeCodingWithBenchmark() {
-        // we ignore the reference HTML here because Asthon old looses rgb precision when converting
 		let testColors = [Color.red, Color.green]
 		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: false)
 		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: false)
