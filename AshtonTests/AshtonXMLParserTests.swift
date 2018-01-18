@@ -25,6 +25,16 @@ final class AshtonXMLParserTests: XCTestCase {
         let sampleString4 = "&lfdsfasdfasdf"
         XCTAssertEqual(self.parseString(sampleString4), "&lfdsfasdfasdf")
     }
+
+    func testTagParsing() {
+        let sampleString = "<p><span style='bla'> hello</span> &amp; world<dummy> not this </dummy></p>"
+        let delegate = DummyParserDelegate()
+        let parser = AshtonXMLParser(xmlString: sampleString)
+        parser.delegate = delegate
+        parser.parse()
+        XCTAssertEqual(delegate.closedTags, 3)
+        XCTAssertEqual(delegate.openedTags, [.p, .span, .ignored])
+    }
     
     func testXMLParsingPerformance() {
         let rtfURL = Bundle(for: AshtonTests.self).url(forResource: "RTFText", withExtension: "rtf")!
@@ -44,12 +54,16 @@ final class AshtonXMLParserTests: XCTestCase {
 private extension AshtonXMLParserTests {
     
     final class DummyParserDelegate: AshtonXMLParserDelegate {
+        var openedTags: [AshtonXMLParser.Tag] = []
         var content: String = ""
+        var closedTags = 0
         
         func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [AshtonXMLParser.Attribute: String]?) {
+            self.openedTags.append(tag)
         }
         
         func didCloseTag() {
+            closedTags += 1
         }
         
         func didParseContent(_ string: String) {
