@@ -11,7 +11,7 @@ import Foundation
 
 protocol AshtonXMLParserDelegate: class {
     func didParseContent(_ string: String)
-    func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [AshtonXMLParser.Attribute: String]?)
+    func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [AshtonXMLParser.Attribute: [AshtonXMLParser.AttributeKey: String]]?)
     func didCloseTag()
 }
 
@@ -28,6 +28,25 @@ final class AshtonXMLParser {
         case span
         case a
         case ignored
+    }
+
+    enum AttributeKey: String {
+        case backgroundColor = "background-color"
+        /*
+         case "background-color":
+         case "color":
+         case "text-decoration":
+         case "font":
+         case "text-align":
+         case "vertical-align":
+         case "-cocoa-strikethrough-color":
+         case "-cocoa-underline-color":
+         case "-cocoa-baseline-offset":
+         case "-cocoa-vertical-align":
+         case "-cocoa-font-postscriptname":
+         case "-cocoa-underline":
+         case "-cocoa-strikethrough":
+ */
     }
     
     private static let closeChar: UnicodeScalar = ">"
@@ -207,7 +226,7 @@ final class AshtonXMLParser {
         }
     }
     
-    func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> [Attribute: String]? {
+    func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> [Attribute: [AshtonXMLParser.AttributeKey: String]]? {
         var potentialAttributes: Set<Attribute> = Set()
         
         switch iterator.next() ?? ">" {
@@ -258,21 +277,82 @@ final class AshtonXMLParser {
         }
     }
     
-    func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> String {
-        var style = "".unicodeScalars
-        
+    func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> [AttributeKey: String] {
+        var attributes: [AttributeKey: String] = [:]
+
         while let char = iterator.next(), char != ">" {
-            style.append(char)
+            iterator.skipStyleAttributeIgnoredCharacters()
+
+            guard let firstChar = iterator.testNextCharacter() else { break }
+            switch firstChar {
+            case "b":
+                if iterator.forwardIfEquals(AttributeKey.backgroundColor.rawValue) {
+                    iterator.skipStyleAttributeIgnoredCharacters()
+                    attributes[.backgroundColor] = iterator.scanString(until: ";")
+                }
+            case "c":
+                iterator.forwardIfEquals("olor")
+            case "t":
+                iterator.forwardIfEquals("ext-decoration")
+            case "f":
+                iterator.forwardIfEquals("ont")
+            case "v":
+                iterator.forwardIfEquals("ertical-align")
+            case "-":
+                iterator.forwardIfEquals("-coco")
+            default:
+                break;
+            }
         }
-        return String(style)
+        return attributes
     }
     
-    func parseHRef(_ iterator: inout String.UnicodeScalarView.Iterator) -> String {
+    func parseHRef(_ iterator: inout String.UnicodeScalarView.Iterator) -> [AttributeKey: String] {
         var href = "".unicodeScalars
         
-        while let char = iterator.next(), char != ">" {
-           href.append(char)
+//        while let char = iterator.next(), char != ">" {
+//           href.append(char)
+//        }
+        return [:]
+    }
+}
+
+// MARK: - Private
+
+private extension String.UnicodeScalarView.Iterator {
+
+    @discardableResult
+    mutating func forwardIfEquals(_ string: String) -> Bool {
+        var testingIterator = self
+        var referenceIterator = string.unicodeScalars.makeIterator()
+        while let referenceChar = referenceIterator.next() {
+            guard referenceChar == testingIterator.next() else {
+                return false
+            }
         }
-        return String(href)
+        self = testingIterator
+        return true
+    }
+
+    mutating func scanString(until stopChar: Unicode.Scalar) -> String {
+        var scannedScalars = "".unicodeScalars
+        var scanningIterator = self
+
+        while let char = scanningIterator.next(), char != stopChar {
+            self = scanningIterator
+            scannedScalars.append(char)
+        }
+        return String(scannedScalars)
+    }
+
+    mutating func skipStyleAttributeIgnoredCharacters() {
+        let testingSet = Set<Unicode.Scalar>(["=", " ", ";", "\'", ":"])
+        var testingIterator = self
+        while let referenceChar = testingIterator.next(), testingSet.contains(referenceChar) { self = testingIterator}
+    }
+
+    func testNextCharacter() -> Unicode.Scalar? {
+        var copiedIterator = self
+        return copiedIterator.next()
     }
 }

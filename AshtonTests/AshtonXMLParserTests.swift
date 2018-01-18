@@ -33,7 +33,21 @@ final class AshtonXMLParserTests: XCTestCase {
         parser.delegate = delegate
         parser.parse()
         XCTAssertEqual(delegate.closedTags, 3)
-        XCTAssertEqual(delegate.openedTags, [.p, .span, .ignored])
+        XCTAssertEqual(delegate.openedTags.map { $0.0 }, [.p, .span, .ignored])
+    }
+
+    func testStyleAttributesParsing() {
+        let sampleString = "<span style='background-color:rgba(52, 72, 83, 1.000000);'>Test</span>"
+
+        let delegate = DummyParserDelegate()
+        let parser = AshtonXMLParser(xmlString: sampleString)
+        parser.delegate = delegate
+        parser.parse()
+        XCTAssertEqual(delegate.openedTags.count, 1)
+
+        let attributes = delegate.openedTags.first!.1![.style]!
+        XCTAssertEqual(attributes.values.count, 1)
+        XCTAssertEqual(attributes[.backgroundColor], "rgba(52, 72, 83, 1.000000)")
     }
     
     func testXMLParsingPerformance() {
@@ -54,12 +68,13 @@ final class AshtonXMLParserTests: XCTestCase {
 private extension AshtonXMLParserTests {
     
     final class DummyParserDelegate: AshtonXMLParserDelegate {
-        var openedTags: [AshtonXMLParser.Tag] = []
+        var openedTags: [(AshtonXMLParser.Tag, [AshtonXMLParser.Attribute: [AshtonXMLParser.AttributeKey: String]]?)] = []
         var content: String = ""
         var closedTags = 0
+        var attributes: [AshtonXMLParser.AttributeKey: String] = [:]
         
-        func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [AshtonXMLParser.Attribute: String]?) {
-            self.openedTags.append(tag)
+        func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [AshtonXMLParser.Attribute: [AshtonXMLParser.AttributeKey: String]]?) {
+            self.openedTags.append((tag, attributes))
         }
         
         func didCloseTag() {
