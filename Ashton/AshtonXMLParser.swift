@@ -32,9 +32,8 @@ final class AshtonXMLParser {
 
     enum AttributeKey: String {
         case backgroundColor = "background-color"
+        case color = "color"
         /*
-         case "background-color":
-         case "color":
          case "text-decoration":
          case "font":
          case "text-align":
@@ -281,8 +280,8 @@ final class AshtonXMLParser {
         var attributes: [AttributeKey: String] = [:]
 
         while let char = iterator.next(), char != ">" {
-            iterator.skipStyleAttributeIgnoredCharacters()
-
+           iterator.skipStyleAttributeIgnoredCharacters()
+            
             guard let firstChar = iterator.testNextCharacter() else { break }
             switch firstChar {
             case "b":
@@ -291,15 +290,18 @@ final class AshtonXMLParser {
                     attributes[.backgroundColor] = iterator.scanString(until: ";")
                 }
             case "c":
-                iterator.forwardIfEquals("olor")
-            case "t":
-                iterator.forwardIfEquals("ext-decoration")
-            case "f":
-                iterator.forwardIfEquals("ont")
-            case "v":
-                iterator.forwardIfEquals("ertical-align")
-            case "-":
-                iterator.forwardIfEquals("-coco")
+                if iterator.forwardIfEquals(AttributeKey.color.rawValue) {
+                    iterator.skipStyleAttributeIgnoredCharacters()
+                    attributes[.color] = iterator.scanString(until: ";")
+                }
+//            case "t":
+//                iterator.forwardIfEquals("ext-decoration")
+//            case "f":
+//                iterator.forwardIfEquals("ont")
+//            case "v":
+//                iterator.forwardIfEquals("ertical-align")
+//            case "-":
+//                iterator.forwardIfEquals("-coco")
             default:
                 break;
             }
@@ -346,9 +348,16 @@ private extension String.UnicodeScalarView.Iterator {
     }
 
     mutating func skipStyleAttributeIgnoredCharacters() {
-        let testingSet = Set<Unicode.Scalar>(["=", " ", ";", "\'", ":"])
         var testingIterator = self
-        while let referenceChar = testingIterator.next(), testingSet.contains(referenceChar) { self = testingIterator}
+        while let referenceChar = testingIterator.next() {
+            switch referenceChar {
+            case "=", " ", ";", "\'", ":":
+                break
+            default:
+                return
+            }
+            self = testingIterator
+        }
     }
 
     func testNextCharacter() -> Unicode.Scalar? {
