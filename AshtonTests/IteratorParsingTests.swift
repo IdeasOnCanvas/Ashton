@@ -80,6 +80,28 @@ final class IteratorParsingTests: XCTestCase {
         var iterator3 = quark.unicodeScalars.makeIterator()
         XCTAssertNil(iterator3.parseTextDecoration())
     }
+
+    func testTextAlignment() {
+        let left = "left;"
+        var iterator = left.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator.parseTextAlignment(), NSTextAlignment.left)
+
+        let right = "right"
+        var iterator2 = right.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator2.parseTextAlignment(), NSTextAlignment.right)
+
+        let justify = "justify"
+        var iterator3 = justify.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator3.parseTextAlignment(), NSTextAlignment.justified)
+
+        let center = "center"
+        var iterator4 = center.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator4.parseTextAlignment(), NSTextAlignment.center)
+
+        let quark = "quark"
+        var iterator5 = quark.unicodeScalars.makeIterator()
+        XCTAssertNil(iterator5.parseTextAlignment())
+    }
 }
 
 

@@ -171,3 +171,25 @@ extension String.UnicodeScalarView.Iterator {
         }
     }
 }
+
+// MARK: - TextAlignment
+
+extension String.UnicodeScalarView.Iterator {
+
+    mutating func parseTextAlignment() -> NSTextAlignment? {
+        guard let firstChar = self.testNextCharacter() else { return nil }
+
+        switch firstChar {
+        case "l":
+            return self.forwardIfEquals("left") ? NSTextAlignment.left : nil
+        case "r":
+            return self.forwardIfEquals("right") ? NSTextAlignment.right  : nil
+        case "j":
+            return self.forwardIfEquals("justify") ? NSTextAlignment.justified  : nil
+        case "c":
+            return self.forwardIfEquals("center") ? NSTextAlignment.center  : nil
+        default:
+            return nil
+        }
+    }
+}

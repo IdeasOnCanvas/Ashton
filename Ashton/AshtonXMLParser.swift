@@ -331,7 +331,11 @@ final class AshtonXMLParser {
             case "t":
                 if iterator.forwardIfEquals(AttributeKeys.Style.textAlign) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.paragraphStyle] = iterator.scanString(until: ";")
+                    guard let textAlignment =  iterator.parseTextAlignment() else { break }
+
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.alignment = textAlignment
+                    attributes[.paragraphStyle] = paragraphStyle
                 } else if iterator.forwardIfEquals(AttributeKeys.Style.textDecoration) {
                     iterator.skipStyleAttributeIgnoredCharacters()
                     guard let textDecoration = iterator.parseTextDecoration() else { break }
