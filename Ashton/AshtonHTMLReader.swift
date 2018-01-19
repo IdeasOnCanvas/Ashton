@@ -224,7 +224,7 @@ private extension AshtonHTMLReader {
                         break
                     }
 				default:
-                    assertionFailure("Did not handle property \(propertyName)")
+                    break
 				}
 			}
 		}
