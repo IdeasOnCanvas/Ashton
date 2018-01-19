@@ -215,3 +215,12 @@ extension String.UnicodeScalarView.Iterator {
         }
     }
 }
+
+// MARK: - Baseline-Offset
+
+extension String.UnicodeScalarView.Iterator {
+    
+    mutating func parseBaselineOffset() -> CGFloat? {
+        return self.parseFloat()
+    }
+}

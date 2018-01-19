@@ -65,6 +65,7 @@ final class IteratorParsingTests: XCTestCase {
         let quark = "quark"
         var iterator4 = quark.unicodeScalars.makeIterator()
         XCTAssertNil(iterator4.parseUnderlineStyle())
+        XCTAssertEqual(iterator4.next(), "q")
     }
 
     func testTextDecorationStyleParsing() {
@@ -79,6 +80,7 @@ final class IteratorParsingTests: XCTestCase {
         let quark = "quark"
         var iterator3 = quark.unicodeScalars.makeIterator()
         XCTAssertNil(iterator3.parseTextDecoration())
+        XCTAssertEqual(iterator3.next(), "q")
     }
 
     func testTextAlignment() {
@@ -101,6 +103,7 @@ final class IteratorParsingTests: XCTestCase {
         let quark = "quark"
         var iterator5 = quark.unicodeScalars.makeIterator()
         XCTAssertNil(iterator5.parseTextAlignment())
+        XCTAssertEqual(iterator5.next(), "q")
     }
     
     func testVerticalAlignment() {
@@ -115,6 +118,22 @@ final class IteratorParsingTests: XCTestCase {
         let quark = "quark"
         var iterator5 = quark.unicodeScalars.makeIterator()
         XCTAssertNil(iterator5.parseVerticalAlignment())
+        XCTAssertEqual(iterator5.next(), "q")
+    }
+    
+    func testBaselineOffset() {
+        let baselineOffset = "1.5;"
+        var iterator = baselineOffset.unicodeScalars.makeIterator()
+        XCTAssertTrue(iterator.parseBaselineOffset()!.almostEquals(1.5))
+        
+        let baselineOffset2 = "1"
+        var iterator2 = baselineOffset2.unicodeScalars.makeIterator()
+        XCTAssertTrue(iterator2.parseBaselineOffset()!.almostEquals(1.0))
+        
+        let quark = "quark"
+        var iterator3 = quark.unicodeScalars.makeIterator()
+        XCTAssertNil(iterator3.parseBaselineOffset())
+        XCTAssertEqual(iterator3.next(), "q")
     }
 }
 

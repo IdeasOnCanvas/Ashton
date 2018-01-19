@@ -389,7 +389,9 @@ final class AshtonXMLParser {
                     case "b":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.baseOffset) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.baselineOffset] = iterator.scanString(until: ";")
+                            guard let baselineOffset = iterator.parseBaselineOffset() else { break }
+                            
+                            attributes[.baselineOffset] = baselineOffset
                         } else {
                             iterator.foward(until: ";")
                         }
