@@ -30,22 +30,28 @@ final class AshtonXMLParser {
         case ignored
     }
 
-    enum AttributeKey: String {
-        case backgroundColor = "background-color"
-        case color = "color"
-        /*
-         case "text-decoration":
-         case "font":
-         case "text-align":
-         case "vertical-align":
-         case "-cocoa-strikethrough-color":
-         case "-cocoa-underline-color":
-         case "-cocoa-baseline-offset":
-         case "-cocoa-vertical-align":
-         case "-cocoa-font-postscriptname":
-         case "-cocoa-underline":
-         case "-cocoa-strikethrough":
- */
+    typealias AttributeKey = String
+    struct AttributeKeys {
+
+        struct Style {
+            static let backgroundColor = "background-color"
+            static let color = "color"
+            static let textDecoration = "text-decoration"
+            static let font = "font"
+            static let textAlign = "text-align"
+            static let verticalAlign = "vertical-align"
+
+            struct Cocoa {
+                static let commonPrefix = "-cocoa-"
+                static let strikethroughColor = "strikethrough-color"
+                static let underlineColor = "underline-color"
+                static let baseOffset = "baseline-offset"
+                static let verticalAlign = "vertical-align"
+                static let fontPostScriptName = "font-postscriptname"
+                static let underline = "underline"
+                static let strikethrough = "strikethrough"
+            }
+        }
     }
     
     private static let closeChar: UnicodeScalar = ">"
@@ -285,23 +291,74 @@ final class AshtonXMLParser {
             guard let firstChar = iterator.testNextCharacter() else { break }
             switch firstChar {
             case "b":
-                if iterator.forwardIfEquals(AttributeKey.backgroundColor.rawValue) {
+                if iterator.forwardIfEquals(AttributeKeys.Style.backgroundColor) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.backgroundColor] = iterator.scanString(until: ";")
+                    attributes[AttributeKeys.Style.backgroundColor] = iterator.scanString(until: ";")
                 }
             case "c":
-                if iterator.forwardIfEquals(AttributeKey.color.rawValue) {
+                if iterator.forwardIfEquals(AttributeKeys.Style.color) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.color] = iterator.scanString(until: ";")
+                    attributes[AttributeKeys.Style.color] = iterator.scanString(until: ";")
                 }
-//            case "t":
-//                iterator.forwardIfEquals("ext-decoration")
-//            case "f":
-//                iterator.forwardIfEquals("ont")
-//            case "v":
-//                iterator.forwardIfEquals("ertical-align")
-//            case "-":
-//                iterator.forwardIfEquals("-coco")
+            case "t":
+                if iterator.forwardIfEquals(AttributeKeys.Style.textAlign) {
+                    iterator.skipStyleAttributeIgnoredCharacters()
+                    attributes[AttributeKeys.Style.textAlign] = iterator.scanString(until: ";")
+                } else if iterator.forwardIfEquals(AttributeKeys.Style.textDecoration) {
+                    iterator.skipStyleAttributeIgnoredCharacters()
+                    attributes[AttributeKeys.Style.textDecoration] = iterator.scanString(until: ";")
+                }
+            case "f":
+                if iterator.forwardIfEquals(AttributeKeys.Style.font) {
+                    iterator.skipStyleAttributeIgnoredCharacters()
+                    attributes[AttributeKeys.Style.font] = iterator.scanString(until: ";")
+                }
+            case "v":
+                if iterator.forwardIfEquals(AttributeKeys.Style.verticalAlign) {
+                    iterator.skipStyleAttributeIgnoredCharacters()
+                    attributes[AttributeKeys.Style.verticalAlign] = iterator.scanString(until: ";")
+                }
+            case "-":
+                if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.commonPrefix) {
+                    guard let firstChar = iterator.testNextCharacter() else { break }
+
+                    switch firstChar {
+                    case "s":
+                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethroughColor) {
+                            iterator.skipStyleAttributeIgnoredCharacters()
+                            attributes[AttributeKeys.Style.Cocoa.strikethroughColor] = iterator.scanString(until: ";")
+                        } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethrough) {
+                            iterator.skipStyleAttributeIgnoredCharacters()
+                            attributes[AttributeKeys.Style.Cocoa.strikethrough] = iterator.scanString(until: ";")
+                        }
+                    case "u":
+                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underlineColor) {
+                            iterator.skipStyleAttributeIgnoredCharacters()
+                            attributes[AttributeKeys.Style.Cocoa.underlineColor] = iterator.scanString(until: ";")
+                        } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underline) {
+                            iterator.skipStyleAttributeIgnoredCharacters()
+                            attributes[AttributeKeys.Style.Cocoa.underline] = iterator.scanString(until: ";")
+                        }
+                    case "b":
+                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.baseOffset) {
+                            iterator.skipStyleAttributeIgnoredCharacters()
+                            attributes[AttributeKeys.Style.Cocoa.baseOffset] = iterator.scanString(until: ";")
+                        }
+                    case "v":
+                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.verticalAlign) {
+                            iterator.skipStyleAttributeIgnoredCharacters()
+                            attributes[AttributeKeys.Style.Cocoa.verticalAlign] = iterator.scanString(until: ";")
+                        }
+                    case "f":
+                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontPostScriptName) {
+                            iterator.skipStyleAttributeIgnoredCharacters()
+                            attributes[AttributeKeys.Style.Cocoa.fontPostScriptName] = iterator.scanString(until: ";")
+                        }
+                    default:
+                        break
+                    }
+                }
+                iterator.forwardIfEquals("-coco")
             default:
                 break;
             }
@@ -310,10 +367,10 @@ final class AshtonXMLParser {
     }
     
     func parseHRef(_ iterator: inout String.UnicodeScalarView.Iterator) -> [AttributeKey: String] {
-        var href = "".unicodeScalars
-        
+//        var href = "".unicodeScalars
+//
 //        while let char = iterator.next(), char != ">" {
-//           href.append(char)
+//            iterator.skipStyleAttributeIgnoredCharacters()
 //        }
         return [:]
     }
@@ -328,9 +385,7 @@ private extension String.UnicodeScalarView.Iterator {
         var testingIterator = self
         var referenceIterator = string.unicodeScalars.makeIterator()
         while let referenceChar = referenceIterator.next() {
-            guard referenceChar == testingIterator.next() else {
-                return false
-            }
+            guard referenceChar == testingIterator.next() else { return false }
         }
         self = testingIterator
         return true

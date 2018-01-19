@@ -36,7 +36,7 @@ final class AshtonXMLParserTests: XCTestCase {
         XCTAssertEqual(delegate.openedTags.map { $0.0 }, [.p, .span, .ignored])
     }
 
-    func testStyleAttributesParsing() {
+    func testSingleStyleAttributesParsing() {
         let sampleString = "<span style='background-color:rgba(52, 72, 83, 1.000000);'>Test</span>"
 
         let delegate = DummyParserDelegate()
@@ -47,7 +47,22 @@ final class AshtonXMLParserTests: XCTestCase {
 
         let attributes = delegate.openedTags.first!.1![.style]!
         XCTAssertEqual(attributes.values.count, 1)
-        XCTAssertEqual(attributes[.backgroundColor], "rgba(52, 72, 83, 1.000000)")
+        XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.backgroundColor], "rgba(52, 72, 83, 1.000000)")
+    }
+
+    func testMultipleStyleAttributesParsing() {
+        let styleString = "<span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"\"; -cocoa-font-postscriptname: \"Arial\"; '>\\UF016</span><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>Hello World</span>"
+        let delegate = DummyParserDelegate()
+        let parser = AshtonXMLParser(xmlString: styleString)
+        parser.delegate = delegate
+        parser.parse()
+        XCTAssertEqual(delegate.openedTags.count, 2)
+
+        let attributes = delegate.openedTags.first!.1![.style]!
+        XCTAssertEqual(attributes.count, 3)
+        XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.color], "rgba(52, 72, 83, 1.000000)")
+        XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.font], "18px \"\"")
+        XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.Cocoa.fontPostScriptName], "\"Arial\"")
     }
     
     func testXMLParsingPerformance() {
