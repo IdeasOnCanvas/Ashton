@@ -17,46 +17,6 @@ import Foundation
 /// Parsing helpers
 extension String.UnicodeScalarView.Iterator {
 
-    mutating func parseColor() -> Color? {
-        var parsingIterator = self
-        guard let firstChar = parsingIterator.next(), firstChar == "r" else { return nil }
-        guard let secondChar = parsingIterator.next(), secondChar == "g" else { return nil }
-        guard let thirdChar = parsingIterator.next(), thirdChar == "b" else { return nil }
-
-        let fourthChar = parsingIterator.next()
-        let parseRGBA = fourthChar == "a"
-        if parseRGBA { _ = parsingIterator.next() }
-
-        func skipIgnoredChars() {
-            var testingIterator = parsingIterator
-            while let referenceChar = testingIterator.next() {
-                guard referenceChar == " " || referenceChar == "," else { return }
-
-                parsingIterator = testingIterator
-            }
-        }
-
-        func createColor(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat = 1.0) -> Color {
-            return Color(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: a)
-        }
-
-        skipIgnoredChars()
-        guard let rValue = parsingIterator.parseFloat() else { return nil }
-
-        skipIgnoredChars()
-        guard let gValue = parsingIterator.parseFloat() else { return nil }
-
-        skipIgnoredChars()
-        guard let bValue = parsingIterator.parseFloat() else { return nil }
-
-        guard parseRGBA else { return createColor(r: rValue, g: gValue, b: bValue) }
-
-        skipIgnoredChars()
-        guard let aValue = parsingIterator.parseFloat() else { return nil }
-
-        return createColor(r: rValue, g: gValue, b: bValue, a: aValue)
-    }
-
     @discardableResult
     mutating func forwardIfEquals(_ string: String) -> Bool {
         var testingIterator = self
@@ -129,3 +89,67 @@ extension String.UnicodeScalarView.Iterator {
     }
 }
 
+// MARK: - Color Parsing
+
+extension String.UnicodeScalarView.Iterator {
+
+    mutating func parseColor() -> Color? {
+        var parsingIterator = self
+        guard let firstChar = parsingIterator.next(), firstChar == "r" else { return nil }
+        guard let secondChar = parsingIterator.next(), secondChar == "g" else { return nil }
+        guard let thirdChar = parsingIterator.next(), thirdChar == "b" else { return nil }
+
+        let fourthChar = parsingIterator.next()
+        let parseRGBA = fourthChar == "a"
+        if parseRGBA { _ = parsingIterator.next() }
+
+        func skipIgnoredChars() {
+            var testingIterator = parsingIterator
+            while let referenceChar = testingIterator.next() {
+                guard referenceChar == " " || referenceChar == "," else { return }
+
+                parsingIterator = testingIterator
+            }
+        }
+
+        func createColor(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat = 1.0) -> Color {
+            return Color(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: a)
+        }
+
+        skipIgnoredChars()
+        guard let rValue = parsingIterator.parseFloat() else { return nil }
+
+        skipIgnoredChars()
+        guard let gValue = parsingIterator.parseFloat() else { return nil }
+
+        skipIgnoredChars()
+        guard let bValue = parsingIterator.parseFloat() else { return nil }
+
+        guard parseRGBA else { return createColor(r: rValue, g: gValue, b: bValue) }
+
+        skipIgnoredChars()
+        guard let aValue = parsingIterator.parseFloat() else { return nil }
+
+        return createColor(r: rValue, g: gValue, b: bValue, a: aValue)
+    }
+}
+
+// MARK: - UnderlineStyle
+
+extension String.UnicodeScalarView.Iterator {
+
+    mutating func parseUnderlineStyle() -> NSUnderlineStyle? {
+        guard let firstChar = self.testNextCharacter() else { return nil }
+
+        switch firstChar {
+        case "s":
+            return self.forwardIfEquals("single") ? NSUnderlineStyle.styleSingle : nil
+        case "d":
+            return self.forwardIfEquals("double") ? NSUnderlineStyle.styleDouble : nil
+        case "t":
+            return self.forwardIfEquals("thick") ? NSUnderlineStyle.styleThick : nil
+        default:
+            return nil
+        }
+    }
+}

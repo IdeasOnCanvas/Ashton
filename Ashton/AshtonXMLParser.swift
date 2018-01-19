@@ -359,7 +359,7 @@ final class AshtonXMLParser {
                             attributes[.strikethroughColor] = iterator.parseColor()
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethrough) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.underlineStyle] = iterator.scanString(until: ";")
+                            attributes[.underlineStyle] = iterator.parseUnderlineStyle()
                         } else {
                             iterator.foward(until: ";")
                         }
@@ -369,7 +369,7 @@ final class AshtonXMLParser {
                             attributes[.underlineColor] = iterator.parseColor()
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underline) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.underlineStyle] = iterator.scanString(until: ";")
+                            attributes[.underlineStyle] = iterator.parseUnderlineStyle()
                         } else {
                             iterator.foward(until: ";")
                         }

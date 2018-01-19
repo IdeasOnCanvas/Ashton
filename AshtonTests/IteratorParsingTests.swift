@@ -48,6 +48,24 @@ final class IteratorParsingTests: XCTestCase {
         XCTAssertNil(color)
         XCTAssertEqual(iterator.next(), "1")
     }
+
+    func testUnderlineStyleParsing() {
+        let thick = "thick;"
+        var iterator = thick.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator.parseUnderlineStyle(), NSUnderlineStyle.styleThick)
+
+        let single = "single"
+        var iterator2 = single.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator2.parseUnderlineStyle(), NSUnderlineStyle.styleSingle)
+
+        let double = "double"
+        var iterator3 = double.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator3.parseUnderlineStyle(), NSUnderlineStyle.styleDouble)
+
+        let quark = "quark"
+        var iterator4 = quark.unicodeScalars.makeIterator()
+        XCTAssertNil(iterator4.parseUnderlineStyle())
+    }
 }
 
 
