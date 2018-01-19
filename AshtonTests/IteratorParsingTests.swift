@@ -150,6 +150,32 @@ final class IteratorParsingTests: XCTestCase {
         XCTAssertNil(iterator3.parseBaselineOffset())
         XCTAssertEqual(iterator3.next(), "q")
     }
+    
+    func testFontParsing() {
+        let sampleFont = "bold italic 14px \"Helvetica\""
+        var iterator = sampleFont.unicodeScalars.makeIterator()
+        let fontAttributes = iterator.parseFontAttributes()
+        XCTAssertEqual(fontAttributes.isBold, true)
+        XCTAssertEqual(fontAttributes.isItalic, true)
+        XCTAssertTrue(fontAttributes.points!.almostEquals(14.0))
+        XCTAssertEqual(fontAttributes.family!, "Helvetica")
+        
+        let sample2 = "italic 12.5px \"Helvetica\", \"Arial\", sans-serif; "
+        var iterator2 = sample2.unicodeScalars.makeIterator()
+        let fontAttributes2 = iterator2.parseFontAttributes()
+        XCTAssertEqual(fontAttributes2.isBold, false)
+        XCTAssertEqual(fontAttributes2.isItalic, true)
+        XCTAssertTrue(fontAttributes2.points!.almostEquals(12.5))
+        XCTAssertEqual(fontAttributes2.family!, "Helvetica")
+        
+        let sample3 = "quark "
+        var iterator3 = sample3.unicodeScalars.makeIterator()
+        let fontAttributes3 = iterator3.parseFontAttributes()
+        XCTAssertEqual(fontAttributes3.isBold, false)
+        XCTAssertEqual(fontAttributes3.isItalic, false)
+        XCTAssertNil(fontAttributes3.points)
+        XCTAssertNil(fontAttributes3.family)
+    }
 }
 
 

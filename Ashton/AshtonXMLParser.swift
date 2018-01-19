@@ -341,7 +341,7 @@ final class AshtonXMLParser {
             case "f":
                 if iterator.forwardIfEquals(AttributeKeys.Style.font) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.font] = iterator.scanString(until: ";")
+                    attributes[.font] = iterator.parseFontAttributes()
                 }
             case "v":
                 if iterator.forwardIfEquals(AttributeKeys.Style.verticalAlign) {

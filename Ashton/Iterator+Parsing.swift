@@ -228,3 +228,24 @@ extension String.UnicodeScalarView.Iterator {
         return self.parseFloat()
     }
 }
+
+// MARK: - Font
+
+extension String.UnicodeScalarView.Iterator {
+    
+    mutating func parseFontAttributes() -> (isBold: Bool, isItalic: Bool, points: CGFloat?, family: String?) {
+        let isBold = self.forwardIfEquals("bold ")
+        let isItalic = self.forwardIfEquals("italic ")
+        
+        guard let fontSize = self.parseFloat() else { return (isBold, isItalic, nil, nil) }
+        
+        self.forwardIfEquals("px \"")
+        let familyName = self.scanString(until: "\"")
+        
+        return (isBold, isItalic, fontSize, familyName)
+    }
+    
+    mutating func parsePostscriptFont() -> CGFloat? {
+        return self.parseFloat()
+    }
+}
