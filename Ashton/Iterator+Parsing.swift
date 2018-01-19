@@ -19,8 +19,42 @@ extension String.UnicodeScalarView.Iterator {
 
     mutating func parseColor() -> Color? {
         var parsingIterator = self
+        guard let firstChar = parsingIterator.next(), firstChar == "r" else { return nil }
+        guard let secondChar = parsingIterator.next(), secondChar == "g" else { return nil }
+        guard let thirdChar = parsingIterator.next(), thirdChar == "b" else { return nil }
 
-        return nil
+        let fourthChar = parsingIterator.next()
+        let parseRGBA = fourthChar == "a"
+        if parseRGBA { _ = parsingIterator.next() }
+
+        func skipIgnoredChars() {
+            var testingIterator = parsingIterator
+            while let referenceChar = testingIterator.next() {
+                guard referenceChar == " " || referenceChar == "," else { return }
+
+                parsingIterator = testingIterator
+            }
+        }
+
+        func createColor(r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat = 1.0) -> Color {
+            return Color(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: a)
+        }
+
+        skipIgnoredChars()
+        guard let rValue = parsingIterator.parseFloat() else { return nil }
+
+        skipIgnoredChars()
+        guard let gValue = parsingIterator.parseFloat() else { return nil }
+
+        skipIgnoredChars()
+        guard let bValue = parsingIterator.parseFloat() else { return nil }
+
+        guard parseRGBA else { return createColor(r: rValue, g: gValue, b: bValue) }
+
+        skipIgnoredChars()
+        guard let aValue = parsingIterator.parseFloat() else { return nil }
+
+        return createColor(r: rValue, g: gValue, b: bValue, a: aValue)
     }
 
     @discardableResult
@@ -63,6 +97,30 @@ extension String.UnicodeScalarView.Iterator {
             }
             self = testingIterator
         }
+    }
+
+    mutating func parseFloat() -> CGFloat? {
+        let decimalSeparator: UnicodeScalar = "."
+        var result: CGFloat? = nil
+        var parsingDecimals = false
+        var parsingIterator = self
+        var decimalMultiplier: CGFloat = 0.1
+        while let char = parsingIterator.next() {
+            // 48='0', 57='9'
+            guard char.value >= 48 && char.value <= 57 || char == decimalSeparator else { return result }
+            guard char != decimalSeparator else {
+                parsingDecimals = true
+                continue
+            }
+            if parsingDecimals == false {
+                result = (result ?? 0) * 10.0 + CGFloat(char.value - 48)
+            } else {
+                result = (result ?? 0) + CGFloat(char.value - 48) * decimalMultiplier
+                decimalMultiplier = decimalMultiplier * 0.1
+            }
+            self = parsingIterator
+        }
+        return result
     }
 
     func testNextCharacter() -> Unicode.Scalar? {
