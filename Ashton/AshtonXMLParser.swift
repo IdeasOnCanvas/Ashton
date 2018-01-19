@@ -312,14 +312,14 @@ final class AshtonXMLParser {
             case "b":
                 if iterator.forwardIfEquals(AttributeKeys.Style.backgroundColor) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.backgroundColor] = iterator.scanString(until: ";")
+                    attributes[.backgroundColor] = iterator.parseColor()
                 } else {
                     iterator.foward(until: ";")
                 }
             case "c":
                 if iterator.forwardIfEquals(AttributeKeys.Style.color) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.foregroundColor] = iterator.scanString(until: ";")
+                    attributes[.foregroundColor] = iterator.parseColor()
                 } else {
                     iterator.foward(until: ";")
                 }
@@ -356,7 +356,7 @@ final class AshtonXMLParser {
                     case "s":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethroughColor) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.strikethroughColor] = iterator.scanString(until: ";")
+                            attributes[.strikethroughColor] = iterator.parseColor()
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethrough) {
                             iterator.skipStyleAttributeIgnoredCharacters()
                             attributes[.underlineStyle] = iterator.scanString(until: ";")
@@ -366,7 +366,7 @@ final class AshtonXMLParser {
                     case "u":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underlineColor) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.underlineColor] = iterator.scanString(until: ";")
+                            attributes[.underlineColor] = iterator.parseColor()
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underline) {
                             iterator.skipStyleAttributeIgnoredCharacters()
                             attributes[.underlineStyle] = iterator.scanString(until: ";")

@@ -47,7 +47,7 @@ final class AshtonXMLParserTests: XCTestCase {
 
         let attributes = delegate.openedTags.first!.attributes!
         XCTAssertEqual(attributes.values.count, 1)
-        XCTAssertEqual(attributes[.backgroundColor] as! String, "rgba(52, 72, 83, 1.000000)")
+        XCTAssertTrue(attributes[.backgroundColor] is Color)
     }
 
     func testMultipleStyleAttributesParsing() {
