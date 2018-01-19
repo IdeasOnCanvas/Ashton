@@ -10,9 +10,9 @@ import Foundation
 
 
 protocol AshtonXMLParserDelegate: class {
-    func didParseContent(_ string: String)
-    func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?)
-    func didCloseTag()
+    func didParseContent(_ parser: AshtonXMLParser, string: String)
+    func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?)
+    func didCloseTag(_ parser: AshtonXMLParser)
 }
 
 extension NSAttributedStringKey {
@@ -21,8 +21,6 @@ extension NSAttributedStringKey {
 
 
 final class AshtonXMLParser {
-
-
     
     enum Attribute {
         case style
@@ -81,7 +79,7 @@ final class AshtonXMLParser {
         func flushContent() {
             guard parsedScalars.isEmpty == false else { return }
             
-            delegate?.didParseContent(String(parsedScalars))
+            delegate?.didParseContent(self, string: String(parsedScalars))
             parsedScalars = "".unicodeScalars
         }
         
@@ -150,11 +148,11 @@ final class AshtonXMLParser {
             return
         case "/":
             forwardUntilCloseTag()
-            self.delegate?.didCloseTag()
+            self.delegate?.didCloseTag(self)
             return
         default:
             forwardUntilCloseTag()
-            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             return
         }
         
@@ -162,55 +160,55 @@ final class AshtonXMLParser {
         case " ":
             if potentialTags.contains(.p) {
                 let attributes = self.parseAttributes(&iterator)
-                self.delegate?.didOpenTag(.p, attributes: attributes)
+                self.delegate?.didOpenTag(self, name: .p, attributes: attributes)
             } else if potentialTags.contains(.a) {
                 let attributes = self.parseAttributes(&iterator)
-                self.delegate?.didOpenTag(.a, attributes: attributes)
+                self.delegate?.didOpenTag(self, name: .a, attributes: attributes)
             } else {
                 forwardUntilCloseTag()
-                self.delegate?.didOpenTag(.ignored, attributes: nil)
+                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             }
             return
         case "p":
             potentialTags.formIntersection([.span])
         case ">":
             if potentialTags.contains(.p) {
-                self.delegate?.didOpenTag(.p, attributes: nil)
+                self.delegate?.didOpenTag(self, name: .p, attributes: nil)
             } else if potentialTags.contains(.a) {
-                self.delegate?.didOpenTag(.a, attributes: nil)
+                self.delegate?.didOpenTag(self, name: .a, attributes: nil)
             } else {
-                self.delegate?.didOpenTag(.ignored, attributes: nil)
+                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             }
             return
         default:
             forwardUntilCloseTag()
-            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             return
         }
         
         switch iterator.next() ?? ">" {
         case " ", ">":
             forwardUntilCloseTag()
-            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             return
         case "a":
             potentialTags.formIntersection([.span])
         default:
             forwardUntilCloseTag()
-            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             return
         }
         
         switch iterator.next() ?? ">" {
         case " ", ">":
             forwardUntilCloseTag()
-            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             return
         case "n":
             potentialTags.formIntersection([.span])
         default:
             forwardUntilCloseTag()
-            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             return
         }
         
@@ -218,21 +216,21 @@ final class AshtonXMLParser {
         case " ":
             if potentialTags.contains(.span) {
                 let attributes = self.parseAttributes(&iterator)
-                self.delegate?.didOpenTag(.span, attributes: attributes)
+                self.delegate?.didOpenTag(self, name: .span, attributes: attributes)
             } else {
                 forwardUntilCloseTag()
-                self.delegate?.didOpenTag(.ignored, attributes: nil)
+                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             }
             return
         case ">":
             if potentialTags.contains(.span) {
-                self.delegate?.didOpenTag(.span, attributes: nil)
+                self.delegate?.didOpenTag(self, name: .span, attributes: nil)
             } else {
-                self.delegate?.didOpenTag(.ignored, attributes: nil)
+                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             }
         default:
             forwardUntilCloseTag()
-            self.delegate?.didOpenTag(.ignored, attributes: nil)
+            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             return
         }
     }
@@ -413,64 +411,12 @@ final class AshtonXMLParser {
         var href = "".unicodeScalars
         iterator.skipStyleAttributeIgnoredCharacters()
         _ = iterator.next() // skip first "\'"
-        
+
         while let char = iterator.next(), char != "'" {
             href.append(char)
         }
         guard let url = URL(string: String(href)) else { return [:] }
 
         return [.link: url]
-    }
-}
-
-// MARK: - Private
-
-private extension String.UnicodeScalarView.Iterator {
-
-    @discardableResult
-    mutating func forwardIfEquals(_ string: String) -> Bool {
-        var testingIterator = self
-        var referenceIterator = string.unicodeScalars.makeIterator()
-        while let referenceChar = referenceIterator.next() {
-            guard referenceChar == testingIterator.next() else { return false }
-        }
-        self = testingIterator
-        return true
-    }
-
-    mutating func foward(until stopChar: Unicode.Scalar) {
-        var forwardingIterator = self
-        while let char = forwardingIterator.next(), char != stopChar {
-            self = forwardingIterator
-        }
-    }
-
-    mutating func scanString(until stopChar: Unicode.Scalar) -> String {
-        var scannedScalars = "".unicodeScalars
-        var scanningIterator = self
-
-        while let char = scanningIterator.next(), char != stopChar {
-            self = scanningIterator
-            scannedScalars.append(char)
-        }
-        return String(scannedScalars)
-    }
-
-    mutating func skipStyleAttributeIgnoredCharacters() {
-        var testingIterator = self
-        while let referenceChar = testingIterator.next() {
-            switch referenceChar {
-            case "=", " ", ";", ":":
-                break
-            default:
-                return
-            }
-            self = testingIterator
-        }
-    }
-
-    func testNextCharacter() -> Unicode.Scalar? {
-        var copiedIterator = self
-        return copiedIterator.next()
     }
 }

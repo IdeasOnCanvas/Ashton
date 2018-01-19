@@ -36,6 +36,8 @@
 		C8D16C8D1FEBDBC7001BA1AB /* AshtonEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = C8D16C8B1FEBDBC7001BA1AB /* AshtonEnvironment.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C8F26B9B1F6EF1AC006CD738 /* TBXML.h in Headers */ = {isa = PBXBuildFile; fileRef = C8F26B991F6EF1AC006CD738 /* TBXML.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = C8F26B9A1F6EF1AC006CD738 /* TBXML.m */; };
+		C8F9A6C6201209C80094629A /* Iterator+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F9A6C5201209C80094629A /* Iterator+Parsing.swift */; };
+		C8F9A6C820120A2B0094629A /* IteratorParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F9A6C720120A2B0094629A /* IteratorParsingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +97,8 @@
 		C8F26B991F6EF1AC006CD738 /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
 		C8F26B9A1F6EF1AC006CD738 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
 		C8F26B9D1F6F0038006CD738 /* Ashton.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = Ashton.modulemap; sourceTree = "<group>"; };
+		C8F9A6C5201209C80094629A /* Iterator+Parsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Iterator+Parsing.swift"; sourceTree = "<group>"; };
+		C8F9A6C720120A2B0094629A /* IteratorParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IteratorParsingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,7 @@
 				C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */,
 				C8838B8A1FE93728007F6177 /* Mappings.swift */,
 				45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */,
+				C8F9A6C5201209C80094629A /* Iterator+Parsing.swift */,
 			);
 			path = Ashton;
 			sourceTree = "<group>";
@@ -182,6 +187,7 @@
 				C8A9CE6B1F6D19960095C6AE /* Bridging.h */,
 				C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */,
 				45EA087F200E7B070073ADFD /* AshtonXMLParserTests.swift */,
+				C8F9A6C720120A2B0094629A /* IteratorParsingTests.swift */,
 				C8A9CE101F6D13700095C6AE /* Info.plist */,
 			);
 			path = AshtonTests;
@@ -356,6 +362,7 @@
 				C82AD520200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m in Sources */,
 				C88B8EEE1FEA56920024FEB2 /* AshtonObjcHTMLReader.m in Sources */,
 				C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */,
+				C8F9A6C6201209C80094629A /* Iterator+Parsing.swift in Sources */,
 				C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */,
 				C8A9CE1B1F6D13D40095C6AE /* Ashton.swift in Sources */,
 			);
@@ -370,6 +377,7 @@
 				C8A9CE8D1F6D1B0F0095C6AE /* AshtonUtils.m in Sources */,
 				C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */,
 				C8A9CE8A1F6D1B0F0095C6AE /* AshtonMarkdownReader.m in Sources */,
+				C8F9A6C820120A2B0094629A /* IteratorParsingTests.swift in Sources */,
 				C8A9CE8C1F6D1B0F0095C6AE /* AshtonUIKit.m in Sources */,
 				C8A9CE861F6D1B0F0095C6AE /* AshtonCoreText.m in Sources */,
 				C8A9CE8F1F6D1B0F0095C6AE /* NSAttributedString+Ashton.m in Sources */,
