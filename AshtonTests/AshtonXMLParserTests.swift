@@ -27,13 +27,13 @@ final class AshtonXMLParserTests: XCTestCase {
     }
 
     func testTagParsing() {
-        let sampleString = "<p><span style='bla'> hello</span> &amp; world<dummy> not this </dummy></p>"
+        let sampleString = "<p><span style='bla:fasdf;'> hello</span> &amp; world<dummy> not this </dummy></p>"
         let delegate = DummyParserDelegate()
         let parser = AshtonXMLParser(xmlString: sampleString)
         parser.delegate = delegate
         parser.parse()
         XCTAssertEqual(delegate.closedTags, 3)
-        XCTAssertEqual(delegate.openedTags.map { $0.0 }, [.p, .span, .ignored])
+        XCTAssertEqual(delegate.openedTags.map { $0.name }, [.p, .span, .ignored])
     }
 
     func testSingleStyleAttributesParsing() {
@@ -45,9 +45,9 @@ final class AshtonXMLParserTests: XCTestCase {
         parser.parse()
         XCTAssertEqual(delegate.openedTags.count, 1)
 
-        let attributes = delegate.openedTags.first!.1![.style]!
+        let attributes = delegate.openedTags.first!.attributes!
         XCTAssertEqual(attributes.values.count, 1)
-        XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.backgroundColor], "rgba(52, 72, 83, 1.000000)")
+        XCTAssertEqual(attributes[.backgroundColor] as! String, "rgba(52, 72, 83, 1.000000)")
     }
 
     func testMultipleStyleAttributesParsing() {
@@ -58,11 +58,8 @@ final class AshtonXMLParserTests: XCTestCase {
         parser.parse()
         XCTAssertEqual(delegate.openedTags.count, 2)
 
-        let attributes = delegate.openedTags.first!.1![.style]!
-        XCTAssertEqual(attributes.count, 3)
-        XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.color], "rgba(52, 72, 83, 1.000000)")
-        XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.font], "18px \"\"")
-        XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.Cocoa.fontPostScriptName], "\"Arial\"")
+        let attributes = delegate.openedTags.first!.attributes!
+        XCTAssertEqual(attributes.count, 2)
     }
 
     func testHrefParsing() {
@@ -73,8 +70,9 @@ final class AshtonXMLParserTests: XCTestCase {
         parser.parse()
         XCTAssertEqual(delegate.openedTags.count, 1)
 
-        let styleAttributes = delegate.openedTags.first!.1![.style]!
-        XCTAssertEqual(styleAttributes.count, 3)
+        let attributes = delegate.openedTags.first!.attributes!
+        XCTAssertEqual(attributes.count, 3)
+        XCTAssertEqual(attributes[.link] as! URL, URL(string: "http://google.com")!)
     }
     
     func testXMLParsingPerformance() {
@@ -95,12 +93,13 @@ final class AshtonXMLParserTests: XCTestCase {
 private extension AshtonXMLParserTests {
     
     final class DummyParserDelegate: AshtonXMLParserDelegate {
-        var openedTags: [(AshtonXMLParser.Tag, [AshtonXMLParser.Attribute: [AshtonXMLParser.AttributeKey: String]]?)] = []
+        var openedTags: [(name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?)] = []
         var content: String = ""
         var closedTags = 0
         var attributes: [AshtonXMLParser.AttributeKey: String] = [:]
+        var attributedString: NSMutableAttributedString = NSMutableAttributedString()
         
-        func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [AshtonXMLParser.Attribute: [AshtonXMLParser.AttributeKey: String]]?) {
+        func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?) {
             self.openedTags.append((tag, attributes))
         }
         

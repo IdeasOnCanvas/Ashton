@@ -11,12 +11,18 @@ import Foundation
 
 protocol AshtonXMLParserDelegate: class {
     func didParseContent(_ string: String)
-    func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [AshtonXMLParser.Attribute: [AshtonXMLParser.AttributeKey: String]]?)
+    func didOpenTag(_ tag: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?)
     func didCloseTag()
+}
+
+extension NSAttributedStringKey {
+    static let superscript = NSAttributedStringKey(rawValue: "NSSuperScript")
 }
 
 
 final class AshtonXMLParser {
+
+
     
     enum Attribute {
         case style
@@ -231,9 +237,9 @@ final class AshtonXMLParser {
         }
     }
     
-    func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> [Attribute: [AshtonXMLParser.AttributeKey: String]]? {
+    func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any]? {
         var potentialAttributes: Set<Attribute> = Set()
-        var dict: [Attribute: [AshtonXMLParser.AttributeKey: String]] = [:]
+        var attributes: [NSAttributedStringKey: Any]? = nil
 
         while let nextChar = iterator.testNextCharacter(), nextChar != ">" {
             iterator.skipStyleAttributeIgnoredCharacters()
@@ -244,85 +250,105 @@ final class AshtonXMLParser {
             case "h":
                 potentialAttributes.insert(.href)
             default:
-                return dict
+                return attributes
             }
 
             switch iterator.next() ?? ">" {
             case "t":
-                guard potentialAttributes.contains(.style) else { return nil }
+                guard potentialAttributes.contains(.style) else { return attributes }
             case "r":
-                guard potentialAttributes.contains(.href) else { return nil }
+                guard potentialAttributes.contains(.href) else { return attributes }
             default:
-                return dict
+                return attributes
             }
 
             switch iterator.next() ?? ">" {
             case "y":
-                guard potentialAttributes.contains(.style) else { return nil }
+                guard potentialAttributes.contains(.style) else { return attributes }
             case "e":
-                guard potentialAttributes.contains(.href) else { return nil }
+                guard potentialAttributes.contains(.href) else { return attributes }
             default:
-                return dict
+                return attributes
             }
 
             switch iterator.next() ?? ">" {
             case "l":
-                guard potentialAttributes.contains(.style) else { return nil }
+                guard potentialAttributes.contains(.style) else { return attributes }
             case "f":
-                guard potentialAttributes.contains(.href) else { return nil }
+                guard potentialAttributes.contains(.href) else { return attributes }
 
-                dict[.href] = self.parseHRef(&iterator)
+                if attributes != nil {
+                    attributes?.merge(self.parseHRef(&iterator)) { return $1 }
+                } else {
+                    attributes = self.parseHRef(&iterator)
+                }
             default:
-                return dict
+                return attributes
             }
 
             switch iterator.next() ?? ">" {
             case "e":
-                guard potentialAttributes.contains(.style) else { return nil }
+                guard potentialAttributes.contains(.style) else { return attributes }
 
-                dict[.style] = self.parseStyles(&iterator)
+                if attributes != nil {
+                    attributes?.merge(self.parseStyles(&iterator)) { return $1 }
+                } else {
+                    attributes = self.parseStyles(&iterator)
+                }
             default:
-                return dict
+                return attributes
             }
+            iterator.skipStyleAttributeIgnoredCharacters()
         }
-        return dict
+        return attributes
     }
     
-    func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> [AttributeKey: String] {
-        var attributes: [AttributeKey: String] = [:]
+    func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
+        var attributes: [NSAttributedStringKey: Any] = [:]
 
         iterator.skipStyleAttributeIgnoredCharacters()
         _ = iterator.next() // skip first "\'"
 
-        while let firstChar = iterator.testNextCharacter(), firstChar != "'" {
+        while let firstChar = iterator.testNextCharacter(), firstChar != "'", firstChar != ">" {
             switch firstChar {
             case "b":
                 if iterator.forwardIfEquals(AttributeKeys.Style.backgroundColor) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[AttributeKeys.Style.backgroundColor] = iterator.scanString(until: ";")
+                    attributes[.backgroundColor] = iterator.scanString(until: ";")
+                } else {
+                    iterator.foward(until: ";")
                 }
             case "c":
                 if iterator.forwardIfEquals(AttributeKeys.Style.color) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[AttributeKeys.Style.color] = iterator.scanString(until: ";")
+                    attributes[.foregroundColor] = iterator.scanString(until: ";")
+                } else {
+                    iterator.foward(until: ";")
                 }
             case "t":
                 if iterator.forwardIfEquals(AttributeKeys.Style.textAlign) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[AttributeKeys.Style.textAlign] = iterator.scanString(until: ";")
+                    attributes[.paragraphStyle] = iterator.scanString(until: ";")
                 } else if iterator.forwardIfEquals(AttributeKeys.Style.textDecoration) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[AttributeKeys.Style.textDecoration] = iterator.scanString(until: ";")
+                    // TODO
+                    attributes[.underlineStyle] = iterator.scanString(until: ";")
+                } else {
+                    iterator.foward(until: ";")
                 }
             case "f":
                 if iterator.forwardIfEquals(AttributeKeys.Style.font) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[AttributeKeys.Style.font] = iterator.scanString(until: ";")
+                    attributes[.font] = iterator.scanString(until: ";")
+                } else {
+                    iterator.foward(until: ";")
                 }
             case "v":
                 if iterator.forwardIfEquals(AttributeKeys.Style.verticalAlign) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[AttributeKeys.Style.verticalAlign] = iterator.scanString(until: ";")
+                    attributes[.superscript] = iterator.scanString(until: ";")
+                } else {
+                    iterator.foward(until: ";")
                 }
             case "-":
                 if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.commonPrefix) {
@@ -332,40 +358,50 @@ final class AshtonXMLParser {
                     case "s":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethroughColor) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[AttributeKeys.Style.Cocoa.strikethroughColor] = iterator.scanString(until: ";")
+                            attributes[.strikethroughColor] = iterator.scanString(until: ";")
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethrough) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[AttributeKeys.Style.Cocoa.strikethrough] = iterator.scanString(until: ";")
+                            attributes[.underlineStyle] = iterator.scanString(until: ";")
+                        } else {
+                            iterator.foward(until: ";")
                         }
                     case "u":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underlineColor) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[AttributeKeys.Style.Cocoa.underlineColor] = iterator.scanString(until: ";")
+                            attributes[.underlineColor] = iterator.scanString(until: ";")
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underline) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[AttributeKeys.Style.Cocoa.underline] = iterator.scanString(until: ";")
+                            attributes[.underlineStyle] = iterator.scanString(until: ";")
+                        } else {
+                            iterator.foward(until: ";")
                         }
                     case "b":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.baseOffset) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[AttributeKeys.Style.Cocoa.baseOffset] = iterator.scanString(until: ";")
+                            attributes[.baselineOffset] = iterator.scanString(until: ";")
+                        } else {
+                            iterator.foward(until: ";")
                         }
                     case "v":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.verticalAlign) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[AttributeKeys.Style.Cocoa.verticalAlign] = iterator.scanString(until: ";")
+                            attributes[.superscript] = iterator.scanString(until: ";")
+                        } else {
+                            iterator.foward(until: ";")
                         }
                     case "f":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontPostScriptName) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[AttributeKeys.Style.Cocoa.fontPostScriptName] = iterator.scanString(until: ";")
+                            attributes[.font] = iterator.scanString(until: ";")
+                        } else {
+                            iterator.foward(until: ";")
                         }
                     default:
-                        break
+                        iterator.foward(until: ";")
                     }
                 }
             default:
-                break
+                iterator.foward(until: ";")
             }
             iterator.skipStyleAttributeIgnoredCharacters()
         }
@@ -373,14 +409,17 @@ final class AshtonXMLParser {
         return attributes
     }
     
-    func parseHRef(_ iterator: inout String.UnicodeScalarView.Iterator) -> [AttributeKey: String] {
+    func parseHRef(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
         var href = "".unicodeScalars
         iterator.skipStyleAttributeIgnoredCharacters()
-        while let char = iterator.next(), char != ">" {
-
+        _ = iterator.next() // skip first "\'"
+        
+        while let char = iterator.next(), char != "'" {
             href.append(char)
         }
-        return [:]
+        guard let url = URL(string: String(href)) else { return [:] }
+
+        return [.link: url]
     }
 }
 
@@ -397,6 +436,13 @@ private extension String.UnicodeScalarView.Iterator {
         }
         self = testingIterator
         return true
+    }
+
+    mutating func foward(until stopChar: Unicode.Scalar) {
+        var forwardingIterator = self
+        while let char = forwardingIterator.next(), char != stopChar {
+            self = forwardingIterator
+        }
     }
 
     mutating func scanString(until stopChar: Unicode.Scalar) -> String {
