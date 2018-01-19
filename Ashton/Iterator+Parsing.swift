@@ -153,3 +153,21 @@ extension String.UnicodeScalarView.Iterator {
         }
     }
 }
+
+// MARK: - Text Decoration
+
+extension String.UnicodeScalarView.Iterator {
+
+    mutating func parseTextDecoration() -> NSAttributedStringKey? {
+        guard let firstChar = self.testNextCharacter() else { return nil }
+
+        switch firstChar {
+        case "u":
+            return self.forwardIfEquals("underline") ? NSAttributedStringKey.underlineStyle : nil
+        case "l":
+            return self.forwardIfEquals("line-through") ? NSAttributedStringKey.strikethroughStyle : nil
+        default:
+            return nil
+        }
+    }
+}

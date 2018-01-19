@@ -7,6 +7,11 @@
 //
 
 import Foundation
+#if os(iOS)
+    import UIKit
+#elseif os(macOS)
+    import AppKit
+#endif
 
 
 protocol AshtonXMLParserDelegate: class {
@@ -329,8 +334,9 @@ final class AshtonXMLParser {
                     attributes[.paragraphStyle] = iterator.scanString(until: ";")
                 } else if iterator.forwardIfEquals(AttributeKeys.Style.textDecoration) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    // TODO
-                    attributes[.underlineStyle] = iterator.scanString(until: ";")
+                    guard let textDecoration = iterator.parseTextDecoration() else { break }
+
+                    attributes[textDecoration] = NSUnderlineStyle.styleSingle.rawValue
                 } else {
                     iterator.foward(until: ";")
                 }

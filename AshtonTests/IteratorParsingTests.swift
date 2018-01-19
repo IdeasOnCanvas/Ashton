@@ -66,6 +66,20 @@ final class IteratorParsingTests: XCTestCase {
         var iterator4 = quark.unicodeScalars.makeIterator()
         XCTAssertNil(iterator4.parseUnderlineStyle())
     }
+
+    func testTextDecorationStyleParsing() {
+        let strikethrough = "line-through;"
+        var iterator = strikethrough.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator.parseTextDecoration(), NSAttributedStringKey.strikethroughStyle)
+
+        let underline = "underline"
+        var iterator2 = underline.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator2.parseTextDecoration(), NSAttributedStringKey.underlineStyle)
+
+        let quark = "quark"
+        var iterator3 = quark.unicodeScalars.makeIterator()
+        XCTAssertNil(iterator3.parseTextDecoration())
+    }
 }
 
 
