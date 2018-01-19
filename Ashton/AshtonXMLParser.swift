@@ -354,7 +354,10 @@ final class AshtonXMLParser {
             case "v":
                 if iterator.forwardIfEquals(AttributeKeys.Style.verticalAlign) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.superscript] = iterator.scanString(until: ";")
+                    guard attributes[.superscript] == nil else { break }
+                    guard let alignment = iterator.parseVerticalAlignment() else { break }
+                    
+                    attributes[.superscript] = alignment
                 } else {
                     iterator.foward(until: ";")
                 }

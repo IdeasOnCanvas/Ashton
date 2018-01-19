@@ -193,3 +193,25 @@ extension String.UnicodeScalarView.Iterator {
         }
     }
 }
+
+// MARK: - Vertical Alignment
+
+extension String.UnicodeScalarView.Iterator {
+    
+    mutating func parseVerticalAlignment() -> Int? {
+        guard let firstChar = self.testNextCharacter() else { return nil }
+        
+        switch firstChar {
+        case "s":
+            if self.forwardIfEquals("sub") {
+                return -1
+            } else if self.forwardIfEquals("super") {
+                return 1
+            } else {
+                return nil
+            }
+        default:
+            return nil
+        }
+    }
+}

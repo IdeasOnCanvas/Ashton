@@ -102,6 +102,20 @@ final class IteratorParsingTests: XCTestCase {
         var iterator5 = quark.unicodeScalars.makeIterator()
         XCTAssertNil(iterator5.parseTextAlignment())
     }
+    
+    func testVerticalAlignment() {
+        let superattribute = "super;"
+        var iterator = superattribute.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator.parseVerticalAlignment(), 1)
+        
+        let sub = "sub"
+        var iterator2 = sub.unicodeScalars.makeIterator()
+        XCTAssertEqual(iterator2.parseVerticalAlignment(), -1)
+        
+        let quark = "quark"
+        var iterator5 = quark.unicodeScalars.makeIterator()
+        XCTAssertNil(iterator5.parseVerticalAlignment())
+    }
 }
 
 
