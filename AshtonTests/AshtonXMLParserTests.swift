@@ -64,6 +64,18 @@ final class AshtonXMLParserTests: XCTestCase {
         XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.font], "18px \"\"")
         XCTAssertEqual(attributes[AshtonXMLParser.AttributeKeys.Style.Cocoa.fontPostScriptName], "\"Arial\"")
     }
+
+    func testHrefParsing() {
+        let sampleString = "<a style='font: bold 16px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica-Bold\"; -cocoa-underline-color: rgba(127, 0, 127, 1.000000); ' href='http://google.com'>h</a>"
+        let delegate = DummyParserDelegate()
+        let parser = AshtonXMLParser(xmlString: sampleString)
+        parser.delegate = delegate
+        parser.parse()
+        XCTAssertEqual(delegate.openedTags.count, 1)
+
+        let styleAttributes = delegate.openedTags.first!.1![.style]!
+        XCTAssertEqual(styleAttributes.count, 3)
+    }
     
     func testXMLParsingPerformance() {
         let rtfURL = Bundle(for: AshtonTests.self).url(forResource: "RTFText", withExtension: "rtf")!
