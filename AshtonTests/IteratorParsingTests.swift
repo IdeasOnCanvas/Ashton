@@ -83,7 +83,7 @@ final class IteratorParsingTests: XCTestCase {
         XCTAssertEqual(iterator3.next(), "q")
     }
 
-    func testTextAlignment() {
+    func testTextAlignmentParsing() {
         let left = "left;"
         var iterator = left.unicodeScalars.makeIterator()
         XCTAssertEqual(iterator.parseTextAlignment(), NSTextAlignment.left)
@@ -106,22 +106,37 @@ final class IteratorParsingTests: XCTestCase {
         XCTAssertEqual(iterator5.next(), "q")
     }
     
-    func testVerticalAlignment() {
+    func testVerticalAlignmentFromStringParsing() {
         let superattribute = "super;"
         var iterator = superattribute.unicodeScalars.makeIterator()
-        XCTAssertEqual(iterator.parseVerticalAlignment(), 1)
+        XCTAssertEqual(iterator.parseVerticalAlignmentFromString(), 1)
         
         let sub = "sub"
         var iterator2 = sub.unicodeScalars.makeIterator()
-        XCTAssertEqual(iterator2.parseVerticalAlignment(), -1)
+        XCTAssertEqual(iterator2.parseVerticalAlignmentFromString(), -1)
         
         let quark = "quark"
         var iterator5 = quark.unicodeScalars.makeIterator()
-        XCTAssertNil(iterator5.parseVerticalAlignment())
+        XCTAssertNil(iterator5.parseVerticalAlignmentFromString())
         XCTAssertEqual(iterator5.next(), "q")
     }
     
-    func testBaselineOffset() {
+    func testVerticalAlignmentParsing() {
+        let baselineOffset = "2.5;"
+        var iterator = baselineOffset.unicodeScalars.makeIterator()
+        XCTAssertTrue(iterator.parseVerticalAlignment()!.almostEquals(2.5))
+        
+        let baselineOffset2 = "1.0"
+        var iterator2 = baselineOffset2.unicodeScalars.makeIterator()
+        XCTAssertTrue(iterator2.parseVerticalAlignment()!.almostEquals(1.0))
+        
+        let quark = "quark"
+        var iterator3 = quark.unicodeScalars.makeIterator()
+        XCTAssertNil(iterator3.parseVerticalAlignment())
+        XCTAssertEqual(iterator3.next(), "q")
+    }
+    
+    func testBaselineOffsetParsing() {
         let baselineOffset = "1.5;"
         var iterator = baselineOffset.unicodeScalars.makeIterator()
         XCTAssertTrue(iterator.parseBaselineOffset()!.almostEquals(1.5))

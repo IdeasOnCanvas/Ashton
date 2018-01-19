@@ -198,7 +198,7 @@ extension String.UnicodeScalarView.Iterator {
 
 extension String.UnicodeScalarView.Iterator {
     
-    mutating func parseVerticalAlignment() -> Int? {
+    mutating func parseVerticalAlignmentFromString() -> Int? {
         guard let firstChar = self.testNextCharacter() else { return nil }
         
         switch firstChar {
@@ -213,6 +213,10 @@ extension String.UnicodeScalarView.Iterator {
         default:
             return nil
         }
+    }
+    
+    mutating func parseVerticalAlignment() -> CGFloat? {
+        return self.parseFloat()
     }
 }
 

@@ -318,15 +318,11 @@ final class AshtonXMLParser {
                 if iterator.forwardIfEquals(AttributeKeys.Style.backgroundColor) {
                     iterator.skipStyleAttributeIgnoredCharacters()
                     attributes[.backgroundColor] = iterator.parseColor()
-                } else {
-                    iterator.foward(until: ";")
                 }
             case "c":
                 if iterator.forwardIfEquals(AttributeKeys.Style.color) {
                     iterator.skipStyleAttributeIgnoredCharacters()
                     attributes[.foregroundColor] = iterator.parseColor()
-                } else {
-                    iterator.foward(until: ";")
                 }
             case "t":
                 if iterator.forwardIfEquals(AttributeKeys.Style.textAlign) {
@@ -341,25 +337,19 @@ final class AshtonXMLParser {
                     guard let textDecoration = iterator.parseTextDecoration() else { break }
 
                     attributes[textDecoration] = NSUnderlineStyle.styleSingle.rawValue
-                } else {
-                    iterator.foward(until: ";")
                 }
             case "f":
                 if iterator.forwardIfEquals(AttributeKeys.Style.font) {
                     iterator.skipStyleAttributeIgnoredCharacters()
                     attributes[.font] = iterator.scanString(until: ";")
-                } else {
-                    iterator.foward(until: ";")
                 }
             case "v":
                 if iterator.forwardIfEquals(AttributeKeys.Style.verticalAlign) {
                     iterator.skipStyleAttributeIgnoredCharacters()
                     guard attributes[.superscript] == nil else { break }
-                    guard let alignment = iterator.parseVerticalAlignment() else { break }
+                    guard let alignment = iterator.parseVerticalAlignmentFromString() else { break }
                     
                     attributes[.superscript] = alignment
-                } else {
-                    iterator.foward(until: ";")
                 }
             case "-":
                 if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.commonPrefix) {
@@ -373,8 +363,6 @@ final class AshtonXMLParser {
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethrough) {
                             iterator.skipStyleAttributeIgnoredCharacters()
                             attributes[.underlineStyle] = iterator.parseUnderlineStyle()
-                        } else {
-                            iterator.foward(until: ";")
                         }
                     case "u":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underlineColor) {
@@ -383,8 +371,6 @@ final class AshtonXMLParser {
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underline) {
                             iterator.skipStyleAttributeIgnoredCharacters()
                             attributes[.underlineStyle] = iterator.parseUnderlineStyle()
-                        } else {
-                            iterator.foward(until: ";")
                         }
                     case "b":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.baseOffset) {
@@ -392,30 +378,27 @@ final class AshtonXMLParser {
                             guard let baselineOffset = iterator.parseBaselineOffset() else { break }
                             
                             attributes[.baselineOffset] = baselineOffset
-                        } else {
-                            iterator.foward(until: ";")
                         }
                     case "v":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.verticalAlign) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.superscript] = iterator.scanString(until: ";")
-                        } else {
-                            iterator.foward(until: ";")
+                            guard let verticalAlignment = iterator.parseVerticalAlignment() else { break }
+                            
+                            attributes[.superscript] = verticalAlignment
                         }
                     case "f":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontPostScriptName) {
                             iterator.skipStyleAttributeIgnoredCharacters()
                             attributes[.font] = iterator.scanString(until: ";")
-                        } else {
-                            iterator.foward(until: ";")
                         }
                     default:
-                        iterator.foward(until: ";")
+                        break
                     }
                 }
             default:
-                iterator.foward(until: ";")
+                break
             }
+            iterator.foward(until: ";")
             iterator.skipStyleAttributeIgnoredCharacters()
         }
         _ = iterator.next() // skip last '
