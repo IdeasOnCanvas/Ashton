@@ -389,7 +389,7 @@ final class AshtonXMLParser {
                     case "f":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontPostScriptName) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.font] = iterator.scanString(until: ";")
+                            attributes[.font] = iterator.parsePostscriptFontName()
                         }
                     default:
                         break

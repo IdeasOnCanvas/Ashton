@@ -176,6 +176,18 @@ final class IteratorParsingTests: XCTestCase {
         XCTAssertNil(fontAttributes3.points)
         XCTAssertNil(fontAttributes3.family)
     }
+    
+    func testPostscriptFontNameParsing() {
+        let sampleFontName = "\"Helvetica\""
+        var iterator = sampleFontName.unicodeScalars.makeIterator()
+        let fontName = iterator.parsePostscriptFontName()
+        XCTAssertEqual("Helvetica", fontName)
+        
+        let quark = "quark"
+        var iterator2 = quark.unicodeScalars.makeIterator()
+        XCTAssertNil(iterator2.parseBaselineOffset())
+        XCTAssertEqual(iterator2.next(), "q")
+    }
 }
 
 

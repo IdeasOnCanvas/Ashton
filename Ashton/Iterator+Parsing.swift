@@ -245,7 +245,9 @@ extension String.UnicodeScalarView.Iterator {
         return (isBold, isItalic, fontSize, familyName)
     }
     
-    mutating func parsePostscriptFont() -> CGFloat? {
-        return self.parseFloat()
+    mutating func parsePostscriptFontName() -> String? {
+        guard self.forwardIfEquals("\"") else { return nil }
+        
+        return self.scanString(until: "\"")
     }
 }
