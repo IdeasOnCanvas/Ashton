@@ -15,9 +15,8 @@ public final class Ashton: NSObject {
 
 	public typealias HTML = String
 
-    private static let reader = AshtonObjcHTMLReader()
+    private static let reader = AshtonHTMLReader()
     private static let writer = AshtonHTMLWriter()
-    private static let mixedContentPreprocessor = AshtonObjcMixedContentPreprocessor()
 
     @objc
 	public static func encode(_ attributedString: NSAttributedString) -> HTML {
@@ -26,11 +25,6 @@ public final class Ashton: NSObject {
 
     @objc
     public static func decode(_ html: HTML, containsMixedContent: Bool = false) -> NSAttributedString {
-        let htmlString = containsMixedContent ? self.mixedContentPreprocessor.preprocessHTMLString(html) : html
-
-        return Ashton.reader.decodeAttributedString(fromHTML: htmlString) ?? NSAttributedString()
-
-		// swift implementation is substantially slower (using swift4 to compile)
-        // return AshtonHTMLReader().decode(html) // swift implementation
+        return AshtonHTMLReader().decode(html)
 	}
 }
