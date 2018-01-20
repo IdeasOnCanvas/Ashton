@@ -406,15 +406,9 @@ final class AshtonXMLParser {
     }
     
     func parseHRef(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
-        var href = "".unicodeScalars
         iterator.skipStyleAttributeIgnoredCharacters()
-        _ = iterator.next() // skip first "\'"
-
-        while let char = iterator.next(), char != "'" {
-            href.append(char)
-        }
-        guard let url = URL(string: String(href)) else { return [:] }
-
+        guard let url = iterator.parseURL() else { return [:] }
+        
         return [.link: url]
     }
 }

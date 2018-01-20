@@ -188,6 +188,20 @@ final class IteratorParsingTests: XCTestCase {
         XCTAssertNil(iterator2.parseBaselineOffset())
         XCTAssertEqual(iterator2.next(), "q")
     }
+    
+    func testURLParsing() {
+        let sampleURL = "\'www.google.at\'"
+        var iterator = sampleURL.unicodeScalars.makeIterator()
+        let url = iterator.parseURL()
+        XCTAssertNotNil(url)
+        XCTAssertEqual(url!.absoluteString, "www.google.at")
+
+        let sampleURL2 = "www.google.at\""
+        var iterator2 = sampleURL2.unicodeScalars.makeIterator()
+        let url2 = iterator2.parseURL()
+        XCTAssertNotNil(url2)
+        XCTAssertEqual(url2!.absoluteString, "www.google.at")
+    }
 }
 
 

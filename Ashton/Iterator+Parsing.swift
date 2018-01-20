@@ -251,3 +251,26 @@ extension String.UnicodeScalarView.Iterator {
         return self.scanString(until: "\"")
     }
 }
+
+// MARK: - URL
+
+extension String.UnicodeScalarView.Iterator {
+    
+    mutating func parseURL() -> URL? {
+        var parsingIterator = self
+        var isFirstChar = true
+        var urlChars = "".unicodeScalars
+        while let char = parsingIterator.next() {
+            guard char != "'" && char != "\"" else {
+                if isFirstChar { continue } else { break }
+            }
+            isFirstChar = false
+            urlChars.append(char)
+        }
+        guard urlChars.isEmpty == false else { return nil }
+        guard let url = URL(string: String(urlChars)) else { return nil }
+        
+        self = parsingIterator
+        return url
+    }
+}
