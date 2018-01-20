@@ -141,6 +141,13 @@ final class AshtonXMLParser {
         }
         
         switch iterator.next() ?? ">" {
+        case "b":
+            guard iterator.forwardIfEquals("r /") else {
+                forwardUntilCloseTag()
+                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
+                return
+            }
+            self.delegate?.didParseContent(self, string: "\n")
         case "p":
             guard let nextChar = iterator.next() else { return }
             

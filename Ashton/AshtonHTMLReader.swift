@@ -19,6 +19,7 @@ final class AshtonHTMLReader: NSObject {
 
 	private var attributesStack: [[NSAttributedStringKey: Any]] = []
 	private var output: NSMutableAttributedString!
+    private var shouldAppendNewline: Bool = false
 
 	func decode(_ html: Ashton.HTML) -> NSAttributedString {
         self.output = NSMutableAttributedString()
@@ -48,6 +49,11 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
         let lastAttributes = self.attributesStack.last ?? [:]
         attributes.merge(lastAttributes, uniquingKeysWith: { $1 })
         self.attributesStack.append(attributes)
+        if name == .p && self.shouldAppendNewline {
+            self.output.append(NSAttributedString(string: "\n"))
+        } else {
+            self.shouldAppendNewline = true
+        }
     }
     
     func didCloseTag(_ parser: AshtonXMLParser) {
