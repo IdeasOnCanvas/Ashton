@@ -226,6 +226,7 @@ final class AshtonXMLParser {
     }
     
     func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
+        var fontBuilder: FontBuilder?
         var attributes: [NSAttributedStringKey: Any] = [:]
 
         iterator.skipStyleAttributeIgnoredCharacters()
@@ -260,7 +261,14 @@ final class AshtonXMLParser {
             case "f":
                 if iterator.forwardIfEquals(AttributeKeys.Style.font) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.font] = iterator.parseFontAttributes()
+                    
+                    let fontAttributes = iterator.parseFontAttributes()
+                    
+                    fontBuilder = fontBuilder ?? FontBuilder()
+                    fontBuilder?.isBold = fontAttributes.isBold
+                    fontBuilder?.isItalic = fontAttributes.isItalic
+                    fontBuilder?.familyName = fontAttributes.family
+                    fontBuilder?.pointSize = fontAttributes.points
                 }
             case "v":
                 if iterator.forwardIfEquals(AttributeKeys.Style.verticalAlign) {
@@ -308,7 +316,9 @@ final class AshtonXMLParser {
                     case "f":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontPostScriptName) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.font] = iterator.parsePostscriptFontName()
+                            guard let postscriptName = iterator.parsePostscriptFontName() else { break }
+                            
+                            fontBuilder?.postScriptName = postscriptName
                         }
                     default:
                         break
@@ -321,6 +331,9 @@ final class AshtonXMLParser {
             iterator.skipStyleAttributeIgnoredCharacters()
         }
         _ = iterator.next() // skip last '
+        if let font = fontBuilder?.makeFont() {
+            attributes[.font] = font
+        }
         return attributes
     }
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45A3D0372013DB6600280C48 /* FontBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A3D0362013DB6600280C48 /* FontBuilder.swift */; };
 		45EA087E200D398C0073ADFD /* AshtonXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */; };
 		45EA0880200E7B070073ADFD /* AshtonXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA087F200E7B070073ADFD /* AshtonXMLParserTests.swift */; };
 		C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81811391FDFD82A0049620D /* AshtonAppKit.m */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		45A3D0362013DB6600280C48 /* FontBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontBuilder.swift; sourceTree = "<group>"; };
 		45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonXMLParser.swift; sourceTree = "<group>"; };
 		45EA087F200E7B070073ADFD /* AshtonXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonXMLParserTests.swift; sourceTree = "<group>"; };
 		C81811381FDFD82A0049620D /* AshtonAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKit.h; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				C8838B8A1FE93728007F6177 /* Mappings.swift */,
 				45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */,
 				C8F9A6C5201209C80094629A /* Iterator+Parsing.swift */,
+				45A3D0362013DB6600280C48 /* FontBuilder.swift */,
 			);
 			path = Ashton;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */,
 				C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */,
 				45EA087E200D398C0073ADFD /* AshtonXMLParser.swift in Sources */,
+				45A3D0372013DB6600280C48 /* FontBuilder.swift in Sources */,
 				C8F26B9C1F6EF1AC006CD738 /* TBXML.m in Sources */,
 				C82AD520200CCB7B0015A86B /* AshtonObjcMixedContentPreprocessor.m in Sources */,
 				C88B8EEE1FEA56920024FEB2 /* AshtonObjcHTMLReader.m in Sources */,
