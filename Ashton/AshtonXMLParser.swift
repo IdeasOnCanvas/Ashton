@@ -39,7 +39,6 @@ final class AshtonXMLParser {
         case ignored
     }
 
-    typealias AttributeKey = String
     struct AttributeKeys {
 
         struct Style {
@@ -136,7 +135,6 @@ final class AshtonXMLParser {
     }
     
     func parseTag(_ iterator: inout String.UnicodeScalarView.Iterator) {
-        var potentialTags: Set<Tag> = Set()
 
         func forwardUntilCloseTag() {
             while let char = iterator.next(), char != ">" {}
@@ -144,99 +142,55 @@ final class AshtonXMLParser {
         
         switch iterator.next() ?? ">" {
         case "p":
-            potentialTags.insert(.p)
-        case "s":
-            potentialTags.insert(.span)
-        case "a":
-            potentialTags.insert(.a)
-        case ">":
-            return
-        case "/":
-            forwardUntilCloseTag()
-            self.delegate?.didCloseTag(self)
-            return
-        default:
-            forwardUntilCloseTag()
-            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            return
-        }
-        
-        switch iterator.next() ?? ">" {
-        case " ":
-            if potentialTags.contains(.p) {
+            guard let nextChar = iterator.next() else { return }
+            
+            if nextChar == ">" {
+                self.delegate?.didOpenTag(self, name: .p, attributes: nil)
+            } else if nextChar == " " {
                 let attributes = self.parseAttributes(&iterator)
                 self.delegate?.didOpenTag(self, name: .p, attributes: attributes)
-            } else if potentialTags.contains(.a) {
-                let attributes = self.parseAttributes(&iterator)
-                self.delegate?.didOpenTag(self, name: .a, attributes: attributes)
             } else {
                 forwardUntilCloseTag()
                 self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             }
-            return
-        case "p":
-            potentialTags.formIntersection([.span])
-        case ">":
-            if potentialTags.contains(.p) {
-                self.delegate?.didOpenTag(self, name: .p, attributes: nil)
-            } else if potentialTags.contains(.a) {
-                self.delegate?.didOpenTag(self, name: .a, attributes: nil)
-            } else {
+        case "s":
+            guard iterator.forwardIfEquals("pan") else {
+                forwardUntilCloseTag()
                 self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
+                return
             }
-            return
-        default:
-            forwardUntilCloseTag()
-            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            return
-        }
-        
-        switch iterator.next() ?? ">" {
-        case " ", ">":
-            forwardUntilCloseTag()
-            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            return
-        case "a":
-            potentialTags.formIntersection([.span])
-        default:
-            forwardUntilCloseTag()
-            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            return
-        }
-        
-        switch iterator.next() ?? ">" {
-        case " ", ">":
-            forwardUntilCloseTag()
-            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            return
-        case "n":
-            potentialTags.formIntersection([.span])
-        default:
-            forwardUntilCloseTag()
-            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            return
-        }
-        
-        switch iterator.next() ?? ">" {
-        case " ":
-            if potentialTags.contains(.span) {
+            
+            guard let nextChar = iterator.next() else { return }
+            
+            if nextChar == ">" {
+                self.delegate?.didOpenTag(self, name: .span, attributes: nil)
+            } else if nextChar == " " {
                 let attributes = self.parseAttributes(&iterator)
                 self.delegate?.didOpenTag(self, name: .span, attributes: attributes)
             } else {
                 forwardUntilCloseTag()
                 self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             }
-            return
-        case ">":
-            if potentialTags.contains(.span) {
-                self.delegate?.didOpenTag(self, name: .span, attributes: nil)
+        case "a":
+            guard let nextChar = iterator.next() else { return }
+            
+            if nextChar == ">" {
+                self.delegate?.didOpenTag(self, name: .a, attributes: nil)
+            } else if nextChar == " " {
+                let attributes = self.parseAttributes(&iterator)
+                self.delegate?.didOpenTag(self, name: .a, attributes: attributes)
             } else {
+                forwardUntilCloseTag()
                 self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
             }
+        case ">":
+            return
+        case "/":
+            forwardUntilCloseTag()
+            self.delegate?.didCloseTag(self)
         default:
             forwardUntilCloseTag()
             self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            return
         }
     }
     

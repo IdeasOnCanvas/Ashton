@@ -96,7 +96,6 @@ private extension AshtonXMLParserTests {
         var openedTags: [(name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?)] = []
         var content: String = ""
         var closedTags = 0
-        var attributes: [AshtonXMLParser.AttributeKey: String] = [:]
         var attributedString: NSMutableAttributedString = NSMutableAttributedString()
         
         func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?) {
