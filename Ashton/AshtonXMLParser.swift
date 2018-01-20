@@ -241,65 +241,30 @@ final class AshtonXMLParser {
     }
     
     func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any]? {
-        var potentialAttributes: Set<Attribute> = Set()
         var attributes: [NSAttributedStringKey: Any]? = nil
-
-        while let nextChar = iterator.testNextCharacter(), nextChar != ">" {
-            iterator.skipStyleAttributeIgnoredCharacters()
-
-            switch iterator.next() ?? ">" {
+        
+        iterator.skipStyleAttributeIgnoredCharacters()
+        while let firstChar = iterator.next(), firstChar != ">" {
+            
+            switch firstChar {
             case "s":
-                potentialAttributes.insert(.style)
+                guard iterator.forwardIfEquals("tyle") else { break }
+                
+                if attributes != nil {
+                    attributes?.merge(self.parseStyles(&iterator)) { return $1 }
+                } else {
+                    attributes = self.parseStyles(&iterator)
+                }
             case "h":
-                potentialAttributes.insert(.href)
-            default:
-                return attributes
-            }
-
-            switch iterator.next() ?? ">" {
-            case "t":
-                guard potentialAttributes.contains(.style) else { return attributes }
-            case "r":
-                guard potentialAttributes.contains(.href) else { return attributes }
-            default:
-                return attributes
-            }
-
-            switch iterator.next() ?? ">" {
-            case "y":
-                guard potentialAttributes.contains(.style) else { return attributes }
-            case "e":
-                guard potentialAttributes.contains(.href) else { return attributes }
-            default:
-                return attributes
-            }
-
-            switch iterator.next() ?? ">" {
-            case "l":
-                guard potentialAttributes.contains(.style) else { return attributes }
-            case "f":
-                guard potentialAttributes.contains(.href) else { return attributes }
-
+                guard iterator.forwardIfEquals("ref") else { break }
+                
                 if attributes != nil {
                     attributes?.merge(self.parseHRef(&iterator)) { return $1 }
                 } else {
                     attributes = self.parseHRef(&iterator)
                 }
             default:
-                return attributes
-            }
-
-            switch iterator.next() ?? ">" {
-            case "e":
-                guard potentialAttributes.contains(.style) else { return attributes }
-
-                if attributes != nil {
-                    attributes?.merge(self.parseStyles(&iterator)) { return $1 }
-                } else {
-                    attributes = self.parseStyles(&iterator)
-                }
-            default:
-                return attributes
+                break
             }
             iterator.skipStyleAttributeIgnoredCharacters()
         }
