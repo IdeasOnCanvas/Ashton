@@ -252,6 +252,46 @@ extension String.UnicodeScalarView.Iterator {
     }
 }
 
+// MARK: - Escaping
+
+extension String.UnicodeScalarView.Iterator {
+    
+    mutating func parseEscapedChar() -> UnicodeScalar? {
+        var parsingIterator = self
+        var escapeChar: UnicodeScalar?
+        
+        guard let firstChar = parsingIterator.next() else { return nil }
+        switch firstChar {
+        case "a":
+            if parsingIterator.forwardIfEquals("mp;") {
+                escapeChar = "&"
+            } else if parsingIterator.forwardIfEquals("pos;") {
+                escapeChar = "'"
+            } else {
+                return nil
+            }
+        case "q":
+            guard parsingIterator.forwardIfEquals("uot;") else { return nil }
+            
+            escapeChar = "\""
+        case "l":
+            guard parsingIterator.forwardIfEquals("t;") else { return nil }
+            
+            escapeChar = "<"
+        case "g":
+            guard parsingIterator.forwardIfEquals("t;") else { return nil }
+            
+            escapeChar = ">"
+        default:
+            return nil
+        }
+        
+        self = parsingIterator
+        return escapeChar
+    }
+}
+
+
 // MARK: - URL
 
 extension String.UnicodeScalarView.Iterator {
@@ -265,7 +305,11 @@ extension String.UnicodeScalarView.Iterator {
                 if isFirstChar { continue } else { break }
             }
             isFirstChar = false
-            urlChars.append(char)
+            if char == "&", let escapedChar = parsingIterator.parseEscapedChar() {
+                urlChars.append(escapedChar)
+            } else {
+                urlChars.append(char)
+            }
         }
         guard urlChars.isEmpty == false else { return nil }
         guard let url = URL(string: String(urlChars)) else { return nil }

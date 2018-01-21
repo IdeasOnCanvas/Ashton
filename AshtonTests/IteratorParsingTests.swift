@@ -202,6 +202,20 @@ final class IteratorParsingTests: XCTestCase {
         XCTAssertNotNil(url2)
         XCTAssertEqual(url2!.absoluteString, "www.google.at")
     }
+    
+    func testEscaping() {
+        var scanned = "".unicodeScalars
+        let sampleString = "Hello & World &amp; this &quot;is&quot; 3 &gt; 2; 4 &lt; &apos;2&apos;"
+        var iterator = sampleString.unicodeScalars.makeIterator()
+        while let char = iterator.next() {
+            if char == "&", let escapedChar = iterator.parseEscapedChar() {
+                scanned.append(escapedChar)
+            } else {
+                scanned.append(char)
+            }
+        }
+        XCTAssertEqual(String(scanned), "Hello & World & this \"is\" 3 > 2; 4 < '2'")
+    }
 }
 
 
