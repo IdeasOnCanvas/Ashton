@@ -269,7 +269,9 @@ final class AshtonXMLParser {
                             attributes[.strikethroughColor] = iterator.parseColor()
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethrough) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.underlineStyle] = iterator.parseUnderlineStyle()
+                            guard let underlineStyle = iterator.parseUnderlineStyle() else { break }
+
+                            attributes[.strikethroughStyle] = underlineStyle.rawValue
                         }
                     case "u":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underlineColor) {
@@ -277,7 +279,9 @@ final class AshtonXMLParser {
                             attributes[.underlineColor] = iterator.parseColor()
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underline) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.underlineStyle] = iterator.parseUnderlineStyle()
+                            guard let underlineStyle = iterator.parseUnderlineStyle() else { break }
+                            
+                            attributes[.underlineStyle] = underlineStyle.rawValue
                         }
                     case "b":
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.baseOffset) {

@@ -79,20 +79,22 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testURLs() {
-		let urlString = "https://www.orf.at"
+        let urlString = URL(string: "https://www.orf.at")!
 		self.compareAttributeCodingWithBenchmark(.link, values: [urlString], ignoreReferenceHTML: false)
 	}
 
     func testHTMLEscapingInHref() {
         let attributedString = NSMutableAttributedString(string: "Test: Link to test. That's it")
-        attributedString.addAttribute(.link, value: "http://google.com?a='b'&c='test'", range: NSRange(location: 6, length: 13))
+        let url = URL(string: "http://google.com?a='b'&c='test'")!
+        attributedString.addAttribute(.link, value: url, range: NSRange(location: 6, length: 13))
         let html = Ashton.encode(attributedString)
         let roundtripped = Ashton.decode(html)
         XCTAssertEqual(attributedString, roundtripped)
     }
 
     func testHTMLEscapingInHrefParagraph() {
-        let attributedString = NSMutableAttributedString(string: "Test: Link to test. That's it", attributes: [.link: "http://google.com/?a='b\"&c=<>"])
+        let url = URL(string: "http://google.com?a='b'&c='test'")!
+        let attributedString = NSMutableAttributedString(string: "Test: Link to test. That's it", attributes: [.link: url])
         let html = Ashton.encode(attributedString)
         let roundtripped = Ashton.decode(html)
         XCTAssertEqual(attributedString, roundtripped)
@@ -249,9 +251,7 @@ private extension AshtonTests {
 			}
 
 			let decodedString = Ashton.decode(html)
-            let reencodedHTML = Ashton.encode(decodedString)
-            let roundTripped = Ashton.decode(reencodedHTML)
-			XCTAssertEqual(decodedString, roundTripped)
+			XCTAssertEqual(decodedString, attributedString)
 		}
 	}
 }
