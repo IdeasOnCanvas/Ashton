@@ -269,10 +269,6 @@ private struct HTMLTag {
     }
 
     private func makeCSSrgba(for color: Color) -> String {
-        var color = color
-        #if os(macOS)
-            color = color.usingColorSpace(.genericRGB) ?? color
-        #endif
         var (red, green, blue): (CGFloat, CGFloat, CGFloat)
         let alpha = color.cgColor.alpha
         if color.cgColor.numberOfComponents == 2 {
