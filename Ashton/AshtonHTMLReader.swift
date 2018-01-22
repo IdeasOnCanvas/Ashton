@@ -19,7 +19,8 @@ final class AshtonHTMLReader: NSObject {
 
 	private var attributesStack: [[NSAttributedStringKey: Any]] = []
 	private var output: NSMutableAttributedString!
-    private var shouldAppendNewline: Bool = false
+    private var parsedTags: [AshtonXMLParser.Tag] = []
+    private var appendNewlineBeforeNextContent = false
 
 	func decode(_ html: Ashton.HTML) -> NSAttributedString {
         self.output = NSMutableAttributedString()
@@ -37,28 +38,48 @@ final class AshtonHTMLReader: NSObject {
 extension AshtonHTMLReader: AshtonXMLParserDelegate {
     
     func didParseContent(_ parser: AshtonXMLParser, string: String) {
-        if let attributes = self.attributesStack.last {
-            self.output.append(NSAttributedString(string: string, attributes: attributes))
-        } else {
-            self.output.append(NSAttributedString(string: string))
-        }
+        self.appendToOutput(string)
     }
     
     func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey : Any]?) {
+        if self.appendNewlineBeforeNextContent {
+            self.appendToOutput("\n")
+            self.appendNewlineBeforeNextContent = false
+            self.attributesStack.removeLast()
+        }
+
         var attributes = attributes ?? [:]
         let lastAttributes = self.attributesStack.last ?? [:]
         attributes.merge(lastAttributes, uniquingKeysWith: { $1 })
+
         self.attributesStack.append(attributes)
-        if name == .p && self.shouldAppendNewline {
-            self.output.append(NSAttributedString(string: "\n"))
-        } else {
-            self.shouldAppendNewline = true
-        }
+        self.parsedTags.append(name)
     }
     
     func didCloseTag(_ parser: AshtonXMLParser) {
         guard self.attributesStack.isEmpty == false else { return }
-        
-        self.attributesStack.removeLast(1)
+
+        if self.parsedTags.removeLast() == .p {
+            if self.appendNewlineBeforeNextContent == true {
+                self.appendToOutput("\n")
+            } else {
+                self.appendNewlineBeforeNextContent = true
+            }
+        } else {
+            self.attributesStack.removeLast()
+        }
+    }
+}
+
+// MARK: - Private
+
+private extension AshtonHTMLReader {
+
+    func appendToOutput(_ string: String) {
+        if let attributes = self.attributesStack.last, attributes.isEmpty == false {
+            self.output.append(NSAttributedString(string: string, attributes: attributes))
+        } else {
+            self.output.append(NSAttributedString(string: string))
+        }
     }
 }
