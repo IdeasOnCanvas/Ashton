@@ -126,9 +126,9 @@ final class IteratorParsingTests: XCTestCase {
         var iterator = baselineOffset.unicodeScalars.makeIterator()
         XCTAssertTrue(iterator.parseVerticalAlignment()!.almostEquals(2.5))
         
-        let baselineOffset2 = "1.0"
+        let baselineOffset2 = "-1.0"
         var iterator2 = baselineOffset2.unicodeScalars.makeIterator()
-        XCTAssertTrue(iterator2.parseVerticalAlignment()!.almostEquals(1.0))
+        XCTAssertTrue(iterator2.parseVerticalAlignment()!.almostEquals(-1.0))
         
         let quark = "quark"
         var iterator3 = quark.unicodeScalars.makeIterator()

@@ -294,7 +294,7 @@ final class AshtonXMLParser {
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.verticalAlign) {
                             iterator.skipStyleAttributeIgnoredCharacters()
                             guard let verticalAlignment = iterator.parseVerticalAlignment() else { break }
-                            
+
                             attributes[.superscript] = verticalAlignment
                         }
                     case "f":

@@ -64,10 +64,15 @@ extension String.UnicodeScalarView.Iterator {
         var result: CGFloat? = nil
         var parsingDecimals = false
         var parsingIterator = self
+        var isNegative = false
         var decimalMultiplier: CGFloat = 0.1
         while let char = parsingIterator.next() {
+            if result == nil && char == "-" {
+                isNegative = true
+                continue
+            }
             // 48='0', 57='9'
-            guard char.value >= 48 && char.value <= 57 || char == decimalSeparator else { return result }
+            guard char.value >= 48 && char.value <= 57 || char == decimalSeparator else { break }
             guard char != decimalSeparator else {
                 parsingDecimals = true
                 continue
@@ -80,7 +85,9 @@ extension String.UnicodeScalarView.Iterator {
             }
             self = parsingIterator
         }
-        return result
+        guard let validResult = result else { return nil }
+
+        return isNegative ? -validResult : validResult
     }
 
     func testNextCharacter() -> Unicode.Scalar? {
