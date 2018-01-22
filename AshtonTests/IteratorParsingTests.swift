@@ -216,6 +216,32 @@ final class IteratorParsingTests: XCTestCase {
         }
         XCTAssertEqual(String(scanned), "Hello & World & this \"is\" 3 > 2; 4 < '2'")
     }
+    
+    func testFontFeaturesParsing() {
+        let sampleFeatures = "2/1 12/2 4/2"
+        var iterator = sampleFeatures.unicodeScalars.makeIterator()
+        let features = iterator.parseFontFeatures()
+        XCTAssertNotNil(features)
+        XCTAssertEqual(features.count, 3)
+        XCTAssertEqual(features[0][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 2)
+        XCTAssertEqual(features[0][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 1)
+        XCTAssertEqual(features[1][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 12)
+        XCTAssertEqual(features[1][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 2)
+        XCTAssertEqual(features[2][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 4)
+        XCTAssertEqual(features[2][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 2)
+        
+        let sampleFeatures2 = "2/0  12/32  4/2"
+        var iterator2 = sampleFeatures2.unicodeScalars.makeIterator()
+        let features2 = iterator2.parseFontFeatures()
+        XCTAssertNotNil(features2)
+        XCTAssertEqual(features2.count, 3)
+        XCTAssertEqual(features2[0][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 2)
+        XCTAssertEqual(features2[0][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 0)
+        XCTAssertEqual(features2[1][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 12)
+        XCTAssertEqual(features2[1][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 32)
+        XCTAssertEqual(features2[2][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 4)
+        XCTAssertEqual(features2[2][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 2)
+    }
 }
 
 

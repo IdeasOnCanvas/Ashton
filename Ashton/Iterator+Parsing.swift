@@ -292,6 +292,47 @@ extension String.UnicodeScalarView.Iterator {
 }
 
 
+// MARK: - Font Features
+
+extension String.UnicodeScalarView.Iterator {
+    
+    mutating func parseFontFeatures() -> [[String: Int]] {
+        var parsingIterator = self
+        var features: [[String: Int]] = []
+        var feature: [String: Int] = [:]
+        var currentFeatureKey = FontDescriptor.FeatureKey.typeIdentifier
+        
+        while let char = parsingIterator.next() {
+            guard char != ";" else { break }
+            
+            if char == "/" {
+                self = parsingIterator
+                continue
+            }
+            
+            if char == " " {
+                if feature.keys.count == 2 {
+                    features.append(feature)
+                    feature = [:]
+                    currentFeatureKey = FontDescriptor.FeatureKey.typeIdentifier
+                }
+                self = parsingIterator
+                continue
+            }
+            
+            guard let featureValue = self.parseFloat() else { return features }
+            
+            feature[currentFeatureKey.rawValue] = Int(featureValue)
+            currentFeatureKey = FontDescriptor.FeatureKey.selectorIdentifier
+            parsingIterator = self
+        }
+        if feature.keys.count == 2 { features.append(feature) }
+        
+        return features
+    }
+}
+
+
 // MARK: - URL
 
 extension String.UnicodeScalarView.Iterator {
