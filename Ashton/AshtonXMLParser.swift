@@ -66,19 +66,13 @@ final class AshtonXMLParser {
     private static let openChar: UnicodeScalar = "<"
     private static let escapeStart: UnicodeScalar = "&"
     
-    private let xmlString: String
-    
     // MARK: - Lifecycle
     
     weak var delegate: AshtonXMLParserDelegate?
     
-    init(xmlString: String) {
-        self.xmlString = xmlString
-    }
-    
-    func parse() {
+    func parse(string: String) {
         var parsedScalars = "".unicodeScalars
-        var iterator: String.UnicodeScalarView.Iterator = self.xmlString.unicodeScalars.makeIterator()
+        var iterator: String.UnicodeScalarView.Iterator = string.unicodeScalars.makeIterator()
         
         func flushContent() {
             guard parsedScalars.isEmpty == false else { return }

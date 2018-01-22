@@ -21,13 +21,13 @@ final class AshtonHTMLReader: NSObject {
 	private var output: NSMutableAttributedString!
     private var parsedTags: [AshtonXMLParser.Tag] = []
     private var appendNewlineBeforeNextContent = false
+    private let xmlParser = AshtonXMLParser()
 
 	func decode(_ html: Ashton.HTML) -> NSAttributedString {
         self.output = NSMutableAttributedString()
         
-        let xmlParser = AshtonXMLParser(xmlString: html)
-		xmlParser.delegate = self
-        xmlParser.parse()
+		self.xmlParser.delegate = self
+        self.xmlParser.parse(string: html)
 
 		return self.output
 	}
