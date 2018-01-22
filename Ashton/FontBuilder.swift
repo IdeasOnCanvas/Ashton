@@ -15,6 +15,7 @@ struct FontBuilder {
     var isBold: Bool = false
     var isItalic: Bool = false
     var pointSize: CGFloat?
+    var fontFeatures: [[String: Any]]?
     
     static let fontCache = NSCache<NSString, Font>()
     

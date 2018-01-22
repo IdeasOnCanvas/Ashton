@@ -58,6 +58,7 @@ final class AshtonXMLParser {
                 static let fontPostScriptName = "font-postscriptname"
                 static let underline = "underline"
                 static let strikethrough = "strikethrough"
+                static let fontFeatures = "font-features"
             }
         }
     }
@@ -301,8 +302,15 @@ final class AshtonXMLParser {
                         if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontPostScriptName) {
                             iterator.skipStyleAttributeIgnoredCharacters()
                             guard let postscriptName = iterator.parsePostscriptFontName() else { break }
-                            
+
+                            fontBuilder = fontBuilder ?? FontBuilder()
                             fontBuilder?.postScriptName = postscriptName
+                        } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontFeatures) {
+                            iterator.skipStyleAttributeIgnoredCharacters()
+                            guard let fontFeatures = iterator.parseFontFeatures() else { break }
+
+                            fontBuilder = fontBuilder ?? FontBuilder()
+                            fontBuilder?.fontFeatures = fontFeatures
                         }
                     default:
                         break
