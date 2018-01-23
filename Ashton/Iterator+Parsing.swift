@@ -28,6 +28,18 @@ extension String.UnicodeScalarView.Iterator {
         return true
     }
 
+    // source: http://www.cse.yorku.ca/~oz/hash.html
+    mutating func hash(until stopChar: Unicode.Scalar) -> UInt64 {
+        var forwardingIterator = self
+        var hash: UInt64 = 5381
+        while let referenceChar = forwardingIterator.next() {
+            guard referenceChar != stopChar else { return hash }
+
+            hash = (((hash &<< 5) &+ hash) &+ UInt64(referenceChar.value)) /* hash * 33 + c */
+        }
+        return hash
+    }
+
     mutating func foward(until stopChar: Unicode.Scalar) {
         var forwardingIterator = self
         while let char = forwardingIterator.next(), char != stopChar {

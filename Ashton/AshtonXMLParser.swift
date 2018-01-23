@@ -57,6 +57,7 @@ final class AshtonXMLParser {
     private static let closeChar: UnicodeScalar = ">"
     private static let openChar: UnicodeScalar = "<"
     private static let escapeStart: UnicodeScalar = "&"
+    private var styleAttributesCache: [UInt64: [NSAttributedStringKey: Any]] = [:]
     
     // MARK: - Lifecycle
     
@@ -198,8 +199,15 @@ final class AshtonXMLParser {
         iterator.skipStyleAttributeIgnoredCharacters()
         _ = iterator.next() // skip first "\'"
 
-        while let firstChar = iterator.testNextCharacter(), firstChar != "'", firstChar != ">" {
-            switch firstChar {
+        let cacheKey = iterator.hash(until: "'")
+        if let cachedAttributes = self.styleAttributesCache[cacheKey] {
+            while let char = iterator.next(), char != "'", char != ">" {}
+
+            return cachedAttributes
+        }
+
+        while let char = iterator.testNextCharacter(), char != "'", char != ">" {
+            switch char {
             case "b":
                 if iterator.forwardIfEquals(AttributeKeys.Style.backgroundColor) {
                     iterator.skipStyleAttributeIgnoredCharacters()
@@ -312,6 +320,8 @@ final class AshtonXMLParser {
         if let font = fontBuilder?.makeFont() {
             attributes[.font] = font
         }
+        
+        self.styleAttributesCache[cacheKey] = attributes
         return attributes
     }
     
