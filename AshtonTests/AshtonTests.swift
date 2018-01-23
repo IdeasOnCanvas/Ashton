@@ -39,7 +39,6 @@ class AshtonTests: XCTestCase {
         let referenceHTML2 = "<p style='font: 16px \"Helvetica\"; text-decoration: line-through; -cocoa-font-postscriptname: \"Helvetica\";'><strong>Sub<u>topic</u></strong> 2</p>"
         let attributedString2 = Ashton.decode(referenceHTML2, containsMixedContent: true)
         XCTAssertEqual(attributedString2.string, "Subtopic 2")
-        print(attributedString2)
     }
 
 	func testRTFTestFileRoundTrip() {
@@ -143,7 +142,20 @@ class AshtonTests: XCTestCase {
 	func testFonts() {
         let font1 = Font(name: "Arial", size: 12)!
         let font2 = Font(name: "Helvetica-Bold", size: 16)!
-		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: false)
+        let sampleString = NSMutableAttributedString(string: "Hello World")
+        sampleString.addAttribute(.font, value: font1, range: NSRange(location: 0, length: 5))
+        sampleString.addAttribute(.font, value: font2, range: NSRange(location: 6, length: 5))
+
+        let html = Ashton.encode(sampleString)
+        let roundTrippedString = Ashton.decode(html)
+        let roundTrippedHTML = Ashton.encode(roundTrippedString)
+
+        XCTAssertEqual(html, roundTrippedHTML)
+        // we compare the rountripped attributed string only on iOS as the comparison of the bridged NSFont (from CTFont)
+        // with the original NSFont leads to wrong failure
+        #if os(iOS)
+            XCTAssertEqual(sampleString, roundTrippedString)
+        #endif
 	}
 
     func testSavingAndLoadingOfStringsWithControlCharacters() {

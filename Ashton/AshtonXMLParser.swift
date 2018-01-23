@@ -21,7 +21,9 @@ protocol AshtonXMLParserDelegate: class {
 }
 
 extension NSAttributedStringKey {
+    #if os(macOS)
     static let superscript = NSAttributedStringKey(rawValue: "NSSuperScript")
+    #endif
 }
 
 
@@ -301,7 +303,8 @@ final class AshtonXMLParser {
                             fontBuilder?.postScriptName = postscriptName
                         } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontFeatures) {
                             iterator.skipStyleAttributeIgnoredCharacters()
-                            guard let fontFeatures = iterator.parseFontFeatures() else { break }
+                            let fontFeatures = iterator.parseFontFeatures()
+                            guard fontFeatures.isEmpty == false else { break }
 
                             fontBuilder = fontBuilder ?? FontBuilder()
                             fontBuilder?.fontFeatures = fontFeatures

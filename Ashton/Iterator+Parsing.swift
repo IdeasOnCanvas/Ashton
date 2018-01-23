@@ -301,16 +301,6 @@ extension String.UnicodeScalarView.Iterator {
 // MARK: - Font Features
 
 extension String.UnicodeScalarView.Iterator {
-
-    mutating func parseFontFeatures() -> [[String: Any]]? {
-        return nil
-    }
-}
-
-
-// MARK: - Font Features
-
-extension String.UnicodeScalarView.Iterator {
     
     mutating func parseFontFeatures() -> [[String: Int]] {
         var parsingIterator = self

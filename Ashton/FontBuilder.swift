@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreGraphics
+import CoreText
 
 
 struct FontBuilder {
@@ -25,29 +27,27 @@ struct FontBuilder {
         
         let cacheKey = "\(fontName)\(pointSize)\(self.isItalic)\(self.isBold)"
         if let cachedFont = FontBuilder.fontCache.object(forKey: cacheKey as NSString) { return cachedFont }
-        
-        let fontDescriptor = FontDescriptor(fontAttributes: [FontDescriptor.AttributeName.name: fontName])
-        let fontDescriptorWithTraits: FontDescriptor?
-        
-        var symbolicTraits = FontDescriptorSymbolicTraits()
-        if self.postScriptName == nil {
-            #if os(iOS)
-                if self.isBold { symbolicTraits.insert(.traitBold) }
-                if self.isItalic { symbolicTraits.insert(.traitItalic) }
-            #elseif os(macOS)
-                if self.isBold { symbolicTraits.insert(.bold) }
-                if self.isItalic { symbolicTraits.insert(.italic) }
-            #endif
-            fontDescriptorWithTraits = fontDescriptor.withSymbolicTraits(symbolicTraits)
-        } else {
-            fontDescriptorWithTraits = nil
+
+        var attributes: [FontDescriptor.AttributeName: Any] = [FontDescriptor.AttributeName.name: fontName]
+        if let fontFeatures = fontFeatures {
+           attributes[.featureSettings] = fontFeatures
         }
-        
-        #if os(iOS)
-            let font = Font(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize)
-        #elseif os(macOS)
-            guard let font = Font(descriptor: fontDescriptorWithTraits ?? fontDescriptor, size: pointSize) else { return nil }
-        #endif
+
+        var fontDescriptor = CTFontDescriptorCreateWithAttributes(attributes as CFDictionary)
+
+        if self.postScriptName == nil {
+            var symbolicTraits = CTFontSymbolicTraits()
+            #if os(iOS)
+                if self.isBold { symbolicTraits.insert(.boldTrait) }
+                if self.isItalic { symbolicTraits.insert(.italicTrait) }
+            #elseif os(macOS)
+                if self.isBold { symbolicTraits.insert(.boldTrait) }
+                if self.isItalic { symbolicTraits.insert(.italicTrait) }
+            #endif
+            fontDescriptor = CTFontDescriptorCreateCopyWithSymbolicTraits(fontDescriptor, symbolicTraits, symbolicTraits) ?? fontDescriptor
+        }
+
+        let font = CTFontCreateWithFontDescriptor(fontDescriptor, pointSize, nil) as Font
         
         FontBuilder.fontCache.setObject(font, forKey: cacheKey as NSString)
         return font
