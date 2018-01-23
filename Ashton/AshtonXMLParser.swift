@@ -21,6 +21,7 @@ protocol AshtonXMLParserDelegate: class {
 }
 
 
+/// Parses Ashton XML and returns parsed content and attributes
 final class AshtonXMLParser {
     
     enum Tag {
@@ -53,10 +54,7 @@ final class AshtonXMLParser {
             }
         }
     }
-    
-    private static let closeChar: UnicodeScalar = ">"
-    private static let openChar: UnicodeScalar = "<"
-    private static let escapeStart: UnicodeScalar = "&"
+
     private var styleAttributesCache: [UInt64: [NSAttributedStringKey: Any]] = [:]
     
     // MARK: - Lifecycle
@@ -76,10 +74,10 @@ final class AshtonXMLParser {
         
         while let character = iterator.next() {
             switch character {
-            case AshtonXMLParser.openChar:
+            case "<":
                 flushContent()
                 self.parseTag(&iterator)
-            case AshtonXMLParser.escapeStart:
+            case "&":
                 if let escapedChar = iterator.parseEscapedChar() {
                     parsedScalars.append(escapedChar)
                 } else {
@@ -91,8 +89,12 @@ final class AshtonXMLParser {
         }
         flushContent()
     }
-    
-    // MARK: - Private
+}
+
+
+// MARK: - Private
+
+private extension AshtonXMLParser {
     
     func parseTag(_ iterator: inout String.UnicodeScalarView.Iterator) {
 
@@ -131,6 +133,7 @@ final class AshtonXMLParser {
             
             if nextChar == ">" {
                 self.delegate?.didOpenTag(self, name: .span, attributes: nil)
+                return
             } else if nextChar == " " {
                 let attributes = self.parseAttributes(&iterator)
                 self.delegate?.didOpenTag(self, name: .span, attributes: attributes)
@@ -155,6 +158,7 @@ final class AshtonXMLParser {
         case "/":
             forwardUntilCloseTag()
             self.delegate?.didCloseTag(self)
+            return
         default:
             forwardUntilCloseTag()
             self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
