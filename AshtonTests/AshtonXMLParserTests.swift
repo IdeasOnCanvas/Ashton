@@ -29,9 +29,9 @@ final class AshtonXMLParserTests: XCTestCase {
     func testTagParsing() {
         let sampleString = "<p><span style='bla:fasdf;'> hello</span> &amp; world<dummy> not this </dummy></p>"
         let delegate = DummyParserDelegate()
-        let parser = AshtonXMLParser(xmlString: sampleString)
+        let parser = AshtonXMLParser()
         parser.delegate = delegate
-        parser.parse()
+        parser.parse(string: sampleString)
         XCTAssertEqual(delegate.closedTags, 3)
         XCTAssertEqual(delegate.openedTags.map { $0.name }, [.p, .span, .ignored])
     }
@@ -40,9 +40,9 @@ final class AshtonXMLParserTests: XCTestCase {
         let sampleString = "<span style='background-color:rgba(52, 72, 83, 1.000000);'>Test</span>"
 
         let delegate = DummyParserDelegate()
-        let parser = AshtonXMLParser(xmlString: sampleString)
+        let parser = AshtonXMLParser()
         parser.delegate = delegate
-        parser.parse()
+        parser.parse(string: sampleString)
         XCTAssertEqual(delegate.openedTags.count, 1)
 
         let attributes = delegate.openedTags.first!.attributes!
@@ -53,9 +53,9 @@ final class AshtonXMLParserTests: XCTestCase {
     func testMultipleStyleAttributesParsing() {
         let styleString = "<span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"\"; -cocoa-font-postscriptname: \"Arial\"; '>\\UF016</span><span style='color: rgba(52, 72, 83, 1.000000); font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>Hello World</span>"
         let delegate = DummyParserDelegate()
-        let parser = AshtonXMLParser(xmlString: styleString)
+        let parser = AshtonXMLParser()
         parser.delegate = delegate
-        parser.parse()
+        parser.parse(string: styleString)
         XCTAssertEqual(delegate.openedTags.count, 2)
 
         let attributes = delegate.openedTags.first!.attributes!
@@ -65,9 +65,9 @@ final class AshtonXMLParserTests: XCTestCase {
     func testHrefParsing() {
         let sampleString = "<a style='font: bold 16px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica-Bold\"; -cocoa-underline-color: rgba(127, 0, 127, 1.000000); ' href='http://google.com'>h</a>"
         let delegate = DummyParserDelegate()
-        let parser = AshtonXMLParser(xmlString: sampleString)
+        let parser = AshtonXMLParser()
         parser.delegate = delegate
-        parser.parse()
+        parser.parse(string: sampleString)
         XCTAssertEqual(delegate.openedTags.count, 1)
 
         let attributes = delegate.openedTags.first!.attributes!
@@ -80,10 +80,10 @@ final class AshtonXMLParserTests: XCTestCase {
         let attributedString =  try! NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
         let sampleHTML = Ashton.encode(attributedString) + ""
         let delegate = DummyParserDelegate()
+        let parser = AshtonXMLParser()
         self.measure {
-            let parser = AshtonXMLParser(xmlString: sampleHTML)
             parser.delegate = delegate
-            parser.parse()
+            parser.parse(string: sampleHTML)
         }
     }
 }
@@ -112,10 +112,10 @@ private extension AshtonXMLParserTests {
     }
     
     func parseString(_ string: String) -> String {
-        let parser = AshtonXMLParser(xmlString: string)
+        let parser = AshtonXMLParser()
         let dummyDelegate = DummyParserDelegate()
         parser.delegate = dummyDelegate
-        parser.parse()
+        parser.parse(string: string)
         return dummyDelegate.content
     }
 }
