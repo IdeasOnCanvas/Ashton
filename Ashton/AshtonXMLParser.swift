@@ -20,19 +20,8 @@ protocol AshtonXMLParserDelegate: class {
     func didCloseTag(_ parser: AshtonXMLParser)
 }
 
-extension NSAttributedStringKey {
-    #if os(macOS)
-    static let superscript = NSAttributedStringKey(rawValue: "NSSuperScript")
-    #endif
-}
-
 
 final class AshtonXMLParser {
-    
-    enum Attribute {
-        case style
-        case href
-    }
     
     enum Tag {
         case p

@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 /// Transforms AttributedString into HTML in both directions
 @objc
 public final class Ashton: NSObject {
