@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Ashton.TBXML
 #if os(iOS)
     import UIKit
 #elseif os(macOS)
@@ -25,6 +24,9 @@ final class AshtonHTMLReader: NSObject {
 
 	func decode(_ html: Ashton.HTML) -> NSAttributedString {
         self.output = NSMutableAttributedString()
+        self.parsedTags = []
+        self.appendNewlineBeforeNextContent = false
+        self.attributesStack = []
         
 		self.xmlParser.delegate = self
         self.xmlParser.parse(string: html)

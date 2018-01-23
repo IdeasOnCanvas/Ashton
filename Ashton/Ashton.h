@@ -6,7 +6,7 @@
 //  Copyright © 2017 Michael Schwarz. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import Foundation;
 
 FOUNDATION_EXPORT double AshtonVersionNumber;
 FOUNDATION_EXPORT const unsigned char AshtonVersionString[];

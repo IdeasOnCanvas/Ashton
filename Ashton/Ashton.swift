@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Ashton.AshtonObjc
 
 /// Transforms AttributedString into HTML in both directions
 @objc
@@ -25,6 +24,6 @@ public final class Ashton: NSObject {
 
     @objc
     public static func decode(_ html: HTML, containsMixedContent: Bool = false) -> NSAttributedString {
-        return AshtonHTMLReader().decode(html)
+        return Ashton.reader.decode(html)
 	}
 }
