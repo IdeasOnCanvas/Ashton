@@ -245,7 +245,7 @@ final class IteratorParsingTests: XCTestCase {
 
     func testHashing() {
         #if os(macOS)
-            let url = Bundle(for: IteratorParsingTests.self).url(forResource: "fontName", withExtension: "txt")!
+            let url = Bundle(for: IteratorParsingTests.self).url(forResource: "fontNames", withExtension: "txt")!
             let string = try! String(contentsOf: url)
             let fonts = string.components(separatedBy: .newlines)
         #elseif os(iOS)
