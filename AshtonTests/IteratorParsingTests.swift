@@ -242,6 +242,32 @@ final class IteratorParsingTests: XCTestCase {
         XCTAssertEqual(features2[2][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 4)
         XCTAssertEqual(features2[2][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 2)
     }
+
+    func testHashing() {
+        #if os(macOS)
+            let url = Bundle(for: IteratorParsingTests.self).url(forResource: "fontName", withExtension: "txt")!
+            let string = try! String(contentsOf: url)
+            let fonts = string.components(separatedBy: .newlines)
+        #elseif os(iOS)
+            let fontFamilies = Font.familyNames
+            var fonts: [String] = []
+            for family in fontFamilies {
+                fonts += Font.fontNames(forFamilyName: family)
+            }
+        #endif
+        var hashes: [UInt64: String] = [:]
+        var collisions: [(String, String)] = []
+        for fontname in fonts {
+            var iterator = ("font: " + fontname + "'").unicodeScalars.makeIterator()
+            let hash = iterator.hash(until: "'")
+            if let existingFont = hashes[hash] {
+                collisions.append((existingFont, fontname))
+            } else {
+                hashes[hash] = fontname
+            }
+        }
+        XCTAssertTrue(collisions.count == 0)
+    }
 }
 
 
