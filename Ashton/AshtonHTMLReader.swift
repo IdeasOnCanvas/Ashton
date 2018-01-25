@@ -29,6 +29,11 @@ final class AshtonHTMLReader: NSObject {
 
 		return self.output
 	}
+
+    func clearCaches() {
+        FontBuilder.fontCache = [:]
+        AshtonXMLParser.styleAttributesCache = [:]
+    }
 }
 
 // MARK: - AshtonXMLParserDelegate

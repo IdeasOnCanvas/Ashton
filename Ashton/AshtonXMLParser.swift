@@ -55,7 +55,7 @@ final class AshtonXMLParser {
         }
     }
 
-    private var styleAttributesCache: [UInt64: [NSAttributedStringKey: Any]] = [:]
+    static var styleAttributesCache: [UInt64: [NSAttributedStringKey: Any]] = [:]
     
     // MARK: - Lifecycle
     
@@ -204,7 +204,7 @@ private extension AshtonXMLParser {
         _ = iterator.next() // skip first "\'"
 
         let cacheKey = iterator.hash(until: "'")
-        if let cachedAttributes = self.styleAttributesCache[cacheKey] {
+        if let cachedAttributes = AshtonXMLParser.styleAttributesCache[cacheKey] {
             while let char = iterator.next(), char != "'", char != ">" {}
 
             return cachedAttributes
@@ -325,7 +325,7 @@ private extension AshtonXMLParser {
             attributes[.font] = font
         }
         
-        self.styleAttributesCache[cacheKey] = attributes
+        AshtonXMLParser.styleAttributesCache[cacheKey] = attributes
         return attributes
     }
     

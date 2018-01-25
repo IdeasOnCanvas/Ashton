@@ -176,6 +176,17 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(referenceHTML, roundtrippedHTML)
     }
 
+    func testCacheClearing() {
+        let ashtonHTML = "<p style= '-cocoa-font-features: 3/3; font: 14px \"Hoefler Text\"; text-align: left; color: rgba(0, 0, 0, 1.000000); '>hello world</p>"
+        _ = Ashton.decode(ashtonHTML)
+
+        XCTAssertFalse(FontBuilder.fontCache.isEmpty)
+        XCTAssertFalse(AshtonXMLParser.styleAttributesCache.isEmpty)
+        Ashton.clearCaches()
+        XCTAssertTrue(FontBuilder.fontCache.isEmpty)
+        XCTAssertTrue(AshtonXMLParser.styleAttributesCache.isEmpty)
+    }
+
 	// MARK: - Performance Tests
 
 	func testParagraphDecodingPerformance() {

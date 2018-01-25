@@ -13,6 +13,11 @@ import CoreText
 
 /// Creates a NS/UIFont
 struct FontBuilder {
+
+    // MARK: - Properties
+
+    static var fontCache: [String: Font] = [:]
+
     var fontName: String? { return self.postScriptName ?? self.familyName }
     var familyName: String?
     var postScriptName: String?
@@ -27,7 +32,7 @@ struct FontBuilder {
         return "\(familyName)\(pointSize)\(self.isBold)\(self.isItalic)\(self.fontFeatures?.description ?? "")"
     }
 
-    static private(set) var fontCache: [String: Font] = [:]
+    // MARK: - FontBuilder
     
     func makeFont() -> Font? {
         guard let fontName = self.fontName else { return nil }
