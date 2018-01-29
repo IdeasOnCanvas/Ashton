@@ -18,11 +18,11 @@ final class AshtonHTMLReader: NSObject {
     private var appendNewlineBeforeNextContent = false
     private let xmlParser = AshtonXMLParser()
 
-	func decode(_ html: Ashton.HTML) -> NSAttributedString {
+    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedStringKey: Any] = [:]) -> NSAttributedString {
         self.output = NSMutableAttributedString()
         self.parsedTags = []
         self.appendNewlineBeforeNextContent = false
-        self.attributesStack = []
+        self.attributesStack = [defaultAttributes]
         
 		self.xmlParser.delegate = self
         self.xmlParser.parse(string: html)
@@ -53,7 +53,7 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
 
         var attributes = attributes ?? [:]
         let lastAttributes = self.attributesStack.last ?? [:]
-        attributes.merge(lastAttributes, uniquingKeysWith: { $1 })
+        attributes.merge(lastAttributes, uniquingKeysWith: { (old, _) in old })
 
         self.attributesStack.append(attributes)
         self.parsedTags.append(name)

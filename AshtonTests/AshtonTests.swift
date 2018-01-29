@@ -33,11 +33,11 @@ class AshtonTests: XCTestCase {
 
     func testMixedHTMLContentParsing() {
         let referenceHTML = "<code>Inline code</code> and some other text"
-        let attributedString = Ashton.decode(referenceHTML, containsMixedContent: true)
+        let attributedString = Ashton.decode(referenceHTML)
         XCTAssertEqual(attributedString.string, "Inline code and some other text")
 
         let referenceHTML2 = "<p style='font: 16px \"Helvetica\"; text-decoration: line-through; -cocoa-font-postscriptname: \"Helvetica\";'><strong>Sub<u>topic</u></strong> 2</p>"
-        let attributedString2 = Ashton.decode(referenceHTML2, containsMixedContent: true)
+        let attributedString2 = Ashton.decode(referenceHTML2)
         XCTAssertEqual(attributedString2.string, "Subtopic 2")
     }
 
@@ -185,6 +185,18 @@ class AshtonTests: XCTestCase {
         Ashton.clearCaches()
         XCTAssertTrue(FontBuilder.fontCache.isEmpty)
         XCTAssertTrue(AshtonXMLParser.styleAttributesCache.isEmpty)
+    }
+    
+    func testDefaultAttributes() {
+        let html = "<p>Hello <span style= 'font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>World</span></p>"
+        let defaultFont = Font(name: "Arial", size: 12)!
+        let defaultAttributes: [NSAttributedStringKey: Any] = [.font: defaultFont]
+        let attributedString = Ashton.decode(html, defaultAttributes: defaultAttributes)
+        let attributes1 = attributedString.attributes(at: 0, effectiveRange: nil)
+        XCTAssertEqual(attributes1[.font] as! Font, defaultFont)
+        
+        let attributes2 = attributedString.attributes(at: 6, effectiveRange: nil)
+        XCTAssertNotEqual(attributes2[.font] as! Font, defaultFont)
     }
 
 	// MARK: - Performance Tests

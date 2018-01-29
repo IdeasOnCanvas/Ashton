@@ -24,8 +24,8 @@ public final class Ashton: NSObject {
 	}
 
     @objc
-    public static func decode(_ html: HTML, containsMixedContent: Bool = false) -> NSAttributedString {
-        return Ashton.reader.decode(html)
+    public static func decode(_ html: HTML, defaultAttributes: [NSAttributedStringKey: Any] = [:]) -> NSAttributedString {
+        return Ashton.reader.decode(html, defaultAttributes: defaultAttributes)
 	}
 
     public static func clearCaches() {
