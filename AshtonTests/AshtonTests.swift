@@ -186,6 +186,12 @@ class AshtonTests: XCTestCase {
         XCTAssertTrue(FontBuilder.fontCache.isEmpty)
         XCTAssertTrue(AshtonXMLParser.styleAttributesCache.isEmpty)
     }
+
+    func testReadingOfUnknownTags() {
+        let ashtonHTML = "<bla unknownAttributeName= '-cocoa-font-features: 3/3; font: 14px \"Hoefler Text\"; text-align: left; color: rgba(0, 0, 0, 1.000000); '>hello world</bla>"
+        let attributedString = Ashton.decode(ashtonHTML)
+        XCTAssertEqual(attributedString.string, "hello world")
+    }
     
     func testDefaultAttributes() {
         let html = "<p>Hello <span style= 'font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>World</span></p>"
