@@ -44,7 +44,7 @@ extension String.UnicodeScalarView.Iterator {
         while let char = self.next(), char != stopChar {}
     }
 
-    mutating func scanString(until stopChar: Unicode.Scalar) -> String {
+    mutating func scanString(untilBefore stopChar: Unicode.Scalar) -> String {
         var scannedScalars = "".unicodeScalars
         var scanningIterator = self
 
@@ -256,7 +256,7 @@ extension String.UnicodeScalarView.Iterator {
         guard let fontSize = self.parseFloat() else { return (isBold, isItalic, nil, nil) }
         
         self.forwardIfEquals("px \"")
-        let familyName = self.scanString(until: "\"")
+        let familyName = self.scanString(untilBefore: "\"")
         
         return (isBold, isItalic, fontSize, familyName)
     }
@@ -264,7 +264,7 @@ extension String.UnicodeScalarView.Iterator {
     mutating func parsePostscriptFontName() -> String? {
         guard self.forwardIfEquals("\"") else { return nil }
         
-        return self.scanString(until: "\"")
+        return self.scanString(untilBefore: "\"")
     }
 }
 
