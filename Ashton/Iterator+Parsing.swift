@@ -40,11 +40,8 @@ extension String.UnicodeScalarView.Iterator {
         return hash
     }
 
-    mutating func foward(until stopChar: Unicode.Scalar) {
-        var forwardingIterator = self
-        while let char = forwardingIterator.next(), char != stopChar {
-            self = forwardingIterator
-        }
+    mutating func foward(untilAfter stopChar: Unicode.Scalar) {
+        while let char = self.next(), char != stopChar {}
     }
 
     mutating func scanString(until stopChar: Unicode.Scalar) -> String {

@@ -317,7 +317,7 @@ private extension AshtonXMLParser {
             default:
                 break
             }
-            iterator.foward(until: ";")
+            iterator.foward(untilAfter: ";")
             iterator.skipStyleAttributeIgnoredCharacters()
         }
         _ = iterator.next() // skip last '
