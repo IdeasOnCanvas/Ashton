@@ -99,7 +99,7 @@ private extension AshtonXMLParser {
     func parseTag(_ iterator: inout String.UnicodeScalarView.Iterator) {
 
         func forwardUntilCloseTag() {
-            while let char = iterator.next(), char != ">" {}
+            iterator.foward(untilAfter: ">")
         }
         
         switch iterator.next() ?? ">" {
@@ -109,58 +109,42 @@ private extension AshtonXMLParser {
                 self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
                 return
             }
+            forwardUntilCloseTag()
             self.delegate?.didParseContent(self, string: "\n")
         case "p":
-            guard let nextChar = iterator.next() else { return }
-            
-            if nextChar == ">" {
-                self.delegate?.didOpenTag(self, name: .p, attributes: nil)
-            } else if nextChar == " " {
-                let attributes = self.parseAttributes(&iterator)
-                self.delegate?.didOpenTag(self, name: .p, attributes: attributes)
-            } else {
-                forwardUntilCloseTag()
-                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            }
+            self.finalizeOpening(of: .p, iterator: &iterator)
         case "s":
             guard iterator.forwardIfEquals("pan") else {
                 forwardUntilCloseTag()
                 self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-                return
+                break
             }
-            
-            guard let nextChar = iterator.next() else { return }
-            
-            if nextChar == ">" {
-                self.delegate?.didOpenTag(self, name: .span, attributes: nil)
-                return
-            } else if nextChar == " " {
-                let attributes = self.parseAttributes(&iterator)
-                self.delegate?.didOpenTag(self, name: .span, attributes: attributes)
-            } else {
-                forwardUntilCloseTag()
-                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            }
+            self.finalizeOpening(of: .span, iterator: &iterator)
         case "a":
-            guard let nextChar = iterator.next() else { return }
-            
-            if nextChar == ">" {
-                self.delegate?.didOpenTag(self, name: .a, attributes: nil)
-            } else if nextChar == " " {
-                let attributes = self.parseAttributes(&iterator)
-                self.delegate?.didOpenTag(self, name: .a, attributes: attributes)
-            } else {
-                forwardUntilCloseTag()
-                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-            }
+            self.finalizeOpening(of: .a, iterator: &iterator)
         case ">":
-            return
+            break
         case "/":
             forwardUntilCloseTag()
             self.delegate?.didCloseTag(self)
-            return
         default:
             forwardUntilCloseTag()
+            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
+        }
+    }
+
+    func finalizeOpening(of tag: Tag, iterator: inout String.UnicodeScalarView.Iterator) {
+        guard let nextChar = iterator.next() else { return }
+
+        switch nextChar {
+        case ">":
+            self.delegate?.didOpenTag(self, name: tag, attributes: nil)
+        case " ":
+            let attributes = self.parseAttributes(&iterator)
+            self.delegate?.didOpenTag(self, name: tag, attributes: attributes)
+        default:
+            // it seems we parsed only a prefix and the actual tag is unknown
+            iterator.foward(untilAfter: ">")
             self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
         }
     }
