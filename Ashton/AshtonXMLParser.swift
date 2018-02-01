@@ -97,43 +97,37 @@ final class AshtonXMLParser {
 private extension AshtonXMLParser {
     
     func parseTag(_ iterator: inout String.UnicodeScalarView.Iterator) {
-
-        func forwardUntilCloseTag() {
-            iterator.foward(untilAfter: ">")
-        }
+        guard let nextCharacter = iterator.next(), nextCharacter != ">" else { return }
         
-        switch iterator.next() ?? ">" {
+        switch nextCharacter {
         case "b":
-            guard iterator.forwardIfEquals("r /") else {
-                forwardUntilCloseTag()
-                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-                return
+            if iterator.forwardIfEquals("r /") {
+                iterator.foward(untilAfter: ">")
+                self.delegate?.didParseContent(self, string: "\n")
+            } else {
+                self.finalizeOpening(of: .ignored, iterator: &iterator)
             }
-            forwardUntilCloseTag()
-            self.delegate?.didParseContent(self, string: "\n")
         case "p":
             self.finalizeOpening(of: .p, iterator: &iterator)
         case "s":
-            guard iterator.forwardIfEquals("pan") else {
-                forwardUntilCloseTag()
-                self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
-                break
-            }
-            self.finalizeOpening(of: .span, iterator: &iterator)
+            let parsedTag: Tag = iterator.forwardIfEquals("pan") ? .span : .ignored
+            self.finalizeOpening(of: parsedTag, iterator: &iterator)
         case "a":
             self.finalizeOpening(of: .a, iterator: &iterator)
-        case ">":
-            break
         case "/":
-            forwardUntilCloseTag()
+            iterator.foward(untilAfter: ">")
             self.delegate?.didCloseTag(self)
         default:
-            forwardUntilCloseTag()
-            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
+            self.finalizeOpening(of: .ignored, iterator: &iterator)
         }
     }
 
     func finalizeOpening(of tag: Tag, iterator: inout String.UnicodeScalarView.Iterator) {
+        guard tag != .ignored else {
+            iterator.foward(untilAfter: ">")
+            self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
+            return
+        }
         guard let nextChar = iterator.next() else { return }
 
         switch nextChar {
@@ -143,8 +137,8 @@ private extension AshtonXMLParser {
             let attributes = self.parseAttributes(&iterator)
             self.delegate?.didOpenTag(self, name: tag, attributes: attributes)
         default:
+             iterator.foward(untilAfter: ">")
             // it seems we parsed only a prefix and the actual tag is unknown
-            iterator.foward(untilAfter: ">")
             self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
         }
     }
