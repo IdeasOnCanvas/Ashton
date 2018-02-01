@@ -208,6 +208,14 @@ class AshtonTests: XCTestCase {
         let attributes2 = attributedString.attributes(at: 6, effectiveRange: nil)
         XCTAssertNotEqual(attributes2[.font] as! Font, defaultFont)
     }
+    
+    func testSpecialCharacters() {
+        let string = "Hello 🌍, 😎, 🤡 - 🍺 ≤ 🍷 < 🥃"
+        let attributedString = NSAttributedString(string: string)
+        let html = Ashton.encode(attributedString)
+        let roundTrippedAttributedString = Ashton.decode(html)
+        XCTAssertEqual(attributedString.string, roundTrippedAttributedString.string)
+    }
 
 	// MARK: - Performance Tests
 
