@@ -188,9 +188,13 @@ class AshtonTests: XCTestCase {
     }
 
     func testReadingOfUnknownTags() {
-        let ashtonHTML = "<bla unknownAttributeName= '-cocoa-font-features: 3/3; font: 14px \"Hoefler Text\"; text-align: left; color: rgba(0, 0, 0, 1.000000); '>hello world</bla>"
+        let ashtonHTML = "<bla hreference='' hoax='' stuff='bla' unknownAttributeName= '-cocoa-font-features: 3/3; font: 14px \"Hoefler Text\"; text-align: left; color: rgba(0, 0, 0, 1.000000); '>hello world</bla>"
         let attributedString = Ashton.decode(ashtonHTML)
         XCTAssertEqual(attributedString.string, "hello world")
+
+        let ashtonHTML2 = "<span hreference='' hoax='' stuff='bla' style= '-cocoa-blabla: 3/3; fontnone: 14px \"Hoefler Text\"; text-alignleft: left; color: rgba(0, 0, 0, 1.000000); '>hello world</bla>"
+        let attributedString2 = Ashton.decode(ashtonHTML2)
+        XCTAssertEqual(attributedString2.string, "hello world")
     }
     
     func testDefaultAttributes() {

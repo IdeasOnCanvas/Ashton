@@ -163,10 +163,12 @@ private extension AshtonXMLParser {
             case "s":
                 guard iterator.forwardAndCheckingIfEquals("tyle") else { break }
 
+                iterator.foward(untilAfter: "=")
                 addAttributes(self.parseStyles(&iterator))
             case "h":
                 guard iterator.forwardAndCheckingIfEquals("ref") else { break }
 
+                iterator.foward(untilAfter: "=")
                 addAttributes(self.parseHRef(&iterator))
             default:
                 break
