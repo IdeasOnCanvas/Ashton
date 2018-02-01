@@ -57,7 +57,7 @@ final class AshtonXMLParser {
 
     static var styleAttributesCache: [UInt64: [NSAttributedStringKey: Any]] = [:]
     
-    // MARK: - Lifecycle
+    // MARK: - AshtonXMLParser
     
     weak var delegate: AshtonXMLParserDelegate?
     
@@ -181,8 +181,7 @@ private extension AshtonXMLParser {
         var fontBuilder: FontBuilder?
         var attributes: [NSAttributedStringKey: Any] = [:]
 
-        iterator.skipStyleAttributeIgnoredCharacters()
-        _ = iterator.next() // skip first "\'"
+        iterator.foward(untilAfter: "'")
 
         let cacheKey = iterator.hash(until: "'")
         if let cachedAttributes = AshtonXMLParser.styleAttributesCache[cacheKey] {
@@ -194,19 +193,19 @@ private extension AshtonXMLParser {
         while let char = iterator.testNextCharacter(), char != "'", char != ">" {
             switch char {
             case "b":
-                if iterator.forwardIfEquals(AttributeKeys.Style.backgroundColor) {
-                    iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.backgroundColor] = iterator.parseColor()
-                }
+                guard iterator.forwardIfEquals(AttributeKeys.Style.backgroundColor) else { break }
+
+                iterator.skipStyleAttributeIgnoredCharacters()
+                attributes[.backgroundColor] = iterator.parseColor()
             case "c":
-                if iterator.forwardIfEquals(AttributeKeys.Style.color) {
-                    iterator.skipStyleAttributeIgnoredCharacters()
-                    attributes[.foregroundColor] = iterator.parseColor()
-                }
+                guard iterator.forwardIfEquals(AttributeKeys.Style.color) else { break }
+
+                iterator.skipStyleAttributeIgnoredCharacters()
+                attributes[.foregroundColor] = iterator.parseColor()
             case "t":
                 if iterator.forwardIfEquals(AttributeKeys.Style.textAlign) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    guard let textAlignment =  iterator.parseTextAlignment() else { break }
+                    guard let textAlignment = iterator.parseTextAlignment() else { break }
 
                     let paragraphStyle = NSMutableParagraphStyle()
                     paragraphStyle.alignment = textAlignment
@@ -218,82 +217,79 @@ private extension AshtonXMLParser {
                     attributes[textDecoration] = NSUnderlineStyle.styleSingle.rawValue
                 }
             case "f":
-                if iterator.forwardIfEquals(AttributeKeys.Style.font) {
-                    iterator.skipStyleAttributeIgnoredCharacters()
-                    
-                    let fontAttributes = iterator.parseFontAttributes()
-                    
-                    fontBuilder = fontBuilder ?? FontBuilder()
-                    fontBuilder?.isBold = fontAttributes.isBold
-                    fontBuilder?.isItalic = fontAttributes.isItalic
-                    fontBuilder?.familyName = fontAttributes.family
-                    fontBuilder?.pointSize = fontAttributes.points
-                }
+                guard iterator.forwardIfEquals(AttributeKeys.Style.font) else { break }
+
+                iterator.skipStyleAttributeIgnoredCharacters()
+
+                let fontAttributes = iterator.parseFontAttributes()
+                fontBuilder = fontBuilder ?? FontBuilder()
+                fontBuilder?.isBold = fontAttributes.isBold
+                fontBuilder?.isItalic = fontAttributes.isItalic
+                fontBuilder?.familyName = fontAttributes.family
+                fontBuilder?.pointSize = fontAttributes.points
             case "v":
-                if iterator.forwardIfEquals(AttributeKeys.Style.verticalAlign) {
-                    iterator.skipStyleAttributeIgnoredCharacters()
-                    guard attributes[.superscript] == nil else { break }
-                    guard let alignment = iterator.parseVerticalAlignmentFromString() else { break }
+                guard iterator.forwardIfEquals(AttributeKeys.Style.verticalAlign) else { break }
+
+                iterator.skipStyleAttributeIgnoredCharacters()
+                guard attributes[.superscript] == nil else { break }
+                guard let alignment = iterator.parseVerticalAlignmentFromString() else { break }
                     
-                    attributes[.superscript] = alignment
-                }
+                attributes[.superscript] = alignment
             case "-":
-                if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.commonPrefix) {
-                    guard let firstChar = iterator.testNextCharacter() else { break }
+                guard iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.commonPrefix) else { break }
+                guard let firstChar = iterator.testNextCharacter() else { break }
 
-                    switch firstChar {
-                    case "s":
-                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethroughColor) {
-                            iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.strikethroughColor] = iterator.parseColor()
-                        } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethrough) {
-                            iterator.skipStyleAttributeIgnoredCharacters()
-                            guard let underlineStyle = iterator.parseUnderlineStyle() else { break }
+                switch firstChar {
+                case "s":
+                    if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethroughColor) {
+                        iterator.skipStyleAttributeIgnoredCharacters()
+                        attributes[.strikethroughColor] = iterator.parseColor()
+                    } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.strikethrough) {
+                        iterator.skipStyleAttributeIgnoredCharacters()
+                        guard let underlineStyle = iterator.parseUnderlineStyle() else { break }
 
-                            attributes[.strikethroughStyle] = underlineStyle.rawValue
-                        }
-                    case "u":
-                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underlineColor) {
-                            iterator.skipStyleAttributeIgnoredCharacters()
-                            attributes[.underlineColor] = iterator.parseColor()
-                        } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underline) {
-                            iterator.skipStyleAttributeIgnoredCharacters()
-                            guard let underlineStyle = iterator.parseUnderlineStyle() else { break }
-                            
-                            attributes[.underlineStyle] = underlineStyle.rawValue
-                        }
-                    case "b":
-                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.baseOffset) {
-                            iterator.skipStyleAttributeIgnoredCharacters()
-                            guard let baselineOffset = iterator.parseBaselineOffset() else { break }
-                            
-                            attributes[.baselineOffset] = baselineOffset
-                        }
-                    case "v":
-                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.verticalAlign) {
-                            iterator.skipStyleAttributeIgnoredCharacters()
-                            guard let verticalAlignment = iterator.parseVerticalAlignment() else { break }
-
-                            attributes[.superscript] = verticalAlignment
-                        }
-                    case "f":
-                        if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontPostScriptName) {
-                            iterator.skipStyleAttributeIgnoredCharacters()
-                            guard let postscriptName = iterator.parsePostscriptFontName() else { break }
-
-                            fontBuilder = fontBuilder ?? FontBuilder()
-                            fontBuilder?.postScriptName = postscriptName
-                        } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontFeatures) {
-                            iterator.skipStyleAttributeIgnoredCharacters()
-                            let fontFeatures = iterator.parseFontFeatures()
-                            guard fontFeatures.isEmpty == false else { break }
-
-                            fontBuilder = fontBuilder ?? FontBuilder()
-                            fontBuilder?.fontFeatures = fontFeatures
-                        }
-                    default:
-                        break
+                        attributes[.strikethroughStyle] = underlineStyle.rawValue
                     }
+                case "u":
+                    if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underlineColor) {
+                        iterator.skipStyleAttributeIgnoredCharacters()
+                        attributes[.underlineColor] = iterator.parseColor()
+                    } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.underline) {
+                        iterator.skipStyleAttributeIgnoredCharacters()
+                        guard let underlineStyle = iterator.parseUnderlineStyle() else { break }
+
+                        attributes[.underlineStyle] = underlineStyle.rawValue
+                    }
+                case "b":
+                    guard iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.baseOffset) else { break }
+                    iterator.skipStyleAttributeIgnoredCharacters()
+                    guard let baselineOffset = iterator.parseBaselineOffset() else { break }
+
+                    attributes[.baselineOffset] = baselineOffset
+                case "v":
+                    guard iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.verticalAlign) else { break }
+                    
+                    iterator.skipStyleAttributeIgnoredCharacters()
+                    guard let verticalAlignment = iterator.parseVerticalAlignment() else { break }
+
+                    attributes[.superscript] = verticalAlignment
+                case "f":
+                    if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontPostScriptName) {
+                        iterator.skipStyleAttributeIgnoredCharacters()
+                        guard let postscriptName = iterator.parsePostscriptFontName() else { break }
+
+                        fontBuilder = fontBuilder ?? FontBuilder()
+                        fontBuilder?.postScriptName = postscriptName
+                    } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontFeatures) {
+                        iterator.skipStyleAttributeIgnoredCharacters()
+                        let fontFeatures = iterator.parseFontFeatures()
+                        guard fontFeatures.isEmpty == false else { break }
+
+                        fontBuilder = fontBuilder ?? FontBuilder()
+                        fontBuilder?.fontFeatures = fontFeatures
+                    }
+                default:
+                    break
                 }
             default:
                 break
@@ -301,7 +297,8 @@ private extension AshtonXMLParser {
             iterator.foward(untilAfter: ";")
             iterator.skipStyleAttributeIgnoredCharacters()
         }
-        _ = iterator.next() // skip last '
+
+        iterator.foward(untilAfter: "'")
         if let font = fontBuilder?.makeFont() {
             attributes[.font] = font
         }
