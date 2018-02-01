@@ -20,11 +20,18 @@ extension String.UnicodeScalarView.Iterator {
     @discardableResult
     mutating func forwardIfEquals(_ string: String) -> Bool {
         var testingIterator = self
+        guard testingIterator.forwardAndCheckingIfEquals(string) else { return false }
+
+        self = testingIterator
+        return true
+    }
+
+    @discardableResult
+    mutating func forwardAndCheckingIfEquals(_ string: String) -> Bool {
         var referenceIterator = string.unicodeScalars.makeIterator()
         while let referenceChar = referenceIterator.next() {
-            guard referenceChar == testingIterator.next() else { return false }
+            guard referenceChar == self.next() else { return false }
         }
-        self = testingIterator
         return true
     }
 

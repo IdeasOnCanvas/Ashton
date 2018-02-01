@@ -95,6 +95,8 @@ final class AshtonXMLParser {
 // MARK: - Private
 
 private extension AshtonXMLParser {
+
+    // MARK: - Tag Parsing
     
     func parseTag(_ iterator: inout String.UnicodeScalarView.Iterator) {
         guard let nextCharacter = iterator.next(), nextCharacter != ">" else { return }
@@ -142,37 +144,38 @@ private extension AshtonXMLParser {
             self.delegate?.didOpenTag(self, name: .ignored, attributes: nil)
         }
     }
+
+    // MARK: - Attribute Parsing
     
     func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any]? {
-        var attributes: [NSAttributedStringKey: Any]? = nil
-        
-        iterator.skipStyleAttributeIgnoredCharacters()
-        while let firstChar = iterator.next(), firstChar != ">" {
-            
-            switch firstChar {
+        var parsedAttributes: [NSAttributedStringKey: Any]? = nil
+
+        func addAttributes(_ attributes: [NSAttributedStringKey: Any]) {
+            if parsedAttributes == nil {
+                parsedAttributes = attributes
+            } else {
+                parsedAttributes?.merge(attributes) { return $1 }
+            }
+        }
+
+        while let nextChar = iterator.next(), nextChar != ">" {
+            switch nextChar {
             case "s":
-                guard iterator.forwardIfEquals("tyle") else { break }
-                
-                if attributes != nil {
-                    attributes?.merge(self.parseStyles(&iterator)) { return $1 }
-                } else {
-                    attributes = self.parseStyles(&iterator)
-                }
+                guard iterator.forwardAndCheckingIfEquals("tyle") else { break }
+
+                addAttributes(self.parseStyles(&iterator))
             case "h":
-                guard iterator.forwardIfEquals("ref") else { break }
-                
-                if attributes != nil {
-                    attributes?.merge(self.parseHRef(&iterator)) { return $1 }
-                } else {
-                    attributes = self.parseHRef(&iterator)
-                }
+                guard iterator.forwardAndCheckingIfEquals("ref") else { break }
+
+                addAttributes(self.parseHRef(&iterator))
             default:
                 break
             }
-            iterator.skipStyleAttributeIgnoredCharacters()
         }
-        return attributes
+        return parsedAttributes
     }
+
+    // MARK: - Style Parsing
     
     func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
         var fontBuilder: FontBuilder?
@@ -306,6 +309,8 @@ private extension AshtonXMLParser {
         AshtonXMLParser.styleAttributesCache[cacheKey] = attributes
         return attributes
     }
+
+    // MARK: HRef Parsing
     
     func parseHRef(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
         iterator.skipStyleAttributeIgnoredCharacters()
