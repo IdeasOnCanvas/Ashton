@@ -288,7 +288,10 @@ private struct HTMLTag {
             (red, green, blue) = (0, 0, 0)
         }
 
-        return "rgba(\(Int(red * 255.0)), \(Int(green * 255.0)), \(Int(blue * 255.0)), \(String(format: "%.6f", alpha)))"
+        let r = Int((red * 255.0).rounded())
+        let g = Int((green * 255.0).rounded())
+        let b = Int((blue * 255.0).rounded())
+        return "rgba(\(r), \(g), \(b), \(String(format: "%.6f", alpha)))"
     }
 }
 
