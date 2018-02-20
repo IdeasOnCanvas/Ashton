@@ -275,9 +275,15 @@ private struct HTMLTag {
             let monochromeValue = color.cgColor.components?[0] ?? 0
             (red, green, blue) = (monochromeValue, monochromeValue, monochromeValue)
         } else if color.cgColor.numberOfComponents == 4 {
-            red = color.cgColor.components?[0] ?? 0
-            green = color.cgColor.components?[1] ?? 0
-            blue = color.cgColor.components?[2] ?? 0
+            var cgColor = color.cgColor
+            if let sRGBColorSpace = CGColorSpace(name: CGColorSpace.sRGB) {
+                if let convertedCGColor = color.cgColor.converted(to: sRGBColorSpace, intent: .defaultIntent, options: nil) {
+                    cgColor = convertedCGColor
+                }
+            }
+            red = cgColor.components?[0] ?? 0
+            green = cgColor.components?[1] ?? 0
+            blue = cgColor.components?[2] ?? 0
         } else {
             (red, green, blue) = (0, 0, 0)
         }
