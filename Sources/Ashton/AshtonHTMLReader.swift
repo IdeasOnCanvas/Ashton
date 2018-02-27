@@ -12,8 +12,8 @@ import CoreGraphics
 
 final class AshtonHTMLReader: NSObject {
 
-	private var attributesStack: [[NSAttributedStringKey: Any]] = []
-	private var output: NSMutableAttributedString!
+    private var attributesStack: [[NSAttributedStringKey: Any]] = []
+    private var output: NSMutableAttributedString!
     private var parsedTags: [AshtonXMLParser.Tag] = []
     private var appendNewlineBeforeNextContent = false
     private let xmlParser = AshtonXMLParser()
@@ -24,11 +24,11 @@ final class AshtonHTMLReader: NSObject {
         self.appendNewlineBeforeNextContent = false
         self.attributesStack = [defaultAttributes]
         
-		self.xmlParser.delegate = self
+        self.xmlParser.delegate = self
         self.xmlParser.parse(string: html)
 
-		return self.output
-	}
+        return self.output
+    }
 
     func clearCaches() {
         FontBuilder.fontCache = [:]
