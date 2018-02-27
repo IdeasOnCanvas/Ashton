@@ -15,11 +15,6 @@ class AshtonTests: XCTestCase {
     func testTextStyles() {
         let attributedString = self.loadAttributedString(fromRTF: "TextStyles")
         let html = Ashton.encode(attributedString)
-        let benchmarkHTML = attributedString.mn_HTMLRepresentation()!
-        // we compare with benchmark only on macOS as iOS Ashton old drops attributes here
-        #if os(macOS)
-        XCTAssertEqual(html, benchmarkHTML)
-        #endif
         let roundTripAttributedString = Ashton.decode(html)
         let roundTripHTML = Ashton.encode(roundTripAttributedString)
         XCTAssertEqual(html, roundTripHTML)
@@ -44,14 +39,7 @@ class AshtonTests: XCTestCase {
 	func testRTFTestFileRoundTrip() {
         let attributedString = self.loadAttributedString(fromRTF: "RTFText")
 
-        let oldAshtonHTML = attributedString.mn_HTMLRepresentation()!
-        let oldAshtonAttributedString = NSAttributedString(htmlString: oldAshtonHTML)!
-
-        let html = Ashton.encode(oldAshtonAttributedString)
-        // we compare with benchmark only on macOS as iOS Ashton old drops attributes here
-        #if os(macOS)
-        XCTAssertEqual(oldAshtonHTML, html)
-        #endif
+        let html = Ashton.encode(attributedString)
         let decodedString = Ashton.decode(html)
         let roundTripHTML = Ashton.encode(decodedString)
         let roundTripDecodedString = Ashton.decode(roundTripHTML)
