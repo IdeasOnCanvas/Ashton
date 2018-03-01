@@ -170,7 +170,7 @@ private extension AshtonXMLParser {
                 guard iterator.forwardAndCheckingIfEquals("ref") else { break }
 
                 iterator.foward(untilAfter: "=")
-                addAttributes(self.parsehref(&iterator))
+                addAttributes(self.parseHREF(&iterator))
             default:
                 break
             }
@@ -321,7 +321,7 @@ private extension AshtonXMLParser {
 
     // MARK: - href-Parsing
     
-    func parsehref(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
+    func parseHREF(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
         iterator.skipStyleAttributeIgnoredCharacters()
         guard let url = iterator.parseURL() else { return [:] }
         
