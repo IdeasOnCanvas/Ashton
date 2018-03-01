@@ -15,11 +15,6 @@ class AshtonTests: XCTestCase {
     func testTextStyles() {
         let attributedString = self.loadAttributedString(fromRTF: "TextStyles")
         let html = Ashton.encode(attributedString)
-        let benchmarkHTML = attributedString.mn_HTMLRepresentation()!
-        // we compare with benchmark only on macOS as iOS Ashton old drops attributes here
-        #if os(macOS)
-        XCTAssertEqual(html, benchmarkHTML)
-        #endif
         let roundTripAttributedString = Ashton.decode(html)
         let roundTripHTML = Ashton.encode(roundTripAttributedString)
         XCTAssertEqual(html, roundTripHTML)
@@ -33,26 +28,18 @@ class AshtonTests: XCTestCase {
 
     func testMixedHTMLContentParsing() {
         let referenceHTML = "<code>Inline code</code> and some other text"
-        let attributedString = Ashton.decode(referenceHTML, containsMixedContent: true)
+        let attributedString = Ashton.decode(referenceHTML)
         XCTAssertEqual(attributedString.string, "Inline code and some other text")
 
         let referenceHTML2 = "<p style='font: 16px \"Helvetica\"; text-decoration: line-through; -cocoa-font-postscriptname: \"Helvetica\";'><strong>Sub<u>topic</u></strong> 2</p>"
-        let attributedString2 = Ashton.decode(referenceHTML2, containsMixedContent: true)
+        let attributedString2 = Ashton.decode(referenceHTML2)
         XCTAssertEqual(attributedString2.string, "Subtopic 2")
-        print(attributedString2)
     }
 
 	func testRTFTestFileRoundTrip() {
         let attributedString = self.loadAttributedString(fromRTF: "RTFText")
 
-        let oldAshtonHTML = attributedString.mn_HTMLRepresentation()!
-        let oldAshtonAttributedString = NSAttributedString(htmlString: oldAshtonHTML)!
-
-        let html = Ashton.encode(oldAshtonAttributedString)
-        // we compare with benchmark only on macOS as iOS Ashton old drops attributes here
-        #if os(macOS)
-        XCTAssertEqual(oldAshtonHTML, html)
-        #endif
+        let html = Ashton.encode(attributedString)
         let decodedString = Ashton.decode(html)
         let roundTripHTML = Ashton.encode(decodedString)
         let roundTripDecodedString = Ashton.decode(roundTripHTML)
@@ -62,13 +49,13 @@ class AshtonTests: XCTestCase {
 
 	func testAttributeCodingWithBenchmark() {
 		let testColors = [Color.red, Color.green]
-		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: false)
-		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: false)
-		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors, ignoreReferenceHTML: false)
-		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors, ignoreReferenceHTML: false)
+		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors, ignoreReferenceHTML: true)
 		let underlineStyles: [NSUnderlineStyle] = [.styleSingle]//, .styleThick, .styleDouble]
-		self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: false)
-		self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: false)
+		self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
+		self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
 	}
 
 	func testParagraphSpacing() {
@@ -79,20 +66,22 @@ class AshtonTests: XCTestCase {
 	}
 
 	func testURLs() {
-		let urlString = "https://www.orf.at"
+        let urlString = URL(string: "https://www.orf.at")!
 		self.compareAttributeCodingWithBenchmark(.link, values: [urlString], ignoreReferenceHTML: false)
 	}
 
     func testHTMLEscapingInHref() {
         let attributedString = NSMutableAttributedString(string: "Test: Link to test. That's it")
-        attributedString.addAttribute(.link, value: "http://google.com/?a='b\"&c=<>", range: NSRange(location: 6, length: 13))
+        let url = URL(string: "http://google.com?a='b'&c='test'")!
+        attributedString.addAttribute(.link, value: url, range: NSRange(location: 6, length: 13))
         let html = Ashton.encode(attributedString)
         let roundtripped = Ashton.decode(html)
         XCTAssertEqual(attributedString, roundtripped)
     }
 
     func testHTMLEscapingInHrefParagraph() {
-        let attributedString = NSMutableAttributedString(string: "Test: Link to test. That's it", attributes: [.link: "http://google.com/?a='b\"&c=<>"])
+        let url = URL(string: "http://google.com?a='b'&c='test'")!
+        let attributedString = NSMutableAttributedString(string: "Test: Link to test. That's it", attributes: [.link: url])
         let html = Ashton.encode(attributedString)
         let roundtripped = Ashton.decode(html)
         XCTAssertEqual(attributedString, roundtripped)
@@ -141,7 +130,20 @@ class AshtonTests: XCTestCase {
 	func testFonts() {
         let font1 = Font(name: "Arial", size: 12)!
         let font2 = Font(name: "Helvetica-Bold", size: 16)!
-		self.compareAttributeCodingWithBenchmark(.font, values: [font1, font2], ignoreReferenceHTML: false)
+        let sampleString = NSMutableAttributedString(string: "Hello World")
+        sampleString.addAttribute(.font, value: font1, range: NSRange(location: 0, length: 5))
+        sampleString.addAttribute(.font, value: font2, range: NSRange(location: 6, length: 5))
+
+        let html = Ashton.encode(sampleString)
+        let roundTrippedString = Ashton.decode(html)
+        let roundTrippedHTML = Ashton.encode(roundTrippedString)
+
+        XCTAssertEqual(html, roundTrippedHTML)
+        // we compare the rountripped attributed string only on iOS as the comparison of the bridged NSFont (from CTFont)
+        // with the original NSFont leads to wrong failure
+        #if os(iOS)
+            XCTAssertEqual(sampleString, roundTrippedString)
+        #endif
 	}
 
     func testSavingAndLoadingOfStringsWithControlCharacters() {
@@ -160,6 +162,47 @@ class AshtonTests: XCTestCase {
         let referenceHTML = referenceAttributedString?.mn_HTMLRepresentation()
         let roundtrippedHTML = Ashton.encode(attributedString)
         XCTAssertEqual(referenceHTML, roundtrippedHTML)
+    }
+
+    func testCacheClearing() {
+        let ashtonHTML = "<p style= '-cocoa-font-features: 3/3; font: 14px \"Hoefler Text\"; text-align: left; color: rgba(0, 0, 0, 1.000000); '>hello world</p>"
+        _ = Ashton.decode(ashtonHTML)
+
+        XCTAssertFalse(FontBuilder.fontCache.isEmpty)
+        XCTAssertFalse(AshtonXMLParser.styleAttributesCache.isEmpty)
+        Ashton.clearCaches()
+        XCTAssertTrue(FontBuilder.fontCache.isEmpty)
+        XCTAssertTrue(AshtonXMLParser.styleAttributesCache.isEmpty)
+    }
+
+    func testReadingOfUnknownTags() {
+        let ashtonHTML = "<bla hreference='' hoax='' stuff='bla' unknownAttributeName= '-cocoa-font-features: 3/3; font: 14px \"Hoefler Text\"; text-align: left; color: rgba(0, 0, 0, 1.000000); '>hello world</bla>"
+        let attributedString = Ashton.decode(ashtonHTML)
+        XCTAssertEqual(attributedString.string, "hello world")
+
+        let ashtonHTML2 = "<span hreference='' hoax='' stuff='bla' style= '-cocoa-blabla: 3/3; fontnone: 14px \"Hoefler Text\"; text-alignleft: left; color: rgba(0, 0, 0, 1.000000); '>hello world</bla>"
+        let attributedString2 = Ashton.decode(ashtonHTML2)
+        XCTAssertEqual(attributedString2.string, "hello world")
+    }
+    
+    func testDefaultAttributes() {
+        let html = "<p>Hello <span style= 'font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>World</span></p>"
+        let defaultFont = Font(name: "Arial", size: 12)!
+        let defaultAttributes: [NSAttributedStringKey: Any] = [.font: defaultFont]
+        let attributedString = Ashton.decode(html, defaultAttributes: defaultAttributes)
+        let attributes1 = attributedString.attributes(at: 0, effectiveRange: nil)
+        XCTAssertEqual(attributes1[.font] as! Font, defaultFont)
+        
+        let attributes2 = attributedString.attributes(at: 6, effectiveRange: nil)
+        XCTAssertNotEqual(attributes2[.font] as! Font, defaultFont)
+    }
+    
+    func testSpecialCharacters() {
+        let string = "Hello 🌍, 😎, 🤡 - 🍺 ≤ 🍷 < 🥃"
+        let attributedString = NSAttributedString(string: string)
+        let html = Ashton.encode(attributedString)
+        let roundTrippedAttributedString = Ashton.decode(html)
+        XCTAssertEqual(attributedString.string, roundTrippedAttributedString.string)
     }
 
 	// MARK: - Performance Tests
@@ -216,10 +259,10 @@ class AshtonTests: XCTestCase {
 
     func testSampleRTFTextDecodingPerformance() {
         let attributedString = self.loadAttributedString(fromRTF: "RTFText")
-        let html = Ashton.encode(attributedString)
+        let html = Ashton.encode(attributedString) + ""
         self.measure {
-//            let test1 = NSAttributedString(htmlString: html) // old ashton benchmark
-//            let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
+//                        let test1 = NSAttributedString(htmlString: html) // old ashton benchmark
+//                        let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
             let test1 = Ashton.decode(html)
             let test2 = Ashton.decode(html)
             XCTAssertEqual(test1, test2)
@@ -249,9 +292,7 @@ private extension AshtonTests {
 			}
 
 			let decodedString = Ashton.decode(html)
-            let reencodedHTML = Ashton.encode(decodedString)
-            let roundTripped = Ashton.decode(reencodedHTML)
-			XCTAssertEqual(decodedString, roundTripped)
+			XCTAssertEqual(decodedString, attributedString)
 		}
 	}
 }

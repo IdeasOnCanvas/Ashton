@@ -23,11 +23,6 @@ struct Mappings {
             NSUnderlineStyle.styleDouble.rawValue: "double",
             NSUnderlineStyle.styleThick.rawValue: "thick"
         ]
-        static let decode: [String: NSUnderlineStyle] = [
-            "single": .styleSingle,
-            "double": .styleDouble,
-            "thick": .styleThick
-        ]
     }
 
     struct TextAlignment {
@@ -36,19 +31,6 @@ struct Mappings {
             .center: "center",
             .right: "right",
             .justified: "justify"
-        ]
-        static let decode: [String: NSTextAlignment] = [
-            "left": .left,
-            "center": .center,
-            "right": .right,
-            "justify": .justified
-        ]
-    }
-
-    struct TextDecoration {
-        static let decode: [String: NSAttributedStringKey] = [
-            "underline": .underlineStyle,
-            "line-through": .strikethroughStyle
         ]
     }
 }

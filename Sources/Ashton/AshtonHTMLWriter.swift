@@ -269,24 +269,29 @@ private struct HTMLTag {
     }
 
     private func makeCSSrgba(for color: Color) -> String {
-        var color = color
-        #if os(macOS)
-            color = color.usingColorSpace(.genericRGB) ?? color
-        #endif
         var (red, green, blue): (CGFloat, CGFloat, CGFloat)
         let alpha = color.cgColor.alpha
         if color.cgColor.numberOfComponents == 2 {
             let monochromeValue = color.cgColor.components?[0] ?? 0
             (red, green, blue) = (monochromeValue, monochromeValue, monochromeValue)
         } else if color.cgColor.numberOfComponents == 4 {
-            red = color.cgColor.components?[0] ?? 0
-            green = color.cgColor.components?[1] ?? 0
-            blue = color.cgColor.components?[2] ?? 0
+            var cgColor = color.cgColor
+            if let sRGBColorSpace = CGColorSpace(name: CGColorSpace.sRGB) {
+                if let convertedCGColor = color.cgColor.converted(to: sRGBColorSpace, intent: .defaultIntent, options: nil) {
+                    cgColor = convertedCGColor
+                }
+            }
+            red = cgColor.components?[0] ?? 0
+            green = cgColor.components?[1] ?? 0
+            blue = cgColor.components?[2] ?? 0
         } else {
             (red, green, blue) = (0, 0, 0)
         }
 
-        return "rgba(\(Int(red * 255.0)), \(Int(green * 255.0)), \(Int(blue * 255.0)), \(String(format: "%.6f", alpha)))"
+        let r = Int((red * 255.0).rounded())
+        let g = Int((green * 255.0).rounded())
+        let b = Int((blue * 255.0).rounded())
+        return "rgba(\(r), \(g), \(b), \(String(format: "%.6f", alpha)))"
     }
 }
 

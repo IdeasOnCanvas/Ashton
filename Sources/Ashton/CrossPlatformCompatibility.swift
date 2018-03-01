@@ -25,6 +25,10 @@
     extension NSAttributedStringKey {
         static let superscript = NSAttributedStringKey(rawValue: "NSSuperScript")
     }
+
+    extension FontDescriptor.FeatureKey {
+        static let selectorIdentifier = FontDescriptor.FeatureKey.featureIdentifier
+    }
 #elseif os(macOS)
     import AppKit
     typealias Font = NSFont
