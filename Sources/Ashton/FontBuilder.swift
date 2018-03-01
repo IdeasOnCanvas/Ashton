@@ -12,7 +12,7 @@ import CoreText
 
 
 /// Creates a NS/UIFont
-struct FontBuilder {
+final class FontBuilder {
 
     // MARK: - Properties
 

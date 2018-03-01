@@ -52,8 +52,8 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
         }
 
         var attributes = attributes ?? [:]
-        let lastAttributes = self.attributesStack.last ?? [:]
-        attributes.merge(lastAttributes, uniquingKeysWith: { (old, _) in old })
+        let currentAttributes = self.attributesStack.last ?? [:]
+        attributes.merge(currentAttributes, uniquingKeysWith: { (current, _) in current })
 
         self.attributesStack.append(attributes)
         self.parsedTags.append(name)

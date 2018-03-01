@@ -31,9 +31,9 @@ final class AshtonXMLParser {
         case ignored
     }
 
-    struct AttributeKeys {
+    enum AttributeKeys {
 
-        struct Style {
+        enum Style {
             static let backgroundColor = "background-color"
             static let color = "color"
             static let textDecoration = "text-decoration"
@@ -41,7 +41,7 @@ final class AshtonXMLParser {
             static let textAlign = "text-align"
             static let verticalAlign = "vertical-align"
 
-            struct Cocoa {
+            enum Cocoa {
                 static let commonPrefix = "-cocoa-"
                 static let strikethroughColor = "strikethrough-color"
                 static let underlineColor = "underline-color"
@@ -55,7 +55,8 @@ final class AshtonXMLParser {
         }
     }
 
-    static var styleAttributesCache: [UInt64: [NSAttributedStringKey: Any]] = [:]
+    typealias Hash = UInt64
+    static var styleAttributesCache: [Hash: [NSAttributedStringKey: Any]] = [:]
     
     // MARK: - AshtonXMLParser
     
@@ -169,7 +170,7 @@ private extension AshtonXMLParser {
                 guard iterator.forwardAndCheckingIfEquals("ref") else { break }
 
                 iterator.foward(untilAfter: "=")
-                addAttributes(self.parseHRef(&iterator))
+                addAttributes(self.parsehref(&iterator))
             default:
                 break
             }
@@ -180,8 +181,17 @@ private extension AshtonXMLParser {
     // MARK: - Style Parsing
     
     func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
-        var fontBuilder: FontBuilder?
         var attributes: [NSAttributedStringKey: Any] = [:]
+
+        var fontBuilder: FontBuilder?
+        func ensureFontBuilder() -> FontBuilder {
+            if let fontBuilder = fontBuilder {
+                return fontBuilder
+            }
+            let newFontBuilder = FontBuilder()
+            fontBuilder = newFontBuilder
+            return newFontBuilder
+        }
 
         iterator.foward(untilAfter: "'")
 
@@ -224,11 +234,11 @@ private extension AshtonXMLParser {
                 iterator.skipStyleAttributeIgnoredCharacters()
 
                 let fontAttributes = iterator.parseFontAttributes()
-                fontBuilder = fontBuilder ?? FontBuilder()
-                fontBuilder?.isBold = fontAttributes.isBold
-                fontBuilder?.isItalic = fontAttributes.isItalic
-                fontBuilder?.familyName = fontAttributes.family
-                fontBuilder?.pointSize = fontAttributes.points
+                let fontBuilder = ensureFontBuilder()
+                fontBuilder.isBold = fontAttributes.isBold
+                fontBuilder.isItalic = fontAttributes.isItalic
+                fontBuilder.familyName = fontAttributes.family
+                fontBuilder.pointSize = fontAttributes.points
             case "v":
                 guard iterator.forwardIfEquals(AttributeKeys.Style.verticalAlign) else { break }
 
@@ -280,15 +290,15 @@ private extension AshtonXMLParser {
                         iterator.skipStyleAttributeIgnoredCharacters()
                         guard let postscriptName = iterator.parsePostscriptFontName() else { break }
 
-                        fontBuilder = fontBuilder ?? FontBuilder()
-                        fontBuilder?.postScriptName = postscriptName
+                        let fontBuilder = ensureFontBuilder()
+                        fontBuilder.postScriptName = postscriptName
                     } else if iterator.forwardIfEquals(AttributeKeys.Style.Cocoa.fontFeatures) {
                         iterator.skipStyleAttributeIgnoredCharacters()
                         let fontFeatures = iterator.parseFontFeatures()
                         guard fontFeatures.isEmpty == false else { break }
 
-                        fontBuilder = fontBuilder ?? FontBuilder()
-                        fontBuilder?.fontFeatures = fontFeatures
+                        let fontBuilder = ensureFontBuilder()
+                        fontBuilder.fontFeatures = fontFeatures
                     }
                 default:
                     break
@@ -309,9 +319,9 @@ private extension AshtonXMLParser {
         return attributes
     }
 
-    // MARK: HRef Parsing
+    // MARK: - href-Parsing
     
-    func parseHRef(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
+    func parsehref(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
         iterator.skipStyleAttributeIgnoredCharacters()
         guard let url = iterator.parseURL() else { return [:] }
         
