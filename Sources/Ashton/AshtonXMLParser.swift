@@ -193,16 +193,17 @@ private extension AshtonXMLParser {
             return newFontBuilder
         }
 
-        iterator.foward(untilAfter: "'")
+        iterator.skipWhiteSpace()
+        guard let derminationCharacter = iterator.next(), derminationCharacter == "'" || derminationCharacter == "\"" else { return attributes }
 
-        let cacheKey = iterator.hash(until: "'")
+        let cacheKey = iterator.hash(until: derminationCharacter)
         if let cachedAttributes = AshtonXMLParser.styleAttributesCache[cacheKey] {
-            while let char = iterator.next(), char != "'", char != ">" {}
+            iterator.foward(untilAfter: derminationCharacter)
 
             return cachedAttributes
         }
 
-        while let char = iterator.testNextCharacter(), char != "'", char != ">" {
+        while let char = iterator.testNextCharacter(), char != derminationCharacter, char != ">" {
             switch char {
             case "b":
                 guard iterator.forwardIfEquals(AttributeKeys.Style.backgroundColor) else { break }
@@ -306,11 +307,11 @@ private extension AshtonXMLParser {
             default:
                 break
             }
-            iterator.foward(untilAfter: ";")
-            iterator.skipStyleAttributeIgnoredCharacters()
+            guard iterator.forwardUntilNextAttribute(stopBefore: derminationCharacter) else { break }
         }
 
-        iterator.foward(untilAfter: "'")
+        iterator.foward(untilAfter: derminationCharacter)
+
         if let font = fontBuilder?.makeFont() {
             attributes[.font] = font
         }

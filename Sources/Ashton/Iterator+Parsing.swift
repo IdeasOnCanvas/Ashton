@@ -62,6 +62,36 @@ extension String.UnicodeScalarView.Iterator {
         return String(scannedScalars)
     }
 
+    mutating func forwardUntilNextAttribute(stopBefore derminationChar: UnicodeScalar) -> Bool {
+        var testingIterator = self
+        while let referenceChar = self.next() {
+            switch referenceChar {
+            case " ", ";":
+                return true
+            case derminationChar:
+                self = testingIterator
+                return false
+            default:
+                testingIterator = self
+                continue
+            }
+        }
+        return false
+    }
+
+    mutating func skipWhiteSpace() {
+        var testingIterator = self
+        while let referenceChar = testingIterator.next() {
+            switch referenceChar {
+            case " ":
+                break
+            default:
+                return
+            }
+            self = testingIterator
+        }
+    }
+
     mutating func skipStyleAttributeIgnoredCharacters() {
         var testingIterator = self
         while let referenceChar = testingIterator.next() {
