@@ -36,6 +36,14 @@ final class AshtonXMLParserTests: XCTestCase {
         XCTAssertEqual(delegate.openedTags.map { $0.name }, [.p, .span, .ignored])
     }
 
+    func testParsingWithoutSemicolonTerminatedAttributes() {
+        let result = self.parseString("<html>\n<p style=\"margin: 0.0px 0.0px 0.0px 0.0px\"><font>These are the notes of Subtopic 2</font>\n</p>\n\n</html>")
+        XCTAssertEqual(result, "\nThese are the notes of Subtopic 2\n\n\n")
+
+        let result2 = self.parseString("<html>\n<p style=\"margin: 0.0px 0.0px 0.0px 0.0px\"><font color=\"#000000\" style=\"font-kerning: none; color: #000000; -webkit-text-stroke: 0px #000000\">Node with note and URL</font>\n</p>\n\n</html>")
+        XCTAssertEqual(result2, "\nThese are the notes of Subtopic 2\n\n\n")
+    }
+
     func testSingleStyleAttributesParsing() {
         let sampleString = "<span style='background-color:rgba(52, 72, 83, 1.000000);'>Test</span>"
 
@@ -96,7 +104,6 @@ private extension AshtonXMLParserTests {
         var openedTags: [(name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?)] = []
         var content: String = ""
         var closedTags = 0
-        var attributedString: NSMutableAttributedString = NSMutableAttributedString()
         
         func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?) {
             self.openedTags.append((name, attributes))
