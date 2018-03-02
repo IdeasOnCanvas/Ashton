@@ -60,7 +60,10 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
     }
     
     func didCloseTag(_ parser: AshtonXMLParser) {
-        guard self.attributesStack.isEmpty == false else { return }
+        guard self.attributesStack.isEmpty == false else {
+            assertionFailure("Did close tag without opening a tag before")
+            return
+        }
 
         if self.parsedTags.removeLast() == .p {
             if self.appendNewlineBeforeNextContent == true {
