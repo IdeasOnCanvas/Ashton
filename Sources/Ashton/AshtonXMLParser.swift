@@ -307,7 +307,7 @@ private extension AshtonXMLParser {
             default:
                 break
             }
-            guard iterator.forwardUntilNextAttribute(stopBefore: terminationCharacter) else { break }
+            guard iterator.forwardUntilNextAttribute(terminationChar: terminationCharacter) else { break }
         }
 
         iterator.foward(untilAfter: terminationCharacter)
