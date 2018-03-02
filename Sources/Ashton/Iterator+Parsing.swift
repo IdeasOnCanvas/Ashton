@@ -63,16 +63,16 @@ extension String.UnicodeScalarView.Iterator {
     }
 
     mutating func forwardUntilNextAttribute(stopBefore derminationChar: UnicodeScalar) -> Bool {
-        var characterBefore = self
+        var previousPosition = self
         while let referenceChar = self.next() {
             switch referenceChar {
             case " ", ";":
                 return true
             case derminationChar:
-                self = characterBefore
+                self = previousPosition
                 return false
             default:
-                characterBefore = self
+                previousPosition = self
                 continue
             }
         }
