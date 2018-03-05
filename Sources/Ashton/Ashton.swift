@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// Transforms AttributedString into HTML in both directions
+/// Transforms NSAttributedString <--> HTML
 @objc
 public final class Ashton: NSObject {
 
@@ -28,6 +28,7 @@ public final class Ashton: NSObject {
         return Ashton.reader.decode(html, defaultAttributes: defaultAttributes)
     }
 
+    @objc
     public static func clearCaches() {
         Ashton.reader.clearCaches()
     }
