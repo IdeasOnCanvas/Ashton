@@ -171,11 +171,11 @@ private struct HTMLTag {
 
                 if let fontFeatures = fontDescriptor.object(forKey: .featureSettings) as? [[String: Any]] {
                     let features = fontFeatures.flatMap { feature in
-                        guard let typeID = feature[FontDescriptor.FeatureKey.typeIdentifier.rawValue] else { return nil }
-                        guard let selectorID = feature[FontDescriptor.cpSelectorIdentifier] else { return nil }
+                        guard let typeID = feature[FontDescriptor.FeatureKey.cpTypeIdentifier.rawValue] else { return nil }
+                        guard let selectorID = feature[FontDescriptor.FeatureKey.selectorIdentifier.rawValue] else { return nil }
 
                         return "\(typeID)/\(selectorID)"
-                    }.joined(separator: " ")
+                        }.sorted(by: <).joined(separator: " ")
 
                     if features.isEmpty == false {
                         cocoaStyles["-cocoa-font-features"] = features

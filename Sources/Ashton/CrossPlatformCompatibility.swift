@@ -19,7 +19,6 @@
 
     extension UIFontDescriptor {
         var cpPostscriptName: String { return self.postscriptName }
-        static var cpSelectorIdentifier: String { return UIFontDescriptor.FeatureKey.featureIdentifier.rawValue }
     }
 
     extension NSAttributedStringKey {
@@ -27,8 +26,10 @@
     }
 
     extension FontDescriptor.FeatureKey {
-        static let selectorIdentifier = FontDescriptor.FeatureKey.featureIdentifier
+        static let selectorIdentifier = FontDescriptor.FeatureKey("CTFeatureSelectorIdentifier")
+        static let cpTypeIdentifier = FontDescriptor.FeatureKey("CTFeatureTypeIdentifier")
     }
+
 #elseif os(macOS)
     import AppKit
     typealias Font = NSFont
@@ -42,6 +43,9 @@
 
     extension NSFontDescriptor {
         var cpPostscriptName: String { return self.postscriptName ?? "" }
-        static var cpSelectorIdentifier: String { return NSFontDescriptor.FeatureKey.selectorIdentifier.rawValue }
+    }
+
+    extension FontDescriptor.FeatureKey {
+        static let cpTypeIdentifier = FontDescriptor.FeatureKey("CTFeatureTypeIdentifier")
     }
 #endif

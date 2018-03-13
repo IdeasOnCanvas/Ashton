@@ -223,11 +223,11 @@ final class IteratorParsingTests: XCTestCase {
         let features = iterator.parseFontFeatures()
         XCTAssertNotNil(features)
         XCTAssertEqual(features.count, 3)
-        XCTAssertEqual(features[0][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 2)
+        XCTAssertEqual(features[0][FontDescriptor.FeatureKey.cpTypeIdentifier.rawValue], 2)
         XCTAssertEqual(features[0][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 1)
-        XCTAssertEqual(features[1][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 12)
+        XCTAssertEqual(features[1][FontDescriptor.FeatureKey.cpTypeIdentifier.rawValue], 12)
         XCTAssertEqual(features[1][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 2)
-        XCTAssertEqual(features[2][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 4)
+        XCTAssertEqual(features[2][FontDescriptor.FeatureKey.cpTypeIdentifier.rawValue], 4)
         XCTAssertEqual(features[2][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 2)
         
         let sampleFeatures2 = "2/0  12/32  4/2"
@@ -235,11 +235,11 @@ final class IteratorParsingTests: XCTestCase {
         let features2 = iterator2.parseFontFeatures()
         XCTAssertNotNil(features2)
         XCTAssertEqual(features2.count, 3)
-        XCTAssertEqual(features2[0][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 2)
+        XCTAssertEqual(features2[0][FontDescriptor.FeatureKey.cpTypeIdentifier.rawValue], 2)
         XCTAssertEqual(features2[0][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 0)
-        XCTAssertEqual(features2[1][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 12)
+        XCTAssertEqual(features2[1][FontDescriptor.FeatureKey.cpTypeIdentifier.rawValue], 12)
         XCTAssertEqual(features2[1][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 32)
-        XCTAssertEqual(features2[2][FontDescriptor.FeatureKey.typeIdentifier.rawValue], 4)
+        XCTAssertEqual(features2[2][FontDescriptor.FeatureKey.cpTypeIdentifier.rawValue], 4)
         XCTAssertEqual(features2[2][FontDescriptor.FeatureKey.selectorIdentifier.rawValue], 2)
     }
 
