@@ -352,7 +352,7 @@ extension String.UnicodeScalarView.Iterator {
         var parsingIterator = self
         var features: [[String: Int]] = []
         var feature: [String: Int] = [:]
-        var currentFeatureKey = FontDescriptor.FeatureKey.typeIdentifier
+        var currentFeatureKey = FontDescriptor.FeatureKey.cpTypeIdentifier
         
         while let char = parsingIterator.next() {
             guard char != ";" else { break }
@@ -366,7 +366,7 @@ extension String.UnicodeScalarView.Iterator {
                 if feature.keys.count == 2 {
                     features.append(feature)
                     feature = [:]
-                    currentFeatureKey = FontDescriptor.FeatureKey.typeIdentifier
+                    currentFeatureKey = FontDescriptor.FeatureKey.cpTypeIdentifier
                 }
                 self = parsingIterator
                 continue

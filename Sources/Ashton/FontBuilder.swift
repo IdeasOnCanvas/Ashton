@@ -44,7 +44,7 @@ final class FontBuilder {
         }
 
         var attributes: [FontDescriptor.AttributeName: Any] = [FontDescriptor.AttributeName.name: fontName]
-        if let fontFeatures = fontFeatures {
+        if let fontFeatures = self.fontFeatures {
            attributes[.featureSettings] = fontFeatures
         }
 

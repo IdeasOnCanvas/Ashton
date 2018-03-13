@@ -156,12 +156,13 @@ class AshtonTests: XCTestCase {
     }
 
     func testFontFeatures() {
-        let ashtonHTML = "<p style= '-cocoa-font-features: 3/3; font: 14px \"Hoefler Text\"; text-align: left; color: rgba(0, 0, 0, 1.000000); '>hello world</p>"
-        let attributedString = Ashton.decode(ashtonHTML)
-        let referenceAttributedString = NSAttributedString(htmlString: ashtonHTML)
-        let referenceHTML = referenceAttributedString?.mn_HTMLRepresentation()
-        let roundtrippedHTML = Ashton.encode(attributedString)
-        XCTAssertEqual(referenceHTML, roundtrippedHTML)
+        let sampleHTML = ["<p style='color: rgba(0, 0, 0, 1.000000); font: 14px \"Hoefler Text\"; text-align: left; -cocoa-font-features: 3/3; -cocoa-font-postscriptname: \"HoeflerText-Regular\"; '>hello world</p>",
+                          "<p style='color: rgba(91, 91, 91, 1.000000); font: 18px \"Avenir Next\"; text-align: center; -cocoa-font-features: 37/1 38/1; -cocoa-font-postscriptname: \"AvenirNext-Regular\"; '>Also helps the bike to stay clean longer!</p>"]
+        sampleHTML.forEach { ashtonHTML in
+            let attributedString = Ashton.decode(ashtonHTML)
+            let roundtrippedHTML = Ashton.encode(attributedString)
+            XCTAssertEqual(ashtonHTML, roundtrippedHTML)
+        }
     }
 
     func testCacheClearing() {
