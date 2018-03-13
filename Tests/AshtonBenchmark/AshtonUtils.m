@@ -51,8 +51,6 @@
     NSFontDescriptor *fontDescriptor = [font fontDescriptor];
     font = [NSFont fontWithDescriptor:fontDescriptor size:fontDescriptor.pointSize];
 #endif
-
-   // CTFontDescriptorRef *desc2 = CTFontCopyFontDescriptor(&font);
     return font;
 }
 
