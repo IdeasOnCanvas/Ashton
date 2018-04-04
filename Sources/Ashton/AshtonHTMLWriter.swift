@@ -170,7 +170,7 @@ private struct HTMLTag {
                 #endif
 
                 if let fontFeatures = fontDescriptor.object(forKey: .featureSettings) as? [[String: Any]] {
-                    let features = fontFeatures.flatMap { feature in
+                    let features = fontFeatures.compactMap { feature in
                         guard let typeID = feature[FontDescriptor.FeatureKey.cpTypeIdentifier.rawValue] else { return nil }
                         guard let selectorID = feature[FontDescriptor.FeatureKey.selectorIdentifier.rawValue] else { return nil }
 
