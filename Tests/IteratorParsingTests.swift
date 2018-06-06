@@ -255,7 +255,7 @@ final class IteratorParsingTests: XCTestCase {
                 fonts += Font.fontNames(forFamilyName: family)
             }
         #endif
-        var hashes: [UInt64: String] = [:]
+        var hashes: [Int: String] = [:]
         var collisions: [(String, String)] = []
         for fontname in fonts {
             var iterator = ("font: " + fontname + "'").unicodeScalars.makeIterator()
@@ -266,7 +266,7 @@ final class IteratorParsingTests: XCTestCase {
                 hashes[hash] = fontname
             }
         }
-        XCTAssertTrue(collisions.count == 0)
+        XCTAssertEqual(collisions.count, 0)
     }
 }
 

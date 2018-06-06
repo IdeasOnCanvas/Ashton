@@ -263,7 +263,7 @@ class AshtonTests: XCTestCase {
         let html = Ashton.encode(attributedString) + ""
         self.measure {
 //                        let test1 = NSAttributedString(htmlString: html) // old ashton benchmark
-//                        let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
+//                       let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
             let test1 = Ashton.decode(html)
             let test2 = Ashton.decode(html)
             XCTAssertEqual(test1, test2)

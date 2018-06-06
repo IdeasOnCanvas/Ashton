@@ -55,7 +55,7 @@ final class AshtonXMLParser {
         }
     }
 
-    typealias Hash = UInt64
+    typealias Hash = Int
     static var styleAttributesCache: [Hash: [NSAttributedStringKey: Any]] = [:]
     
     // MARK: - AshtonXMLParser
