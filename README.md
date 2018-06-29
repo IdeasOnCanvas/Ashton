@@ -1,1 +1,30 @@
-# SwiftyAshton [![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg)](https://buildkite.com/ideasoncanvas/ashton)
+# Ashton 
+
+![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)(https://github.com/Carthage/Carthage)
+![Platforms iOS, macOS](https://img.shields.io/badge/Platform-iOS%20|%20macOS-blue.svg "Platforms iOS, macOS")
+![Language Swift](https://img.shields.io/badge/Language-Swift%204.1-orange.svg "Swift 4.1")
+![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)(LICENSE.md)
+![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg)(https://buildkite.com/ideasoncanvas/ashton)
+
+Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast (both way) conversion of NSAttributedString <-> HTML.
+The 2.0 release is complete rewrite in Swift focusing on performance improvements and funcational backwards compatibility to Asthon 1.x.
+Ashton has a comprehensive test suite with a test coverage >90% and also tests against the legacy 1.0 output.
+
+## Integration with Carthage
+
+Add this line to your Cartfile.
+```
+github "IdeasOnCanvas/Ashton"
+```
+
+## Demo App
+
+
+
+## How it Works
+
+
+## Credits
+
+Ashton is brought to you by [IdeasOnCanvas GmbH](https://ideasoncanvas.com), the creator of [MindNode for iOS, macOS & watchOS](https://mindnode.com).
+
