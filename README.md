@@ -7,6 +7,7 @@
 [![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg)](https://buildkite.com/ideasoncanvas/ashton)
 
 Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast (both way) conversion of NSAttributedString <-> HTML.
+The library is used in MindNode 5 for persisting formatted strings.
 
 ## 2.0 Release
 
@@ -20,11 +21,25 @@ Add this line to your Cartfile.
 github "IdeasOnCanvas/Ashton"
 ```
 
-## Demo App
+## Usage
+
+### Encode HTML
+
+`let html = Ashton.encode(attributedString)`
+
+### Decode NSAttributedString
+
+`let attributedString = Ashton.decode(htmlString)`
+
+
+## Example App
+
+An example app can be found in the `/Example` directory. It can be used to test NSAttributedString -> HTML -> NSAttributedString roundtrips and also to extract the HTML representation of an NSAttributedString.
+
+![](README/exampleScreenshot.png)
 
 
 
-## How it Works
 
 
 ## Credits
