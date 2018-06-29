@@ -6,13 +6,13 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE.md)
 [![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg)](https://buildkite.com/ideasoncanvas/ashton)
 
-Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast (both way) conversion of NSAttributedString <-> HTML.
+Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast (both way) conversion of NSAttributedString <--> HTML.
 The library is used in MindNode 5 for persisting formatted strings.
 
 ## 2.0 Release
 
-The latest release is complete rewrite in Swift focusing on performance improvements and functional backwards compatibility to Ashton 1.x.
-The new codebase has a comprehensive test suite with a test coverage >90% and additional tests against the legacy 1.0 output.
+The latest release is a complete rewrite in Swift focusing on improved performance and functional backwards compatibility to Ashton 1.x.
+The new codebase has a comprehensive test suite with test coverage >90% and additional tests against the legacy 1.0 output.
 
 ## Integration with Carthage
 
@@ -37,9 +37,6 @@ github "IdeasOnCanvas/Ashton"
 An example app can be found in the `/Example` directory. It can be used to test NSAttributedString -> HTML -> NSAttributedString roundtrips and also to extract the HTML representation of an NSAttributedString.
 
 ![](README/exampleScreenshot.png)
-
-
-
 
 
 ## Credits
