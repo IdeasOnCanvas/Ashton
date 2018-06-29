@@ -17,10 +17,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var roundTripTextView: NSTextView!
     @IBOutlet weak var htmlTextView: NSTextView!
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-    }
-
     @IBAction func executeRoundTrip(_ sender: Any) {
         guard let attributedString = self.baseTextView.textStorage else { return }
 
