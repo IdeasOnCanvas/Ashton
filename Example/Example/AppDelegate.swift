@@ -13,8 +13,9 @@ import Ashton
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var baseTextView: NSTextView!
-    @IBOutlet weak var roundTripTextView: NSTextView!
     @IBOutlet weak var window: NSWindow!
+    @IBOutlet weak var roundTripTextView: NSTextView!
+    @IBOutlet weak var htmlTextView: NSTextView!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
@@ -24,6 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let attributedString = self.baseTextView.textStorage else { return }
 
         let html = Ashton.encode(attributedString)
+        self.htmlTextView.textStorage?.setAttributedString(.init(string: html))
         let roundTrip = Ashton.decode(html)
         self.roundTripTextView.textStorage?.setAttributedString(roundTrip)
     }
