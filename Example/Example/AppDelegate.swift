@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let attributedString = self.baseTextView.textStorage else { return }
 
         let html = Ashton.encode(attributedString)
-        self.htmlTextView.textStorage?.setAttributedString(.init(string: html))
+        self.htmlTextView.string = html
         let roundTrip = Ashton.decode(html)
         self.roundTripTextView.textStorage?.setAttributedString(roundTrip)
     }
