@@ -34,11 +34,10 @@ final class AshtonHTMLWriter {
                                                         paragraphTag.addAttributes(attributes)
                                                         paragraphContent += String(attributedString.string[paragraphRange]).htmlEscaped
                                                     } else {
-                                                        guard let range = Range(nsrange, in: attributedString.string) else { return }
-
+                                                        let string = attributedString.string as NSString
                                                         var tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
                                                         paragraphContent += tag.parseOpenTag()
-                                                        paragraphContent += String(attributedString.string[range]).htmlEscaped
+                                                        paragraphContent += String(string.substring(with: nsrange)).htmlEscaped
                                                         paragraphContent += tag.makeCloseTag()
                                                     }
             })
