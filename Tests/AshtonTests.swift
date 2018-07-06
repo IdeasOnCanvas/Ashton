@@ -197,6 +197,19 @@ class AshtonTests: XCTestCase {
         let attributes2 = attributedString.attributes(at: 6, effectiveRange: nil)
         XCTAssertNotEqual(attributes2[.font] as! Font, defaultFont)
     }
+
+    func testCompoundCharactersEncodingWithDifferentAttributes() {
+        let font = Font(name: "Thonburi", size: 12)!
+        let helvetica = Font(name: "Helvetica", size: 12)!
+        let firstCharacterAttributes: [NSAttributedStringKey: Any] = [.font: font,
+                                                                      NSAttributedStringKey(rawValue: "NSOriginalFont"): helvetica]
+        let secondCharacterAttributes: [NSAttributedStringKey: Any] = [.font: font]
+        let attributedStringWithCompoundChars = NSMutableAttributedString(string: "\u{0E17}", attributes: firstCharacterAttributes)
+        attributedStringWithCompoundChars.append(NSAttributedString(string: "\u{0E38}", attributes: secondCharacterAttributes))
+        let html = Ashton.encode(attributedStringWithCompoundChars)
+        let roundTrippedAttributedString = Ashton.decode(html, defaultAttributes: [:])
+        XCTAssertEqual(roundTrippedAttributedString.string, attributedStringWithCompoundChars.string)
+    }
     
     func testSpecialCharacters() {
         let string = "Hello 🌍, 😎, 🤡 - 🍺 ≤ 🍷 < 🥃"
