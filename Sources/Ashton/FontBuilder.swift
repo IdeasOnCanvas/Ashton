@@ -63,8 +63,15 @@ final class FontBuilder {
         }
 
         let font = CTFontCreateWithFontDescriptor(fontDescriptor, pointSize, nil) as Font
-        
+        #if os(macOS)
+        // on macOS we have to do this conversion CTFont -> NSFont, otherwise we have wrong glyph spacing for some (arabic) fonts when rendering on device
+        let descriptor = font.fontDescriptor
+        let convertedFont = Font(descriptor: descriptor, size: descriptor.pointSize)
+        FontBuilder.fontCache[cacheKey] = convertedFont
+        return convertedFont
+        #else
         FontBuilder.fontCache[cacheKey] = font
         return font
+        #endif
     }
 }
