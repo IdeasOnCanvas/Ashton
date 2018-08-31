@@ -219,6 +219,13 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(attributedString.string, roundTrippedAttributedString.string)
     }
 
+    func testArabicCharacterParsing() {
+        let html = "<p style=\'color: rgba(75, 75, 75, 1.000000); font: 24px \"Geeza Pro\"; text-align: center; -cocoa-font-postscriptname: \"GeezaPro\"; \'>لالالالالالالالالا</p>"
+        let attributedString = Ashton.decode(html)
+        let reference = NSAttributedString(htmlString: html)!
+        XCTAssertEqual(attributedString.string, reference.string)
+    }
+
 	// MARK: - Performance Tests
 
 	func testParagraphDecodingPerformance() {
