@@ -93,16 +93,16 @@ private struct HTMLTag {
     // MARK: - Properties
 
     let defaultName: Name
-    var attributes: [NSAttributedStringKey: Any]
+    var attributes: [NSAttributedString.Key: Any]
     let ignoreParagraphStyles: Bool
 
-    init(defaultName: Name, attributes: [NSAttributedStringKey: Any], ignoreParagraphStyles: Bool) {
+    init(defaultName: Name, attributes: [NSAttributedString.Key: Any], ignoreParagraphStyles: Bool) {
         self.defaultName = defaultName
         self.attributes = attributes
         self.ignoreParagraphStyles = ignoreParagraphStyles
     }
 
-    mutating func addAttributes(_ attributes: [NSAttributedStringKey: Any]?) {
+    mutating func addAttributes(_ attributes: [NSAttributedString.Key: Any]?) {
         attributes?.forEach { (key, value) in
             self.attributes[key] = value
         }
@@ -196,7 +196,7 @@ private struct HTMLTag {
                 guard let offset = value as? Float else { return }
 
                 cocoaStyles["-cocoa-baseline-offset"] = String(format: "%.0f", offset)
-            case NSAttributedStringKey(rawValue: "NSSuperScript"):
+            case NSAttributedString.Key(rawValue: "NSSuperScript"):
                 guard let offset = value as? Int, offset != 0 else { return }
 
                 let verticalAlignment = offset > 0 ? "super" : "sub"

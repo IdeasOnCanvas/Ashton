@@ -195,11 +195,11 @@ extension String.UnicodeScalarView.Iterator {
 
         switch firstChar {
         case "s":
-            return self.forwardIfEquals("single") ? NSUnderlineStyle.styleSingle : nil
+            return self.forwardIfEquals("single") ? NSUnderlineStyle.single : nil
         case "d":
-            return self.forwardIfEquals("double") ? NSUnderlineStyle.styleDouble : nil
+            return self.forwardIfEquals("double") ? NSUnderlineStyle.double : nil
         case "t":
-            return self.forwardIfEquals("thick") ? NSUnderlineStyle.styleThick : nil
+            return self.forwardIfEquals("thick") ? NSUnderlineStyle.thick : nil
         default:
             return nil
         }
@@ -210,14 +210,14 @@ extension String.UnicodeScalarView.Iterator {
 
 extension String.UnicodeScalarView.Iterator {
 
-    mutating func parseTextDecoration() -> NSAttributedStringKey? {
+    mutating func parseTextDecoration() -> NSAttributedString.Key? {
         guard let firstChar = self.testNextCharacter() else { return nil }
 
         switch firstChar {
         case "u":
-            return self.forwardIfEquals("underline") ? NSAttributedStringKey.underlineStyle : nil
+            return self.forwardIfEquals("underline") ? NSAttributedString.Key.underlineStyle : nil
         case "l":
-            return self.forwardIfEquals("line-through") ? NSAttributedStringKey.strikethroughStyle : nil
+            return self.forwardIfEquals("line-through") ? NSAttributedString.Key.strikethroughStyle : nil
         default:
             return nil
         }

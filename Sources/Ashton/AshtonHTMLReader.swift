@@ -12,13 +12,13 @@ import CoreGraphics
 
 final class AshtonHTMLReader: NSObject {
 
-    private var attributesStack: [[NSAttributedStringKey: Any]] = []
+    private var attributesStack: [[NSAttributedString.Key: Any]] = []
     private var output: NSMutableAttributedString!
     private var parsedTags: [AshtonXMLParser.Tag] = []
     private var appendNewlineBeforeNextContent = false
     private let xmlParser = AshtonXMLParser()
 
-    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedStringKey: Any] = [:]) -> NSAttributedString {
+    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
         self.output = NSMutableAttributedString()
         self.parsedTags = []
         self.appendNewlineBeforeNextContent = false
@@ -44,7 +44,7 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
         self.appendToOutput(string)
     }
     
-    func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey : Any]?) {
+    func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key : Any]?) {
         if self.appendNewlineBeforeNextContent {
             self.appendToOutput("\n")
             self.appendNewlineBeforeNextContent = false
