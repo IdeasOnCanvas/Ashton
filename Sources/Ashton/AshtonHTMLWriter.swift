@@ -34,11 +34,10 @@ final class AshtonHTMLWriter {
                                                         paragraphTag.addAttributes(attributes)
                                                         paragraphContent += String(attributedString.string[paragraphRange]).htmlEscaped
                                                     } else {
-                                                        guard let range = Range(nsrange, in: attributedString.string) else { return }
-
+                                                        let string = attributedString.string as NSString
                                                         var tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
                                                         paragraphContent += tag.parseOpenTag()
-                                                        paragraphContent += String(attributedString.string[range]).htmlEscaped
+                                                        paragraphContent += String(string.substring(with: nsrange)).htmlEscaped
                                                         paragraphContent += tag.makeCloseTag()
                                                     }
             })
@@ -170,7 +169,7 @@ private struct HTMLTag {
                 #endif
 
                 if let fontFeatures = fontDescriptor.object(forKey: .featureSettings) as? [[String: Any]] {
-                    let features = fontFeatures.flatMap { feature in
+                    let features = fontFeatures.compactMap { feature in
                         guard let typeID = feature[FontDescriptor.FeatureKey.cpTypeIdentifier.rawValue] else { return nil }
                         guard let selectorID = feature[FontDescriptor.FeatureKey.selectorIdentifier.rawValue] else { return nil }
 

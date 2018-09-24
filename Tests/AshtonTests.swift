@@ -197,6 +197,19 @@ class AshtonTests: XCTestCase {
         let attributes2 = attributedString.attributes(at: 6, effectiveRange: nil)
         XCTAssertNotEqual(attributes2[.font] as! Font, defaultFont)
     }
+
+    func testCompoundCharactersEncodingWithDifferentAttributes() {
+        let font = Font(name: "Thonburi", size: 12)!
+        let helvetica = Font(name: "Helvetica", size: 12)!
+        let firstCharacterAttributes: [NSAttributedStringKey: Any] = [.font: font,
+                                                                      NSAttributedStringKey(rawValue: "NSOriginalFont"): helvetica]
+        let secondCharacterAttributes: [NSAttributedStringKey: Any] = [.font: font]
+        let attributedStringWithCompoundChars = NSMutableAttributedString(string: "\u{0E17}", attributes: firstCharacterAttributes)
+        attributedStringWithCompoundChars.append(NSAttributedString(string: "\u{0E38}", attributes: secondCharacterAttributes))
+        let html = Ashton.encode(attributedStringWithCompoundChars)
+        let roundTrippedAttributedString = Ashton.decode(html, defaultAttributes: [:])
+        XCTAssertEqual(roundTrippedAttributedString.string, attributedStringWithCompoundChars.string)
+    }
     
     func testSpecialCharacters() {
         let string = "Hello 🌍, 😎, 🤡 - 🍺 ≤ 🍷 < 🥃"
@@ -204,6 +217,17 @@ class AshtonTests: XCTestCase {
         let html = Ashton.encode(attributedString)
         let roundTrippedAttributedString = Ashton.decode(html)
         XCTAssertEqual(attributedString.string, roundTrippedAttributedString.string)
+    }
+
+    func testArabicCharacterParsing() {
+        let html = "<p style=\'color: rgba(75, 75, 75, 1.000000); font: 24px \"Geeza Pro\"; text-align: center; -cocoa-font-postscriptname: \"GeezaPro\"; \'>لالالالالالالالالا</p>"
+        let attributedString = Ashton.decode(html)
+        let reference = NSAttributedString(htmlString: html)!
+        let canvasSize = CGSize(width: 200.0, height: 200.0)
+        let drawingRect = attributedString.boundingRect(with: canvasSize, options: [.usesDeviceMetrics], context: nil)
+        let referenceRect = reference.boundingRect(with: canvasSize, options: [.usesDeviceMetrics], context: nil)
+        XCTAssertEqual(drawingRect, referenceRect)
+        XCTAssertEqual(attributedString.string, reference.string)
     }
 
 	// MARK: - Performance Tests
