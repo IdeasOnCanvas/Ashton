@@ -16,7 +16,7 @@ import Foundation
 
 protocol AshtonXMLParserDelegate: class {
     func didParseContent(_ parser: AshtonXMLParser, string: String)
-    func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?)
+    func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key: Any]?)
     func didCloseTag(_ parser: AshtonXMLParser)
 }
 
@@ -55,8 +55,8 @@ final class AshtonXMLParser {
         }
     }
 
-    typealias Hash = UInt64
-    static var styleAttributesCache: [Hash: [NSAttributedStringKey: Any]] = [:]
+    typealias Hash = Int
+    static var styleAttributesCache: [Hash: [NSAttributedString.Key: Any]] = [:]
     
     // MARK: - AshtonXMLParser
     
@@ -148,10 +148,10 @@ private extension AshtonXMLParser {
 
     // MARK: - Attribute Parsing
     
-    func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any]? {
-        var parsedAttributes: [NSAttributedStringKey: Any]? = nil
+    func parseAttributes(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedString.Key: Any]? {
+        var parsedAttributes: [NSAttributedString.Key: Any]? = nil
 
-        func addAttributes(_ attributes: [NSAttributedStringKey: Any]) {
+        func addAttributes(_ attributes: [NSAttributedString.Key: Any]) {
             if parsedAttributes == nil {
                 parsedAttributes = attributes
             } else {
@@ -180,8 +180,8 @@ private extension AshtonXMLParser {
 
     // MARK: - Style Parsing
     
-    func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
-        var attributes: [NSAttributedStringKey: Any] = [:]
+    func parseStyles(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedString.Key: Any] {
+        var attributes: [NSAttributedString.Key: Any] = [:]
 
         var fontBuilder: FontBuilder?
         func ensureFontBuilder() -> FontBuilder {
@@ -227,7 +227,7 @@ private extension AshtonXMLParser {
                     iterator.skipStyleAttributeIgnoredCharacters()
                     guard let textDecoration = iterator.parseTextDecoration() else { break }
 
-                    attributes[textDecoration] = NSUnderlineStyle.styleSingle.rawValue
+                    attributes[textDecoration] = NSUnderlineStyle.single.rawValue
                 }
             case "f":
                 guard iterator.forwardIfEquals(AttributeKeys.Style.font) else { break }
@@ -322,7 +322,7 @@ private extension AshtonXMLParser {
 
     // MARK: - href-Parsing
     
-    func parseHREF(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedStringKey: Any] {
+    func parseHREF(_ iterator: inout String.UnicodeScalarView.Iterator) -> [NSAttributedString.Key: Any] {
         iterator.skipStyleAttributeIgnoredCharacters()
         guard let url = iterator.parseURL() else { return [:] }
         

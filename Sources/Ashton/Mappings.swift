@@ -19,9 +19,9 @@ struct Mappings {
 
     struct UnderlineStyle {
         static let encode: [NSUnderlineStyle.RawValue: String] = [
-            NSUnderlineStyle.styleSingle.rawValue: "single",
-            NSUnderlineStyle.styleDouble.rawValue: "double",
-            NSUnderlineStyle.styleThick.rawValue: "thick"
+            NSUnderlineStyle.single.rawValue: "single",
+            NSUnderlineStyle.double.rawValue: "double",
+            NSUnderlineStyle.thick.rawValue: "thick"
         ]
     }
 

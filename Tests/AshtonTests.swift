@@ -53,7 +53,7 @@ class AshtonTests: XCTestCase {
 		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: true)
 		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors, ignoreReferenceHTML: true)
 		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors, ignoreReferenceHTML: true)
-		let underlineStyles: [NSUnderlineStyle] = [.styleSingle]//, .styleThick, .styleDouble]
+		let underlineStyles: [NSUnderlineStyle] = [NSUnderlineStyle.single]//, .styleThick, .styleDouble]
 		self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
 		self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
 	}
@@ -105,7 +105,7 @@ class AshtonTests: XCTestCase {
     }
 
     func testVerticalAlignment() {
-        let key = NSAttributedStringKey(rawValue: "NSSuperScript")
+        let key = NSAttributedString.Key(rawValue: "NSSuperScript")
         self.compareAttributeCodingWithBenchmark(key, values: [2, -2], ignoreReferenceHTML: true)
     }
 
@@ -189,7 +189,7 @@ class AshtonTests: XCTestCase {
     func testDefaultAttributes() {
         let html = "<p>Hello <span style= 'font: 18px \"Helvetica Neue\"; -cocoa-font-postscriptname: \"HelveticaNeue\"; '>World</span></p>"
         let defaultFont = Font(name: "Arial", size: 12)!
-        let defaultAttributes: [NSAttributedStringKey: Any] = [.font: defaultFont]
+        let defaultAttributes: [NSAttributedString.Key: Any] = [.font: defaultFont]
         let attributedString = Ashton.decode(html, defaultAttributes: defaultAttributes)
         let attributes1 = attributedString.attributes(at: 0, effectiveRange: nil)
         XCTAssertEqual(attributes1[.font] as! Font, defaultFont)
@@ -201,9 +201,9 @@ class AshtonTests: XCTestCase {
     func testCompoundCharactersEncodingWithDifferentAttributes() {
         let font = Font(name: "Thonburi", size: 12)!
         let helvetica = Font(name: "Helvetica", size: 12)!
-        let firstCharacterAttributes: [NSAttributedStringKey: Any] = [.font: font,
-                                                                      NSAttributedStringKey(rawValue: "NSOriginalFont"): helvetica]
-        let secondCharacterAttributes: [NSAttributedStringKey: Any] = [.font: font]
+        let firstCharacterAttributes: [NSAttributedString.Key: Any] = [.font: font,
+                                                                      NSAttributedString.Key(rawValue: "NSOriginalFont"): helvetica]
+        let secondCharacterAttributes: [NSAttributedString.Key: Any] = [.font: font]
         let attributedStringWithCompoundChars = NSMutableAttributedString(string: "\u{0E17}", attributes: firstCharacterAttributes)
         attributedStringWithCompoundChars.append(NSAttributedString(string: "\u{0E38}", attributes: secondCharacterAttributes))
         let html = Ashton.encode(attributedStringWithCompoundChars)
@@ -287,7 +287,7 @@ class AshtonTests: XCTestCase {
         let html = Ashton.encode(attributedString) + ""
         self.measure {
 //                        let test1 = NSAttributedString(htmlString: html) // old ashton benchmark
-//                        let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
+//                       let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
             let test1 = Ashton.decode(html)
             let test2 = Ashton.decode(html)
             XCTAssertEqual(test1, test2)
@@ -304,7 +304,7 @@ private extension AshtonTests {
         return try! NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
     }
 
-    func compareAttributeCodingWithBenchmark(_ attribute: NSAttributedStringKey, values: [Any], ignoreReferenceHTML: Bool = false) {
+    func compareAttributeCodingWithBenchmark(_ attribute: NSAttributedString.Key, values: [Any], ignoreReferenceHTML: Bool = false) {
 		for value in values {
 			let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\n\nNext line with no attribute")
 			attributedString.addAttribute(attribute,

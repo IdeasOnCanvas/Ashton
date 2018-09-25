@@ -52,15 +52,15 @@ final class IteratorParsingTests: XCTestCase {
     func testUnderlineStyleParsing() {
         let thick = "thick;"
         var iterator = thick.unicodeScalars.makeIterator()
-        XCTAssertEqual(iterator.parseUnderlineStyle(), NSUnderlineStyle.styleThick)
+        XCTAssertEqual(iterator.parseUnderlineStyle(), NSUnderlineStyle.thick)
 
         let single = "single"
         var iterator2 = single.unicodeScalars.makeIterator()
-        XCTAssertEqual(iterator2.parseUnderlineStyle(), NSUnderlineStyle.styleSingle)
+        XCTAssertEqual(iterator2.parseUnderlineStyle(), NSUnderlineStyle.single)
 
         let double = "double"
         var iterator3 = double.unicodeScalars.makeIterator()
-        XCTAssertEqual(iterator3.parseUnderlineStyle(), NSUnderlineStyle.styleDouble)
+        XCTAssertEqual(iterator3.parseUnderlineStyle(), NSUnderlineStyle.double)
 
         let quark = "quark"
         var iterator4 = quark.unicodeScalars.makeIterator()
@@ -71,11 +71,11 @@ final class IteratorParsingTests: XCTestCase {
     func testTextDecorationStyleParsing() {
         let strikethrough = "line-through;"
         var iterator = strikethrough.unicodeScalars.makeIterator()
-        XCTAssertEqual(iterator.parseTextDecoration(), NSAttributedStringKey.strikethroughStyle)
+        XCTAssertEqual(iterator.parseTextDecoration(), NSAttributedString.Key.strikethroughStyle)
 
         let underline = "underline"
         var iterator2 = underline.unicodeScalars.makeIterator()
-        XCTAssertEqual(iterator2.parseTextDecoration(), NSAttributedStringKey.underlineStyle)
+        XCTAssertEqual(iterator2.parseTextDecoration(), NSAttributedString.Key.underlineStyle)
 
         let quark = "quark"
         var iterator3 = quark.unicodeScalars.makeIterator()
@@ -255,7 +255,7 @@ final class IteratorParsingTests: XCTestCase {
                 fonts += Font.fontNames(forFamilyName: family)
             }
         #endif
-        var hashes: [UInt64: String] = [:]
+        var hashes: [Int: String] = [:]
         var collisions: [(String, String)] = []
         for fontname in fonts {
             var iterator = ("font: " + fontname + "'").unicodeScalars.makeIterator()
@@ -266,7 +266,7 @@ final class IteratorParsingTests: XCTestCase {
                 hashes[hash] = fontname
             }
         }
-        XCTAssertTrue(collisions.count == 0)
+        XCTAssertEqual(collisions.count, 0)
     }
 }
 
@@ -276,6 +276,6 @@ final class IteratorParsingTests: XCTestCase {
 private extension CGFloat {
 
     func almostEquals(_ other: CGFloat) -> Bool {
-        return fabs(self - other) <= CGFloat.ulpOfOne
+        return abs(self - other) <= CGFloat.ulpOfOne
     }
 }

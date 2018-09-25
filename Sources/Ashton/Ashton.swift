@@ -33,7 +33,7 @@ public final class Ashton: NSObject {
     /// - Parameter defaultAttributes: Attributes which are used if no attribute is specified in the HTML
     /// - Returns: The decoded NSAttributedString
     @objc
-    public static func decode(_ html: HTML, defaultAttributes: [NSAttributedStringKey: Any] = [:]) -> NSAttributedString {
+    public static func decode(_ html: HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
         return Ashton.reader.decode(html, defaultAttributes: defaultAttributes)
     }
 
