@@ -10,7 +10,7 @@
     import UIKit
     typealias Font = UIFont
     typealias FontDescriptor = UIFontDescriptor
-    typealias FontDescriptorSymbolicTraits = UIFontDescriptorSymbolicTraits
+    typealias FontDescriptorSymbolicTraits = UIFontDescriptor.SymbolicTraits
     typealias Color = UIColor
 
     extension UIFont {
@@ -21,8 +21,8 @@
         var cpPostscriptName: String { return self.postscriptName }
     }
 
-    extension NSAttributedStringKey {
-        static let superscript = NSAttributedStringKey(rawValue: "NSSuperScript")
+extension NSAttributedString.Key {
+    static let superscript = NSAttributedString.Key(rawValue: "NSSuperScript")
     }
 
     extension FontDescriptor.FeatureKey {

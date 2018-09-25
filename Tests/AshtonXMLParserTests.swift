@@ -101,11 +101,11 @@ final class AshtonXMLParserTests: XCTestCase {
 private extension AshtonXMLParserTests {
     
     final class DummyParserDelegate: AshtonXMLParserDelegate {
-        var openedTags: [(name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?)] = []
+        var openedTags: [(name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key: Any]?)] = []
         var content: String = ""
         var closedTags = 0
         
-        func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedStringKey: Any]?) {
+        func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key: Any]?) {
             self.openedTags.append((name, attributes))
         }
         
