@@ -20,6 +20,14 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(html, roundTripHTML)
     }
 
+    func testHTMLCreationWithMultipleTextDecorationStyles() {
+        let attributedString = NSAttributedString(string: "Hello World", attributes: [.underlineStyle: NSUnderlineStyle.double.rawValue,
+                                                                                      .strikethroughStyle: NSUnderlineStyle.double.rawValue])
+        let html = Ashton.encode(attributedString)
+        let expectedHTML = "<p style='text-decoration: line-through underline; -cocoa-strikethrough: double; -cocoa-underline: double; '>Hello World</p>"
+        XCTAssertEqual(html, expectedHTML)
+    }
+
     func testStyleTagsOrdering() {
         let referenceHTML = "<p style='font: 16px \"Helvetica\"; text-decoration: line-through; -cocoa-font-postscriptname: \"Helvetica\"; -cocoa-strikethrough: single; -cocoa-strikethrough-color: rgba(0, 0, 0, 1.000000); -cocoa-underline-color: rgba(255, 0, 0, 1.000000); '>Single Strikethrough.</p>"
         let roundTripHTML = Ashton.encode(Ashton.decode(referenceHTML))
