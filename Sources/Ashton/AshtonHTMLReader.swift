@@ -53,6 +53,15 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
 
         var attributes = attributes ?? [:]
         let currentAttributes = self.attributesStack.last ?? [:]
+
+        if name == .strong {
+            if let currentFont = currentAttributes[.font] as? Font {
+                let fontBuilder = FontBuilder(font: currentFont)
+                fontBuilder.isBold = true
+                attributes[.font] = fontBuilder.makeFont()
+            }
+        }
+
         attributes.merge(currentAttributes, uniquingKeysWith: { (current, _) in current })
 
         self.attributesStack.append(attributes)
