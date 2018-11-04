@@ -225,9 +225,10 @@ private extension AshtonXMLParser {
                     attributes[.paragraphStyle] = paragraphStyle
                 } else if iterator.forwardIfEquals(AttributeKeys.Style.textDecoration) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    guard let textDecoration = iterator.parseTextDecoration() else { break }
-
-                    attributes[textDecoration] = NSUnderlineStyle.single.rawValue
+                    while let textDecoration = iterator.parseTextDecoration() {
+                        attributes[textDecoration] = NSUnderlineStyle.single.rawValue
+                        iterator.skipStyleAttributeIgnoredCharacters()
+                    }
                 }
             case "f":
                 guard iterator.forwardIfEquals(AttributeKeys.Style.font) else { break }
