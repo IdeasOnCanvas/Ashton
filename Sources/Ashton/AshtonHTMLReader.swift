@@ -54,10 +54,15 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
         var attributes = attributes ?? [:]
         let currentAttributes = self.attributesStack.last ?? [:]
 
-        if name == .strong {
+        if name == .strong || name == .em {
             if let currentFont = currentAttributes[.font] as? Font {
                 let fontBuilder = FontBuilder(font: currentFont)
-                fontBuilder.isBold = true
+                if name == .strong {
+                    fontBuilder.isBold = true
+                }
+                if name == .em {
+                    fontBuilder.isItalic = true
+                }
                 attributes[.font] = fontBuilder.makeFont()
             }
         }

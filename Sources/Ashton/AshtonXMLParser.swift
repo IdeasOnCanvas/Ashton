@@ -28,6 +28,7 @@ final class AshtonXMLParser {
         case p
         case span
         case strong
+        case em
         case a
         case ignored
     }
@@ -122,6 +123,9 @@ private extension AshtonXMLParser {
             } else {
                 parsedTag = .ignored
             }
+            self.finalizeOpening(of: parsedTag, iterator: &iterator)
+        case "e":
+            let parsedTag: Tag = iterator.forwardIfEquals("m") ? .em : .ignored
             self.finalizeOpening(of: parsedTag, iterator: &iterator)
         case "a":
             self.finalizeOpening(of: .a, iterator: &iterator)
