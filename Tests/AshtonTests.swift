@@ -57,6 +57,12 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(referenceHTML, roundTripHTML)
     }
 
+    func testParsingOfContentWithMalformedHTML() {
+        let referenceHTML = "</code>Inline <span>code</span></code> and some other text"
+        let resultingString = Ashton.decode(referenceHTML).string
+        XCTAssertEqual(resultingString, "Inline code and some other text")
+    }
+
     func testMixedHTMLContentParsing() {
         let referenceHTML = "<code>Inline code</code> and some other text"
         let attributedString = Ashton.decode(referenceHTML)

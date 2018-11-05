@@ -5,3 +5,5 @@
 ## Unassigned
 - [Enhancement] Parse `<em>` and `<strong>` tags (#23)
 - [Internal] Add Changelog
+- [Internal] Handle malformed xml more gracefully - early return instead of assert (#21)
+- [Internal] Add Changelog

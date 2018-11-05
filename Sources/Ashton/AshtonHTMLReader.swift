@@ -65,8 +65,7 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
     }
     
     func didCloseTag(_ parser: AshtonXMLParser) {
-        guard self.attributesStack.isEmpty == false else {
-            assertionFailure("Did close tag without opening a tag before")
+        guard self.attributesStack.isEmpty == false, self.parsedTags.isEmpty == false else {
             return
         }
 
