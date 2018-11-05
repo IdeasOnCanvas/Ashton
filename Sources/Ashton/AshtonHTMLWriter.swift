@@ -129,7 +129,7 @@ private struct HTMLTag {
                 guard let intValue = value as? Int else { return }
                 guard let underlineStyle = Mappings.UnderlineStyle.encode[intValue] else { return }
 
-                styles["text-decoration"] = "underline"
+                styles["text-decoration"] = (styles["text-decoration"] ?? "").stringByAppendingAttributeValue("underline")
                 cocoaStyles["-cocoa-underline"] = underlineStyle
             case .underlineColor:
                 guard let color = value as? Color else { return }
@@ -143,7 +143,7 @@ private struct HTMLTag {
                 guard let intValue = value as? Int else { return }
                 guard let underlineStyle = Mappings.UnderlineStyle.encode[intValue] else { return }
 
-                styles["text-decoration"] = "line-through"
+                styles["text-decoration"] = "line-through".stringByAppendingAttributeValue(styles["text-decoration"])
                 cocoaStyles["-cocoa-strikethrough"] = underlineStyle
             case .font:
                 guard let font = value as? Font else { return }
@@ -302,6 +302,16 @@ private extension String {
         guard self.contains(where: { Character.mapping[$0] != nil }) else { return self }
 
         return self.reduce("") { $0 + $1.escaped }
+    }
+
+    func stringByAppendingAttributeValue(_ value: String?) -> String {
+        guard let value = value, value.isEmpty == false else { return self }
+
+        if self.isEmpty {
+            return value
+        } else {
+            return self + " " + value
+        }
     }
 }
 
