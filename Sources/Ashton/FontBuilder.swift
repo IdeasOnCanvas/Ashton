@@ -33,6 +33,11 @@ final class FontBuilder {
     }
 
     // MARK: - FontBuilder
+
+    func configure(with font: Font) {
+        self.familyName = font.familyName
+        self.pointSize = font.pointSize
+    }
     
     func makeFont() -> Font? {
         guard let fontName = self.fontName else { return nil }

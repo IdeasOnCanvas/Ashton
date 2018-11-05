@@ -34,6 +34,22 @@ class AshtonTests: XCTestCase {
         XCTAssertTrue(roundTrippedHTML.contains("text-decoration: line-through underline"))
     }
 
+    func testDecodingOfStrongTag() {
+        let html = "Hello <strong>World</strong>"
+        let attributedString = Ashton.decode(html, defaultAttributes: [.font: Font(name: "Helvetica", size: 12.0)!])
+        let roundTripHTML = Ashton.encode(attributedString)
+        print(roundTripHTML)
+        XCTAssertEqual(roundTripHTML, "<p><span style='font: 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica\"; '>Hello </span><span style='font: bold 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica-Bold\"; '>World</span></p>")
+    }
+
+    func testDecodingOfEmTag() {
+        let html = "Hello <em>World</em>"
+        let attributedString = Ashton.decode(html, defaultAttributes: [.font: Font(name: "Helvetica", size: 12.0)!])
+        let roundTripHTML = Ashton.encode(attributedString)
+        print(roundTripHTML)
+        XCTAssertEqual(roundTripHTML, "<p><span style='font: 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica\"; '>Hello </span><span style='font: italic 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica-Oblique\"; '>World</span></p>")
+    }
+
     func testStyleTagsOrdering() {
         let referenceHTML = "<p style='font: 16px \"Helvetica\"; text-decoration: line-through; -cocoa-font-postscriptname: \"Helvetica\"; -cocoa-strikethrough: single; -cocoa-strikethrough-color: rgba(0, 0, 0, 1.000000); -cocoa-underline-color: rgba(255, 0, 0, 1.000000); '>Single Strikethrough.</p>"
         let roundTripHTML = Ashton.encode(Ashton.decode(referenceHTML))
@@ -307,7 +323,7 @@ class AshtonTests: XCTestCase {
         let html = Ashton.encode(attributedString) + ""
         self.measure {
 //                        let test1 = NSAttributedString(htmlString: html) // old ashton benchmark
-//                       let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
+  //                     let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
             let test1 = Ashton.decode(html)
             let test2 = Ashton.decode(html)
             XCTAssertEqual(test1, test2)

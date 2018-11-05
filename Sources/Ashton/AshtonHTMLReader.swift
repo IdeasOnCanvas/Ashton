@@ -53,6 +53,11 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
 
         var attributes = attributes ?? [:]
         let currentAttributes = self.attributesStack.last ?? [:]
+
+        if let derivedFontBuilder = self.makeDerivedFontBuilder(forTag: name) {
+            attributes[.font] = derivedFontBuilder.makeFont()
+        }
+
         attributes.merge(currentAttributes, uniquingKeysWith: { (current, _) in current })
 
         self.attributesStack.append(attributes)
@@ -86,5 +91,16 @@ private extension AshtonHTMLReader {
         } else {
             self.output.append(NSAttributedString(string: string))
         }
+    }
+
+    func makeDerivedFontBuilder(forTag tag: AshtonXMLParser.Tag) -> FontBuilder? {
+        guard tag == .strong || tag == .em else { return nil }
+        guard let currentFont = self.attributesStack.last?[.font] as? Font else { return nil }
+
+        let fontBuilder = FontBuilder()
+        fontBuilder.configure(with: currentFont)
+        fontBuilder.isBold = (tag == .strong)
+        fontBuilder.isItalic = (tag == .em)
+        return fontBuilder
     }
 }
