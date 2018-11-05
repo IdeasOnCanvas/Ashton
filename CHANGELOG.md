@@ -5,5 +5,6 @@
 ## Unassigned
 - [Enhancement] Parse `<em>` and `<strong>` tags (#23)
 - [Internal] Add Changelog
+- [Bugfix] Fix writing and reading of multiple text-decoration attribute values (#22)
 - [Internal] Handle malformed xml more gracefully - early return instead of assert (#21)
 - [Internal] Add Changelog
