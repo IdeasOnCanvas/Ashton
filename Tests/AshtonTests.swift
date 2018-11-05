@@ -297,7 +297,7 @@ class AshtonTests: XCTestCase {
 		self.measure {
 			for _ in 0...1000 {
                 //_ = NSAttributedString(htmlString: referenceHtml) // old ashton benchmark
-				//_ = Ashton.decode(referenceHtml)
+				_ = Ashton.decode(referenceHtml)
 			}
 		}
 	}

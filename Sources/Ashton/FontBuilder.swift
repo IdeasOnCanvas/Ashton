@@ -32,16 +32,12 @@ final class FontBuilder {
         return "\(familyName)\(pointSize)\(self.isBold)\(self.isItalic)\(self.fontFeatures?.description ?? "")"
     }
 
-    init() { }
+    // MARK: - FontBuilder
 
-    convenience init(font: Font) {
-        self.init()
-
+    func configure(with font: Font) {
         self.familyName = font.familyName
         self.pointSize = font.pointSize
     }
-
-    // MARK: - FontBuilder
     
     func makeFont() -> Font? {
         guard let fontName = self.fontName else { return nil }
