@@ -31,7 +31,7 @@ The following `NSAttributedString.Key` attributes are supported when converting 
 
 ## Supported HTML Tags & Attributes
 
-As Ashton supports only tags which are necessary to persist to Attributes mentioned above, not all HTML tags are supported when converting `HTML` --> `AttributedString`. Basically, Ashton converts an AttributedString into a concatenation of `span`, `p` and `a` tags with style attributes. 
+As Ashton supports only tags which are necessary to persist the attributes mentioned above, not all HTML tags are supported when converting `HTML` --> `AttributedString`. Basically, Ashton converts an AttributedString into a concatenation of `span`, `p` and `a` tags with style attributes. 
 
 Supported HTML Tags:
 - [x] span
