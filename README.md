@@ -6,13 +6,51 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE.md)
 [![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg)](https://buildkite.com/ideasoncanvas/ashton)
 
-Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast (both way) conversion of NSAttributedString` <--> HTML.
+Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast conversion of NSAttributedString` into HTML (and back).
 The library is used in MindNode 5 for persisting formatted strings.
 
 ## 2.0 Release
 
 The latest release is a complete rewrite in Swift focusing on improved performance and functional backwards compatibility to Ashton 1.x.
 The new codebase has a comprehensive test suite with test coverage >90% and additional tests against the legacy 1.0 output.
+
+## Supported Attributes
+
+The following `NSAttributedString.Key` attributes are supported when converting to `HTML`:
+- [x] .backgroundColor (persisted as RGBA)
+- [x] .foregroundColor (persisted as RGBA)
+- [x] .underlineStyle (single, double, thick)
+- [x] .underlineColor (persisted as RGBA)
+- [x] .strikethroughColor (persisted as RGBA)
+- [x] .strikethroughStyle (single, double, thick)
+- [x] .font
+- [x] .paragraphStyle (text alignment)
+- [x] .baselineOffset
+- [x] NSSuperScript
+- [x] .link
+
+## Supported HTML Tags & Attributes
+
+As Ashton supports only tags which are necessary to persist to Attributes mentioned above, not all HTML tags are supported when converting `HTML` --> `AttributedString`. Basically, Ashton converts an AttributedString into a concatenation of `span`, `p` and `a` tags with style attributes. 
+
+Supported HTML Tags:
+- [x] span
+- [x] p
+- [x] a
+- [x] em
+- [x] strong
+
+
+The following style attribute keys are supported:
+- [x] background-color
+- [x] color
+- [x] text-decoration
+- [x] font
+- [x] text-align
+- [x] vertical-align
+- [x] Additional custom attributes (-cocoa-strikethrough-color, -cocoa-underline-color, -cocoa-baseline-offset, -cocoa-vertical-align, -cocoa-font-postscriptname, -cocoa-underline, -cocoa-strikethrough, -cocoa-fontFeatures)
+
+Colors have to be formatted as rgba like `rgba(0, 0, 0, 1.000000)`.
 
 ## Integration with Carthage
 
