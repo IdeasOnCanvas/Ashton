@@ -1,0 +1,12 @@
+env:
+  DEVELOPER_DIR: "/Applications/Xcode.app/Contents/Developer"
+  PATH: "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+  LANG: "en_US.UTF-8"
+  LC_ALL: "en_US.UTF-8"
+
+steps:
+  - command: "#!/bin/bash\n\nbundle install --path ~/gems\n\nbundle exec fastlane ios test"
+    label: ":iphone: iOS Tests"
+
+  - command: "#!/bin/bash\n\nbundle install --path ~/gems\n\nbundle exec fastlane mac test"
+    label: ":desktop_computer: macOS Tests"

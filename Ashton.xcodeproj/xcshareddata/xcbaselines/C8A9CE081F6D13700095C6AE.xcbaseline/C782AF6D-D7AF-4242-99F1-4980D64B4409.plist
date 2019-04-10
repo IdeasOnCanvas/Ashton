@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>classNames</key>
+	<dict>
+		<key>AshtonTests</key>
+		<dict>
+			<key>testAttributeDecodingPerformance()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.10413</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>23.09.2017, 15:35:34</string>
+				</dict>
+			</dict>
+			<key>testParagraphDecodingPerformance()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.062785</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>18.09.2017, 22:05:35</string>
+				</dict>
+			</dict>
+			<key>testParagraphEncodingPerformance()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.065795</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>18.09.2017, 22:09:48</string>
+				</dict>
+			</dict>
+			<key>testParagraphSpacingPerformance()</key>
+			<dict>
+				<key>com.apple.XCTPerformanceMetric_WallClockTime</key>
+				<dict>
+					<key>baselineAverage</key>
+					<real>0.59032</real>
+					<key>baselineIntegrationDisplayName</key>
+					<string>18.09.2017, 21:56:59</string>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>
