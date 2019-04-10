@@ -12,7 +12,7 @@ Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) i
 
 The latest release is a complete rewrite in Swift focusing on improved performance and functional backwards compatibility to Ashton 1.x. The new codebase has a comprehensive test suite with a test coverage of > 90% and additional tests against the legacy 1.0 output. 
 
-Find out more about the launch of Ashton 2.0 in our [Blog Post](https://ideasoncanvas.com/news/2019-04-10-optimizing-text-persistence).
+Find out more about the launch of Ashton 2.0 in our [Blog Post](https://mindnode.com/news/2019-04-10-a-snappier-mindnode-text-persistence).
 
 ## Supported Attributes
 
