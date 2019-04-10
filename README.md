@@ -4,7 +4,7 @@
 ![Platforms iOS, macOS](https://img.shields.io/badge/Platform-iOS%20|%20macOS-blue.svg "Platforms iOS, macOS")
 ![Language Swift](https://img.shields.io/badge/Language-Swift%204.2-green.svg "Swift 4.2")
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE.md)
-[![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg)](https://buildkite.com/ideasoncanvas/ashton)
+[![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg?branch=master)](https://buildkite.com/ideasoncanvas/ashton)
 
 Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast conversion of NSAttributedStrings into HTML, and back. Ashton is battle-tested and used in [MindNode 6](https://mindnode.com), for persisting formatted strings.
 
