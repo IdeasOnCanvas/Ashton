@@ -31,8 +31,9 @@ final class AshtonHTMLWriter {
                                                     paragraphTag.addAttributes(paragraphStyle)
 
                                                     if nsParagraphRange.length == nsrange.length {
+                                                        let nsString = attributedString.string as NSString
                                                         paragraphTag.addAttributes(attributes)
-                                                        paragraphContent += String(attributedString.string[paragraphRange]).htmlEscaped
+                                                        paragraphContent += String(nsString.substring(with: nsrange)).htmlEscaped
                                                     } else {
                                                         let string = attributedString.string as NSString
                                                         var tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
