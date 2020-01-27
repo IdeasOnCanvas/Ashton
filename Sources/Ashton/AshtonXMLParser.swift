@@ -333,6 +333,9 @@ private extension AshtonXMLParser {
 
         if let font = fontBuilder?.makeFont() {
             attributes[.font] = font
+            // Core Text implicitly returns a fallback font if the the requested font descriptor
+            // does not lead to an exact match. We perform a simple heuristic to take note of such
+            // fallbacks and inform the delegate.
             if let requestedFontName = fontBuilder?.fontName, font.fontName != requestedFontName {
                 self.delegate?.didEncounterUnknownFont(self, features: fontBuilder?.fontFeatures)
             }
