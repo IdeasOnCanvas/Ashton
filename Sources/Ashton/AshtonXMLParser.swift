@@ -18,6 +18,12 @@ protocol AshtonXMLParserDelegate: class {
     func didParseContent(_ parser: AshtonXMLParser, string: String)
     func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key: Any]?)
     func didCloseTag(_ parser: AshtonXMLParser)
+    func didEncounterUnknownFont(_ parser: AshtonXMLParser, features: [[String: Any]]?)
+}
+
+extension AshtonXMLParserDelegate {
+
+    func didEncounterUnknownFont(_ parser: AshtonXMLParser, features: [[String: Any]]?) { }
 }
 
 
@@ -327,6 +333,11 @@ private extension AshtonXMLParser {
 
         if let font = fontBuilder?.makeFont() {
             attributes[.font] = font
+            if let requestedFontName = fontBuilder?.fontName, font.fontName != requestedFontName {
+                self.delegate?.didEncounterUnknownFont(self, features: fontBuilder?.fontFeatures)
+            }
+        } else {
+            self.delegate?.didEncounterUnknownFont(self, features: fontBuilder?.fontFeatures)
         }
         
         AshtonXMLParser.styleAttributesCache[cacheKey] = attributes
