@@ -165,11 +165,12 @@ class AshtonTests: XCTestCase {
 
     func testUnknownFontParsing() {
         let sampleHTML = "<p style='color: rgba(72, 72, 72, 1.000000); font: 18px \"Suisse Int'l\"; text-align: left; -cocoa-font-postscriptname: \"SuisseIntl-Regular\"; '>Hello World</p>"
-        let attributedString = Ashton.decode(sampleHTML) { result in
-            print(result.unknownFonts)
+        var unknownFont: String?
+        _ = Ashton.decode(sampleHTML) { result in
+            XCTAssert(result.unknownFonts.count == 1)
+            unknownFont = result.unknownFonts.first
         }
-        let roundtrippedHTML = Ashton.encode(attributedString)
-        XCTAssertEqual(sampleHTML, roundtrippedHTML)
+        XCTAssertEqual(unknownFont, "SuisseIntl-Regular")
     }
 
 	func testFonts() {
