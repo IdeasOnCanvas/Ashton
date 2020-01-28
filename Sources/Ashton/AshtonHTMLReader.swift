@@ -16,13 +16,17 @@ final class AshtonHTMLReader: NSObject {
     private var output: NSMutableAttributedString!
     private var parsedTags: [AshtonXMLParser.Tag] = []
     private var appendNewlineBeforeNextContent = false
+    private var unknownFonts: [String] = []
+    private var parseCompletionHandler: ParseCompletionHandler?
     private let xmlParser = AshtonXMLParser()
 
-    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
+    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: @escaping ParseCompletionHandler) -> NSAttributedString {
         self.output = NSMutableAttributedString()
         self.parsedTags = []
         self.appendNewlineBeforeNextContent = false
         self.attributesStack = [defaultAttributes]
+        self.unknownFonts = []
+        self.parseCompletionHandler = completionHandler
         
         self.xmlParser.delegate = self
         self.xmlParser.parse(string: html)
@@ -42,6 +46,7 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
     
     func didParseContent(_ parser: AshtonXMLParser, string: String) {
         self.appendToOutput(string)
+        self.parseCompletionHandler?(ParseResult(unknownFonts: self.unknownFonts))
     }
     
     func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key : Any]?) {
@@ -78,6 +83,10 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
         } else {
             self.attributesStack.removeLast()
         }
+    }
+
+    func didEncounterUnknownFont(_ parser: AshtonXMLParser, fontName: String) {
+        self.unknownFonts.append(fontName)
     }
 }
 

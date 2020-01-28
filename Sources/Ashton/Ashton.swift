@@ -8,6 +8,15 @@
 
 import Foundation
 
+@objc
+public final class ParseResult: NSObject {
+    let unknownFonts: [String]
+
+    public init(unknownFonts: [String]) {
+        self.unknownFonts = unknownFonts
+    }
+}
+public typealias ParseCompletionHandler = (_ parseResult: ParseResult) -> Void
 
 /// Transforms NSAttributedString <--> HTML
 @objc
@@ -34,7 +43,11 @@ public final class Ashton: NSObject {
     /// - Returns: The decoded NSAttributedString
     @objc
     public static func decode(_ html: HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
-        return Ashton.reader.decode(html, defaultAttributes: defaultAttributes)
+        self.decode(html, defaultAttributes: defaultAttributes) { _ in }
+    }
+
+    public static func decode(_ html: HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: @escaping ParseCompletionHandler) -> NSAttributedString {
+        return Ashton.reader.decode(html, defaultAttributes: defaultAttributes, completionHandler: completionHandler)
     }
 
     /// Clears decoding caches (e.g. already parsed and converted html style attribute strings are cached)
