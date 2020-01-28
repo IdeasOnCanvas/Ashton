@@ -13,7 +13,7 @@ public typealias AshtonHTMLReadCompletionHandler = (_ readResult: AshtonHTMLRead
 
 @objc
 public final class AshtonHTMLReadResult: NSObject {
-    let unknownFonts: [String]
+    public let unknownFonts: [String]
 
     public init(unknownFonts: [String]) {
         self.unknownFonts = unknownFonts
