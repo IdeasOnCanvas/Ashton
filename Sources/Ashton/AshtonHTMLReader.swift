@@ -27,19 +27,20 @@ final class AshtonHTMLReader: NSObject {
     private var parsedTags: [AshtonXMLParser.Tag] = []
     private var appendNewlineBeforeNextContent = false
     private var unknownFonts: [String] = []
-    private var readCompletionHandler: AshtonHTMLReadCompletionHandler?
     private let xmlParser = AshtonXMLParser()
 
-    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: @escaping AshtonHTMLReadCompletionHandler) -> NSAttributedString {
+    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
         self.output = NSMutableAttributedString()
         self.parsedTags = []
         self.appendNewlineBeforeNextContent = false
         self.attributesStack = [defaultAttributes]
         self.unknownFonts = []
-        self.readCompletionHandler = completionHandler
         
         self.xmlParser.delegate = self
         self.xmlParser.parse(string: html)
+        // Since `.parse` is a synchronous call, we can simply dispatch the completion handler here.
+        // This allows us to stick with the default, implicit `@noescape` behavior.
+        completionHandler(AshtonHTMLReadResult(unknownFonts: self.unknownFonts))
 
         return self.output
     }
@@ -56,7 +57,6 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
     
     func didParseContent(_ parser: AshtonXMLParser, string: String) {
         self.appendToOutput(string)
-        self.readCompletionHandler?(AshtonHTMLReadResult(unknownFonts: self.unknownFonts))
     }
     
     func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key : Any]?) {
