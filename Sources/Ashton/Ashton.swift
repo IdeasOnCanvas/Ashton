@@ -8,16 +8,6 @@
 
 import Foundation
 
-@objc
-public final class ParseResult: NSObject {
-    let unknownFonts: [String]
-
-    public init(unknownFonts: [String]) {
-        self.unknownFonts = unknownFonts
-    }
-}
-public typealias ParseCompletionHandler = (_ parseResult: ParseResult) -> Void
-
 /// Transforms NSAttributedString <--> HTML
 @objc
 public final class Ashton: NSObject {
@@ -46,7 +36,7 @@ public final class Ashton: NSObject {
         self.decode(html, defaultAttributes: defaultAttributes) { _ in }
     }
 
-    public static func decode(_ html: HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: @escaping ParseCompletionHandler) -> NSAttributedString {
+    public static func decode(_ html: HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: @escaping AshtonHTMLReadCompletionHandler) -> NSAttributedString {
         return Ashton.reader.decode(html, defaultAttributes: defaultAttributes, completionHandler: completionHandler)
     }
 
