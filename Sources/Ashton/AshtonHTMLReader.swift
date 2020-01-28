@@ -27,7 +27,7 @@ final class AshtonHTMLReader: NSObject {
     private var parsedTags: [AshtonXMLParser.Tag] = []
     private var appendNewlineBeforeNextContent = false
     private var unknownFonts: [String] = []
-    private var parseCompletionHandler: AshtonHTMLReadCompletionHandler?
+    private var readCompletionHandler: AshtonHTMLReadCompletionHandler?
     private let xmlParser = AshtonXMLParser()
 
     func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: @escaping AshtonHTMLReadCompletionHandler) -> NSAttributedString {
@@ -36,7 +36,7 @@ final class AshtonHTMLReader: NSObject {
         self.appendNewlineBeforeNextContent = false
         self.attributesStack = [defaultAttributes]
         self.unknownFonts = []
-        self.parseCompletionHandler = completionHandler
+        self.readCompletionHandler = completionHandler
         
         self.xmlParser.delegate = self
         self.xmlParser.parse(string: html)
@@ -56,7 +56,7 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
     
     func didParseContent(_ parser: AshtonXMLParser, string: String) {
         self.appendToOutput(string)
-        self.parseCompletionHandler?(AshtonHTMLReadResult(unknownFonts: self.unknownFonts))
+        self.readCompletionHandler?(AshtonHTMLReadResult(unknownFonts: self.unknownFonts))
     }
     
     func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key : Any]?) {
