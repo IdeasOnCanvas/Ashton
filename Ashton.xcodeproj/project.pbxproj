@@ -12,7 +12,6 @@
 		45EA087E200D398C0073ADFD /* AshtonXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */; };
 		45EA0880200E7B070073ADFD /* AshtonXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA087F200E7B070073ADFD /* AshtonXMLParserTests.swift */; };
 		C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81811391FDFD82A0049620D /* AshtonAppKit.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		C8500CE52018A46600A116F4 /* fontNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = C8500CE42018A46600A116F4 /* fontNames.txt */; };
 		C87514AD1F818AB5002117FB /* RTFText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C87514AC1F818AB5002117FB /* RTFText.rtf */; };
 		C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8838B8A1FE93728007F6177 /* Mappings.swift */; };
 		C8881EE11FDEDAC600A58A39 /* CrossPlatformCompatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */; };
@@ -53,7 +52,6 @@
 		45EA087F200E7B070073ADFD /* AshtonXMLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonXMLParserTests.swift; sourceTree = "<group>"; };
 		C81811381FDFD82A0049620D /* AshtonAppKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AshtonAppKit.h; sourceTree = "<group>"; };
 		C81811391FDFD82A0049620D /* AshtonAppKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AshtonAppKit.m; sourceTree = "<group>"; };
-		C8500CE42018A46600A116F4 /* fontNames.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fontNames.txt; sourceTree = "<group>"; };
 		C87514AC1F818AB5002117FB /* RTFText.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = RTFText.rtf; sourceTree = "<group>"; };
 		C8838B8A1FE93728007F6177 /* Mappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Mappings.swift; path = ../Sources/Ashton/Mappings.swift; sourceTree = "<group>"; };
 		C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrossPlatformCompatibility.swift; path = ../Sources/Ashton/CrossPlatformCompatibility.swift; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 		C87514A91F818A61002117FB /* TestFiles */ = {
 			isa = PBXGroup;
 			children = (
-				C8500CE42018A46600A116F4 /* fontNames.txt */,
 				C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */,
 				C87514AC1F818AB5002117FB /* RTFText.rtf */,
 			);
@@ -310,7 +307,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8500CE52018A46600A116F4 /* fontNames.txt in Resources */,
 				C87514AD1F818AB5002117FB /* RTFText.rtf in Resources */,
 				C89B7D111FE3ED990038EDB8 /* TextStyles.rtf in Resources */,
 			);

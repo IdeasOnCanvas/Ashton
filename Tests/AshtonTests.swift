@@ -163,6 +163,19 @@ class AshtonTests: XCTestCase {
         }
     }
 
+    func testKnownFontParsing() {
+        let familyNames = Font.cpFamilyNames
+
+        for family in familyNames {
+            print("Family name " + family)
+            let fontNames = Font.cpFontNames(forFamilyName: family)
+
+            for font in fontNames {
+                print("    Font name: " + font)
+            }
+        }
+    }
+
     func testUnknownFontParsing() {
         let sampleHTML = "<p style='color: rgba(72, 72, 72, 1.000000); font: 18px \"Suisse Int'l\"; text-align: left; -cocoa-font-postscriptname: \"SuisseIntl-Regular\"; '>Hello World</p>"
         var unknownFont: String?
