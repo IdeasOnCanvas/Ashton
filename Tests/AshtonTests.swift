@@ -165,13 +165,12 @@ class AshtonTests: XCTestCase {
 
     func testKnownFontParsing() {
         let familyNames = Font.cpFamilyNames
-
-        for family in familyNames {
-            print("Family name " + family)
-            let fontNames = Font.cpFontNames(forFamilyName: family)
-
-            for font in fontNames {
-                print("    Font name: " + font)
+        for familyName in familyNames {
+            for fontName in Font.cpFontNames(forFamilyName: familyName) {
+                let sampleHTML = "<p style='color: rgba(72, 72, 72, 1.000000); font: 18px \"\(fontName)\"; text-align: left; '>Hello World</p>"
+                _ = Ashton.decode(sampleHTML) { result in
+                    XCTAssert(result.unknownFonts.count == 0)
+                }
             }
         }
     }
