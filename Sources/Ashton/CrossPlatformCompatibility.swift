@@ -14,6 +14,7 @@
     typealias Color = UIColor
 
     extension UIFont {
+        var cpFamilyNames: [String] { return UIFont.familyNames }
         var cpFamilyName: String { return self.familyName }
     }
 
@@ -38,6 +39,7 @@ extension NSAttributedString.Key {
     typealias Color = NSColor
 
     extension NSFont {
+        var cpFamilyNames: [String] { return NSFontManager.shared.availableFontFamilies }
         var cpFamilyName: String { return self.familyName ?? "" }
     }
 
