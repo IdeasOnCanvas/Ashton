@@ -72,6 +72,15 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(attributedString2.string, "Subtopic 2")
     }
 
+    func testDecodingOfPostScriptFont() {
+        let referenceHTML = "<p style=\'color: rgba(12, 25, 7, 1.000000); font: bold 18px \"Helvetica Neue\"; text-align: center; text-decoration: underline; -cocoa-font-postscriptname: \"HelveticaNeue-Bold\"; -cocoa-underline: single; \'>Marketing</p>"
+        let attributedString = Ashton.decode(referenceHTML, completionHandler: { result in
+            XCTAssertTrue(result.unknownFonts.isEmpty)
+        })
+        let roundTripped = Ashton.encode(attributedString)
+        XCTAssertEqual(referenceHTML, roundTripped)
+    }
+
 	func testRTFTestFileRoundTrip() {
         let attributedString = self.loadAttributedString(fromRTF: "RTFText")
 

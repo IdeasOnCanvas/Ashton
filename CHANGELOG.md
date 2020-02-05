@@ -4,6 +4,8 @@
 
 ## Unassigned
 
+- [Bugfix] Fixes skipping single style attributes after parsing text-decoration attributes (#30)
+
 ## 2.0.5
 - [Enhancement] Add parsing completion handler for reporting unknown fonts (#23)
 
