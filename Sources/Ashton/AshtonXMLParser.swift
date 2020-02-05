@@ -18,6 +18,12 @@ protocol AshtonXMLParserDelegate: class {
     func didParseContent(_ parser: AshtonXMLParser, string: String)
     func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key: Any]?)
     func didCloseTag(_ parser: AshtonXMLParser)
+    func didEncounterUnknownFont(_ parser: AshtonXMLParser, fontName: String)
+}
+
+extension AshtonXMLParserDelegate {
+
+    func didEncounterUnknownFont(_ parser: AshtonXMLParser, fontName: String) { }
 }
 
 
@@ -327,6 +333,12 @@ private extension AshtonXMLParser {
 
         if let font = fontBuilder?.makeFont() {
             attributes[.font] = font
+            // Core Text implicitly returns a fallback font if the the requested font descriptor
+            // does not lead to an exact match. We perform a simple heuristic to take note of such
+            // fallbacks and inform the delegate.
+            if let requestedFontName = fontBuilder?.fontName, font.fontName != requestedFontName {
+                self.delegate?.didEncounterUnknownFont(self, fontName: requestedFontName)
+            }
         }
         
         AshtonXMLParser.styleAttributesCache[cacheKey] = attributes

@@ -163,6 +163,28 @@ class AshtonTests: XCTestCase {
         }
     }
 
+    func testKnownFontParsing() {
+        let familyNames = Font.cpFamilyNames
+        for familyName in familyNames {
+            for fontName in Font.cpFontNames(forFamilyName: familyName) {
+                let sampleHTML = "<p style='color: rgba(72, 72, 72, 1.000000); font: 18px \"\(fontName)\"; text-align: left; '>Hello World</p>"
+                _ = Ashton.decode(sampleHTML) { result in
+                    XCTAssert(result.unknownFonts.count == 0)
+                }
+            }
+        }
+    }
+
+    func testUnknownFontParsing() {
+        let sampleHTML = "<p style='color: rgba(72, 72, 72, 1.000000); font: 18px \"Suisse Int'l\"; text-align: left; -cocoa-font-postscriptname: \"SuisseIntl-Regular\"; '>Hello World</p>"
+        var unknownFont: String?
+        _ = Ashton.decode(sampleHTML) { result in
+            XCTAssert(result.unknownFonts.count == 1)
+            unknownFont = result.unknownFonts.first
+        }
+        XCTAssertEqual(unknownFont, "SuisseIntl-Regular")
+    }
+
 	func testFonts() {
         let font1 = Font(name: "Arial", size: 12)!
         let font2 = Font(name: "Helvetica-Bold", size: 16)!

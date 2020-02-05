@@ -244,17 +244,11 @@ final class IteratorParsingTests: XCTestCase {
     }
 
     func testHashing() {
-        #if os(macOS)
-            let url = Bundle(for: IteratorParsingTests.self).url(forResource: "fontNames", withExtension: "txt")!
-            let string = try! String(contentsOf: url)
-            let fonts = string.components(separatedBy: .newlines)
-        #elseif os(iOS)
-            let fontFamilies = Font.familyNames
-            var fonts: [String] = []
-            for family in fontFamilies {
-                fonts += Font.fontNames(forFamilyName: family)
-            }
-        #endif
+        let fontFamilies = Font.cpFamilyNames
+        var fonts: [String] = []
+        for family in fontFamilies {
+            fonts += Font.cpFontNames(forFamilyName: family)
+        }
         var hashes: [Int: String] = [:]
         var collisions: [(String, String)] = []
         for fontname in fonts {
