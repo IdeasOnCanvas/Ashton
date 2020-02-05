@@ -4,6 +4,7 @@
 
 ## Unassigned
 
+## 2.0.6
 - [Bugfix] Fixes skipping single style attributes after parsing text-decoration attributes (#30)
 
 ## 2.0.5
