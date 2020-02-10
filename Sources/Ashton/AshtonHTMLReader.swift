@@ -40,7 +40,7 @@ final class AshtonHTMLReader: NSObject {
         
         self.xmlParser.delegate = self
         self.xmlParser.parse(string: html)
-        // Since `.parse` is a synchronous call, we can simply dispatch the completion handler here.
+        // Since `.parse` is a synchronous call, we can simply run the completion handler here.
         // This allows us to stick with the default, implicit `@noescape` behavior.
         completionHandler(AshtonHTMLReadResult(unknownFonts: self.unknownFonts))
 

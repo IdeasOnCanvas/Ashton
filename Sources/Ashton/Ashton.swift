@@ -40,7 +40,7 @@ public final class Ashton: NSObject {
     ///
     /// - Parameter html: The HTML representation to encode.
     /// - Parameter defaultAttributes: Attributes which are used if no attribute is specified in the HTML.
-    /// - Parameter completionHandler: Called when the receiver did finish parsing. A result type containing parsing information gets passed in.
+    /// - Parameter completionHandler: Called when the receiver did finish parsing. A result type containing parsing information gets passed in. This is called synchronously right before returning.
     /// - Returns: The decoded NSAttributedString.
     public static func decode(_ html: HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
         return Ashton.reader.decode(html, defaultAttributes: defaultAttributes, completionHandler: completionHandler)
