@@ -11,7 +11,6 @@
 		45A7DFB1218F008A00D032AF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 45A7DFB0218F008A00D032AF /* README.md */; };
 		45EA087E200D398C0073ADFD /* AshtonXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */; };
 		45EA0880200E7B070073ADFD /* AshtonXMLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45EA087F200E7B070073ADFD /* AshtonXMLParserTests.swift */; };
-		BAA86B882416815800B20AE5 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA86B872416815800B20AE5 /* Package.swift */; };
 		C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */ = {isa = PBXBuildFile; fileRef = C81811391FDFD82A0049620D /* AshtonAppKit.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		C87514AD1F818AB5002117FB /* RTFText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C87514AC1F818AB5002117FB /* RTFText.rtf */; };
 		C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8838B8A1FE93728007F6177 /* Mappings.swift */; };
@@ -325,7 +324,6 @@
 				C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */,
 				C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */,
 				45EA087E200D398C0073ADFD /* AshtonXMLParser.swift in Sources */,
-				BAA86B882416815800B20AE5 /* Package.swift in Sources */,
 				45A3D0372013DB6600280C48 /* FontBuilder.swift in Sources */,
 				C8A9CE911F6DAFF90095C6AE /* AshtonHTMLWriter.swift in Sources */,
 				C8F9A6C6201209C80094629A /* Iterator+Parsing.swift in Sources */,
