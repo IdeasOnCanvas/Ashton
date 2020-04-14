@@ -2,11 +2,12 @@
 
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 ![Platforms iOS, macOS](https://img.shields.io/badge/Platform-iOS%20|%20macOS-blue.svg "Platforms iOS, macOS")
-![Language Swift](https://img.shields.io/badge/Language-Swift%204.2-green.svg "Swift 4.2")
+![Language Swift](https://img.shields.io/badge/Language-Swift%205-green.svg "Swift 5.0")
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE.md)
 [![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg?branch=master)](https://buildkite.com/ideasoncanvas/ashton)
+[![Twitter: @_mschwarz_](https://img.shields.io/badge/Twitter-@__mschwarz__-red.svg?style=flat)](https://twitter.com/_mschwarz_)
 
-Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast conversion of NSAttributedStrings into HTML, and back. Ashton is battle-tested and used in [MindNode 6](https://mindnode.com), for persisting formatted strings.
+Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast conversion of NSAttributedStrings into HTML, and back. Ashton is battle-tested and used in [MindNode](https://mindnode.com), for persisting formatted strings.
 
 ## 2.0 Release
 
