@@ -4,6 +4,10 @@
 
 ## Unassigned
 
+## 2.0.7
+- [Chore] Update project settings (Xcode 12)
+- [Chore] Update ruby gems
+
 ## 2.0.6
 - [Bugfix] Fixes skipping single style attributes after parsing text-decoration attributes (#30)
 
