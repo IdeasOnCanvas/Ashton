@@ -178,15 +178,19 @@ final class IteratorParsingTests: XCTestCase {
     }
     
     func testPostscriptFontNameParsing() {
-        let sampleFontName = "\"Helvetica\""
-        var iterator = sampleFontName.unicodeScalars.makeIterator()
-        let fontName = iterator.parsePostscriptFontName()
-        XCTAssertEqual("Helvetica", fontName)
-        
-        let quark = "quark"
-        var iterator2 = quark.unicodeScalars.makeIterator()
-        XCTAssertNil(iterator2.parseBaselineOffset())
-        XCTAssertEqual(iterator2.next(), "q")
+        do {
+            let sampleFontName = "\"Helvetica\""
+            var iterator = sampleFontName.unicodeScalars.makeIterator()
+            let fontName = iterator.parsePostscriptFontName()
+            XCTAssertEqual("Helvetica", fontName)
+        }
+
+        do {
+            let sampleFontName = #""Helvetica Neue""#
+            var iterator = sampleFontName.unicodeScalars.makeIterator()
+            let fontName = iterator.parsePostscriptFontName()
+            XCTAssertEqual("Helvetica Neue", fontName)
+        }
     }
     
     func testURLParsing() {
@@ -244,15 +248,11 @@ final class IteratorParsingTests: XCTestCase {
     }
 
     func testHashing() {
-        #if os(macOS)
-        let fonts = Self.sampleFontNames.components(separatedBy: .newlines)
-        #elseif os(iOS)
-        let fontFamilies = Font.familyNames
+        let fontFamilies = Font.cpFamilyNames
         var fonts: [String] = []
         for family in fontFamilies {
-            fonts += Font.fontNames(forFamilyName: family)
+            fonts += Font.cpFontNames(forFamilyName: family)
         }
-        #endif
         var hashes: [Int: String] = [:]
         var collisions: [(String, String)] = []
         for fontname in fonts {
@@ -276,124 +276,4 @@ private extension CGFloat {
     func almostEquals(_ other: CGFloat) -> Bool {
         return abs(self - other) <= CGFloat.ulpOfOne
     }
-}
-
-private extension IteratorParsingTests {
-
-    static let sampleFontNames: String = """
-    Apple Braille Outline 6 Dot.ttf
-    Apple Braille Outline 8 Dot.ttf
-    Apple Braille Pinpoint 6 Dot.ttf
-    Apple Braille Pinpoint 8 Dot.ttf
-    Apple Braille.ttf
-    Apple Color Emoji.ttc
-    Apple Symbols.ttf
-    AppleSDGothicNeo.ttc
-    AquaKana.ttc
-    ArabicUIDisplay.ttc
-    ArabicUIText.ttc
-    ArialHB.ttc
-    Avenir Next Condensed.ttc
-    Avenir Next.ttc
-    Avenir.ttc
-    Courier.dfont
-    GeezaPro.ttc
-    Geneva.dfont
-    HelveLTMM
-    Helvetica.ttc
-    HelveticaNeue.ttc
-    HelveticaNeueDeskInterface.ttc
-    Hiragino Sans GB.ttc
-    Keyboard.ttf
-    Kohinoor.ttc
-    KohinoorBangla.ttc
-    KohinoorTelugu.ttc
-    LastResort.otf
-    LucidaGrande.ttc
-    MarkerFelt.ttc
-    Menlo.ttc
-    Monaco.dfont
-    Noteworthy.ttc
-    NotoNastaliq.ttc
-    Optima.ttc
-    Palatino.ttc
-    PingFang.ttc
-    SFCompactDisplay-Black.otf
-    SFCompactDisplay-Bold.otf
-    SFCompactDisplay-Heavy.otf
-    SFCompactDisplay-Light.otf
-    SFCompactDisplay-Medium.otf
-    SFCompactDisplay-Regular.otf
-    SFCompactDisplay-Semibold.otf
-    SFCompactDisplay-Thin.otf
-    SFCompactDisplay-Ultralight.otf
-    SFCompactRounded-Black.otf
-    SFCompactRounded-Bold.otf
-    SFCompactRounded-Heavy.otf
-    SFCompactRounded-Light.otf
-    SFCompactRounded-Medium.otf
-    SFCompactRounded-Regular.otf
-    SFCompactRounded-Semibold.otf
-    SFCompactRounded-Thin.otf
-    SFCompactRounded-Ultralight.otf
-    SFCompactText-Bold.otf
-    SFCompactText-BoldItalic.otf
-    SFCompactText-Heavy.otf
-    SFCompactText-HeavyItalic.otf
-    SFCompactText-Light.otf
-    SFCompactText-LightItalic.otf
-    SFCompactText-Medium.otf
-    SFCompactText-MediumItalic.otf
-    SFCompactText-Regular.otf
-    SFCompactText-RegularItalic.otf
-    SFCompactText-Semibold.otf
-    SFCompactText-SemiboldItalic.otf
-    SFNSDisplay-BlackItalic.otf
-    SFNSDisplay-BoldItalic.otf
-    SFNSDisplay-HeavyItalic.otf
-    SFNSDisplay-LightItalic.otf
-    SFNSDisplay-MediumItalic.otf
-    SFNSDisplay-RegularItalic.otf
-    SFNSDisplay-SemiboldItalic.otf
-    SFNSDisplay-ThinItalic.otf
-    SFNSDisplay-UltralightItalic.otf
-    SFNSDisplay.ttf
-    SFNSDisplayCondensed-Black.otf
-    SFNSDisplayCondensed-Bold.otf
-    SFNSDisplayCondensed-Heavy.otf
-    SFNSDisplayCondensed-Light.otf
-    SFNSDisplayCondensed-Medium.otf
-    SFNSDisplayCondensed-Regular.otf
-    SFNSDisplayCondensed-Semibold.otf
-    SFNSDisplayCondensed-Thin.otf
-    SFNSDisplayCondensed-Ultralight.otf
-    SFNSSymbols-Regular.otf
-    SFNSText.ttf
-    SFNSTextCondensed-Bold.otf
-    SFNSTextCondensed-Heavy.otf
-    SFNSTextCondensed-Light.otf
-    SFNSTextCondensed-Medium.otf
-    SFNSTextCondensed-Regular.otf
-    SFNSTextCondensed-Semibold.otf
-    SFNSTextItalic.ttf
-    STHeiti Light.ttc
-    STHeiti Medium.ttc
-    Symbol.ttf
-    Thonburi.ttc
-    Times.ttc
-    TimesLTMM
-    ZapfDingbats.ttf
-    ヒラギノ明朝 ProN.ttc
-    ヒラギノ丸ゴ ProN W4.ttc
-    ヒラギノ角ゴシック W0.ttc
-    ヒラギノ角ゴシック W1.ttc
-    ヒラギノ角ゴシック W2.ttc
-    ヒラギノ角ゴシック W3.ttc
-    ヒラギノ角ゴシック W4.ttc
-    ヒラギノ角ゴシック W5.ttc
-    ヒラギノ角ゴシック W6.ttc
-    ヒラギノ角ゴシック W7.ttc
-    ヒラギノ角ゴシック W8.ttc
-    ヒラギノ角ゴシック W9.ttc
-    """
 }

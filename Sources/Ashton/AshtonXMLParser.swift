@@ -18,6 +18,12 @@ protocol AshtonXMLParserDelegate: class {
     func didParseContent(_ parser: AshtonXMLParser, string: String)
     func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key: Any]?)
     func didCloseTag(_ parser: AshtonXMLParser)
+    func didEncounterUnknownFont(_ parser: AshtonXMLParser, fontName: String)
+}
+
+extension AshtonXMLParserDelegate {
+
+    func didEncounterUnknownFont(_ parser: AshtonXMLParser, fontName: String) { }
 }
 
 
@@ -237,9 +243,12 @@ private extension AshtonXMLParser {
                     attributes[.paragraphStyle] = paragraphStyle
                 } else if iterator.forwardIfEquals(AttributeKeys.Style.textDecoration) {
                     iterator.skipStyleAttributeIgnoredCharacters()
-                    while let textDecoration = iterator.parseTextDecoration() {
+                    // we have to use a temporary iterator to ensure that we are not skipping attributes too far
+                    var tempIterator = iterator
+                    while let textDecoration = tempIterator.parseTextDecoration() {
                         attributes[textDecoration] = NSUnderlineStyle.single.rawValue
-                        iterator.skipStyleAttributeIgnoredCharacters()
+                        iterator = tempIterator
+                        tempIterator.skipStyleAttributeIgnoredCharacters()
                     }
                 }
             case "f":
@@ -327,6 +336,12 @@ private extension AshtonXMLParser {
 
         if let font = fontBuilder?.makeFont() {
             attributes[.font] = font
+            // Core Text implicitly returns a fallback font if the the requested font descriptor
+            // does not lead to an exact match. We perform a simple heuristic to take note of such
+            // fallbacks and inform the delegate.
+            if let requestedFontName = fontBuilder?.fontName, font.fontName != requestedFontName {
+                self.delegate?.didEncounterUnknownFont(self, fontName: requestedFontName)
+            }
         }
         
         AshtonXMLParser.styleAttributesCache[cacheKey] = attributes

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// Transforms NSAttributedString <--> HTML
 @objc
 public final class Ashton: NSObject {
@@ -34,7 +33,17 @@ public final class Ashton: NSObject {
     /// - Returns: The decoded NSAttributedString
     @objc
     public static func decode(_ html: HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
-        return Ashton.reader.decode(html, defaultAttributes: defaultAttributes)
+        self.decode(html, defaultAttributes: defaultAttributes) { _ in }
+    }
+
+    /// Decodes a HTML representation into an NSAttributedString
+    ///
+    /// - Parameter html: The HTML representation to encode.
+    /// - Parameter defaultAttributes: Attributes which are used if no attribute is specified in the HTML.
+    /// - Parameter completionHandler: Called when the receiver did finish parsing. A result type containing parsing information gets passed in. This is called synchronously right before returning.
+    /// - Returns: The decoded NSAttributedString.
+    public static func decode(_ html: HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
+        return Ashton.reader.decode(html, defaultAttributes: defaultAttributes, completionHandler: completionHandler)
     }
 
     /// Clears decoding caches (e.g. already parsed and converted html style attribute strings are cached)

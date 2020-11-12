@@ -9,6 +9,18 @@
 import Foundation
 import CoreGraphics
 
+public typealias AshtonHTMLReadCompletionHandler = (_ readResult: AshtonHTMLReadResult) -> Void
+
+@objc
+public final class AshtonHTMLReadResult: NSObject {
+    public let unknownFonts: Set<String>
+
+    public init(unknownFonts: [String]) {
+        // We accept an `Array` on the call site (because arrays are a bit more convenient)
+        // but convert to `Set` here for deduplication.
+        self.unknownFonts = Set(unknownFonts)
+    }
+}
 
 final class AshtonHTMLReader: NSObject {
 
@@ -16,16 +28,21 @@ final class AshtonHTMLReader: NSObject {
     private var output: NSMutableAttributedString!
     private var parsedTags: [AshtonXMLParser.Tag] = []
     private var appendNewlineBeforeNextContent = false
+    private var unknownFonts: [String] = []
     private let xmlParser = AshtonXMLParser()
 
-    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
+    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
         self.output = NSMutableAttributedString()
         self.parsedTags = []
         self.appendNewlineBeforeNextContent = false
         self.attributesStack = [defaultAttributes]
+        self.unknownFonts = []
         
         self.xmlParser.delegate = self
         self.xmlParser.parse(string: html)
+        // Since `.parse` is a synchronous call, we can simply run the completion handler here.
+        // This allows us to stick with the default, implicit `@noescape` behavior.
+        completionHandler(AshtonHTMLReadResult(unknownFonts: self.unknownFonts))
 
         return self.output
     }
@@ -78,6 +95,10 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
         } else {
             self.attributesStack.removeLast()
         }
+    }
+
+    func didEncounterUnknownFont(_ parser: AshtonXMLParser, fontName: String) {
+        self.unknownFonts.append(fontName)
     }
 }
 

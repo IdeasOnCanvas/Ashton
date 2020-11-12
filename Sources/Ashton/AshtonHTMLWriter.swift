@@ -25,19 +25,21 @@ final class AshtonHTMLWriter {
             var paragraphContent = String()
             let nsParagraphRange = NSRange(paragraphRange, in: string)
             var paragraphTag = HTMLTag(defaultName: .p, attributes: [:], ignoreParagraphStyles: false)
+            // We use `attributedString.string as NSString` casts and NSRange ranges in the block because
+            // we experienced outOfBounds crashes when converting NSRange to Range and using it on swift string
             attributedString.enumerateAttributes(in: nsParagraphRange,
                                                  options: .longestEffectiveRangeNotRequired, using: { attributes, nsrange, _ in
                                                     let paragraphStyle = attributes.filter { $0.key == .paragraphStyle }
                                                     paragraphTag.addAttributes(paragraphStyle)
 
+                                                    let nsString = attributedString.string as NSString
                                                     if nsParagraphRange.length == nsrange.length {
                                                         paragraphTag.addAttributes(attributes)
-                                                        paragraphContent += String(attributedString.string[paragraphRange]).htmlEscaped
+                                                        paragraphContent += String(nsString.substring(with: nsrange)).htmlEscaped
                                                     } else {
-                                                        let string = attributedString.string as NSString
                                                         var tag = HTMLTag(defaultName: .span, attributes: attributes, ignoreParagraphStyles: true)
                                                         paragraphContent += tag.parseOpenTag()
-                                                        paragraphContent += String(string.substring(with: nsrange)).htmlEscaped
+                                                        paragraphContent += String(nsString.substring(with: nsrange)).htmlEscaped
                                                         paragraphContent += tag.makeCloseTag()
                                                     }
             })

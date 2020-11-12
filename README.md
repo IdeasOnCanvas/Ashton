@@ -2,11 +2,12 @@
 
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 ![Platforms iOS, macOS](https://img.shields.io/badge/Platform-iOS%20|%20macOS-blue.svg "Platforms iOS, macOS")
-![Language Swift](https://img.shields.io/badge/Language-Swift%204.2-green.svg "Swift 4.2")
+![Language Swift](https://img.shields.io/badge/Language-Swift%205-green.svg "Swift 5.0")
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE.md)
-[![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg)](https://buildkite.com/ideasoncanvas/ashton)
+[![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg?branch=master)](https://buildkite.com/ideasoncanvas/ashton)
+[![Twitter: @_mschwarz_](https://img.shields.io/badge/Twitter-@__mschwarz__-red.svg?style=flat)](https://twitter.com/_mschwarz_)
 
-Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast conversion of NSAttributedStrings into HTML, and back. Ashton is battle-tested and used in [MindNode 6](https://mindnode.com), for persisting formatted strings.
+Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast conversion of NSAttributedStrings into HTML, and back. Ashton is battle-tested and used in [MindNode](https://mindnode.com), for persisting formatted strings.
 
 ## 2.0 Release
 
@@ -60,13 +61,31 @@ Add this line to your Cartfile.
 github "IdeasOnCanvas/Ashton"
 ```
 
-### SPM
+### Integration with the Swift Package Manager
 
-Add this dependency to your `Package.swift` file
+The Swift Package Manager is a dependency manager integrated with the Swift build system. To learn how to use the Swift Package Manager for your project, please read the [official documentation](https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md).  
+To add ZIP Foundation as a dependency, you have to add it to the `dependencies` of your `Package.swift` file and refer to that dependency in your `target`.
+
+```swift
+// swift-tools-version:5.1
+import PackageDescription
+let package = Package(
+    name: "<Your Product Name>",
+    dependencies: [
+		.package(url: "https://github.com/IdeasOnCanvas/Ashton/", .upToNextMajor(from: "2.0.0"))
+    ],
+    targets: [
+        .target(
+		name: "<Your Target Name>",
+		dependencies: ["Ashton"]),
+    ]
+)
 ```
-dependencies: [
-    .package(url: "https://github.com/IdeasOnCanvas/Ashton", .from: "2.1.0")
-]
+
+After adding the dependency, you can fetch the library with:
+
+```bash
+$ swift package resolve
 ```
 
 ## Usage
