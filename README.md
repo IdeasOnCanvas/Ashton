@@ -51,11 +51,22 @@ The following style attribute keys are supported:
 
 Colors have to be formatted as rgba like `rgba(0, 0, 0, 1.000000)`.
 
-## Integration with Carthage
+## Integration
+
+### Carthage
 
 Add this line to your Cartfile.
 ```
 github "IdeasOnCanvas/Ashton"
+```
+
+### SPM
+
+Add this dependency to your `Package.swift` file
+```
+dependencies: [
+    .package(url: "https://github.com/IdeasOnCanvas/Ashton", .from: "2.1.0")
+]
 ```
 
 ## Usage
