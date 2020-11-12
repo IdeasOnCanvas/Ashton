@@ -64,8 +64,6 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(attributedString2.string, "Subtopic 2")
     }
 
-<<<<<<< HEAD
-=======
     func testDecodingOfPostScriptFont() {
         let referenceHTML = "<p style=\'color: rgba(12, 25, 7, 1.000000); font: bold 18px \"Helvetica Neue\"; text-align: center; text-decoration: underline; -cocoa-font-postscriptname: \"HelveticaNeue-Bold\"; -cocoa-underline: single; \'>Marketing</p>"
         let attributedString = Ashton.decode(referenceHTML, completionHandler: { result in
@@ -75,29 +73,6 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(referenceHTML, roundTripped)
     }
 
-	func testRTFTestFileRoundTrip() {
-        let attributedString = self.loadAttributedString(fromRTF: "RTFText")
-
-        let html = Ashton.encode(attributedString)
-        let decodedString = Ashton.decode(html)
-        let roundTripHTML = Ashton.encode(decodedString)
-        let roundTripDecodedString = Ashton.decode(roundTripHTML)
-        XCTAssertEqual(roundTripHTML, html)
-        XCTAssertEqual(roundTripDecodedString, decodedString)
-	}
-
-	func testAttributeCodingWithBenchmark() {
-		let testColors = [Color.red, Color.green]
-		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors, ignoreReferenceHTML: true)
-		let underlineStyles: [NSUnderlineStyle] = [NSUnderlineStyle.single]//, .styleThick, .styleDouble]
-		self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
-	}
-
->>>>>>> public/main
 	func testParagraphSpacing() {
         let attributedString = NSMutableAttributedString(string: "\n Hello World.\nThis is line 2. \nThisIsLine3\n\nThis is line 4")
         let html = Ashton.encode(attributedString)
