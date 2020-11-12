@@ -82,7 +82,8 @@ final class AshtonXMLParserTests: XCTestCase {
         XCTAssertEqual(attributes.count, 3)
         XCTAssertEqual(attributes[.link] as! URL, URL(string: "http://google.com")!)
     }
-    
+
+    /* Deactivated for SPM
     func testXMLParsingPerformance() {
         let rtfURL = Bundle(for: AshtonTests.self).url(forResource: "RTFText", withExtension: "rtf")!
         let attributedString =  try! NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
@@ -93,7 +94,7 @@ final class AshtonXMLParserTests: XCTestCase {
             parser.delegate = delegate
             parser.parse(string: sampleHTML)
         }
-    }
+    }*/
 }
 
 // MARK: - Private

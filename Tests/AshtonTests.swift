@@ -12,14 +12,6 @@ import XCTest
 
 class AshtonTests: XCTestCase {
 
-    func testTextStyles() {
-        let attributedString = self.loadAttributedString(fromRTF: "TextStyles")
-        let html = Ashton.encode(attributedString)
-        let roundTripAttributedString = Ashton.decode(html)
-        let roundTripHTML = Ashton.encode(roundTripAttributedString)
-        XCTAssertEqual(html, roundTripHTML)
-    }
-
     func testEncodingOfMultipleTextDecorationStyles() {
         let attributedString = NSAttributedString(string: "Hello World", attributes: [.underlineStyle: NSUnderlineStyle.double.rawValue,
                                                                                       .strikethroughStyle: NSUnderlineStyle.double.rawValue])
@@ -72,38 +64,11 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(attributedString2.string, "Subtopic 2")
     }
 
-	func testRTFTestFileRoundTrip() {
-        let attributedString = self.loadAttributedString(fromRTF: "RTFText")
-
-        let html = Ashton.encode(attributedString)
-        let decodedString = Ashton.decode(html)
-        let roundTripHTML = Ashton.encode(decodedString)
-        let roundTripDecodedString = Ashton.decode(roundTripHTML)
-        XCTAssertEqual(roundTripHTML, html)
-        XCTAssertEqual(roundTripDecodedString, decodedString)
-	}
-
-	func testAttributeCodingWithBenchmark() {
-		let testColors = [Color.red, Color.green]
-		self.compareAttributeCodingWithBenchmark(.backgroundColor, values: testColors, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.foregroundColor, values: testColors, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.strikethroughColor, values: testColors, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.underlineColor, values: testColors, ignoreReferenceHTML: true)
-		let underlineStyles: [NSUnderlineStyle] = [NSUnderlineStyle.single]//, .styleThick, .styleDouble]
-		self.compareAttributeCodingWithBenchmark(.underlineStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
-		self.compareAttributeCodingWithBenchmark(.strikethroughStyle, values: underlineStyles.map { $0.rawValue }, ignoreReferenceHTML: true)
-	}
-
 	func testParagraphSpacing() {
         let attributedString = NSMutableAttributedString(string: "\n Hello World.\nThis is line 2. \nThisIsLine3\n\nThis is line 4")
         let html = Ashton.encode(attributedString)
         let convertedBack = Ashton.decode(html)
         XCTAssertEqual(attributedString, convertedBack)
-	}
-
-	func testURLs() {
-        let urlString = URL(string: "https://www.orf.at")!
-		self.compareAttributeCodingWithBenchmark(.link, values: [urlString], ignoreReferenceHTML: false)
 	}
 
     func testHTMLEscapingInHref() {
@@ -138,11 +103,6 @@ class AshtonTests: XCTestCase {
         let attributes = attributedString.attributes(at: 0, effectiveRange: nil)
         let font = attributes[.font] as! Font
         XCTAssertEqual(font.cpFamilyName, "Arial")
-    }
-
-    func testVerticalAlignment() {
-        let key = NSAttributedString.Key(rawValue: "NSSuperScript")
-        self.compareAttributeCodingWithBenchmark(key, values: [2, -2], ignoreReferenceHTML: true)
     }
 
     func testTextAlignment() {
@@ -255,17 +215,6 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(attributedString.string, roundTrippedAttributedString.string)
     }
 
-    func testArabicCharacterParsing() {
-        let html = "<p style=\'color: rgba(75, 75, 75, 1.000000); font: 24px \"Geeza Pro\"; text-align: center; -cocoa-font-postscriptname: \"GeezaPro\"; \'>لالالالالالالالالا</p>"
-        let attributedString = Ashton.decode(html)
-        let reference = NSAttributedString(htmlString: html)!
-        let canvasSize = CGSize(width: 200.0, height: 200.0)
-        let drawingRect = attributedString.boundingRect(with: canvasSize, options: [.usesDeviceMetrics], context: nil)
-        let referenceRect = reference.boundingRect(with: canvasSize, options: [.usesDeviceMetrics], context: nil)
-        XCTAssertEqual(drawingRect, referenceRect)
-        XCTAssertEqual(attributedString.string, reference.string)
-    }
-
 	// MARK: - Performance Tests
 
 	func testParagraphDecodingPerformance() {
@@ -288,72 +237,6 @@ class AshtonTests: XCTestCase {
                 //_ = attributedString.mn_HTMLRepresentation()! // old ashton benchmark
 				_ = Ashton.encode(attributedString)
 			}
-		}
-	}
-
-	func testAttributeDecodingPerformance() {
-		let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\n\nNext line with no attribute")
-		attributedString.addAttribute(.backgroundColor,
-		                              value: Color.green,
-		                              range: NSRange(location: 6, length: 10))
-
-		let referenceHtml = attributedString.mn_HTMLRepresentation()!
-
-		self.measure {
-			for _ in 0...1000 {
-                //_ = NSAttributedString(htmlString: referenceHtml) // old ashton benchmark
-				_ = Ashton.decode(referenceHtml)
-			}
-		}
-	}
-
-    func testSampleRTFTextEncodingPerformance() {
-        let attributedString = self.loadAttributedString(fromRTF: "RTFText")
-        self.measure {
-            //let test1 = attributedString.mn_HTMLRepresentation()! // old ashton benchmark
-            //let test2 = attributedString.mn_HTMLRepresentation()! // old ashton benchmark
-            let test1 = Ashton.encode(attributedString)
-            let test2 = Ashton.encode(attributedString)
-            XCTAssertEqual(test1, test2)
-        }
-    }
-
-    func testSampleRTFTextDecodingPerformance() {
-        let attributedString = self.loadAttributedString(fromRTF: "RTFText")
-        let html = Ashton.encode(attributedString) + ""
-        self.measure {
-//                        let test1 = NSAttributedString(htmlString: html) // old ashton benchmark
-  //                     let test2 = NSAttributedString(htmlString: html) // old ashton benchmark
-            let test1 = Ashton.decode(html)
-            let test2 = Ashton.decode(html)
-            XCTAssertEqual(test1, test2)
-        }
-    }
-}
-
-// MARK: - Private
-
-private extension AshtonTests {
-
-    func loadAttributedString(fromRTF fileName: String) -> NSAttributedString {
-        let rtfURL = Bundle(for: AshtonTests.self).url(forResource: fileName, withExtension: "rtf")!
-        return try! NSAttributedString(url: rtfURL, options: [.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
-    }
-
-    func compareAttributeCodingWithBenchmark(_ attribute: NSAttributedString.Key, values: [Any], ignoreReferenceHTML: Bool = false) {
-		for value in values {
-			let attributedString = NSMutableAttributedString(string: "Test: Any attribute with Benchmark.\n\nNext line with no attribute")
-			attributedString.addAttribute(attribute,
-			                              value: value,
-			                              range: NSRange(location: 6, length: 10))
-			let referenceHtml = attributedString.mn_HTMLRepresentation()!
-			let html = Ashton.encode(attributedString)
-			if ignoreReferenceHTML == false {
-				XCTAssertEqual(referenceHtml, html)
-			}
-
-			let decodedString = Ashton.decode(html)
-			XCTAssertEqual(decodedString, attributedString)
 		}
 	}
 }
