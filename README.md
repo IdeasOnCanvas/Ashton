@@ -52,7 +52,16 @@ The following style attribute keys are supported:
 
 Colors have to be formatted as rgba like `rgba(0, 0, 0, 1.000000)`.
 
-### Integartion with the Swift Package Manager
+## Integration
+
+### Carthage
+
+Add this line to your Cartfile.
+```
+github "IdeasOnCanvas/Ashton"
+```
+
+### Integration with the Swift Package Manager
 
 The Swift Package Manager is a dependency manager integrated with the Swift build system. To learn how to use the Swift Package Manager for your project, please read the [official documentation](https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md).  
 To add ZIP Foundation as a dependency, you have to add it to the `dependencies` of your `Package.swift` file and refer to that dependency in your `target`.
@@ -77,14 +86,6 @@ After adding the dependency, you can fetch the library with:
 
 ```bash
 $ swift package resolve
-```
-
-
-## Integration with Carthage
-
-Add this line to your Cartfile.
-```
-github "IdeasOnCanvas/Ashton"
 ```
 
 ## Usage

@@ -3,16 +3,21 @@ import PackageDescription
 
 let package = Package(
     name: "Ashton",
-    platforms: [
-        .macOS(.v10_12),
-        .iOS(.v11)
-    ],
+    platforms: [.iOS("13.4"), .macOS(.v10_15)],
     products: [
-        .library(name: "Ashton", targets: ["Ashton"]),
+        .library(
+            name: "Ashton",
+            targets: ["Ashton"]),
     ],
-    dependencies: [],
     targets: [
-        .target(name: "Ashton", dependencies: [])
+        .target(
+            name: "Ashton",
+            dependencies: [],
+            path: "Sources"),
+        .testTarget(
+            name: "AshtonTests",
+            dependencies: ["Ashton"],
+            path: "Tests",
+            exclude: ["TestFiles", "AshtonBenchmark", "Bridging.h", "AshtonBenchmarkTests.swift"]),
     ]
 )
-
