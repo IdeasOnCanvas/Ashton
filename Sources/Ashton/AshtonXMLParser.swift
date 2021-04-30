@@ -14,7 +14,7 @@ import Foundation
 #endif
 
 
-protocol AshtonXMLParserDelegate: class {
+protocol AshtonXMLParserDelegate: AnyObject {
     func didParseContent(_ parser: AshtonXMLParser, string: String)
     func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key: Any]?)
     func didCloseTag(_ parser: AshtonXMLParser)
