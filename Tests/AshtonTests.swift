@@ -42,6 +42,14 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(roundTripHTML, "<p><span style='font: 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica\"; '>Hello </span><span style='font: italic 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica-Oblique\"; '>World</span></p>")
     }
 
+    func testRoundTripWithTrailingWhitespace() {
+        let string = "Hello World, with trailing whitespace\n\n\n"
+        let attributedString = NSAttributedString(string: string)
+        let html = Ashton.encode(attributedString)
+        let roundTripAttributedString = Ashton.decode(html)
+        XCTAssertEqual(attributedString, roundTripAttributedString)
+    }
+
     func testStyleTagsOrdering() {
         let referenceHTML = "<p style='font: 16px \"Helvetica\"; text-decoration: line-through; -cocoa-font-postscriptname: \"Helvetica\"; -cocoa-strikethrough: single; -cocoa-strikethrough-color: rgba(0, 0, 0, 1.000000); -cocoa-underline-color: rgba(255, 0, 0, 1.000000); '>Single Strikethrough.</p>"
         let roundTripHTML = Ashton.encode(Ashton.decode(referenceHTML))
