@@ -19,7 +19,6 @@
 		C89B7D111FE3ED990038EDB8 /* TextStyles.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */; };
 		C8A9CE0A1F6D13700095C6AE /* Ashton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A9CE001F6D13700095C6AE /* Ashton.framework */; };
 		C8A9CE0F1F6D13700095C6AE /* AshtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */; };
-		C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */ = {isa = PBXBuildFile; fileRef = C8A9CE031F6D13700095C6AE /* Ashton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C8A9CE1B1F6D13D40095C6AE /* Ashton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE1A1F6D13D40095C6AE /* Ashton.swift */; };
 		C8A9CE861F6D1B0F0095C6AE /* AshtonCoreText.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE741F6D1B0F0095C6AE /* AshtonCoreText.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		C8A9CE871F6D1B0F0095C6AE /* AshtonHTMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE761F6D1B0F0095C6AE /* AshtonHTMLReader.m */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -60,7 +59,6 @@
 		C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrossPlatformCompatibility.swift; path = ../Sources/Ashton/CrossPlatformCompatibility.swift; sourceTree = "<group>"; };
 		C89B7D101FE3ED980038EDB8 /* TextStyles.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TextStyles.rtf; sourceTree = "<group>"; };
 		C8A9CE001F6D13700095C6AE /* Ashton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ashton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8A9CE031F6D13700095C6AE /* Ashton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Ashton.h; path = ../Sources/Ashton/Ashton.h; sourceTree = "<group>"; };
 		C8A9CE091F6D13700095C6AE /* AshtonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AshtonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8A9CE0E1F6D13700095C6AE /* AshtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AshtonTests.swift; sourceTree = "<group>"; };
 		C8A9CE1A1F6D13D40095C6AE /* Ashton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Ashton.swift; path = ../Sources/Ashton/Ashton.swift; sourceTree = "<group>"; };
@@ -146,7 +144,6 @@
 				C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */,
 				C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */,
 				C8A9CE1A1F6D13D40095C6AE /* Ashton.swift */,
-				C8A9CE031F6D13700095C6AE /* Ashton.h */,
 				C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */,
 				C8838B8A1FE93728007F6177 /* Mappings.swift */,
 				45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */,
@@ -215,7 +212,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8A9CE111F6D13700095C6AE /* Ashton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,12 +340,12 @@
 				C8A9CE8D1F6D1B0F0095C6AE /* AshtonUtils.m in Sources */,
 				C818113A1FDFD82B0049620D /* AshtonAppKit.m in Sources */,
 				C8A9CE8A1F6D1B0F0095C6AE /* AshtonMarkdownReader.m in Sources */,
-				C8F9A6C820120A2B0094629A /* IteratorParsingTests.swift in Sources */,
 				C8A9CE8C1F6D1B0F0095C6AE /* AshtonUIKit.m in Sources */,
 				C8A9CE861F6D1B0F0095C6AE /* AshtonCoreText.m in Sources */,
 				C8A9CE8F1F6D1B0F0095C6AE /* NSAttributedString+Ashton.m in Sources */,
 				C8A9CE871F6D1B0F0095C6AE /* AshtonHTMLReader.m in Sources */,
 				C8A9CE8B1F6D1B0F0095C6AE /* AshtonMarkdownWriter.m in Sources */,
+				C8F9A6C820120A2B0094629A /* IteratorParsingTests.swift in Sources */,
 				C8A9CE0F1F6D13700095C6AE /* AshtonTests.swift in Sources */,
 				456C6695255DE10200BD736C /* AshtonBenchmarkTests.swift in Sources */,
 				45EA0880200E7B070073ADFD /* AshtonXMLParserTests.swift in Sources */,
