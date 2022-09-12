@@ -4,6 +4,11 @@
 
 ## Unassigned
 
+- [Chore] Add additional explicitly dynamic library target
+
+## 2.0.8
+- [Chore] Update ruby gems
+
 ## 2.0.7
 - [Chore] Update project settings (Xcode 12)
 - [Chore] Update ruby gems
