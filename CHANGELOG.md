@@ -4,6 +4,8 @@
 
 ## Unassigned
 
+## 2.1
+
 - [Chore] Add additional explicitly dynamic library target
 
 ## 2.0.8
