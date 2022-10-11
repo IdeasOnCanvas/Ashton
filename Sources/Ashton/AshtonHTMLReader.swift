@@ -22,7 +22,7 @@ public final class AshtonHTMLReadResult: NSObject {
     }
 }
 
-final class AshtonHTMLReader: NSObject {
+public final class AshtonHTMLReader: NSObject {
 
     private var attributesStack: [[NSAttributedString.Key: Any]] = []
     private var output: NSMutableAttributedString!
@@ -37,15 +37,19 @@ final class AshtonHTMLReader: NSObject {
 
     // MARK: - Lifecycle
 
-    init(fontBuilderCache: FontBuilder.FontCache? = nil, styleCache: AshtonXMLParser.StyleAttributesCache? = nil) {
-        let fontBuilderCache = fontBuilderCache ?? .init()
+    public override convenience init() {
+        self.init(fontBuilderCache: .init(), styleCache: .init())
+    }
+
+    init(fontBuilderCache: FontBuilder.FontCache, styleCache: AshtonXMLParser.StyleAttributesCache) {
+        let fontBuilderCache = fontBuilderCache
         self.fontBuilderCache = fontBuilderCache
-        self.xmlParser = .init(styleAttributesCache: styleCache ?? .init(), fontBuilderCache: fontBuilderCache)
+        self.xmlParser = .init(styleAttributesCache: styleCache, fontBuilderCache: fontBuilderCache)
     }
 
     // MARK: - 
 
-    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
+    public func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
         self.output = NSMutableAttributedString()
         self.parsedTags = []
         self.appendNewlineBeforeNextContent = false
