@@ -33,6 +33,7 @@
 		C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */; };
 		C8F9A6C6201209C80094629A /* Iterator+Parsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F9A6C5201209C80094629A /* Iterator+Parsing.swift */; };
 		C8F9A6C820120A2B0094629A /* IteratorParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8F9A6C720120A2B0094629A /* IteratorParsingTests.swift */; };
+		C8FF732D28F5B37D00B17456 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FF732C28F5B37D00B17456 /* Cache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AshtonHTMLReader.swift; path = ../Sources/Ashton/AshtonHTMLReader.swift; sourceTree = "<group>"; };
 		C8F9A6C5201209C80094629A /* Iterator+Parsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Iterator+Parsing.swift"; path = "../Sources/Ashton/Iterator+Parsing.swift"; sourceTree = "<group>"; };
 		C8F9A6C720120A2B0094629A /* IteratorParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IteratorParsingTests.swift; sourceTree = "<group>"; };
+		C8FF732C28F5B37D00B17456 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cache.swift; path = Ashton/Cache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,14 +143,15 @@
 		C8A9CE021F6D13700095C6AE /* Ashton */ = {
 			isa = PBXGroup;
 			children = (
+				C8A9CE1A1F6D13D40095C6AE /* Ashton.swift */,
 				C8A9CE921F6EB43F0095C6AE /* AshtonHTMLReader.swift */,
 				C8A9CE901F6DAFF90095C6AE /* AshtonHTMLWriter.swift */,
-				C8A9CE1A1F6D13D40095C6AE /* Ashton.swift */,
-				C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */,
-				C8838B8A1FE93728007F6177 /* Mappings.swift */,
 				45EA087D200D398C0073ADFD /* AshtonXMLParser.swift */,
-				C8F9A6C5201209C80094629A /* Iterator+Parsing.swift */,
+				C8FF732C28F5B37D00B17456 /* Cache.swift */,
+				C8881EE01FDEDAC600A58A39 /* CrossPlatformCompatibility.swift */,
 				45A3D0362013DB6600280C48 /* FontBuilder.swift */,
+				C8F9A6C5201209C80094629A /* Iterator+Parsing.swift */,
+				C8838B8A1FE93728007F6177 /* Mappings.swift */,
 			);
 			name = Ashton;
 			path = Sources;
@@ -321,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8838B8B1FE93728007F6177 /* Mappings.swift in Sources */,
+				C8FF732D28F5B37D00B17456 /* Cache.swift in Sources */,
 				C8A9CE931F6EB43F0095C6AE /* AshtonHTMLReader.swift in Sources */,
 				45EA087E200D398C0073ADFD /* AshtonXMLParser.swift in Sources */,
 				45A3D0372013DB6600280C48 /* FontBuilder.swift in Sources */,
