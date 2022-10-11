@@ -48,7 +48,6 @@ final class AshtonHTMLReader: NSObject {
     }
 
     func clearCaches() {
-        FontBuilder.fontCache = [:]
         AshtonXMLParser.styleAttributesCache = [:]
     }
 }
