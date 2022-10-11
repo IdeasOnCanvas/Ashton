@@ -82,7 +82,7 @@ final class FontBuilder {
         self.fontCache[cacheKey] = convertedFont
         return convertedFont
         #else
-        FontBuilder.fontCache[cacheKey] = font
+        self.fontCache[cacheKey] = font
         return font
         #endif
     }

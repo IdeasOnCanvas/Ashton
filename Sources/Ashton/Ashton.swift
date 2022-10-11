@@ -14,8 +14,8 @@ public final class Ashton: NSObject {
 
     public typealias HTML = String
 
-    private static let reader = AshtonHTMLReader()
-    private static let writer = AshtonHTMLWriter()
+    internal static let reader = AshtonHTMLReader()
+    internal static let writer = AshtonHTMLWriter()
 
     /// Encodes an NSAttributedString into a HTML representation
     ///

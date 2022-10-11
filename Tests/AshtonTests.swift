@@ -196,11 +196,11 @@ class AshtonTests: XCTestCase {
         let ashtonHTML = "<p style= '-cocoa-font-features: 3/3; font: 14px \"Hoefler Text\"; text-align: left; color: rgba(0, 0, 0, 1.000000); '>hello world</p>"
         _ = Ashton.decode(ashtonHTML)
 
-        XCTAssertFalse(FontBuilder.fontCache.isEmpty)
-        XCTAssertFalse(AshtonXMLParser.styleAttributesCache.isEmpty)
+        XCTAssertFalse(Ashton.reader.fontBuilderCache.isEmpty)
+        XCTAssertFalse(Ashton.reader.xmlParser.styleAttributesCache.isEmpty)
         Ashton.clearCaches()
-        XCTAssertTrue(FontBuilder.fontCache.isEmpty)
-        XCTAssertTrue(AshtonXMLParser.styleAttributesCache.isEmpty)
+        XCTAssertTrue(Ashton.reader.fontBuilderCache.isEmpty)
+        XCTAssertTrue(Ashton.reader.xmlParser.styleAttributesCache.isEmpty)
     }
 
     func testReadingOfUnknownTags() {

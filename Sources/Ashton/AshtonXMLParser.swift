@@ -29,6 +29,9 @@ extension AshtonXMLParserDelegate {
 
 /// Parses Ashton XML and returns parsed content and attributes
 final class AshtonXMLParser {
+
+    typealias Hash = Int
+    typealias StyleAttributesCache = Cache<Hash, [NSAttributedString.Key: Any]>
     
     enum Tag {
         case p
@@ -63,9 +66,18 @@ final class AshtonXMLParser {
         }
     }
 
-    typealias Hash = Int
-    static var styleAttributesCache: [Hash: [NSAttributedString.Key: Any]] = [:]
-    
+    // MARK: - Properties
+
+    private(set) var fontBuilderCache: FontBuilder.FontCache
+    private(set) var styleAttributesCache: StyleAttributesCache
+
+    // MARK: - Lifecycle
+
+    init(styleAttributesCache: StyleAttributesCache? = nil, fontBuilderCache: FontBuilder.FontCache? = nil) {
+        self.styleAttributesCache = styleAttributesCache ?? .init()
+        self.fontBuilderCache = fontBuilderCache ?? .init()
+    }
+
     // MARK: - AshtonXMLParser
     
     weak var delegate: AshtonXMLParserDelegate?
@@ -97,6 +109,14 @@ final class AshtonXMLParser {
             }
         }
         flushContent()
+    }
+
+    func clearStyleAttributesCache() {
+        self.styleAttributesCache = .init()
+    }
+
+    func updateFontBuilderCache(_ cache: FontBuilder.FontCache) {
+        self.fontBuilderCache = cache
     }
 }
 
@@ -206,7 +226,7 @@ private extension AshtonXMLParser {
             if let fontBuilder = fontBuilder {
                 return fontBuilder
             }
-            let newFontBuilder = FontBuilder()
+            let newFontBuilder = FontBuilder(fontCache: self.fontBuilderCache)
             fontBuilder = newFontBuilder
             return newFontBuilder
         }
@@ -215,7 +235,7 @@ private extension AshtonXMLParser {
         guard let terminationCharacter = iterator.next(), terminationCharacter == "'" || terminationCharacter == "\"" else { return attributes }
 
         let cacheKey = iterator.hash(until: terminationCharacter)
-        if let cachedAttributes = AshtonXMLParser.styleAttributesCache[cacheKey] {
+        if let cachedAttributes = self.styleAttributesCache[cacheKey] {
             iterator.foward(untilAfter: terminationCharacter)
 
             return cachedAttributes
@@ -344,7 +364,7 @@ private extension AshtonXMLParser {
             }
         }
         
-        AshtonXMLParser.styleAttributesCache[cacheKey] = attributes
+        self.styleAttributesCache[cacheKey] = attributes
         return attributes
     }
 

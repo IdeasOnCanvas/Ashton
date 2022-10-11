@@ -29,7 +29,21 @@ final class AshtonHTMLReader: NSObject {
     private var parsedTags: [AshtonXMLParser.Tag] = []
     private var appendNewlineBeforeNextContent = false
     private var unknownFonts: [String] = []
-    private let xmlParser = AshtonXMLParser()
+
+    // MARK: - Properties
+
+    private(set) var fontBuilderCache: FontBuilder.FontCache
+    private(set) var xmlParser: AshtonXMLParser
+
+    // MARK: - Lifecycle
+
+    init(fontBuilderCache: FontBuilder.FontCache? = nil, styleCache: AshtonXMLParser.StyleAttributesCache? = nil) {
+        let fontBuilderCache = fontBuilderCache ?? .init()
+        self.fontBuilderCache = fontBuilderCache
+        self.xmlParser = .init(styleAttributesCache: styleCache ?? .init(), fontBuilderCache: fontBuilderCache)
+    }
+
+    // MARK: - 
 
     func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
         self.output = NSMutableAttributedString()
@@ -48,7 +62,8 @@ final class AshtonHTMLReader: NSObject {
     }
 
     func clearCaches() {
-        AshtonXMLParser.styleAttributesCache = [:]
+        self.fontBuilderCache = .init()
+        self.xmlParser = AshtonXMLParser(styleAttributesCache: .init(), fontBuilderCache: self.fontBuilderCache)
     }
 }
 
@@ -117,7 +132,7 @@ private extension AshtonHTMLReader {
         guard tag == .strong || tag == .em else { return nil }
         guard let currentFont = self.attributesStack.last?[.font] as? Font else { return nil }
 
-        let fontBuilder = FontBuilder()
+        let fontBuilder = FontBuilder(fontCache: self.fontBuilderCache)
         fontBuilder.configure(with: currentFont)
         fontBuilder.isBold = (tag == .strong)
         fontBuilder.isItalic = (tag == .em)
