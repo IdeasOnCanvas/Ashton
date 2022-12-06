@@ -4,6 +4,8 @@
 
 ## Unassigned
 
+- [Enhancement] Allow to use Ashton in multithreaded environment
+
 ## 2.1
 
 - [Chore] Add additional explicitly dynamic library target

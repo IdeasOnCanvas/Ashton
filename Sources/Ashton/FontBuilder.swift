@@ -14,10 +14,11 @@ import CoreText
 /// Creates a NS/UIFont
 final class FontBuilder {
 
+    typealias FontCache = Cache<String, Font>
+
     // MARK: - Properties
 
-    static var fontCache: [String: Font] = [:]
-
+    var fontCache: FontCache
     var fontName: String? { return self.postScriptName ?? self.familyName }
     var familyName: String?
     var postScriptName: String?
@@ -32,6 +33,12 @@ final class FontBuilder {
         return "\(familyName)\(pointSize)\(self.isBold)\(self.isItalic)\(self.fontFeatures?.description ?? "")"
     }
 
+    // MARK: - Lifecycle
+
+    init(fontCache: FontCache? = nil) {
+        self.fontCache = fontCache ?? .init()
+    }
+
     // MARK: - FontBuilder
 
     func configure(with font: Font) {
@@ -44,7 +51,7 @@ final class FontBuilder {
         guard let pointSize = self.pointSize else { return nil }
 
         let cacheKey = self.cacheKey
-        if let cachedFont = FontBuilder.fontCache[cacheKey] {
+        if let cachedFont = self.fontCache[cacheKey] {
             return cachedFont
         }
 
@@ -72,10 +79,10 @@ final class FontBuilder {
         // on macOS we have to do this conversion CTFont -> NSFont, otherwise we have wrong glyph spacing for some (arabic) fonts when rendering on device
         let descriptor = font.fontDescriptor
         let convertedFont = Font(descriptor: descriptor, size: descriptor.pointSize)
-        FontBuilder.fontCache[cacheKey] = convertedFont
+        self.fontCache[cacheKey] = convertedFont
         return convertedFont
         #else
-        FontBuilder.fontCache[cacheKey] = font
+        self.fontCache[cacheKey] = font
         return font
         #endif
     }
