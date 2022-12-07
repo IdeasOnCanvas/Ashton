@@ -1,6 +1,7 @@
 import Foundation
 
 
+/// Dictionary based cache, used for FontStyles and StyleAttributes during reading of HTML.
 public final class Cache<Key: Hashable, Value> {
 
     private var elements: [Key: Value]
