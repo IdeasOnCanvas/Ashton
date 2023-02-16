@@ -46,6 +46,7 @@ class AshtonTests: XCTestCase {
         let string = "Hello World, with trailing whitespace\n\n\n"
         let attributedString = NSAttributedString(string: string)
         let html = Ashton.encode(attributedString)
+        print(html)
         let roundTripAttributedString = Ashton.decode(html)
         XCTAssertEqual(attributedString, roundTripAttributedString)
     }
