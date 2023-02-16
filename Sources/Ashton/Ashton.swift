@@ -14,13 +14,14 @@ public final class Ashton: NSObject {
 
     public typealias HTML = String
 
-    private static let reader = AshtonHTMLReader()
-    private static let writer = AshtonHTMLWriter()
+    internal static let reader = AshtonHTMLReader()
+    internal static let writer = AshtonHTMLWriter()
 
     /// Encodes an NSAttributedString into a HTML representation
     ///
     /// - Parameter attributedString: The NSAttributedString to encode
     /// - Returns: The HTML representation
+    /// - Note: Convenience interface which isn't threadsafe. If you use Ashton from multiple threads use AshtonHTMLReader/AshtonHTMLWriter directly
     @objc
     public static func encode(_ attributedString: NSAttributedString) -> HTML {
         return Ashton.writer.encode(attributedString)
@@ -31,6 +32,7 @@ public final class Ashton: NSObject {
     /// - Parameter html: The HTML representation to encode
     /// - Parameter defaultAttributes: Attributes which are used if no attribute is specified in the HTML
     /// - Returns: The decoded NSAttributedString
+    /// - Note: Convenience interface which isn't threadsafe. If you use Ashton from multiple threads use AshtonHTMLReader/AshtonHTMLWriter directly
     @objc
     public static func decode(_ html: HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
         self.decode(html, defaultAttributes: defaultAttributes) { _ in }

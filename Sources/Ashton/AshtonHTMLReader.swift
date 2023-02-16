@@ -22,15 +22,33 @@ public final class AshtonHTMLReadResult: NSObject {
     }
 }
 
-final class AshtonHTMLReader: NSObject {
+public final class AshtonHTMLReader: NSObject {
 
     private var attributesStack: [[NSAttributedString.Key: Any]] = []
     private var output: NSMutableAttributedString!
     private var parsedTags: [AshtonXMLParser.Tag] = []
     private var unknownFonts: [String] = []
-    private let xmlParser = AshtonXMLParser()
 
-    func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
+    // MARK: - Properties
+
+    private(set) var fontBuilderCache: FontBuilder.FontCache
+    private(set) var xmlParser: AshtonXMLParser
+
+    // MARK: - Lifecycle
+
+    public override convenience init() {
+        self.init(fontBuilderCache: .init(), styleCache: .init())
+    }
+
+    init(fontBuilderCache: FontBuilder.FontCache, styleCache: AshtonXMLParser.StyleAttributesCache) {
+        let fontBuilderCache = fontBuilderCache
+        self.fontBuilderCache = fontBuilderCache
+        self.xmlParser = .init(styleAttributesCache: styleCache, fontBuilderCache: fontBuilderCache)
+    }
+
+    // MARK: - 
+
+    public func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
         self.output = NSMutableAttributedString()
         self.parsedTags = []
         self.attributesStack = [defaultAttributes]
@@ -46,8 +64,8 @@ final class AshtonHTMLReader: NSObject {
     }
 
     func clearCaches() {
-        FontBuilder.fontCache = [:]
-        AshtonXMLParser.styleAttributesCache = [:]
+        self.fontBuilderCache = .init()
+        self.xmlParser = .init(styleAttributesCache: .init(), fontBuilderCache: self.fontBuilderCache)
     }
 }
 
@@ -102,7 +120,7 @@ private extension AshtonHTMLReader {
         guard tag == .strong || tag == .em else { return nil }
         guard let currentFont = self.attributesStack.last?[.font] as? Font else { return nil }
 
-        let fontBuilder = FontBuilder()
+        let fontBuilder = FontBuilder(fontCache: self.fontBuilderCache)
         fontBuilder.configure(with: currentFont)
         fontBuilder.isBold = (tag == .strong)
         fontBuilder.isItalic = (tag == .em)

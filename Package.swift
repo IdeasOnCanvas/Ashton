@@ -4,11 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Ashton",
     platforms: [.iOS("13.4"), .macOS(.v10_15)],
-    products: [
-        .library(
-            name: "Ashton",
-            targets: ["Ashton"]),
-    ],
+    products: [.library(name: "Ashton", targets: ["Ashton"])],
     targets: [
         .target(
             name: "Ashton",
