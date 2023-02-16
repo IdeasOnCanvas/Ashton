@@ -4,6 +4,10 @@
 
 ## Unassigned
 
+## 2.1
+
+- [Enhancement] Parse trailing whitespace
+
 ## 2.0.7
 - [Chore] Update project settings (Xcode 12)
 - [Chore] Update ruby gems
