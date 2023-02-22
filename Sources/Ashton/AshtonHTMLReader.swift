@@ -27,7 +27,6 @@ public final class AshtonHTMLReader: NSObject {
     private var attributesStack: [[NSAttributedString.Key: Any]] = []
     private var output: NSMutableAttributedString!
     private var parsedTags: [AshtonXMLParser.Tag] = []
-    private var appendNewlineBeforeNextContent = false
     private var unknownFonts: [String] = []
 
     // MARK: - Properties
@@ -52,7 +51,6 @@ public final class AshtonHTMLReader: NSObject {
     public func decode(_ html: Ashton.HTML, defaultAttributes: [NSAttributedString.Key: Any] = [:], completionHandler: AshtonHTMLReadCompletionHandler) -> NSAttributedString {
         self.output = NSMutableAttributedString()
         self.parsedTags = []
-        self.appendNewlineBeforeNextContent = false
         self.attributesStack = [defaultAttributes]
         self.unknownFonts = []
         
@@ -80,12 +78,6 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
     }
     
     func didOpenTag(_ parser: AshtonXMLParser, name: AshtonXMLParser.Tag, attributes: [NSAttributedString.Key : Any]?) {
-        if self.appendNewlineBeforeNextContent {
-            self.appendToOutput("\n")
-            self.appendNewlineBeforeNextContent = false
-            self.attributesStack.removeLast()
-        }
-
         var attributes = attributes ?? [:]
         let currentAttributes = self.attributesStack.last ?? [:]
 
@@ -104,15 +96,7 @@ extension AshtonHTMLReader: AshtonXMLParserDelegate {
             return
         }
 
-        if self.parsedTags.removeLast() == .p {
-            if self.appendNewlineBeforeNextContent == true {
-                self.appendToOutput("\n")
-            } else {
-                self.appendNewlineBeforeNextContent = true
-            }
-        } else {
-            self.attributesStack.removeLast()
-        }
+        self.attributesStack.removeLast()
     }
 
     func didEncounterUnknownFont(_ parser: AshtonXMLParser, fontName: String) {
