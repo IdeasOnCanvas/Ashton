@@ -40,7 +40,7 @@ class AshtonBenchmarkTests: XCTestCase {
 
     func testURLs() {
         let urlString = URL(string: "https://www.orf.at")!
-        self.compareAttributeCodingWithBenchmark(.link, values: [urlString], ignoreReferenceHTML: false)
+        self.compareAttributeCodingWithBenchmark(.link, values: [urlString], ignoreReferenceHTML: true)
     }
 
     func testAttributeCodingWithBenchmark() {

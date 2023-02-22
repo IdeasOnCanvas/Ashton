@@ -30,7 +30,7 @@ class AshtonTests: XCTestCase {
         let html = "Hello <strong>World</strong>"
         let attributedString = Ashton.decode(html, defaultAttributes: [.font: Font(name: "Helvetica", size: 12.0)!])
         let roundTripHTML = Ashton.encode(attributedString)
-        print(roundTripHTML)
+
         XCTAssertEqual(roundTripHTML, "<p><span style='font: 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica\"; '>Hello </span><span style='font: bold 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica-Bold\"; '>World</span></p>")
     }
 
@@ -38,15 +38,15 @@ class AshtonTests: XCTestCase {
         let html = "Hello <em>World</em>"
         let attributedString = Ashton.decode(html, defaultAttributes: [.font: Font(name: "Helvetica", size: 12.0)!])
         let roundTripHTML = Ashton.encode(attributedString)
-        print(roundTripHTML)
+
         XCTAssertEqual(roundTripHTML, "<p><span style='font: 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica\"; '>Hello </span><span style='font: italic 12px \"Helvetica\"; -cocoa-font-postscriptname: \"Helvetica-Oblique\"; '>World</span></p>")
     }
 
-    func testRoundTripWithTrailingWhitespace() {
-        let string = "Hello World, with trailing whitespace\n\n\n"
+    func testRoundTripWithNewlines() {
+        let string = "\n\nHello World,\n\n\n\nwith trailing whitespace\n\n\n"
         let attributedString = NSAttributedString(string: string)
         let html = Ashton.encode(attributedString)
-        print(html)
+
         let roundTripAttributedString = Ashton.decode(html)
         XCTAssertEqual(attributedString, roundTripAttributedString)
     }
