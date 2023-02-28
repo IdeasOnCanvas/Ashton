@@ -25,7 +25,6 @@ public final class AshtonHTMLWriter {
     public func encode(_ attributedString: NSAttributedString) -> Ashton.HTML {
         let string = attributedString.string
         let paragraphRanges = self.getParagraphRanges(from: string)
-        let fullInputStringLength = (string as NSString).length
         var html = String()
         for paragraphRange in paragraphRanges {
             var paragraphContent = String()
@@ -33,8 +32,11 @@ public final class AshtonHTMLWriter {
             var paragraphTag = HTMLTag(defaultName: .p, attributes: [:], ignoreParagraphStyles: false)
 
             // We add an additional character to the paragraph range to get the parsed paragraph separator (e.g \n)
-            if fullInputStringLength >= nsParagraphRange.upperBound + 1 {
-                nsParagraphRange.length = nsParagraphRange.length + 1
+            if paragraphRange.isEmpty && paragraphRanges.count > 0 && paragraphRange == paragraphRanges.last {
+                let fullInputStringLength = (string as NSString).length
+                if fullInputStringLength >= nsParagraphRange.upperBound + 1 {
+                    nsParagraphRange.length = nsParagraphRange.length + 1
+                }
             }
             // We use `attributedString.string as NSString` casts and NSRange ranges in the block because
             // we experienced outOfBounds crashes when converting NSRange to Range and using it on swift string
