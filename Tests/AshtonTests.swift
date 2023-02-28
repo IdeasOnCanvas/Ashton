@@ -60,6 +60,15 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(attributedString, roundTripAttributedString)
     }
 
+    func testRoundtrippingEmptyString() {
+        let string = ""
+        let attributedString = NSAttributedString(string: string)
+        let html = Ashton.encode(attributedString)
+
+        let roundTripAttributedString = Ashton.decode(html)
+        XCTAssertEqual(attributedString, roundTripAttributedString)
+    }
+
     func testNewlineAfterParagraph() {
         let html = "<p style=\'color: rgba(0, 0, 0, 1.000000); font: 24px \"Avenir Next\"; text-align: center; -cocoa-font-postscriptname: \"AvenirNext-Medium\"; \'>Line1</p><p style=\'color: rgba(0, 0, 0, 1.000000); font: 24px \"Avenir Next\"; text-align: center; -cocoa-font-postscriptname: \"AvenirNext-Medium\"; \'>Line2</p><p style=\'color: rgba(0, 0, 0, 1.000000); font: 24px \"Avenir Next\"; text-align: center; -cocoa-font-postscriptname: \"AvenirNext-Medium\"; \'>Line3</p>"
         let attributedString = Ashton.decode(html)
