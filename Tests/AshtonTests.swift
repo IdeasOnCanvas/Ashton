@@ -46,10 +46,17 @@ class AshtonTests: XCTestCase {
         let string = "\n\nHello World,\n\n\nwith trailing whitespace\n\n\n"
         let attributedString = NSAttributedString(string: string)
         let html = Ashton.encode(attributedString)
-        print(html)
 
         let roundTripAttributedString = Ashton.decode(html)
-        print("|\(roundTripAttributedString.string)|")
+        XCTAssertEqual(attributedString, roundTripAttributedString)
+    }
+
+    func testPersistenceOfMultipleNewlines() {
+        let string = "\n\n\n\n\n"
+        let attributedString = NSAttributedString(string: string)
+        let html = Ashton.encode(attributedString)
+
+        let roundTripAttributedString = Ashton.decode(html)
         XCTAssertEqual(attributedString, roundTripAttributedString)
     }
 
