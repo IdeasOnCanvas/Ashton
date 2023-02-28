@@ -4,6 +4,10 @@
 
 ## Unassigned
 
+## 2.2.1
+
+- [Bugfix] Fix implicit newline handling after `<p>` tag
+
 ## 2.2
 
 - [Enhancement] Parse trailing whitespace
