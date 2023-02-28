@@ -46,15 +46,17 @@ class AshtonTests: XCTestCase {
         let string = "\n\nHello World,\n\n\nwith trailing whitespace\n\n\n"
         let attributedString = NSAttributedString(string: string)
         let html = Ashton.encode(attributedString)
+        print(html)
 
         let roundTripAttributedString = Ashton.decode(html)
+        print("|\(roundTripAttributedString.string)|")
         XCTAssertEqual(attributedString, roundTripAttributedString)
     }
 
     func testNewlineAfterParagraph() {
         let html = "<p style=\'color: rgba(0, 0, 0, 1.000000); font: 24px \"Avenir Next\"; text-align: center; -cocoa-font-postscriptname: \"AvenirNext-Medium\"; \'>Line1</p><p style=\'color: rgba(0, 0, 0, 1.000000); font: 24px \"Avenir Next\"; text-align: center; -cocoa-font-postscriptname: \"AvenirNext-Medium\"; \'>Line2</p><p style=\'color: rgba(0, 0, 0, 1.000000); font: 24px \"Avenir Next\"; text-align: center; -cocoa-font-postscriptname: \"AvenirNext-Medium\"; \'>Line3</p>"
         let attributedString = Ashton.decode(html)
-        print(attributedString.string)
+        XCTAssertEqual(attributedString.string, "Line1\nLine2\nLine3")
     }
 
     func testStyleTagsOrdering() {
