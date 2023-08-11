@@ -1,15 +1,9 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.9
 import PackageDescription
-
-#if compiler(>=5.9)
-let platforms: [Package.Platform] = [.iOS("13.4"), .macOS(.v10_15), .visionOS(.v1)]
-#else
-let platforms: [Package.Platform] = [.iOS("13.4"), .macOS(.v10_15)]
-#endif
 
 let package = Package(
     name: "Ashton",
-    platforms: platforms,
+    platforms: [.iOS("13.4"), .macOS(.v10_15), .visionOS(.v1)],
     products: [.library(name: "Ashton", targets: ["Ashton"])],
     targets: [
         .target(
