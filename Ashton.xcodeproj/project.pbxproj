@@ -514,7 +514,9 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Ashton.xcodeproj/Ashton_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MODULEMAP_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ideasoncanvas.Ashton;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -545,7 +547,9 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Ashton.xcodeproj/Ashton_Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MODULEMAP_FILE = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ideasoncanvas.Ashton;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
