@@ -64,8 +64,8 @@ github "IdeasOnCanvas/Ashton"
 
 ### Integration with the Swift Package Manager
 
-The Swift Package Manager is a dependency manager integrated with the Swift build system. To learn how to use the Swift Package Manager for your project, please read the [official documentation](https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md).  
-To add ZIP Foundation as a dependency, you have to add it to the `dependencies` of your `Package.swift` file and refer to that dependency in your `target`.
+The Swift Package Manager is a dependency manager integrated with the Swift build system. To learn how to use the Swift Package Manager for your project, please read the [official documentation](https://github.com/apple/swift-package-manager/blob/main/Documentation/Usage.md).  
+To add Ashton as a dependency, you have to add it to the `dependencies` of your `Package.swift` file and refer to that dependency in your `target`.
 
 ```swift
 // swift-tools-version:5.1
