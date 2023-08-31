@@ -6,7 +6,7 @@
 //  Copyright © 2017 Michael Schwarz. All rights reserved.
 //
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || (compiler(>=5.9) && os(visionOS))
     import UIKit
 #elseif os(macOS)
     import AppKit

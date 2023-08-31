@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if os(iOS) || os(visionOS)
+#if os(iOS) || (compiler(>=5.9) && os(visionOS))
     import UIKit
 #elseif os(macOS)
     import AppKit

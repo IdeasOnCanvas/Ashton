@@ -64,7 +64,7 @@ final class FontBuilder {
 
         if self.postScriptName == nil {
             var symbolicTraits = CTFontSymbolicTraits()
-            #if os(iOS) || os(visionOS)
+            #if os(iOS) || (compiler(>=5.9) && os(visionOS))
                 if self.isBold { symbolicTraits.insert(.boldTrait) }
                 if self.isItalic { symbolicTraits.insert(.italicTrait) }
             #elseif os(macOS)

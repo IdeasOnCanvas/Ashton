@@ -6,7 +6,7 @@
 //  Copyright © 2017 Michael Schwarz. All rights reserved.
 //
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || (compiler(>=5.9) && os(visionOS))
 import UIKit
 typealias Font = UIFont
 typealias FontDescriptor = UIFontDescriptor

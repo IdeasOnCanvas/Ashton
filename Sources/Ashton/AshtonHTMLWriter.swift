@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if os(iOS) || os(visionOS)
+#if os(iOS) || (compiler(>=5.9) && os(visionOS))
     import UIKit
 #elseif os(macOS)
     import AppKit
@@ -167,7 +167,7 @@ private struct HTMLTag {
                 let fontDescriptor = font.fontDescriptor
 
                 var fontStyle = ""
-                #if os(iOS) || os(visionOS)
+                #if os(iOS) || (compiler(>=5.9) && os(visionOS))
                     if fontDescriptor.symbolicTraits.contains(.traitBold) {
                         fontStyle += "bold "
                     }
