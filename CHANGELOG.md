@@ -4,6 +4,10 @@
 
 ## Unassigned
 
+## 2.3
+
+Add support for vision OS.
+
 ## 2.2.1
 
 - [Bugfix] Fix implicit newline handling after `<p>` tag
