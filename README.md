@@ -2,13 +2,13 @@
 
 [![SPM compatible](https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-![Platforms iOS, macOS](https://img.shields.io/badge/Platform-iOS%20|%20macOS-blue.svg "Platforms iOS, macOS")
+![Platforms iOS, macOS, visionOS](https://img.shields.io/badge/Platform-iOS%20|%20macOS|%20visionOS-blue.svg "Platforms iOS, macOS, visionOS")
 ![Language Swift](https://img.shields.io/badge/Language-Swift%205-green.svg "Swift 5.0")
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE.md)
 [![Build status](https://badge.buildkite.com/418f84ba1ee2d996d15acb9332cf231a0d174f679873cb60ce.svg?branch=master)](https://buildkite.com/ideasoncanvas/ashton)
 [![Twitter: @_mschwarz_](https://img.shields.io/badge/Twitter-@__mschwarz__-red.svg?style=flat)](https://twitter.com/_mschwarz_)
 
-Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS and macOS library for fast conversion of NSAttributedStrings into HTML, and back. Ashton is battle-tested and used in [MindNode](https://mindnode.com), for persisting formatted strings.
+Ashton (<b>A</b>ttributed<b>S</b>tring<b>H</b>TML<b>T</b>ransformati<b>on</b>) is an iOS, macOS, and visionOS library for fast conversion of NSAttributedStrings into HTML, and back. Ashton is battle-tested and used in [MindNode](https://mindnode.com), for persisting formatted strings.
 
 ## 2.0 Release
 
@@ -64,8 +64,8 @@ github "IdeasOnCanvas/Ashton"
 
 ### Integration with the Swift Package Manager
 
-The Swift Package Manager is a dependency manager integrated with the Swift build system. To learn how to use the Swift Package Manager for your project, please read the [official documentation](https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md).  
-To add ZIP Foundation as a dependency, you have to add it to the `dependencies` of your `Package.swift` file and refer to that dependency in your `target`.
+The Swift Package Manager is a dependency manager integrated with the Swift build system. To learn how to use the Swift Package Manager for your project, please read the [official documentation](https://github.com/apple/swift-package-manager/blob/main/Documentation/Usage.md).  
+To add Ashton as a dependency, you have to add it to the `dependencies` of your `Package.swift` file and refer to that dependency in your `target`.
 
 ```swift
 // swift-tools-version:5.1

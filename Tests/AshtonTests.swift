@@ -201,7 +201,7 @@ class AshtonTests: XCTestCase {
         XCTAssertEqual(html, roundTrippedHTML)
         // we compare the rountripped attributed string only on iOS as the comparison of the bridged NSFont (from CTFont)
         // with the original NSFont leads to wrong failure
-        #if os(iOS)
+        #if os(iOS) || (compiler(>=5.9) && os(visionOS))
             XCTAssertEqual(sampleString, roundTrippedString)
         #endif
 	}
