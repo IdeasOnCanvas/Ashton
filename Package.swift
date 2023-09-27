@@ -9,8 +9,7 @@ let package = Package(
         .target(
             name: "Ashton",
             dependencies: [],
-            path: "Sources",
-            resources: [.copy("PrivacyInfo.xcprivacy")]),
+            path: "Sources"),
         .testTarget(
             name: "AshtonTests",
             dependencies: ["Ashton"],
