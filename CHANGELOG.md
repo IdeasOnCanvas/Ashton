@@ -4,6 +4,10 @@
 
 ## Unassigned
 
+## 2.3.1
+
+- [Enhancement] Add Privacy Manifest
+
 ## 2.3
 
 Add support for vision OS.
